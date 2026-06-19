@@ -16,6 +16,8 @@ npm run test:plugins <plugin-name>
 plugin name is optional, if not provided, all plugins will be tested.
 As the output for tests is long, the command will list the plugins that have failed tests at the end.
 
+Always run tests from the foreman core directory, never from a plugin directory directly.
+
 == Running linters
 To run linters, you can use the following command:
 ```bash
@@ -28,11 +30,25 @@ npm run lint:plugins <plugin-name>
 plugin name is optional, if not provided, all plugins will be linted.
 
 == Writing tests
-Suggestions for simple and complex components, but developers should use their best judgement.
+Capybara integration tests are more thorough -- they run against a real browser with real data from FactoryBot, catching issues that unit tests miss (routing, API integration, component interactions). Use your best judgement, but here are some guidelines:
+
+Use *Capybara* when the component:
+
+* Is a full page or route
+* Makes API calls or depends on API responses
+* Is part of a multi-step user flow (e.g. wizard, form submit → redirect)
+* Has many nested sub-components that interact with each other
+* Or backend integration that RTL can't realistically mock
+
+Use *RTL* when the component:
+
+* Renders based on props only, with no API calls
+* Is self-contained (e.g. a button, an alert, a form field wrapper)
+* Has no routing or navigation side effects
 
 === Simple components - React Testing Library
-For simple components, that dont rely on API, a simple React Testing Library test is enough.
-In the React Testing Library test, render the component and check that the text you expect to see is there.
+For simple, self-contained components that don't rely on API calls or complex component trees, a React Testing Library test is enough.
+In the React Testing Library test, render the component and check that the text you expect to see is there,
 and when a user action happens, see that the change is reflected after the action and not before.
 You can read more about React Testing Library in https://testing-library.com/docs/guiding-principles/[React Testing Guiding Principles].
 Test examples:
@@ -42,38 +58,35 @@ Test examples:
 ** link:../webpack/assets/javascripts/react_app/routes/Upgrade/UpgradePage/__tests__/UpgradePage.test.js[]
 ** link:../webpack/assets/javascripts/react_app/components/Loading/__tests__/Loading.test.js[]
 
-Any test that ran by jest (`npm run test`) might use mocked functions.
-You can set a mock per test, or globally by adding the mock to a `\\__mocks__` folder in the same folder as the component.
-Some mocked files are already in `\\__mocks__` folder, but dont define all the functions from the original file, so they will show up as undefined.
-For plugins, the mock folder for Foreman core is in `webpack/__mocks__/foremanReact/`
+==== Query priority
+
+RTL provides multiple queries. Prefer them in this order (following https://testing-library.com/docs/queries/about/#priority[RTL's recommended priority]):
+
+1. `getByRole` -- accessible role queries (buttons, headings, etc.). Best for testing what screen readers see.
+2. `getByLabelText` -- form fields by their label.
+3. `getByText` -- visible text content.
+4. `getByPlaceholderText`, `getByDisplayValue` -- when no label or role is available.
+5. `getByTestId` -- last resort, when no other query works.
+
+==== `userEvent` vs `fireEvent`
+
+Prefer `userEvent` over `fireEvent`. `userEvent` simulates real browser interactions (focus, keystrokes, pointer events) while `fireEvent` dispatches a single DOM event. This means `userEvent` catches bugs that `fireEvent` misses (e.g. a button that doesn't respond to keyboard activation).
+
+```js
+import userEvent from '@testing-library/user-event';
+
+// ✅ GOOD
+await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+await userEvent.type(screen.getByLabelText('Name'), 'test value');
+
+// ❌ Avoid unless userEvent doesn't support the event you need
+fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+```
 
 Tests files should be named like `*.test.js`, and should be in the same folder as the component, or in the `\\__tests__` folder.
-Tests can mock the API in a few ways:
-
-* By adding the mock data to the store using `rtlHelpers.renderWithStore`. `renderWithStore` will create a Redux store with the global mock data using an initial state mock. You can either add to the mock in `/testInitialReduxStore.js` or send a custom initial state as a second argument.
-```js
-import { rtlHelpers } from '../../../common/rtlTestHelpers';
-
-const { renderWithStore } = rtlHelpers;
-...
-it('should render the component', () => {
-  const defaultProps = {...};
-  const extraReduxStoreItems = {...}
-  renderWithStore(<Component {...defaultProps} />, extraReduxStoreItems);
-  expect(screen.getByText('some text')).toBeInTheDocument();
-};
-```
-* By mocking the API calls directly
-```js
-jest.mock('../../redux/API/API');
-...
-API.get.mockImplementation(serverMock);
-```
-* By mocking the selectors return values, if the other ways are not possible.
-
 
 === Complex components - Capybara
-For more complex components, that rely on API or too many other components, write a Capybara test.
+Capybara is more appropriate when the component is a full page, involves API responses, has many sub-components, or is part of a user flow that spans multiple steps.
 You can create db items with FactoryBot.
 To test simple index you can use assert_index_page.
 
@@ -83,14 +96,107 @@ Test examples:
 - link:../test/integration/domain_js_test.rb[]
 - link:../test/integration/audit_js_test.rb[]
 
+=== Mocking
+
+Any test that ran by jest (`npm run test`) might use mocked functions.
+You can set a mock per test, or globally by adding the mock to a `\\__mocks__` folder in the same folder as the component.
+Some mocked files are already in `\\__mocks__` folder, but dont define all the functions from the original file, so they will show up as undefined.
+For plugins, the mock folder for Foreman core is in `webpack/__mocks__/foremanReact/`
+
+Tests should only mock API requests. Avoid mocking child components, Redux selectors, or utility functions unless there is no other way. If a child component is unstable and must be mocked, make sure it has its own dedicated test.
+
+Tests can mock the API in a few ways:
+
+* By adding the mock data to the store using `rtlHelpers.renderWithStore`. `renderWithStore` will create a Redux store with the global mock data using an initial state mock. You can either add to the mock in `webpack/assets/javascripts/react_app/common/testInitialReduxStore.js` or send a custom initial state as a second argument.
+In foreman core, use a relative import:
+```js
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
+```
+
+In plugins, use the `foremanReact` alias:
+```js
+import { rtlHelpers } from 'foremanReact/common/rtlTestHelpers';
+```
+
+Usage:
+```js
+const { renderWithStore } = rtlHelpers;
+
+it('should render the component', () => {
+  const defaultProps = {...};
+  const extraReduxStoreItems = {...}
+  renderWithStore(<Component {...defaultProps} />, extraReduxStoreItems);
+  expect(screen.getByText('some text')).toBeInTheDocument();
+};
+```
+If the component uses translated strings or date formatting, use `renderWithStoreAndI18n` instead -- it wraps the component with both a Redux store and an i18n provider:
+```js
+const { renderWithStoreAndI18n } = rtlHelpers;
+
+it('renders with translations', () => {
+  renderWithStoreAndI18n(<Component />, initialState);
+});
+```
+
+* By mocking the API calls directly
+```js
+jest.mock('../../redux/API/API');
+...
+API.get.mockImplementation(serverMock);
+```
+* As a last resort, by mocking selector return values. Avoid this unless the other approaches are not possible:
+```js
+import * as selectors from './MyComponentSelectors';
+
+jest.spyOn(selectors, 'selectItems').mockReturnValue([{ id: 1, name: 'item' }]);
+```
+
+Don't replicate setup that already exists in the shared helpers (`react_app/common/rtlTestHelpers.js`) or in `testInitialReduxStore.js`.
+
 === Timing issues 
-A note on both types of tests, is sometimes they might fail because of timing issues. (popovers, modals, api calls, etc.)
+Both test types can fail due to timing issues (popovers, modals, API calls, etc.). There are different strategies depending on the situation:
 
-For React Testing Library tests, you can use:
+==== RTL -- `findBy*` and `waitFor` (preferred for async rendering)
 
-* `jest.useFakeTimers();` in the setup, and then `await act(async () => jest.advanceTimersByTime(1000));` after a timed action has taken place (for example, popover closed).
+Use `findBy*` queries (which return a promise) when an element appears after an async operation like an API call:
+```js
+it('shows data after loading', async () => {
+  renderWithStore(<MyPage />);
+  expect(await screen.findByText('Loaded data')).toBeInTheDocument();
+});
+```
 
-* For Capybara tests, you can use `wait_for_ajax`
+Use `waitFor` when you need to wait for a condition that isn't a simple element lookup:
+```js
+import { waitFor } from '@testing-library/react';
+
+it('disables submit after click', async () => {
+  renderWithStore(<MyForm />);
+  await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
+  });
+});
+```
+
+==== RTL -- fake timers (for timed UI like popovers and debounce)
+
+Use fake timers when the component uses `setTimeout` or `setInterval` (e.g. a popover closing after a delay):
+```js
+beforeEach(() => jest.useFakeTimers());
+afterEach(() => jest.useRealTimers());
+
+it('closes popover after delay', async () => {
+  renderWithStore(<MyPopover />);
+  await userEvent.click(screen.getByText('Close'));
+  await act(async () => jest.advanceTimersByTime(1000));
+  expect(screen.queryByText('Popover content')).not.toBeInTheDocument();
+});
+```
+
+==== Capybara -- `wait_for_ajax`
+
+For Capybara tests, use `wait_for_ajax` to wait for pending jQuery and Axios requests to complete. It is a Foreman helper defined in `test/integration_test_helper.rb`.
 
 === Plugin test configuration and setup
 Foreman core has two test setup files:
@@ -106,5 +212,92 @@ If a plugin wants to just use the core test setup, it can use the following impo
 import 'foremanJSTestSetup';
 ```
 
+Check if the plugin already has a `webpack/test_setup.js` file before creating one. Some plugins re-mock the same components in every test file instead of importing the shared setup from foreman core -- consider consolidating those into the plugin's `test_setup.js`.
+
 For jest configuration, Foreman will look for a jest configuration file in the plugin's webpack directory: (`plugin_name/jest.config.js`).
 If it exists, it will be used with the global jest configuration file.
+
+== Updating tests (replacing Enzyme/snapshot tests)
+
+A guide for how to update tests when replacing Enzyme/snapshot tests with React Testing Library (RTL) or Capybara.
+
+=== Before you start
+
+==== Is the component still used?
+
+Search the codebase for imports/usages of the component. If the component is unused, delete it and its tests instead of rewriting them. https://github.com/search?q=org%3Atheforeman+OR+org%3Akatello+component_to_remove&type=code[GitHub search across Foreman orgs]
+
+==== Is it PF3 code?
+
+If the component imports from `patternfly-react` (PF3), rewrite the component to PF5 (`@patternfly/react-core`) first, and then write the new test as part of that rewrite. Don't invest in tests for code that is about to change.
+
+==== Is the test already being updated in another PR?
+
+Check open PRs to avoid duplicating work. If someone is already rewriting the test, coordinate with them instead of starting a separate update.
+
+==== Is the component already tested elsewhere?
+
+Check if the component is covered by a parent component's RTL test. If it is, you may not need a dedicated unit test.
+
+=== Writing the new test
+
+==== Cover what the previous test covered
+
+Read the old snapshot/Enzyme test and identify what it verified (rendered text, conditional rendering, callbacks). The new test should cover the same scenarios at minimum.
+
+==== Cover different component usages
+
+A component may be used with different prop combinations across the codebase. Check actual usages (or use a coverage tool like Coveralls, the report will be in `foreman/coverage/lcov-report/index.html`) to make sure the test exercises the important variations. You can also ask an AI review tool to check your test coverage and suggest missing cases.
+
+==== Don't test your own mocks
+
+If a test sets up mock data and then only asserts against that same mock data, it isn't testing the component -- it's testing the mock. Make sure assertions verify the component's behavior given the mock input, not the mock itself.
+
+Also avoid mocking a child component and then asserting that the mock rendered. That only proves the mock works, not the real component.
+
+```js
+// ❌ BAD -- mocking a component and then asserting on the mock text
+jest.mock('./ListItem', () => () => <div>Mocked ListItem</div>);
+
+it('shows the domain item', () => {
+  render(<ListItem />);
+  expect(screen.getByText('Mocked ListItem')).toBeInTheDocument(); // only proves the mock works
+});
+
+// ❌ BAD -- mocking ChildComponent and then testing that it rendered
+jest.mock('./ChildComponent', () => () => <div>Mocked Child</div>);
+
+it('renders child', () => {
+  render(<ParentComponent />);
+  expect(screen.getByText('Mocked Child')).toBeInTheDocument(); // testing the mock
+});
+
+// ✅ GOOD -- render the real component and test its actual output
+it('renders child', () => {
+  render(<ParentComponent />);
+  expect(screen.getByText('Real text from ChildComponent')).toBeInTheDocument();
+});
+```
+
+==== Clean up old mocks
+
+Before writing the new test, review the old test's mocks and decide which ones are still needed. Don't carry over mocks from the old test just because they were there -- re-using mocks that aren't necessary adds complexity and can hide real issues.
+
+Check if the old test had:
+
+* A `\__mocks__` folder with mock files for the component -- delete them if no other test uses them.
+* Inline `jest.mock()` calls that are no longer needed.
+* For plugins: mock files in `webpack/__mocks__/foremanReact/` -- remove if unused.
+
+=== Review checklist
+
+A quick checklist for reviewing UI test changes in PRs. See the sections above for detailed guidance on each topic.
+
+* **Mocking** -- follow the rules in <<Mocking>>. Additionally: use `jest.clearAllMocks()` in `afterEach` when using `jest.mock('module', ...)` (`jest.restoreAllMocks()` is for `jest.spyOn` only).
+* **Use `toBeInTheDocument()` for DOM presence.** Prefer it over `toBeTruthy()` or `toBeDefined()` -- it gives clearer failure messages.
+* **Don't assert on implementation details.** Avoid asserting on CSS class names, DOM ids, or internal component structure. Assert on user-visible text, roles, and behavior instead.
+* **Test names must match the scenario.** If the test says "renders disabled button", the assertion should check for a disabled state.
+* **Mark tests `async` only when needed.** Use `async` / `await` with `findBy*` queries for async rendering. Don't mark a test `async` if it only uses `getBy*` queries.
+* **No duplicate test cases.** If two tests render the same props and assert the same output, one is redundant.
+* **Remove unused imports.** Test files frequently accumulate dead imports after refactoring.
+* **Remove leftover snapshot files.** When replacing a snapshot test with RTL, delete the corresponding `__snapshots__` directory or `.snap` file if no other test uses it.
