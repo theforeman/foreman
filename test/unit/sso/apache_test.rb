@@ -76,6 +76,23 @@ class ApacheTest < ActiveSupport::TestCase
     assert apache.send(:convert_encoding, 'fó✗@e✗amp✓e.com')
   end
 
+  def test_additional_attributes_skips_nil_values
+    apache = get_apache_method
+    apache.controller.request.env['HTTP_REMOTE_USER_EMAIL'] = nil
+    apache.controller.request.env['HTTP_REMOTE_USER_FIRSTNAME'] = ''
+    attrs = apache.send(:additional_attributes)
+    assert_not_includes attrs.keys, :mail
+    assert_not_includes attrs.keys, :firstname
+  end
+
+  def test_convert_encoding_with_latin1_bytes
+    apache = get_apache_method
+    input = String.new("caf\xE9") # rubocop:disable Performance/UnfreezeString String.new.encoding => ASCII-8BIT
+    result = apache.send(:convert_encoding, input)
+    assert_equal Encoding::UTF_8, result.encoding
+    assert result.valid_encoding?
+  end
+
   def test_authenticate!
     apache = get_apache_method
     controller = apache.controller
