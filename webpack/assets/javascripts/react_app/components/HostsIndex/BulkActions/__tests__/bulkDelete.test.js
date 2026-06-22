@@ -37,12 +37,16 @@ describe('bulkDeleteHosts', () => {
   });
 
   const bulkParams = 'id ^ (1,2,3)';
+  const organizationId = 1;
+  const locationId = 2;
   const selectedCount = 3;
   const destroyVmOnHostDelete = true;
 
   it('dispatches openConfirmModal with correct parameters', () => {
     bulkDeleteHosts({
       bulkParams,
+      organizationId,
+      locationId,
       selectedCount,
       destroyVmOnHostDelete,
     })(dispatch);
@@ -61,6 +65,8 @@ describe('bulkDeleteHosts', () => {
     it('calls visit with /new/hosts when onDeleteSuccess is not provided', () => {
       bulkDeleteHosts({
         bulkParams,
+        organizationId,
+        locationId,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
@@ -70,8 +76,16 @@ describe('bulkDeleteHosts', () => {
 
       expect(APIActions.delete).toHaveBeenCalledTimes(1);
       const deleteParams = APIActions.delete.mock.calls[0][0];
+      const requestUrl = new URL(deleteParams.url, 'https://example.test');
 
-      expect(deleteParams.url).toBe(`/api/v2/hosts/bulk?search=${bulkParams}`);
+      expect(requestUrl.pathname).toBe('/api/v2/hosts/bulk');
+      expect(requestUrl.searchParams.get('search')).toBe(bulkParams);
+      expect(requestUrl.searchParams.get('organization_id')).toBe(
+        String(organizationId)
+      );
+      expect(requestUrl.searchParams.get('location_id')).toBe(
+        String(locationId)
+      );
       expect(deleteParams.key).toBe('BULK-HOSTS-DELETE');
       expect(typeof deleteParams.successToast).toBe('function');
       expect(typeof deleteParams.errorToast).toBe('function');
@@ -86,6 +100,8 @@ describe('bulkDeleteHosts', () => {
 
       bulkDeleteHosts({
         bulkParams,
+        organizationId,
+        locationId,
         selectedCount,
         destroyVmOnHostDelete,
         onDeleteSuccess,
@@ -106,6 +122,8 @@ describe('bulkDeleteHosts', () => {
     it('returns formatted success message with host count', () => {
       bulkDeleteHosts({
         bulkParams,
+        organizationId,
+        locationId,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
@@ -124,6 +142,8 @@ describe('bulkDeleteHosts', () => {
     it('returns error message from response', () => {
       bulkDeleteHosts({
         bulkParams,
+        organizationId,
+        locationId,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
