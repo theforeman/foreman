@@ -45,6 +45,8 @@ import {
   useForemanSettings,
   useForemanHostsPageUrl,
   useForemanContext,
+  useForemanOrganization,
+  useForemanLocation,
 } from '../../Root/Context/ForemanContext';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import {
@@ -114,6 +116,8 @@ const HostsIndex = () => {
     syncWithOptions: true,
   });
   const contextData = useForemanContext();
+  const currentOrganization = useForemanOrganization();
+  const currentLocation = useForemanLocation();
 
   const {
     response: {
@@ -240,6 +244,8 @@ const HostsIndex = () => {
     dispatch(
       bulkDeleteHosts({
         bulkParams,
+        organizationId: currentOrganization?.id,
+        locationId: currentLocation?.id,
         selectedCount,
         destroyVmOnHostDelete,
         onDeleteSuccess: () => {
@@ -589,6 +595,8 @@ const HostsIndex = () => {
             selectedCount,
             selectedResults,
             fetchBulkParams,
+            organizationId: currentOrganization?.id,
+            locationId: currentLocation?.id,
           }}
         >
           <BulkAssignOrganizationModal

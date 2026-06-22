@@ -7,15 +7,21 @@ import {
 } from './BulkAssignTaxonomyModal';
 
 export const BulkAssignOrganizationModalScene = ({ isOpen, closeModal }) => {
-  const { selectAllHostsMode, selectedCount, fetchBulkParams } = useContext(
-    ForemanActionsBarContext
-  );
+  const {
+    selectAllHostsMode,
+    selectedCount,
+    fetchBulkParams,
+    organizationId,
+    locationId,
+  } = useContext(ForemanActionsBarContext);
   return (
     <BulkAssignOrganizationModal
       key="bulk-assign-organization-modal"
       selectAllHostsMode={selectAllHostsMode}
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
+      organizationId={organizationId}
+      locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
     />
@@ -23,15 +29,21 @@ export const BulkAssignOrganizationModalScene = ({ isOpen, closeModal }) => {
 };
 
 export const BulkAssignLocationModalScene = ({ isOpen, closeModal }) => {
-  const { selectAllHostsMode, selectedCount, fetchBulkParams } = useContext(
-    ForemanActionsBarContext
-  );
+  const {
+    selectAllHostsMode,
+    selectedCount,
+    fetchBulkParams,
+    organizationId,
+    locationId,
+  } = useContext(ForemanActionsBarContext);
   return (
     <BulkAssignLocationModal
       key="bulk-assign-location-modal"
       selectAllHostsMode={selectAllHostsMode}
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
+      organizationId={organizationId}
+      locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
     />

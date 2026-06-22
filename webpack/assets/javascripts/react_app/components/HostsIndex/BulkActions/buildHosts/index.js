@@ -4,14 +4,19 @@ import { ForemanActionsBarContext } from '../../../../components/HostDetails/Act
 import BulkBuildHostModal from './BulkBuildHostModal';
 
 const BulkBuildHostModalScene = ({ isOpen, closeModal }) => {
-  const { selectedCount, fetchBulkParams } = useContext(
-    ForemanActionsBarContext
-  );
+  const {
+    selectedCount,
+    fetchBulkParams,
+    organizationId,
+    locationId,
+  } = useContext(ForemanActionsBarContext);
   return (
     <BulkBuildHostModal
       key="bulk-build-hosts-modal"
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
+      organizationId={organizationId}
+      locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
     />

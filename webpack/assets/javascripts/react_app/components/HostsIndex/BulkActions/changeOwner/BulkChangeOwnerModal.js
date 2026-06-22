@@ -34,7 +34,7 @@ import {
   HOSTS_API_PATH,
   API_REQUEST_KEY,
 } from '../../../../routes/Hosts/constants';
-import { failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 
 const BulkChangeOwnerModal = ({
   isOpen,
@@ -42,6 +42,8 @@ const BulkChangeOwnerModal = ({
   selectAllHostsMode,
   selectedCount,
   fetchBulkParams,
+  organizationId,
+  locationId,
 }) => {
   const dispatch = useDispatch();
   const [ownerId, setOwnerId] = useState('');
@@ -131,12 +133,12 @@ const BulkChangeOwnerModal = ({
   };
 
   const handleConfirm = () => {
-    const requestBody = {
-      included: {
-        search: fetchBulkParams(),
-      },
+    const requestBody = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
       owner_id: ownerId,
-    };
+    });
 
     dispatch(bulkChangeOwner(requestBody, handleSuccess, handleError));
   };
@@ -250,11 +252,15 @@ BulkChangeOwnerModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   selectedCount: PropTypes.number.isRequired,
   selectAllHostsMode: PropTypes.bool.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
 };
 
 BulkChangeOwnerModal.defaultProps = {
   isOpen: false,
   closeModal: () => {},
+  organizationId: undefined,
+  locationId: undefined,
 };
 
 export default BulkChangeOwnerModal;

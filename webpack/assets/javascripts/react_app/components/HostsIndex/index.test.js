@@ -85,6 +85,8 @@ jest.mock('../../Root/Context/ForemanContext', () => ({
   })),
   useForemanHostsPageUrl: jest.fn(() => '/hosts'),
   useForemanContext: jest.fn(() => ({})),
+  useForemanOrganization: jest.fn(() => undefined),
+  useForemanLocation: jest.fn(() => undefined),
 }));
 
 jest.mock('../common/Slot', () => ({
