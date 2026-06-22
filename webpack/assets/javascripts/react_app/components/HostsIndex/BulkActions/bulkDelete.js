@@ -4,17 +4,24 @@ import { visit, foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';
+import { bulkActionTaxonomyParams } from './helpers';
 import './bulkDeleteModal.scss';
 
 export const bulkDeleteHosts = ({
   bulkParams,
+  organizationId,
+  locationId,
   selectedCount,
   destroyVmOnHostDelete,
   onDeleteSuccess,
 }) => dispatch => {
   const successToast = () => sprintf(__('%s hosts deleted'), selectedCount);
   const errorToast = ({ message }) => message;
-  const url = foremanUrl(`/api/v2/hosts/bulk?search=${bulkParams}`);
+  const queryParams = new URLSearchParams({
+    search: bulkParams,
+    ...bulkActionTaxonomyParams({ organizationId, locationId }),
+  });
+  const url = foremanUrl(`/api/v2/hosts/bulk?${queryParams.toString()}`);
 
   // TODO: Replace with a checkbox instead of a global setting for cascade host destroy
   const cascadeMessage = () =>

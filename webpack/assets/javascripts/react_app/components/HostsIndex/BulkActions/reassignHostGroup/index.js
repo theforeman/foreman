@@ -4,14 +4,19 @@ import { ForemanActionsBarContext } from '../../../../components/HostDetails/Act
 import BulkReassignHostgroupModal from './BulkReassignHostgroupModal';
 
 const BulkReassignHostgroupModalScene = ({ isOpen, closeModal }) => {
-  const { selectedCount, fetchBulkParams } = useContext(
-    ForemanActionsBarContext
-  );
+  const {
+    selectedCount,
+    fetchBulkParams,
+    organizationId,
+    locationId,
+  } = useContext(ForemanActionsBarContext);
   return (
     <BulkReassignHostgroupModal
       key="bulk-reassign-hg-modal"
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
+      organizationId={organizationId}
+      locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
     />

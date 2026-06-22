@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
-import { failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 import { STATUS } from '../../../../constants';
 import {
   selectAPIStatus,
@@ -77,6 +77,8 @@ const BulkReassignHostgroupModal = ({
   closeModal,
   selectedCount,
   fetchBulkParams,
+  organizationId,
+  locationId,
 }) => {
   const dispatch = useDispatch();
   const [hostgroupId, setHostgroupId] = useState('');
@@ -151,12 +153,12 @@ const BulkReassignHostgroupModal = ({
     handleModalClose();
   };
   const handleSave = () => {
-    const requestBody = {
-      included: {
-        search: fetchBulkParams(),
-      },
+    const requestBody = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
       hostgroup_id: hostgroupId,
-    };
+    });
 
     dispatch(bulkReassignHostgroups(requestBody, handleSuccess, handleError));
   };
@@ -285,11 +287,15 @@ BulkReassignHostgroupModal.propTypes = {
   closeModal: PropTypes.func,
   selectedCount: PropTypes.number.isRequired,
   fetchBulkParams: PropTypes.func.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
 };
 
 BulkReassignHostgroupModal.defaultProps = {
   isOpen: false,
   closeModal: () => {},
+  organizationId: undefined,
+  locationId: undefined,
 };
 
 export default BulkReassignHostgroupModal;
