@@ -175,6 +175,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal "OK", host_data['global_status_label']
   end
 
+  test "should get bulk scope hash" do
+    ::Hosts::BulkScopeHash.stubs(:for_current_viewer).returns('test-scope-hash')
+
+    get :bulk_scope_hash
+
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal 'test-scope-hash', response['scope_hash']
+  end
+
   test "subtotal should be the same as the search count with thin" do
     FactoryBot.create_list(:host, 2)
     Host.last.update_attribute(:name, 'test')

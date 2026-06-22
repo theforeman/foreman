@@ -33,6 +33,7 @@ const BulkPowerStateModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
   isOpen,
   closeModal,
 }) => {
@@ -108,6 +109,7 @@ const BulkPowerStateModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       power: selectedPowerState,
     });
     dispatch(bulkChangePowerState(payload, handleSuccess, handleError));
@@ -210,6 +212,7 @@ BulkPowerStateModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  bulkScopeHash: PropTypes.string,
   isOpen: PropTypes.bool,
   closeModal: PropTypes.func,
 };
@@ -218,6 +221,7 @@ BulkPowerStateModal.defaultProps = {
   selectedHostsCount: 0,
   organizationId: undefined,
   locationId: undefined,
+  bulkScopeHash: undefined,
   isOpen: false,
   closeModal: () => {},
 };

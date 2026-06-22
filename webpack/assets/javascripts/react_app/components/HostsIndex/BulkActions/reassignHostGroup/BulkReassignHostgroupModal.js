@@ -79,6 +79,7 @@ const BulkReassignHostgroupModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
 }) => {
   const dispatch = useDispatch();
   const [hostgroupId, setHostgroupId] = useState('');
@@ -157,6 +158,7 @@ const BulkReassignHostgroupModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       hostgroup_id: hostgroupId,
     });
 
@@ -289,6 +291,7 @@ BulkReassignHostgroupModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  bulkScopeHash: PropTypes.string,
 };
 
 BulkReassignHostgroupModal.defaultProps = {
@@ -296,6 +299,7 @@ BulkReassignHostgroupModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  bulkScopeHash: undefined,
 };
 
 export default BulkReassignHostgroupModal;
