@@ -19,7 +19,7 @@ import './BulkPowerStateModal.scss';
 import { HostsPowerRefreshContext } from '../../HostsPowerRefreshContext';
 import { POWER_STATES, BULK_POWER_STATE_KEY } from './constants';
 import { bulkChangePowerState } from './actions';
-import { failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 import { addToast } from '../../../ToastsList/slice';
 import {
   HOSTS_API_PATH,
@@ -31,6 +31,8 @@ import { APIActions } from '../../../../redux/API';
 const BulkPowerStateModal = ({
   selectedHostsCount,
   fetchBulkParams,
+  organizationId,
+  locationId,
   isOpen,
   closeModal,
 }) => {
@@ -102,12 +104,12 @@ const BulkPowerStateModal = ({
 
   const handleSubmit = () => {
     setIsLoading(true);
-    const payload = {
-      included: {
-        search: fetchBulkParams(),
-      },
+    const payload = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
       power: selectedPowerState,
-    };
+    });
     dispatch(bulkChangePowerState(payload, handleSuccess, handleError));
   };
 
@@ -206,12 +208,16 @@ const BulkPowerStateModal = ({
 BulkPowerStateModal.propTypes = {
   selectedHostsCount: PropTypes.number,
   fetchBulkParams: PropTypes.func.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
   isOpen: PropTypes.bool,
   closeModal: PropTypes.func,
 };
 
 BulkPowerStateModal.defaultProps = {
   selectedHostsCount: 0,
+  organizationId: undefined,
+  locationId: undefined,
   isOpen: false,
   closeModal: () => {},
 };

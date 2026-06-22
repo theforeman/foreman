@@ -9,7 +9,6 @@ module Api
       before_action :validate_power_action, :only => [:change_power_state]
 
       def_param_group :bulk_host_ids do
-        param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
         param :included, Hash, :desc => N_("Hosts to include in the action"), :required => true, :action_aware => true do
           param :search, String, :required => false, :desc => N_("Search string describing which hosts to perform the action on")
           param :ids, Array, :required => false, :desc => N_("List of host ids to perform the action on")

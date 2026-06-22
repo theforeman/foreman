@@ -17,6 +17,7 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
   def valid_bulk_params(host_ids = @host_ids)
     {
       :organization_id => @organization.id,
+      :location_id => @location.id,
       :included => {
         :ids => host_ids,
       },
@@ -105,6 +106,33 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       # Should use plural form "hosts"
       assert_match(/Updated hosts: changed owner/, response['message'])
     end
+  end
+
+  test "should scope searched hosts by organization and location" do
+    other_location = FactoryBot.create(:location)
+    other_host = FactoryBot.create(:host, :managed, :organization => @organization, :location => other_location)
+
+    put :change_owner, params: {
+      :organization_id => @organization.id,
+      :location_id => @location.id,
+      :included => {
+        :search => 'name ~ *',
+      },
+      :excluded => {
+        :ids => [],
+      },
+      :owner_id => @user.id_and_type,
+    }
+
+    assert_response :success
+
+    [@host1, @host2, @host3].each do |host|
+      host.reload
+      assert_equal @user.id_and_type, host.is_owned_by
+    end
+
+    other_host.reload
+    refute_equal @user.id_and_type, other_host.is_owned_by
   end
 
   context "change_power_state" do

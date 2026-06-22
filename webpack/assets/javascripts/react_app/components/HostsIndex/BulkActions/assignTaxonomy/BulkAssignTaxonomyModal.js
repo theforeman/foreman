@@ -38,6 +38,7 @@ import {
   API_REQUEST_KEY,
 } from '../../../../routes/Hosts/constants';
 import TaxonomySelect from './TaxonomySelect';
+import { buildBulkRequestBody } from '../helpers';
 
 export const BulkAssignOrganizationModal = props => (
   <BulkAssignTaxonomyModal modalType={MODAL_TYPES.ORGANIZATION} {...props} />
@@ -52,6 +53,8 @@ const BulkAssignTaxonomyModal = ({
   selectAllHostsMode,
   selectedCount,
   fetchBulkParams,
+  organizationId,
+  locationId,
   modalType,
 }) => {
   const org = modalType === MODAL_TYPES.ORGANIZATION;
@@ -136,13 +139,13 @@ const BulkAssignTaxonomyModal = ({
   };
 
   const handleSave = () => {
-    const requestBody = {
-      included: {
-        search: fetchBulkParams(),
-      },
+    const requestBody = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
       id: taxId,
       mismatch_setting: fixRadioChecked,
-    };
+    });
 
     org
       ? dispatch(
@@ -243,10 +246,14 @@ BulkAssignTaxonomyModal.propTypes = {
   selectedCount: PropTypes.number.isRequired,
   selectAllHostsMode: PropTypes.bool.isRequired,
   fetchBulkParams: PropTypes.func.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
   modalType: PropTypes.string.isRequired,
 };
 
 BulkAssignTaxonomyModal.defaultProps = {
   isOpen: false,
   closeModal: () => {},
+  organizationId: undefined,
+  locationId: undefined,
 };
