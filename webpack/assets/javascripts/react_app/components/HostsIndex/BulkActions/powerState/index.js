@@ -10,6 +10,7 @@ const BulkPowerStateModalScene = ({ isOpen, closeModal }) => {
     organizationId,
     locationId,
     refreshTableData,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkPowerStateModal
@@ -17,6 +18,7 @@ const BulkPowerStateModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
       onSuccess={refreshTableData}

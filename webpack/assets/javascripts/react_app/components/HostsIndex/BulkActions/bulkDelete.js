@@ -11,6 +11,7 @@ export const bulkDeleteHosts = ({
   bulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
   selectedCount,
   destroyVmOnHostDelete,
   onDeleteSuccess,
@@ -19,6 +20,7 @@ export const bulkDeleteHosts = ({
   const errorToast = ({ message }) => message;
   const queryParams = new URLSearchParams({
     search: bulkParams,
+    ...(bulkScopeHash ? { scope_hash: bulkScopeHash } : {}),
     ...bulkActionTaxonomyParams({ organizationId, locationId }),
   });
   const url = foremanUrl(`/api/v2/hosts/bulk?${queryParams.toString()}`);

@@ -12,6 +12,7 @@ const BulkDisassociateModalScene = ({ isOpen, closeModal }) => {
     organizationId,
     locationId,
     refreshTableData,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkDisassociateModal
@@ -22,6 +23,7 @@ const BulkDisassociateModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
       onSuccess={refreshTableData}
