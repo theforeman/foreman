@@ -24,6 +24,7 @@ const BulkBuildHostModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
 }) => {
   const dispatch = useDispatch();
   const [buildRadioChecked, setBuildRadioChecked] = useState(true);
@@ -46,6 +47,7 @@ const BulkBuildHostModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       reboot: rebootChecked,
       rebuild_configuration: !buildRadioChecked,
     });
@@ -156,6 +158,7 @@ BulkBuildHostModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  bulkScopeHash: PropTypes.string,
 };
 
 BulkBuildHostModal.defaultProps = {
@@ -163,6 +166,7 @@ BulkBuildHostModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  bulkScopeHash: undefined,
 };
 
 export default BulkBuildHostModal;
