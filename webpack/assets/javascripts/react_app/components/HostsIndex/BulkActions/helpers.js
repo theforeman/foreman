@@ -8,6 +8,28 @@ export const searchLink = ({ query, message, baseUrl }) => ({
   href: urlWithSearch(baseUrl, query),
 });
 
+export const bulkActionTaxonomyParams = ({
+  organizationId,
+  locationId,
+} = {}) => ({
+  ...(organizationId != null ? { organization_id: organizationId } : {}),
+  ...(locationId != null ? { location_id: locationId } : {}),
+});
+
+export const buildBulkRequestBody = ({
+  fetchBulkParams,
+  organizationId,
+  locationId,
+  includedSearch,
+  ...params
+}) => ({
+  included: {
+    search: includedSearch || fetchBulkParams(),
+  },
+  ...bulkActionTaxonomyParams({ organizationId, locationId }),
+  ...params,
+});
+
 export const failedHostsToastParams = ({
   message,
   failed_host_ids: failedHostIds,

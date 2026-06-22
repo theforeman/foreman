@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
-import { failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 import { STATUS } from '../../../../constants';
 import { selectAPIStatus } from '../../../../redux/API/APISelectors';
 import { bulkBuildHosts, HOST_BUILD_KEY } from './actions';
@@ -22,6 +22,8 @@ const BulkBuildHostModal = ({
   closeModal,
   selectedCount,
   fetchBulkParams,
+  organizationId,
+  locationId,
 }) => {
   const dispatch = useDispatch();
   const [buildRadioChecked, setBuildRadioChecked] = useState(true);
@@ -44,13 +46,13 @@ const BulkBuildHostModal = ({
     );
   };
   const handleSave = () => {
-    const requestBody = {
-      included: {
-        search: fetchBulkParams(),
-      },
+    const requestBody = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
       reboot: rebootChecked,
       rebuild_configuration: !buildRadioChecked,
-    };
+    });
 
     dispatch(bulkBuildHosts(requestBody, handleModalClose, handleError));
   };
@@ -156,11 +158,15 @@ BulkBuildHostModal.propTypes = {
   closeModal: PropTypes.func,
   selectedCount: PropTypes.number.isRequired,
   fetchBulkParams: PropTypes.func.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
 };
 
 BulkBuildHostModal.defaultProps = {
   isOpen: false,
   closeModal: () => {},
+  organizationId: undefined,
+  locationId: undefined,
 };
 
 export default BulkBuildHostModal;

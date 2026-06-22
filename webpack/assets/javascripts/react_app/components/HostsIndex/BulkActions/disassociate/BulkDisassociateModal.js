@@ -18,7 +18,7 @@ import {
   HOSTS_API_PATH,
   API_REQUEST_KEY,
 } from '../../../../routes/Hosts/constants';
-import { failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 
 const BulkDisassociateModal = ({
   isOpen,
@@ -27,6 +27,8 @@ const BulkDisassociateModal = ({
   selectedCount,
   selectedResults,
   fetchBulkParams,
+  organizationId,
+  locationId,
 }) => {
   const dispatch = useDispatch();
   const hostsWithComputeResource = selectedResults?.filter(
@@ -91,11 +93,12 @@ const BulkDisassociateModal = ({
     const queryString = selectedResultsEmpty
       ? fetchBulkParams()
       : `id ^ (${hostsWithComputeResource.map(h => h.id).join(',')})`;
-    const requestBody = {
-      included: {
-        search: queryString,
-      },
-    };
+    const requestBody = buildBulkRequestBody({
+      fetchBulkParams,
+      organizationId,
+      locationId,
+      includedSearch: queryString,
+    });
 
     dispatch(bulkDisassociate(requestBody, handleSuccess, handleError));
   };
@@ -188,12 +191,16 @@ BulkDisassociateModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   selectedCount: PropTypes.number.isRequired,
   selectAllHostsMode: PropTypes.bool.isRequired,
+  organizationId: PropTypes.number,
+  locationId: PropTypes.number,
 };
 
 BulkDisassociateModal.defaultProps = {
   isOpen: false,
   closeModal: () => {},
   selectedResults: [],
+  organizationId: undefined,
+  locationId: undefined,
 };
 
 export default BulkDisassociateModal;

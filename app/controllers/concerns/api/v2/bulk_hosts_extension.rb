@@ -1,9 +1,10 @@
 module Api::V2::BulkHostsExtension
   extend ActiveSupport::Concern
 
-  def bulk_hosts_relation(permission, org)
+  def bulk_hosts_relation(permission, org, location)
     relation = ::Host::Managed.authorized(permission)
     relation = relation.where(organization: org) if org
+    relation = relation.where(location: location) if location
     relation
   end
 
@@ -18,7 +19,8 @@ module Api::V2::BulkHostsExtension
     end
 
     find_organization
-    @hosts = bulk_hosts_relation(permission, @organization)
+    find_location
+    @hosts = bulk_hosts_relation(permission, @organization, @location)
 
     if bulk_params[:included][:ids].present?
       @hosts = @hosts.where(id: bulk_params[:included][:ids])
@@ -41,5 +43,9 @@ module Api::V2::BulkHostsExtension
 
   def find_organization
     @organization ||= Organization.find_by_id(params[:organization_id])
+  end
+
+  def find_location
+    @location ||= Location.find_by_id(params[:location_id])
   end
 end
