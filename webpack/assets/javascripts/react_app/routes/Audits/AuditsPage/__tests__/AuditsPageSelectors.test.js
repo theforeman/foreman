@@ -1,26 +1,51 @@
-import { testSelectorsSnapshotWithFixtures } from '../../../../common/testHelpers';
+import { AuditsProps } from '../../../../components/AuditsList/__tests__/AuditsList.fixtures';
 import {
   selectAudits,
-  selectAuditsSelectedPage,
-  selectAuditsPerPage,
   selectAuditsCount,
-  selectAuditsMessage,
   selectAuditsHasData,
   selectAuditsHasError,
+  selectAuditsIsLoadingPage,
+  selectAuditsMessage,
+  selectAuditsPerPage,
   selectAuditsSearch,
+  selectAuditsSelectedPage,
 } from '../AuditsPageSelectors';
 import { state } from '../AuditsPage.fixtures';
 
-const fixtures = {
-  'should return Audits array': () => selectAudits(state),
-  'should return selected page': () => selectAuditsSelectedPage(state),
-  'should return selected perPage': () => selectAuditsPerPage(state),
-  'should return Audits array count': () => selectAuditsCount(state),
-  'should return Audits hasError bool': () => selectAuditsHasError(state),
-  'should return Audits hasData bool': () => selectAuditsHasData(state),
-  'should return Audits message': () => selectAuditsMessage(state),
-  'should return Audits Search Value': () => selectAuditsSearch(state),
-};
+describe('AuditsPage selectors', () => {
+  it('should return Audits array', () => {
+    expect(selectAudits(state)).toEqual(AuditsProps.audits);
+  });
 
-describe('AuditsPage selectors', () =>
-  testSelectorsSnapshotWithFixtures(fixtures));
+  it('should return selected page', () => {
+    expect(selectAuditsSelectedPage(state)).toBe(1);
+  });
+
+  it('should return selected perPage', () => {
+    expect(selectAuditsPerPage(state)).toBe(20);
+  });
+
+  it('should return Audits array count', () => {
+    expect(selectAuditsCount(state)).toBe(0);
+  });
+
+  it('should return Audits hasError bool', () => {
+    expect(selectAuditsHasError(state)).toBe(false);
+  });
+
+  it('should return Audits hasData bool', () => {
+    expect(selectAuditsHasData(state)).toBe(true);
+  });
+
+  it('should return Audits message', () => {
+    expect(selectAuditsMessage(state)).toBe('');
+  });
+
+  it('should return Audits Search Value', () => {
+    expect(selectAuditsSearch(state)).toBe('');
+  });
+
+  it('should return Audits isLoading bool', () => {
+    expect(selectAuditsIsLoadingPage(state)).toBe(false);
+  });
+});
