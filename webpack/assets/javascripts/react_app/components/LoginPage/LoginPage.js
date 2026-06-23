@@ -68,7 +68,10 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
             title={alert.message}
             ouiaId="login-alert"
             actionClose={
-              <AlertActionCloseButton onClose={() => closeAlert(index)} />
+              <AlertActionCloseButton
+                ouiaId="login-alert-close-button"
+                onClose={() => closeAlert(index)}
+              />
             }
           />
         ))}
