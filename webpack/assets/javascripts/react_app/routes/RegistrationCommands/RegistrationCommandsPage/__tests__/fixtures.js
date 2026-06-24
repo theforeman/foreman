@@ -43,13 +43,6 @@ export const advancedComponentProps = {
   isLoading: false,
 };
 
-export const actionsComponentProps = {
-  isLoading: false,
-  isGenerating: false,
-  handleSubmit: () => {},
-  invalidFields: [],
-};
-
 export const commandComponentProps = {
   apiStatus: 'RESOLVED',
   command: 'command',
@@ -71,12 +64,6 @@ export const hostGroupProps = {
   hostGroups: [{ id: 0, title: 'test_hg' }],
 };
 
-export const insecureProps = {
-  insecure: false,
-  handleInsecure: () => {},
-  isLoading: false,
-};
-
 export const osProps = {
   operatingSystemId: 0,
   operatingSystems: [],
@@ -88,35 +75,9 @@ export const osProps = {
   isLoading: false,
 };
 
-export const packagesProps = {
-  packages: '',
-  handlePackages: () => {},
-  configParams: {},
-  isLoading: false,
-};
-
-export const updatePackagesProps = {
-  updatePackages: false,
-  handleUpdatePackages: () => {},
-  isLoading: false,
-};
-
-export const downloadUtilityProps = {
-  downloadUtility: DownloadUtilities.curl,
-  handleDownloadUtility: () => {},
-  isLoading: false,
-};
-
 export const repositoryProps = {
   repoData: [],
   handleRepoData: () => {},
-  isLoading: false,
-};
-
-export const smartProxyProps = {
-  smartProxyId: 0,
-  smartProxies: [],
-  handleSmartProxy: () => {},
   isLoading: false,
 };
 
