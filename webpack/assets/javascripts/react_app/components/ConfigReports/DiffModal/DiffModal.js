@@ -1,14 +1,11 @@
 import React from 'react';
-import { Modal } from 'patternfly-react';
-import { Icon, Button } from '@patternfly/react-core';
-import { TimesIcon } from '@patternfly/react-icons';
+import { Modal } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
+import { translate as __ } from '../../../common/I18n';
 import DiffView from '../../DiffView/DiffView';
 import DiffToggle from '../../DiffView/DiffToggle';
-
-import './diffmodal.scss';
 
 const DiffModal = ({
   title,
@@ -20,31 +17,29 @@ const DiffModal = ({
   diffViewType,
   changeViewType,
 }) => (
-  <Modal show={isOpen} onHide={toggleModal} className="diff-modal">
-    <Modal.Header>
-      <h4 id="diff-modal-h4">{title}</h4>
-      <Button
-        ouiaId="diff-modal-close-button"
-        className="close diff-modal-close"
-        onClick={toggleModal}
-        variant="link"
-      >
-        <Icon>
-          <TimesIcon />
-        </Icon>
-      </Button>
-      <DiffToggle changeState={changeViewType} stateView={diffViewType} />
-    </Modal.Header>
-    <Modal.Body className="diff-modal-body">
-      <div id="diff-table">
-        <DiffView
-          oldText={oldText}
-          newText={newText}
-          patch={diff}
-          viewType={diffViewType}
-        />
-      </div>
-    </Modal.Body>
+  <Modal
+    isOpen={isOpen}
+    onClose={toggleModal}
+    ouiaId="diff-modal"
+    position="top"
+    variant="large"
+    title={title || __('Show Diff')}
+    actions={[
+      <DiffToggle
+        changeState={changeViewType}
+        stateView={diffViewType}
+        key="diff-toggle"
+      />,
+    ]}
+  >
+    <div id="diff-table">
+      <DiffView
+        oldText={oldText}
+        newText={newText}
+        patch={diff}
+        viewType={diffViewType}
+      />
+    </div>
   </Modal>
 );
 
