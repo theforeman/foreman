@@ -71,8 +71,8 @@ class CleanupHelper
 
       Feature.where(name: 'Puppet').destroy_all
 
-      organizations = Organization.where("ignore_types LIKE '%Environment%'")
-      locations = Location.where("ignore_types LIKE '%Environment%'")
+      organizations = Organization.ignoring('Environment')
+      locations = Location.ignoring('Environment')
 
       User.as_anonymous_admin do
         (organizations + locations).each do |tax|

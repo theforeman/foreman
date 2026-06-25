@@ -103,11 +103,11 @@ class TaxonomyTest < ActiveSupport::TestCase
     assert_equal result.sort, result
   end
 
-  test 'potentially_ignoring returns taxonomies that ignore the given type' do
+  test 'ignoring returns taxonomies that ignore the given type' do
     ignoring = FactoryBot.create(:organization, ignore_types: ['User'])
     not_ignoring = FactoryBot.create(:organization, ignore_types: [])
 
-    result = Organization.unscoped.potentially_ignoring('user')
+    result = Organization.unscoped.ignoring(User)
     assert_includes result, ignoring
     refute_includes result, not_ignoring
   end
@@ -147,5 +147,51 @@ class TaxonomyTest < ActiveSupport::TestCase
     assert_match /expecting locations/, organization.errors.messages[:locations].first
     location.save
     assert_match /expecting organizations/, location.errors.messages[:organizations].first
+  end
+
+  test 'ignoring finds taxonomies with exact type match' do
+    org_with_user = FactoryBot.create(:organization, ignore_types: ['User', 'Domain'])
+    org_with_host = FactoryBot.create(:organization, ignore_types: ['Host'])
+    org_empty = FactoryBot.create(:organization, ignore_types: [])
+
+    result = Organization.ignoring('User')
+    assert_includes result, org_with_user
+    refute_includes result, org_with_host
+    refute_includes result, org_empty
+  end
+
+  test 'ignoring does not over-match similar class names' do
+    # JSONB containment prevents over-matching (e.g. 'User' should NOT match 'UserGroup')
+    org_user = FactoryBot.create(:organization, ignore_types: ['User'])
+    org_usergroup = FactoryBot.create(:organization, ignore_types: ['UserGroup'])
+
+    result_user = Organization.ignoring('User')
+    assert_includes result_user, org_user
+    refute_includes result_user, org_usergroup
+
+    result_usergroup = Organization.ignoring('UserGroup')
+    assert_includes result_usergroup, org_usergroup
+    refute_includes result_usergroup, org_user
+  end
+
+  test 'ignoring handles empty ignore_types' do
+    org_with_types = FactoryBot.create(:organization, ignore_types: ['User'])
+    org_empty = FactoryBot.create(:organization, ignore_types: [])
+    org_nil = FactoryBot.create(:organization)
+    org_nil.update_column(:ignore_types, nil) unless org_nil.ignore_types.nil?
+
+    result = Organization.ignoring('User')
+    assert_includes result, org_with_types
+    refute_includes result, org_empty
+    refute_includes result, org_nil
+  end
+
+  test 'ignoring works with multiple types' do
+    org = FactoryBot.create(:organization, ignore_types: ['User', 'Domain', 'Subnet'])
+
+    assert_includes Organization.ignoring('User'), org
+    assert_includes Organization.ignoring('Domain'), org
+    assert_includes Organization.ignoring('Subnet'), org
+    refute_includes Organization.ignoring('Host'), org
   end
 end
