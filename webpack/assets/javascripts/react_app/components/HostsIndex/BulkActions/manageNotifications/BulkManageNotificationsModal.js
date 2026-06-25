@@ -15,7 +15,7 @@ import { FormattedMessage } from 'react-intl';
 import { translate as __ } from '../../../../common/I18n';
 import { bulkManageNotifications } from './actions';
 import { BULK_MANAGE_NOTIFICATIONS_KEY } from './constants';
-import { failedHostsToastParams } from '../helpers';
+import { bulkErrorToastParams } from '../helpers';
 import { addToast } from '../../../ToastsList/slice';
 
 const BulkManageNotificationsModal = ({
@@ -48,17 +48,9 @@ const BulkManageNotificationsModal = ({
   };
 
   const handleError = error => {
-    const apiError = error?.response?.data?.error;
-    if (apiError) {
-      dispatch(
-        addToast(
-          failedHostsToastParams({
-            ...apiError,
-            key: BULK_MANAGE_NOTIFICATIONS_KEY,
-          })
-        )
-      );
-    }
+    dispatch(
+      addToast(bulkErrorToastParams(error, BULK_MANAGE_NOTIFICATIONS_KEY))
+    );
     handleModalClose();
   };
 

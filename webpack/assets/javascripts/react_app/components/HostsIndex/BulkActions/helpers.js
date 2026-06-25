@@ -52,3 +52,16 @@ export const failedHostsToastParams = ({
 
   return toastParams;
 };
+
+export const bulkErrorToastParams = (error, key) => {
+  const fallback = error?.message || __('Unexpected error occurred.');
+  const apiError = error?.response?.data?.error;
+  const isObject = apiError && typeof apiError === 'object';
+  const message = isObject ? apiError.message : apiError;
+
+  return failedHostsToastParams({
+    message: message || fallback,
+    failed_host_ids: isObject ? apiError.failed_host_ids : undefined,
+    key,
+  });
+};

@@ -19,7 +19,11 @@ import './BulkPowerStateModal.scss';
 import { HostsPowerRefreshContext } from '../../HostsPowerRefreshContext';
 import { POWER_STATES, BULK_POWER_STATE_KEY } from './constants';
 import { bulkChangePowerState } from './actions';
-import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
+import {
+  buildBulkRequestBody,
+  failedHostsToastParams,
+  bulkErrorToastParams,
+} from '../helpers';
 import { addToast } from '../../../ToastsList/slice';
 
 const BulkPowerStateModal = ({
@@ -61,8 +65,9 @@ const BulkPowerStateModal = ({
 
   const handleError = error => {
     const apiError = error?.response?.data?.error;
+    const isObject = apiError && typeof apiError === 'object';
 
-    if (apiError) {
+    if (isObject) {
       let enhancedError = apiError;
 
       if (apiError.failed_hosts && apiError.failed_hosts.length > 0) {
@@ -86,6 +91,8 @@ const BulkPowerStateModal = ({
           })
         )
       );
+    } else {
+      dispatch(addToast(bulkErrorToastParams(error, BULK_POWER_STATE_KEY)));
     }
 
     cleanup();

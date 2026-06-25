@@ -12,6 +12,7 @@ import {
   TreeView,
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
+import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
 import { translate as __ } from '../../../../common/I18n';
 import { STATUS } from '../../../../constants';
 import {
@@ -32,7 +33,6 @@ import {
   MODAL_TYPES,
 } from './BulkAssignTaxonomyConstants';
 import TaxonomySelect from './TaxonomySelect';
-import { buildBulkRequestBody } from '../helpers';
 
 export const BulkAssignOrganizationModal = props => (
   <BulkAssignTaxonomyModal modalType={MODAL_TYPES.ORGANIZATION} {...props} />
@@ -53,6 +53,9 @@ const BulkAssignTaxonomyModal = ({
   onSuccess: onSuccessCallback,
 }) => {
   const org = modalType === MODAL_TYPES.ORGANIZATION;
+  const actionKey = org
+    ? BULK_ASSIGN_ORGANIZATION_KEY
+    : BULK_ASSIGN_LOCATION_KEY;
   const taxType = org ? 'organization' : 'location';
   const dispatch = useDispatch();
   const [taxId, setTaxId] = useState('');
@@ -69,9 +72,7 @@ const BulkAssignTaxonomyModal = ({
       : selectAPIStatus(state, LOCATION_KEY)
   );
   const hostUpdateStatus = useSelector(state =>
-    org
-      ? selectAPIStatus(state, BULK_ASSIGN_ORGANIZATION_KEY)
-      : selectAPIStatus(state, BULK_ASSIGN_LOCATION_KEY)
+    selectAPIStatus(state, actionKey)
   );
   const handleModalClose = () => {
     setTaxId('');
@@ -106,15 +107,8 @@ const BulkAssignTaxonomyModal = ({
     taxonomy.results.find(t => t.id === id)?.name;
 
   const handleError = error => {
-    const {
-      response: {
-        data: {
-          error: { message },
-        },
-      },
-    } = error;
-    dispatch(addToast({ type: 'danger', message }));
     handleModalClose();
+    dispatch(addToast(bulkErrorToastParams(error, actionKey)));
   };
 
   const handleSuccess = response => {

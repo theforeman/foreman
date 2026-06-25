@@ -12,7 +12,7 @@ import {
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import { BULK_DISASSOCIATE_KEY, bulkDisassociate } from './actions';
-import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
 
 const BulkDisassociateModal = ({
   isOpen,
@@ -56,16 +56,9 @@ const BulkDisassociateModal = ({
     },
   ];
 
-  const handleError = response => {
+  const handleError = error => {
     closeModal();
-    dispatch(
-      addToast(
-        failedHostsToastParams({
-          ...response.data.error,
-          key: BULK_DISASSOCIATE_KEY,
-        })
-      )
-    );
+    dispatch(addToast(bulkErrorToastParams(error, BULK_DISASSOCIATE_KEY)));
   };
 
   const handleSuccess = response => {
