@@ -516,7 +516,7 @@ class User < ApplicationRecord
     delay = Rails.env.test? ? 0 : 2.minutes
     Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
       klass = taxonomies.to_s.classify.constantize
-      top_level = send(taxonomies) + klass.unscoped.potentially_ignoring('user').select { |tax| tax.ignore?('user') }
+      top_level = send(taxonomies) + klass.unscoped.ignoring(User)
       next [] if top_level.empty?
 
       Taxonomy.batch_subtree_ids(top_level)

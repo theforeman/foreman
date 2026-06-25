@@ -5,10 +5,9 @@ class Taxonomy < ApplicationRecord
   include NestedAncestryCommon
   include TopbarCacheExpiry
 
-  serialize :ignore_types, Array
-  # Coarse SQL pre-filter on serialized YAML; may over-match (e.g. 'User' matches 'UserProfile').
-  # Callers must verify with ignore? for exactness.
-  scope :potentially_ignoring, ->(type) { where("ignore_types LIKE ?", "%#{sanitize_sql_like(type.to_s.classify)}%") }
+  # ignore_types is a JSONB column storing an array of class names (e.g. ["User", "Domain"])
+  # JSONB provides exact matching via containment operator and supports GIN indexing for O(1) lookup
+  scope :ignoring, ->(type) { where("ignore_types @> ?", [type.to_s].to_json) }
 
   before_create :assign_default_templates
   after_create :assign_taxonomy_to_user
