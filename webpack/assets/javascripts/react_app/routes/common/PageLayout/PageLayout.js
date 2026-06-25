@@ -66,8 +66,8 @@ const PageLayout = ({
 
       {showStandaloneTitleSection && (
         <PageSection
+          id="page-layout-title-section"
           variant={PageSectionVariants.light}
-          className="page-layout-title-section"
         >
           <div id="page-title">{titleSectionBody}</div>
         </PageSection>
@@ -77,11 +77,11 @@ const PageLayout = ({
 
       {showToolbarSection && (
         <PageSection
+          id="page-layout-toolbar-section"
           variant={PageSectionVariants.light}
-          className="page-layout-toolbar-section"
         >
           {customToolbar || (
-            <Toolbar ouiaId="page-toolbar" className="page-layout-toolbar">
+            <Toolbar ouiaId="page-toolbar" id="page-layout-toolbar">
               <ToolbarContent>
                 <ToolbarGroup
                   className="page-layout-toolbar-group-search"
@@ -89,7 +89,7 @@ const PageLayout = ({
                 >
                   {!searchable && toolbarButtons && titleSectionBody}
                   {searchable && (
-                    <ToolbarItem className="page-layout-toolbar-search">
+                    <ToolbarItem id="page-layout-toolbar-search">
                       <SearchBar
                         data={{
                           ...searchProps,
@@ -117,7 +117,7 @@ const PageLayout = ({
         </PageSection>
       )}
       <PageSection
-        className="page-layout-content-section"
+        id="page-layout-content-section"
         variant={PageSectionVariants.light}
         type={pageSectionType}
       >
