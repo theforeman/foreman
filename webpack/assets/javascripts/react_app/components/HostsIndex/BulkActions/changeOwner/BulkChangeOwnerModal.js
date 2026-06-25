@@ -28,7 +28,7 @@ import {
   selectAPIStatus,
   selectAPIResponse,
 } from '../../../../redux/API/APISelectors';
-import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
 
 const BulkChangeOwnerModal = ({
   isOpen,
@@ -99,16 +99,9 @@ const BulkChangeOwnerModal = ({
     closeModal();
   };
 
-  const handleError = response => {
+  const handleError = error => {
     handleModalClose();
-    dispatch(
-      addToast(
-        failedHostsToastParams({
-          ...response.data.error,
-          key: BULK_CHANGE_OWNER_KEY,
-        })
-      )
-    );
+    dispatch(addToast(bulkErrorToastParams(error, BULK_CHANGE_OWNER_KEY)));
   };
 
   const handleSuccess = response => {

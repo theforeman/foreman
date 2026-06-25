@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
-import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
 import { STATUS } from '../../../../constants';
 import {
   selectAPIStatus,
@@ -120,15 +120,10 @@ const BulkReassignHostgroupModal = ({
     dispatch(fetchHostgroups());
   }, [dispatch]);
 
-  const handleError = response => {
+  const handleError = error => {
     handleModalClose();
     dispatch(
-      addToast(
-        failedHostsToastParams({
-          ...response.data.error,
-          key: BULK_REASSIGN_HOSTGROUP_KEY,
-        })
-      )
+      addToast(bulkErrorToastParams(error, BULK_REASSIGN_HOSTGROUP_KEY))
     );
   };
 

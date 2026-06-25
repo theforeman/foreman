@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
-import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
+import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
 import { STATUS } from '../../../../constants';
 import { selectAPIStatus } from '../../../../redux/API/APISelectors';
 import { bulkBuildHosts, HOST_BUILD_KEY } from './actions';
@@ -37,13 +37,9 @@ const BulkBuildHostModal = ({
     closeModal();
   };
 
-  const handleError = ({ response }) => {
+  const handleError = error => {
     handleModalClose();
-    dispatch(
-      addToast(
-        failedHostsToastParams({ ...response.data.error, key: HOST_BUILD_KEY })
-      )
-    );
+    dispatch(addToast(bulkErrorToastParams(error, HOST_BUILD_KEY)));
   };
   const handleSave = () => {
     const requestBody = buildBulkRequestBody({
