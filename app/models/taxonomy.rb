@@ -109,7 +109,7 @@ class Taxonomy < ApplicationRecord
       binds << ca
     end
 
-    klass.where(sql_parts.join(' OR '), *binds).order(:id).pluck(:id)
+    klass.where(sql_parts.join(' OR '), *binds).reorder(:id).pluck(:id)
   end
 
   def self.ignore?(taxable_type)
