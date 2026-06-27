@@ -2,6 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
+import { hasTaxonomiesMock } from '../../Layout.fixtures';
 import HeaderToolbar from './HeaderToolbar';
 import { layoutData } from '../../Layout.fixtures';
 import ForemanContext from '../../../../Root/Context/ForemanContext';
