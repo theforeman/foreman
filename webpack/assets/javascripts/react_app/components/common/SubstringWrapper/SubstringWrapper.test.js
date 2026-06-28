@@ -1,32 +1,63 @@
-import SubstringWrapper from './';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import React from 'react';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
-const fixtures = {
-  'should render with b tag': {
-    substring: 'test',
-    children: 'this is a test',
-  },
-  'should wrap twice': {
-    substring: 'test',
-    children: 'test - this is a test',
-  },
-  'should wrap with another element': {
-    Element: 'i',
-    substring: 'test',
-    children: 'this is a test',
-  },
-  'substring is not found': {
-    Element: 'i',
-    substring: 'test',
-    children: 'this is a SubstringWrapper component',
-  },
-  'should work if regex failed': {
-    substring: '*',
-    children: 'this is a test',
-  },
-};
+import SubstringWrapper from './';
 
 describe('SubstringWrapper', () => {
-  describe('rendering', () =>
-    testComponentSnapshotsWithFixtures(SubstringWrapper, fixtures));
+  it('wraps the substring in a <b> tag by default', () => {
+    const { container } = render(
+      <SubstringWrapper substring="test">this is a test</SubstringWrapper>
+    );
+
+    expect(container).toHaveTextContent('this is a test');
+    const bolds = container.querySelectorAll('b');
+    expect(bolds).toHaveLength(1);
+    expect(bolds[0]).toHaveTextContent('test');
+  });
+
+  it('wraps every occurrence of the substring', () => {
+    const { container } = render(
+      <SubstringWrapper substring="test">
+        test - this is a test
+      </SubstringWrapper>
+    );
+
+    expect(container).toHaveTextContent('test - this is a test');
+    expect(container.querySelectorAll('b')).toHaveLength(2);
+  });
+
+  it('wraps the substring with the supplied element', () => {
+    const { container } = render(
+      <SubstringWrapper Element="i" substring="test">
+        this is a test
+      </SubstringWrapper>
+    );
+
+    expect(container).toHaveTextContent('this is a test');
+    const italics = container.querySelectorAll('i');
+    expect(italics).toHaveLength(1);
+    expect(italics[0]).toHaveTextContent('test');
+    expect(container.querySelector('b')).not.toBeInTheDocument();
+  });
+
+  it('renders plain text when the substring is not found', () => {
+    const { container } = render(
+      <SubstringWrapper Element="i" substring="test">
+        this is a SubstringWrapper component
+      </SubstringWrapper>
+    );
+
+    expect(container).toHaveTextContent('this is a SubstringWrapper component');
+    expect(container.querySelector('i')).not.toBeInTheDocument();
+  });
+
+  it('renders plain text when the substring is an invalid regex', () => {
+    const { container } = render(
+      <SubstringWrapper substring="*">this is a test</SubstringWrapper>
+    );
+
+    expect(container).toHaveTextContent('this is a test');
+    expect(container.querySelector('b')).not.toBeInTheDocument();
+  });
 });
