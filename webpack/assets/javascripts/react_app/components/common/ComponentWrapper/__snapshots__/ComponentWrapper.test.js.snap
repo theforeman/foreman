@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ComponentWrapper should render core component 1`] = `<AwesomeComponent />`;

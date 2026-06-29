@@ -1,39 +1,87 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
 import componentRegistry from '../../componentRegistry';
 import ComponentWrapper from './ComponentWrapper';
 
 jest.mock('@apollo/client/link/batch-http');
 jest.mock('../../componentRegistry');
 
+const AwesomeComponent = ({ label = 'Awesome Component' }) => (
+  <div>{label}</div>
+);
+
 describe('ComponentWrapper', () => {
-  it('should render core component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders a registered component from the component registry', () => {
     componentRegistry.getComponent = jest.fn(() => ({
-      type: 'AwesomeComponent',
+      type: AwesomeComponent,
     }));
 
-    const wrapper = shallow(
-      <ComponentWrapper data={{ component: 'AwesomeComponent' }} />
+    render(<ComponentWrapper data={{ component: 'AwesomeComponent' }} />);
+
+    expect(screen.getByText('Awesome Component')).toBeInTheDocument();
+    expect(componentRegistry.getComponent).toHaveBeenCalledWith(
+      'AwesomeComponent'
+    );
+  });
+
+  it('passes componentProps to the registered component', () => {
+    componentRegistry.getComponent = jest.fn(() => ({
+      type: AwesomeComponent,
+    }));
+
+    render(
+      <ComponentWrapper
+        data={{
+          component: 'AwesomeComponent',
+          componentProps: { label: 'Custom label from props' },
+        }}
+      />
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('Custom label from props')).toBeInTheDocument();
   });
 
-  it('should not render unregistered component', () => {
-    const render = () => {
-      componentRegistry.getComponent = jest.fn(() => undefined);
-      shallow(<ComponentWrapper data={{ component: 'NotAwesomeComponent' }} />);
-    };
+  it('throws when the component name is not registered in the registry', () => {
+    componentRegistry.getComponent = jest.fn(() => undefined);
 
-    expect(render).toThrow(Error);
+    // eslint-disable-next-line no-console
+    const originalConsoleError = console.error;
+    // eslint-disable-next-line no-console
+    console.error = jest.fn();
+
+    expect(() => {
+      render(
+        <ComponentWrapper data={{ component: 'NotAwesomeComponent' }} />
+      );
+    }).toThrow('Component name is missing!');
+
+    // eslint-disable-next-line no-console
+    console.error = originalConsoleError;
   });
 
-  it('should not render self', () => {
-    const render = () => {
-      componentRegistry.getComponent = jest.fn(() => undefined);
-      shallow(<ComponentWrapper data={{ component: 'ComponentWrapper' }} />);
-    };
+  it('throws when attempting to wrap ComponentWrapper with itself', () => {
+    componentRegistry.getComponent = jest.fn(() => ({
+      type: AwesomeComponent,
+    }));
 
-    expect(render).toThrow(Error);
+    // eslint-disable-next-line no-console
+    const originalConsoleError = console.error;
+    // eslint-disable-next-line no-console
+    console.error = jest.fn();
+
+    expect(() => {
+      render(<ComponentWrapper data={{ component: 'ComponentWrapper' }} />);
+    }).toThrow('Cannot wrap component wrapper');
+
+    expect(componentRegistry.getComponent).not.toHaveBeenCalled();
+
+    // eslint-disable-next-line no-console
+    console.error = originalConsoleError;
   });
 });
