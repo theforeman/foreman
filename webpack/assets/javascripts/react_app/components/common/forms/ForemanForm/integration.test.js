@@ -1,8 +1,12 @@
 import React from 'react';
-import IntegrationTestHelper from 'foremanReact/common/IntegrationTestHelper';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import thunk from 'redux-thunk';
 
 import { submitForm } from '../../../../redux/actions/common/forms';
-
 import { initialValues, ConnectedFormComponent } from './ForemanForm.fixtures';
 import { APIMiddleware } from '../../../../redux/API';
 import APIHelper from '../../../../redux/API/API';
@@ -15,9 +19,6 @@ const baseErrors = [
   'does not have enough vitamins',
   'does not have enough proteins',
 ];
-const reducers = {
-  apiReducer,
-};
 const severity = 'warning';
 const errorResponse = {
   response: {
@@ -33,12 +34,13 @@ const errorResponse = {
     },
   },
 };
+
 const handleSubmit = (values, actions) =>
   submitForm({
     url: '/test/form',
     values,
     item: 'Test',
-    message: __('Form was successfully created.'),
+    message: 'Form was successfully created.',
     actions,
   });
 
@@ -48,24 +50,34 @@ const props = {
   initValues: initialValues,
 };
 
+const renderForm = () => {
+  const store = createStore(
+    combineReducers({ apiReducer }),
+    applyMiddleware(thunk, APIMiddleware)
+  );
+
+  return render(
+    <Provider store={store}>
+      <ConnectedFormComponent {...props} />
+    </Provider>
+  );
+};
+
 describe('ForemanForm integration test', () => {
-  it('should render form with errors', async () => {
+  it('renders a warning alert with the base errors when submission fails', async () => {
     APIHelper.post.mockRejectedValue(errorResponse);
 
-    const testHelper = new IntegrationTestHelper(reducers, [APIMiddleware]);
+    renderForm();
 
-    const component = testHelper.mount(<ConnectedFormComponent {...props} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
 
-    const submitBtn = component.find('Button[bsStyle="primary"]');
-    submitBtn.simulate('submit');
-    await IntegrationTestHelper.flushAllPromises();
-    component.update();
-
-    const formError = component.find('Form').prop('error');
-
-    expect(formError.errorMsgs).toBe(baseErrors);
-    expect(formError.severity).toBe(severity);
-
-    expect(component.find('Alert')).toMatchSnapshot();
+    // the base errors are surfaced in a warning alert
+    expect(
+      await screen.findByText('does not have enough vitamins')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('does not have enough proteins')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Warning!')).toBeInTheDocument();
   });
 });
