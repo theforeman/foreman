@@ -1,49 +1,55 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { FieldLevelHelp } from 'patternfly-react';
+import '@testing-library/jest-dom';
 
 import CommonForm from './CommonForm';
 
 describe('common Form', () => {
-  it('should display a label field', () => {
-    const wrapper = shallow(<CommonForm label="my label" />);
+  it('displays a label field', () => {
+    render(<CommonForm label="my label" />);
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('my label')).toBeInTheDocument();
   });
-  it('should accept a required field', () => {
-    const wrapper = shallow(<CommonForm label="my label" required />);
 
-    expect(wrapper).toMatchSnapshot();
+  it('marks a required field with an asterisk', () => {
+    render(<CommonForm label="my label" required />);
+
+    expect(screen.getByText('my label *')).toBeInTheDocument();
   });
-  it('should display validation errors if touched', () => {
-    const wrapper = shallow(
+
+  it('displays validation errors when touched', () => {
+    const { container } = render(
       <CommonForm label="my label" touched error="is required!" />
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('is required!')).toBeInTheDocument();
+    expect(container.querySelector('.form-group')).toHaveClass('has-error');
   });
-  it('should not display validation errors if not touched', () => {
-    const wrapper = shallow(
-      <CommonForm label="my label" error="is required!" />
-    );
 
-    expect(wrapper).toMatchSnapshot();
-  });
-  it('should not display validation errors if there are none', () => {
-    const wrapper = shallow(<CommonForm label="my label" />);
+  it('does not display validation errors when not touched', () => {
+    render(<CommonForm label="my label" error="is required!" />);
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.queryByText('is required!')).not.toBeInTheDocument();
   });
-  it('should accept customized input class', () => {
-    const wrapper = shallow(
+
+  it('does not display validation errors when there are none', () => {
+    const { container } = render(<CommonForm label="my label" />);
+
+    expect(container.querySelector('.help-block')).not.toBeInTheDocument();
+    expect(container.querySelector('.form-group')).not.toHaveClass('has-error');
+  });
+
+  it('accepts a customized input class', () => {
+    const { container } = render(
       <CommonForm name="name" inputClassName="col-md-10" label="Name" />
     );
 
-    expect(wrapper.find('.col-md-10').exists()).toBe(true);
+    expect(container.querySelector('.col-md-10')).toBeInTheDocument();
   });
 
-  it('should render tooltip help', () => {
-    const wrapper = shallow(
+  it('renders tooltip help', () => {
+    const { container } = render(
       <CommonForm
         name="name"
         label="Required form field"
@@ -52,6 +58,7 @@ describe('common Form', () => {
       />
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByText('Required form field *')).toBeInTheDocument();
+    expect(container.querySelector('.pficon')).toBeInTheDocument();
   });
 });
