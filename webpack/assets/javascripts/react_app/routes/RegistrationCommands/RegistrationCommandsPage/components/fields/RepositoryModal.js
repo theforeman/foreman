@@ -125,6 +125,7 @@ const RepositoryModal = ({
       onClose={handleConfirm}
       actions={[
         <Button
+          key="confirm"
           ouiaId="reg_modal_confirm"
           variant="primary"
           onClick={handleConfirm}
@@ -132,6 +133,7 @@ const RepositoryModal = ({
           {__('Confirm')}
         </Button>,
         <Button
+          key="reset"
           ouiaId="reg_modal_reset"
           variant="link"
           onClick={clearRepositories}
@@ -139,6 +141,7 @@ const RepositoryModal = ({
           {__('Reset form')}
         </Button>,
         <Button
+          key="add-repository"
           ouiaId="host_reg_modal_add_new_repo"
           variant="link"
           icon={
