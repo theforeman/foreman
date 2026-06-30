@@ -124,7 +124,9 @@ const SelectAllCheckbox = ({
         isDisabled={totalCount === 0 || areAllRowsSelected}
         onClick={handleSelectAll}
       >
-        {`${__('Select all')} (${totalCount})`}
+        {totalCount != null
+          ? `${__('Select all')} (${totalCount})`
+          : __('Select all')}
       </DropdownItem>
     );
   }
@@ -166,7 +168,7 @@ SelectAllCheckbox.propTypes = {
   selectDefault: PropTypes.func,
   selectedDefaultCount: PropTypes.number,
   pageRowCount: PropTypes.number,
-  totalCount: PropTypes.number,
+  totalCount: PropTypes.number, // null when count not yet available
   areAllRowsOnPageSelected: PropTypes.bool.isRequired,
   areAllRowsSelected: PropTypes.bool.isRequired,
 };
@@ -175,7 +177,7 @@ SelectAllCheckbox.defaultProps = {
   selectAll: noop,
   selectDefault: null,
   pageRowCount: 0,
-  totalCount: 0,
+  totalCount: null,
   selectedDefaultCount: 0,
 };
 
