@@ -123,7 +123,10 @@ class HostJSTest < IntegrationTestWithJavascript
     test "all audit redirect to audit page" do
       visit host_details_page_path(@host)
       find('a', :text => /All audits/).click
-      assert_current_path audits_path(search: "host=#{@host.fqdn}")
+      assert_current_path audits_path, ignore_query: true
+      query = Rack::Utils.parse_query(URI.parse(current_url).query)
+      assert_equal "host=#{@host.fqdn}", query['search']
+      assert_equal '1', query['page']
     end
 
     test "manage host statuses modal" do

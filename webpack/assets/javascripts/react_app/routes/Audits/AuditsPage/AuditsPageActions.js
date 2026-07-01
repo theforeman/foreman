@@ -23,7 +23,8 @@ import { translate as __ } from '../../../common/I18n';
 export const initializeAudits = () => dispatch => {
   const params = getParams();
   dispatch(fetchAudits(params));
-  if (!history.action === 'POP') {
+
+  if (history.action !== 'POP') {
     history.replace({
       pathname: AUDITS_PATH,
       search: stringifyParams(params),
@@ -36,14 +37,17 @@ export const fetchAudits = (
   url = AUDITS_PATH
 ) => async (dispatch, getState) => {
   dispatch({ type: AUDITS_PAGE_SHOW_LOADING });
-  if (selectAuditsHasError(getState()))
+
+  if (selectAuditsHasError(getState())) {
     dispatch({
       type: AUDITS_PAGE_CLEAR_ERROR,
     });
+  }
 
   const onRequestSuccess = ({ data: { audits, itemCount } }) => {
-    if (selectAuditsIsLoadingPage(getState()))
+    if (selectAuditsIsLoadingPage(getState())) {
       dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
+    }
 
     dispatch({
       type: AUDITS_PAGE_UPDATE_QUERY,
@@ -63,9 +67,11 @@ export const fetchAudits = (
       },
     });
   };
+
   const onRequestFail = error => {
-    if (selectAuditsIsLoadingPage(getState()))
+    if (selectAuditsIsLoadingPage(getState())) {
       dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
+    }
 
     dispatch({
       type: AUDITS_PAGE_DATA_FAILED,
@@ -77,6 +83,7 @@ export const fetchAudits = (
       },
     });
   };
+
   try {
     const response = await API.get(
       url,
@@ -87,6 +94,7 @@ export const fetchAudits = (
         search: searchQuery,
       }
     );
+
     return onRequestSuccess(response);
   } catch (error) {
     return onRequestFail(error);
