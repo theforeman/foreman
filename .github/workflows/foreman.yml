@@ -148,6 +148,7 @@ jobs:
     with:
       plugin: katello
       plugin_repository: Katello/katello
+      plugin_version: KATELLO-4.21
       foreman_version: ${{ github.ref }}
 
   result:
