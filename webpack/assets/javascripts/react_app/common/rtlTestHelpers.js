@@ -9,6 +9,8 @@ import reducers from '../redux/reducers';
 import { middlewares } from '../redux/middlewares';
 import { initMockStore } from './testInitialReduxStore';
 
+const I18nPassThrough = ({ children }) => children;
+
 export const createTestStore = (
   initialState = {},
   storeConfig = compose(applyMiddleware(...middlewares))
@@ -43,8 +45,12 @@ export const rtlHelpers = {
    * @returns {Object} RTL render result
    */
   renderWithI18n: (component, mockDate = new Date(), timezone = 'UTC') => {
-    const IntlWrapper = i18nProviderWrapperFactory(mockDate, timezone);
-    return render(React.createElement(IntlWrapper, {}, component));
+    const IntlWrapper = i18nProviderWrapperFactory(
+      mockDate,
+      timezone
+    )(I18nPassThrough);
+
+    return render(<IntlWrapper>{component}</IntlWrapper>);
   },
 
   /**
@@ -62,12 +68,15 @@ export const rtlHelpers = {
     timezone = 'UTC'
   ) => {
     const store = createTestStore(initialState);
-    const IntlWrapper = i18nProviderWrapperFactory(mockDate, timezone);
+    const IntlWrapper = i18nProviderWrapperFactory(
+      mockDate,
+      timezone
+    )(I18nPassThrough);
 
     return {
       ...render(
         <Provider store={store}>
-          {React.createElement(IntlWrapper, {}, component)}
+          <IntlWrapper>{component}</IntlWrapper>
         </Provider>
       ),
       store,

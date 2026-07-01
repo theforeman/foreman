@@ -49,4 +49,6 @@ export const auditsPageProps = {
   isLoading: false,
   hasData: true,
   searchQuery: 'search',
+  audits: AuditsProps.audits,
+  itemCount: AuditsProps.audits.length,
 };

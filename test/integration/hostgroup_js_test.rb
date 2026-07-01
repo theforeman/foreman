@@ -21,6 +21,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     select2 os.media.first.name, :from => 'hostgroup_medium_id'
     wait_for_ajax
     select2 os.ptables.first.name, :from => 'hostgroup_ptable_id'
+    wait_for_ajax
     fill_in 'hostgroup_root_pass', :with => '12345678'
     click_button 'Submit'
     hostgroup = wait_for do
