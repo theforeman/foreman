@@ -39,6 +39,18 @@ module UsersHelper
         hash_for_invalidate_jwt_user_path(:id => user.id).merge(:auth_object => user, :permission => "edit_users"),
         :method => :patch, :id => user.id,
         :data => { :confirm => _("Invalidate all JSON Web Tokens for %s?") % user.name })
+
+      if user.disabled?
+        additional_actions << display_link_if_authorized(_("Enable"),
+          hash_for_user_path(:id => user).merge(:auth_object => user, :permission => "edit_users", :user => { :disabled => false }),
+          :method => :put,
+          :data => { :confirm => _("Enable %s?") % user.name })
+      else
+        additional_actions << display_link_if_authorized(_("Disable"),
+          hash_for_user_path(:id => user).merge(:auth_object => user, :permission => "edit_users", :user => { :disabled => true }),
+          :method => :put,
+          :data => { :confirm => _("Disable %s?") % user.name })
+      end
     end
 
     delete_btn = display_delete_if_authorized(
