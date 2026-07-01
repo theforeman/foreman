@@ -1,3 +1,19 @@
+2026-07-01	Odilon Sousa <osousa@redhat.com>
+	* Release 3.19.1
+
+2026-07-01	Lukas Jezek <lukas-jezek@seznam.cz>
+	* Fixes #39479 - CVE-2026-5142 key pair taxonomy bypass
+	* Fixes #39478 - CVE-2026-5136
+	* Fixes #39480 - CVE-2026-5135 lookup value access control
+	* Fixes #39481 - CVE-2026-5138 taxonomy scope bypass
+
+2026-07-01	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #39478 - Fix usergroup role assignment validation
+	* Refs #39478 - Add test for usergroup role escalation
+
+2026-07-01	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Fixes #39483 - Pin Katello CI to KATELLO-4.21 on 3.19-stable
+
 2026-06-09	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.19.0
 	* i18n - extracting new, pulling from tx
