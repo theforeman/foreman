@@ -16,6 +16,32 @@ class UserIntegrationTest < IntegrationTestWithJavascript
     assert page.has_content? 'user12345'
   end
 
+  test "disable a user from index page" do
+    user = FactoryBot.create(:user, :with_mail)
+    visit users_path
+    within(:xpath, "//tr[contains(.,'#{user.login}')]") do
+      find("a.dropdown-toggle").click
+      click_link("Disable")
+    end
+    click_button("Confirm")
+
+    assert page.has_content?('Successfully updated'), "Expected success flash message"
+    assert user.reload.disabled?, "User should be disabled"
+  end
+
+  test "enable a disabled user from index page" do
+    user = FactoryBot.create(:user, :with_mail, :disabled => true)
+    visit users_path
+    within(:xpath, "//tr[contains(.,'#{user.login}')]") do
+      find("a.dropdown-toggle").click
+      click_link("Enable")
+    end
+    click_button("Confirm")
+
+    assert page.has_content?('Successfully updated'), "Expected success flash message"
+    refute user.reload.disabled?, "User should be enabled"
+  end
+
   context "without automatic login" do
     test "login" do
       login_user(users(:admin).login, "secret")
