@@ -1,3 +1,26 @@
+2026-07-01	Odilon Sousa <osousa@redhat.com>
+	* Release 3.18.2
+
+2026-07-01	Lukas Jezek <lukas-jezek@seznam.cz>
+	* Fixes #39479 - CVE-2026-5142 key pair taxonomy bypass
+	* Fixes #39480 - CVE-2026-5135 lookup value access control
+	* Fixes #39481 - CVE-2026-5138 taxonomy scope bypass
+	* Fixes #39478 - CVE-2026-5136
+
+2026-07-01	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #39478 - Fix usergroup role assignment validation
+	* Refs #39478 - Add test for usergroup role escalation
+
+2026-05-27	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #39310 - Normalize firmware type for image based provisioning
+
+2026-05-27	Evgeni Golov <evgeni@golov.de>
+	* Fixes #39124 - install libffi-devel to be able to build fiddle
+	* Use 3.18 repos for packit
+
+2026-05-27	Adam Ruzicka <aruzicka@redhat.com>
+	* Run tests against katello-4.20
+
 2026-03-26	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.18.1
 
