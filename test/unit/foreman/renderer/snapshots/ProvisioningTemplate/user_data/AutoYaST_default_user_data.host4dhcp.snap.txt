@@ -28,6 +28,7 @@ if [ -z "$PKG_MANAGER" ]; then
     PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
+    PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} upgrade -y"
   elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
     PKG_MANAGER='dnf'
     if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
@@ -38,21 +39,29 @@ if [ -z "$PKG_MANAGER" ]; then
     PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
+    if [ "$PKG_MANAGER" = 'dnf' ]; then
+      PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} upgrade -y"
+    else
+      PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} update -y"
+    fi
   elif [ -f /etc/debian_version ]; then
     PKG_MANAGER='apt-get'
     PKG_MANAGER_INSTALL="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' install -y"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' remove -y"
-    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' --only-upgrade install -y"
+    PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
   elif [ -f /etc/arch-release ]; then
     PKG_MANAGER='pacman'
     PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
+    PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} --noconfirm -Syu"
   elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
     PKG_MANAGER='zypper'
     PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
+    PKG_MANAGER_UPGRADE_ALL_PACKAGES="${PKG_MANAGER} --non-interactive update"
   fi
 fi
 
