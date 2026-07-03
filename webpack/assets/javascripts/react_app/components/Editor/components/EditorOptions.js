@@ -1,11 +1,8 @@
 /* eslint-disable no-alert */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { Button, FormControl } from 'patternfly-react';
 import { ArrowsAltIcon, UndoIcon, UploadIcon } from '@patternfly/react-icons';
-
-import { Tooltip, TooltipPosition, Icon } from '@patternfly/react-core';
+import { Button, Icon, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
@@ -14,11 +11,14 @@ class EditorOptions extends React.Component {
   constructor(props) {
     super(props);
     this.fileDialog = this.fileDialog.bind(this);
-    this.fileInput = React.createRef();
+    this.fileInputRef = React.createRef();
   }
 
   fileDialog() {
-    this.fileInput.click();
+    const fileInput = this.fileInputRef.current;
+    if (fileInput) {
+      fileInput.click();
+    }
   }
 
   render() {
@@ -60,8 +60,10 @@ class EditorOptions extends React.Component {
             position={TooltipPosition.top}
           >
             <Button
+              ouiaId="revert-local-changes-button"
               className="editor-button"
               id="undo-btn"
+              variant="plain"
               onClick={() => {
                 if (
                   window.confirm(
@@ -72,7 +74,6 @@ class EditorOptions extends React.Component {
                   if (selectedView !== 'input') changeTab('input');
                 }
               }}
-              bsStyle="link"
             >
               <Icon size="md">
                 <UndoIcon />
@@ -81,10 +82,11 @@ class EditorOptions extends React.Component {
           </Tooltip>
         ) : (
           <Button
-            disabled
+            ouiaId="revert-local-changes-button"
             className="editor-button"
             id="undo-btn"
-            bsStyle="link"
+            variant="plain"
+            isDisabled
           >
             <Icon size="md">
               <UndoIcon />
@@ -94,19 +96,18 @@ class EditorOptions extends React.Component {
         {showImport && (
           <Tooltip content={__('Import File')} position={TooltipPosition.top}>
             <Button
-              disabled={selectedView !== 'input'}
+              ouiaId="import-file-button"
+              isDisabled={selectedView !== 'input'}
               className="import-button"
               id="import-btn"
-              bsStyle="link"
+              variant="plain"
               onClick={() => this.fileDialog()}
             >
               <Icon size="md">
                 <UploadIcon />
               </Icon>
-              <FormControl
-                inputRef={ref => {
-                  this.fileInput = ref;
-                }}
+              <input
+                ref={this.fileInputRef}
                 className="hidden"
                 type="file"
                 onChange={importFile}
@@ -128,10 +129,11 @@ class EditorOptions extends React.Component {
         />
         <Tooltip content={__('Maximize')} position={TooltipPosition.top}>
           <Button
+            ouiaId="maximize-editor-button"
             className="editor-button"
             id="fullscreen-btn"
+            variant="plain"
             onClick={toggleModal}
-            bsStyle="link"
           >
             <Icon size="md">
               <ArrowsAltIcon />
