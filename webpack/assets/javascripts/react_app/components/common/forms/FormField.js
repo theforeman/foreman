@@ -1,41 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
-  Col,
-  FormGroup,
-  ControlLabel,
-  HelpBlock,
-  FieldLevelHelp,
-} from 'patternfly-react';
-import { Icon } from '@patternfly/react-core';
-import { WarningTriangleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+  Icon,
+} from '@patternfly/react-core';
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@patternfly/react-icons';
 import InputFactory from './InputFactory';
+import LabelIcon from '../LabelIcon';
 import { noop } from '../../../common/helpers';
 
 const InlineMessage = ({ error, warning, helpInline }) => {
-  if (!error && !warning && !helpInline) {
-    return null;
-  }
+  // eslint-disable-next-line no-nested-ternary
+  const variant = error ? 'error' : warning ? 'warning' : 'default';
+  const message = error || warning || helpInline;
+
+  if (!message) return null;
+
   return (
-    <HelpBlock
-      className={classNames('help-inline', {
-        'error-message': !!error,
-        'warning-message': !!warning,
-      })}
-    >
-      {error && (
-        <Icon className="error-icon">
-          <ErrorCircleOIcon />
-        </Icon>
-      )}
-      {!error && warning && (
-        <Icon className="warning-icon">
-          <WarningTriangleIcon />
-        </Icon>
-      )}
-      {error || warning || helpInline}
-    </HelpBlock>
+    <FormHelperText>
+      <HelperText>
+        <HelperTextItem
+          variant={variant}
+          icon={
+            (error || warning) && (
+              <Icon>
+                {error ? (
+                  <ExclamationCircleIcon />
+                ) : (
+                  <ExclamationTriangleIcon />
+                )}
+              </Icon>
+            )
+          }
+        >
+          {message}
+        </HelperTextItem>
+      </HelperText>
+    </FormHelperText>
   );
 };
 InlineMessage.propTypes = {
@@ -71,6 +78,14 @@ const FormField = ({
   const [innerError, setError] = useState(error);
   const [innerWarning, setWarning] = useState(null);
 
+  useEffect(() => {
+    setError(error);
+  }, [error]);
+
+  let validated;
+  if (innerWarning) validated = 'warning';
+  if (innerError) validated = 'error';
+
   const controlProps = {
     id,
     value,
@@ -81,40 +96,36 @@ const FormField = ({
     onChange,
     setError,
     setWarning,
+    validated,
     ...otherProps,
     ...inputProps,
   };
 
-  let validationState = null;
-  if (innerWarning) validationState = 'warning';
-  if (innerError) validationState = 'error';
-
   return (
-    <FormGroup
-      controlId={id}
-      disabled={disabled}
-      validationState={validationState}
+    <div
+      className={classNames('form-group', {
+        'has-error': innerError,
+        'has-warning': innerWarning && !innerError,
+      })}
     >
-      <ControlLabel className={labelSizeClass}>
+      <label
+        htmlFor={id}
+        className={classNames('control-label', labelSizeClass)}
+      >
         {label}
         {required ? '*' : null}
-        {labelHelp && (
-          <FieldLevelHelp
-            placement="right"
-            buttonClass="field-help"
-            content={<React.Fragment>{labelHelp}</React.Fragment>}
-          />
-        )}
-      </ControlLabel>
-      <Col className={inputSizeClass}>
+        {'  '}
+        {labelHelp && <LabelIcon text={labelHelp} />}
+      </label>
+      <div className={inputSizeClass}>
         {children || <InputFactory type={type} {...controlProps} />}
-      </Col>
+      </div>
       <InlineMessage
         error={innerError}
         warning={innerWarning}
         helpInline={helpInline}
       />
-    </FormGroup>
+    </div>
   );
 };
 
