@@ -33,6 +33,7 @@ module.exports = {
           'clearbutton',
           'clearfix',
           'combobox',
+          'commonjs',
           'comms',
           'Composable',
           'consts',
