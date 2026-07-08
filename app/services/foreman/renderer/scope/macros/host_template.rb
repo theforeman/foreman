@@ -166,7 +166,7 @@ module Foreman
                 #{banner}
                 if [ -x "$(command -v subscription-manager)" ] ; then subscription-manager refresh ; fi
                 export DEBIAN_FRONTEND=noninteractive
-                apt-get -y update
+                apt-get update
                 apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y install #{packages}
               CMD
             when 'Suse'
@@ -185,7 +185,7 @@ module Foreman
             returns String, desc: 'Update commands'
             example "CentOS host: update_packages #=> yum -y update"
             example "Fedora host: update_packages #=> dnf -y update"
-            example "Debian host: update_packages #=> apt-get -y update; apt-get -y upgrade"
+            example "Debian host: update_packages #=> apt-get update; apt-get -y upgrade"
           end
           def update_packages
             banner = <<~CMD
@@ -208,7 +208,7 @@ module Foreman
               <<~CMD
                 #{banner}
                 export DEBIAN_FRONTEND=noninteractive
-                apt-get -y update
+                apt-get update
                 apt-get -y upgrade
               CMD
             when 'Suse'

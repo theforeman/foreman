@@ -45,7 +45,7 @@ trap 'exit_and_cancel_build' ERR
 
 <% if plugin_present?('katello') && @host.operatingsystem.family == 'Debian' -%>
 export DEBIAN_FRONTEND=noninteractive
-apt-get -y update
+apt-get update
 <% end -%>
 
 <% if !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet')) -%>
