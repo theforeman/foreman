@@ -35,6 +35,38 @@ class AuditTest < ActiveSupport::TestCase
         end
       end
 
+      it 'does not include global failed login audits for non-admins when current taxonomy is set' do
+        audit = Audit.manual_event!(
+          :action => 'failed_login',
+          :auditable_type => 'User',
+          :auditable_name => 'missing-user',
+          :actor => nil,
+          :attribute => 'authentication',
+          :value => "Failed login attempt for username 'missing-user'"
+        )
+
+        Taxonomy.as_taxonomy(user_organization, user_location) do
+          assert_not_include Audit.taxed_and_untaxed.pluck(:id), audit.id
+        end
+      end
+
+      it 'includes global failed login audits for admins when current taxonomy is set' do
+        audit = Audit.manual_event!(
+          :action => 'failed_login',
+          :auditable_type => 'User',
+          :auditable_name => 'missing-user',
+          :actor => nil,
+          :attribute => 'authentication',
+          :value => "Failed login attempt for username 'missing-user'"
+        )
+
+        as_admin do
+          Taxonomy.as_taxonomy(user_organization, user_location) do
+            assert_include Audit.taxed_and_untaxed.pluck(:id), audit.id
+          end
+        end
+      end
+
       # Test single taxed records behaviour - location_taxables and organization_taxables
       { location: 'Organization', organization: 'Location' }.each do |scope, tested_model|
         context "#{scope}_taxables only" do

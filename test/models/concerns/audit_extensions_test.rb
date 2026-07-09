@@ -14,6 +14,74 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     assert_equal audit.username, @user.name
   end
 
+  test ".manual_event! creates an audited event with actor and target metadata" do
+    impersonation_message = "User '#{users(:admin).login}' impersonated user '#{users(:one).login}'"
+    expect_manual_event_log(
+      :action => 'impersonate',
+      :auditable_type => 'User',
+      :auditable_id => users(:one).id,
+      :attribute => 'authentication',
+      :value => impersonation_message
+    )
+
+    audit = Audit.manual_event!(
+      :action => 'impersonate',
+      :auditable_type => 'User',
+      :auditable_id => users(:one).id,
+      :auditable_name => users(:one).name,
+      :actor => users(:admin),
+      :attribute => 'authentication',
+      :value => impersonation_message,
+      :remote_address => '192.0.2.1',
+      :request_uuid => 'manual-event-request'
+    )
+
+    assert_equal 'User', audit.auditable_type
+    assert_equal users(:one).id, audit.auditable_id
+    assert_equal users(:one).name, audit.auditable_name
+    assert_equal users(:admin).id, audit.user_id
+    assert_equal users(:admin).name, audit.username
+    assert_equal '192.0.2.1', audit.remote_address
+    assert_equal 'manual-event-request', audit.request_uuid
+    assert_equal impersonation_message, audit.audited_changes['authentication']
+  end
+
+  test ".manual_event! can create an unauthenticated event" do
+    previous_user = User.current
+    User.current = users(:admin)
+    expect_manual_event_log(
+      :action => 'failed_login',
+      :auditable_type => 'User',
+      :auditable_id => nil,
+      :auditable_name => 'missing-user',
+      :attribute => 'authentication',
+      :value => "Failed login attempt for username 'missing-user'"
+    )
+
+    audit = Audit.manual_event!(
+      :action => 'failed_login',
+      :auditable_type => 'User',
+      :auditable_name => 'missing-user',
+      :actor => nil,
+      :attribute => 'authentication',
+      :value => "Failed login attempt for username 'missing-user'",
+      :remote_address => '192.0.2.2',
+      :request_uuid => 'failed-login-request'
+    )
+
+    assert_equal 'User', audit.auditable_type
+    assert_nil audit.auditable_id
+    assert_equal 'missing-user', audit.auditable_name
+    assert_nil audit.user_id
+    assert_nil audit.username
+    assert_equal '192.0.2.2', audit.remote_address
+    assert_equal 'failed-login-request', audit.request_uuid
+    assert_equal "Failed login attempt for username 'missing-user'",
+      audit.audited_changes['authentication']
+  ensure
+    User.current = previous_user
+  end
+
   test "audit's change is filtered when data is encrypted" do
     Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     setting = Foreman.settings.set_user_value('root_pass', '87654321')
@@ -296,5 +364,24 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert_equal 'Host::Base', audit.auditable_type
       assert_include Audit.main_object_names, audit.auditable_type
     end
+  end
+
+  private
+
+  def expect_manual_event_log(action:, auditable_type:, auditable_id:, attribute:, value:, auditable_name: nil)
+    Foreman::Logging.stubs(:logger).returns(stub(:debug => nil, :info => nil, :warn => nil))
+    audit_logger = mock('audit_logger')
+    audit_logger.expects(:info?).returns(true)
+    audit_target = auditable_id.nil? ? auditable_name : auditable_id
+    audit_logger.expects(:info).
+      with("#{auditable_type} (#{audit_target}) #{action} event on #{attribute} #{value}")
+    Foreman::Logging.stubs(:logger).with('audit').returns(audit_logger)
+    Foreman::Logging.expects(:with_fields).with({
+      :audit_action => action,
+      :audit_type => auditable_type,
+      :audit_id => auditable_id,
+      :audit_attribute => attribute,
+      :audit_field => value,
+    }).yields
   end
 end
