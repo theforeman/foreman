@@ -187,7 +187,8 @@
   width: 40px !important;
   font-size: 16px;
   margin-bottom: 2px;
-  padding: 2px;
+  vertical-align: middle;
+  padding: 4px;
 }
 
 #import-btn,
@@ -248,41 +249,6 @@
 
 #preview_error_toast {
   margin-bottom: 0;
-}
-
-#cog-popover {
-  .cog-popover-dropdown {
-    display: flex;
-    align-items: center;
-
-    .cog-popover-dropdown-title {
-      width: 50px;
-      margin-bottom: 5px;
-      margin-right: 10px;
-      font-weight: 600;
-    }
-
-    .dropdown {
-      margin-left: auto;
-
-      .dropdown-menu {
-        min-width: 80px;
-      }
-
-      #mode-dropdown,
-      #keybindings-dropdown,
-      #themes-dropdown {
-        width: 80px;
-        text-align: left;
-
-        .caret {
-          position: absolute;
-          right: 2px;
-          top: 7px;
-        }
-      }
-    }
-  }
 }
 
 .ace_tooltip.ace_doc-tooltip {
