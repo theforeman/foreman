@@ -84,7 +84,17 @@ class UsersController < ApplicationController
       User.impersonator = User.current
       session[:user] = user.id
       success _("You impersonated user %s, to cancel the session, click the impersonation icon in the top bar.") % user.name
-      Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}
+      Audit.manual_event!(
+        :action => 'impersonate',
+        :auditable_type => 'User',
+        :auditable_id => user.id,
+        :auditable_name => user.to_label,
+        :actor => User.current,
+        :attribute => 'authentication',
+        :value => "User '#{User.current.login}' impersonated user '#{user.login}'",
+        :remote_address => request.remote_ip,
+        :request_uuid => request.uuid
+      )
       logger.info "User #{User.current.name} impersonated #{user.name}"
       redirect_to helpers.current_hosts_path
     else
@@ -136,28 +146,44 @@ class UsersController < ApplicationController
     if bruteforce_attempt?
       inline_error _("Too many tries, please try again in a few minutes.")
       log_bruteforce
+      log_authentication_event('failed_login', nil, "Blocked login attempt from #{request.remote_ip}")
       telemetry_increment_counter(:bruteforce_locked_ui_logins)
       render :layout => 'login', :status => :unauthorized
       return
     end
 
     if request.post?
+      attempted_login = params[:login].try(:[], 'login')
       backup_session_content { reset_session }
       intercept = SSO::FormIntercept.new(self)
       if intercept.available? && intercept.authenticated?
         user = intercept.current_user
       else
-        user = User.try_to_login(params[:login]['login'], params[:login]['password'])
+        user = User.try_to_login(attempted_login, params[:login]['password'])
       end
       if user.nil?
         # failed to authenticate, and/or to generate the account on the fly
         inline_error _("Incorrect username or password")
-        logger.warn("Failed login attempt from #{request.remote_ip} with username '#{params[:login].try(:[], 'login')}'")
+        logger.warn("Failed login attempt from #{request.remote_ip} with username '#{attempted_login}'")
+        log_authentication_event(
+          'failed_login',
+          nil,
+          "Failed login attempt for username '#{attempted_login}'",
+          attempted_login,
+          :actor => nil
+        )
         count_login_failure
         telemetry_increment_counter(:failed_ui_logins)
         redirect_to login_users_path
       elsif user.disabled?
         inline_error _("User account is disabled, please contact your administrator")
+        log_authentication_event(
+          'failed_login',
+          user,
+          "Failed login attempt for disabled user '#{user.login}'",
+          nil,
+          :actor => nil
+        )
         redirect_to login_users_path
       else
         # valid user
@@ -194,7 +220,17 @@ class UsersController < ApplicationController
 
     TopbarSweeper.expire_cache
     sso_logout_path = get_sso_method.try(:logout_url)
-    logger.info("User '#{User.unscoped.find_by_id(session[:user]).try(:login) || session[:user]}' logged out")
+    user_id = session[:user]
+    logged_out_user = User.unscoped.find_by_id(user_id)
+    logged_out_user_login = logged_out_user.try(:login) || user_id
+    logger.info("User '#{logged_out_user_login}' logged out")
+    log_authentication_event(
+      'logout',
+      logged_out_user,
+      "User '#{logged_out_user_login}' logged out",
+      nil,
+      :auditable_id => user_id
+    )
     session[:user] = @user = User.current = nil
     if flash[:success] || flash[:info] || flash[:error]
       flash.keep
@@ -233,6 +269,7 @@ class UsersController < ApplicationController
 
   def login_user(user)
     logger.info("User '#{user.login}' logged in from '#{request.ip}'")
+    log_authentication_event('login', user, "User '#{user.login}' logged in")
     session[:user]         = user.id
     uri                    = session.to_hash.with_indifferent_access[:original_uri]
     session[:original_uri] = nil
@@ -241,6 +278,20 @@ class UsersController < ApplicationController
     TopbarSweeper.expire_cache
     telemetry_increment_counter(:successful_ui_logins)
     redirect_to (uri || helpers.current_hosts_path)
+  end
+
+  def log_authentication_event(action, user, message, auditable_name = nil, actor: user, auditable_id: user&.id)
+    Audit.manual_event!(
+      :action => action,
+      :auditable_type => 'User',
+      :auditable_id => auditable_id,
+      :auditable_name => auditable_name || user&.to_label,
+      :actor => actor,
+      :attribute => 'authentication',
+      :value => message,
+      :remote_address => request.remote_ip,
+      :request_uuid => request.uuid
+    )
   end
 
   def parameter_filter_context

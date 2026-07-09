@@ -417,6 +417,17 @@ class UsersControllerTest < ActionController::TestCase
     assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login on was not updated'
   end
 
+  test "#login creates audit event for successful login" do
+    assert_difference -> { authentication_audits('login').count } do
+      post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
+    end
+
+    audit = authentication_audits('login').last
+    assert_equal users(:admin).id, audit.auditable_id
+    assert_equal users(:admin).id, audit.user_id
+    assert_equal "User '#{users(:admin).login}' logged in", audit.audited_changes['authentication']
+  end
+
   test "#login resets the session ID to prevent fixation" do
     @controller.expects(:reset_session)
     post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
@@ -430,6 +441,46 @@ class UsersControllerTest < ActionController::TestCase
     assert flash[:inline][:error].present?
   end
 
+  test "#login creates audit event for failed login" do
+    assert_difference -> { authentication_audits('failed_login').count } do
+      post :login, params: { :login => {'login' => 'missing-user', 'password' => 'password'} }
+    end
+
+    audit = authentication_audits('failed_login').last
+    assert_equal 'missing-user', audit.auditable_name
+    assert_nil audit.user_id
+    assert_equal "Failed login attempt for username 'missing-user'", audit.audited_changes['authentication']
+  end
+
+  test "#login does not resolve known user for failed login audit event" do
+    login = users(:admin).login
+    User.expects(:try_to_login).with(login, 'password').returns(nil)
+    User.expects(:unscoped).never
+
+    assert_difference -> { authentication_audits('failed_login').count } do
+      post :login, params: { :login => {'login' => login, 'password' => 'password'} }
+    end
+
+    audit = authentication_audits('failed_login').last
+    assert_nil audit.auditable_id
+    assert_equal login, audit.auditable_name
+    assert_nil audit.user_id
+    assert_equal "Failed login attempt for username '#{login}'", audit.audited_changes['authentication']
+  end
+
+  test "#login creates audit event for disabled user login" do
+    users(:one).update(disabled: true)
+    User.expects(:try_to_login).with(users(:one).login, 'password').returns(users(:one))
+    assert_difference -> { authentication_audits('failed_login').count } do
+      post :login, params: { :login => {'login' => users(:one).login, 'password' => 'password'} }
+    end
+
+    audit = authentication_audits('failed_login').last
+    assert_equal users(:one).id, audit.auditable_id
+    assert_nil audit.user_id
+    assert_equal "Failed login attempt for disabled user '#{users(:one).login}'", audit.audited_changes['authentication']
+  end
+
   test "#login prevents brute-force login attempts" do
     User.expects(:try_to_login).times(30).returns(nil)
     @controller.expects(:log_bruteforce)
@@ -437,6 +488,46 @@ class UsersControllerTest < ActionController::TestCase
       post :login, params: { :login => {'login' => 'admin', 'password' => 'password'} }
     end
     assert_equal "Too many tries, please try again in a few minutes.", flash[:inline][:error]
+  end
+
+  test "#login creates audit event for blocked brute-force login" do
+    User.expects(:try_to_login).times(30).returns(nil)
+    @controller.stubs(:log_bruteforce)
+
+    30.times do
+      post :login, params: { :login => {'login' => 'admin', 'password' => 'password'} }
+    end
+
+    assert_difference -> { authentication_audits('failed_login').count } do
+      post :login, params: { :login => {'login' => 'admin', 'password' => 'password'} }
+    end
+
+    audit = authentication_audits('failed_login').last
+    assert_equal "Blocked login attempt from #{@request.remote_ip}", audit.audited_changes['authentication']
+  end
+
+  test "#logout creates audit event" do
+    assert_difference -> { authentication_audits('logout').count } do
+      post :logout, session: set_session_user(users(:admin))
+    end
+
+    audit = authentication_audits('logout').last
+    assert_equal users(:admin).id, audit.auditable_id
+    assert_equal users(:admin).id, audit.user_id
+    assert_equal "User '#{users(:admin).login}' logged out", audit.audited_changes['authentication']
+  end
+
+  test "#logout creates audit event when session user record is missing" do
+    missing_user_id = User.maximum(:id) + 1
+
+    assert_difference -> { authentication_audits('logout').count } do
+      post :logout, session: { :user => missing_user_id }
+    end
+
+    audit = authentication_audits('logout').last
+    assert_equal missing_user_id, audit.auditable_id
+    assert_nil audit.user_id
+    assert_equal "User '#{missing_user_id}' logged out", audit.audited_changes['authentication']
   end
 
   test "#login retains taxonomy session attributes in new session" do
@@ -594,9 +685,16 @@ class UsersControllerTest < ActionController::TestCase
   test "should impersonate a user" do
     session[:impersonated_by] = nil
     user = users(:one)
-    get :impersonate, params: { :id => user.id }, session: set_session_user
+    assert_difference -> { authentication_audits('impersonate').count } do
+      get :impersonate, params: { :id => user.id }, session: set_session_user
+    end
     assert_redirected_to ApplicationHelper.current_hosts_path
     assert flash.to_hash["success"]
+
+    audit = authentication_audits('impersonate').last
+    assert_equal user.id, audit.auditable_id
+    assert_equal users(:admin).id, audit.user_id
+    assert_equal "User '#{users(:admin).login}' impersonated user '#{user.login}'", audit.audited_changes['authentication']
   end
 
   test "should stop impersonating a user" do
@@ -620,5 +718,13 @@ class UsersControllerTest < ActionController::TestCase
       assert_redirected_to login_users_path
       assert flash[:inline][:error].present?
     end
+  end
+
+  private
+
+  def authentication_audits(action)
+    Audit.where(:auditable_type => 'User', :action => action).
+      where("audited_changes LIKE ?", "%authentication%").
+      order(:id)
   end
 end

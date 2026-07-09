@@ -111,8 +111,15 @@ module AuditExtensions
           or(arel_table[:auditable_type].in(untaxable.map(&:to_s))).
           or(arel_table.grouping(arel_taxed_only_by_organization)).
           or(arel_table.grouping(arel_taxed_only_by_location))
+        statement = statement.or(arel_table.grouping(arel_global_failed_login)) if User.current.admin?
 
         taxonomy_join_scope.where(statement)
+      end
+
+      def arel_global_failed_login
+        arel_table[:auditable_type].eq('User').
+          and(arel_table[:auditable_id].eq(nil)).
+          and(arel_table[:action].eq('failed_login'))
       end
 
       def arel_taxed_only_by_location
@@ -153,6 +160,25 @@ module AuditExtensions
   end
 
   module ClassMethods
+    def manual_event!(action:, auditable_type:, attribute:, value:, auditable_id: nil, auditable_name: nil,
+      actor: User.current, remote_address: nil, request_uuid: nil)
+      audit_attributes = {
+        :auditable_type => auditable_type,
+        :auditable_id => auditable_id,
+        :auditable_name => auditable_name,
+        :action => action,
+        :audited_changes => { attribute.to_s => value },
+        :remote_address => remote_address,
+        :request_uuid => request_uuid,
+      }
+
+      if actor
+        User.as(actor) { create!(audit_attributes) }
+      else
+        create_without_actor!(audit_attributes)
+      end
+    end
+
     def main_objects
       main_classes = audited_classes.reject { |cl| cl.audited_options.key?(:associated_with) }
       main_classes.concat(non_abstract_parents(main_classes))
@@ -165,6 +191,20 @@ module AuditExtensions
     def non_abstract_parents(classes_list)
       parents_list = classes_list.map(&:superclass).uniq
       parents_list.select { |cl| cl != ActiveRecord::Base && !cl.abstract_class? && cl.table_exists? }.compact
+    end
+
+    private
+
+    # Audit callbacks copy User.current into the audit row. For actor: nil we
+    # intentionally want no actor, not an anonymous admin or a previously set
+    # current user. Clear User.current only for this create and restore it after
+    # so the caller's request/thread context is unchanged.
+    def create_without_actor!(audit_attributes)
+      previous_user = User.current
+      User.current = nil
+      create!(audit_attributes)
+    ensure
+      User.current = previous_user
     end
   end
 
@@ -189,8 +229,9 @@ module AuditExtensions
         audited_fields[:audit_field] = change
         log_line = change
       end
+      audit_target = auditable_id.nil? ? auditable_name : auditable_id
       Foreman::Logging.with_fields(audited_fields) do
-        audit_logger.info "#{auditable_type} (#{auditable_id}) #{action} event on #{attribute} #{log_line}"
+        audit_logger.info "#{auditable_type} (#{audit_target}) #{action} event on #{attribute} #{log_line}"
       end
     end
     telemetry_increment_counter(:audit_records_logged, audited_changes.count, type: auditable_type)
