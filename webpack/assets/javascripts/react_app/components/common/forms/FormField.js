@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -77,8 +77,14 @@ const FormField = ({
 }) => {
   const [innerError, setError] = useState(error);
   const [innerWarning, setWarning] = useState(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      // Already set the error in the constructor, and can cause a race condition
+      isInitialMount.current = false;
+      return;
+    }
     setError(error);
   }, [error]);
 

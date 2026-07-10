@@ -1,10 +1,11 @@
 import RCInputNumber from 'rc-input-number';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './NumericInput.scss';
 
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
+import { deprecate } from '../../../common/DeprecationService';
 
 const NumericInput = ({
   label,
@@ -20,24 +21,33 @@ const NumericInput = ({
   readOnly,
   name,
   id,
-}) => (
-  <CommonForm label={label} className={className}>
-    <RCInputNumber
-      formatter={format}
-      parser={parser}
-      step={step}
-      min={minValue}
-      value={value}
-      precision={precision}
-      onChange={onChange}
-      disabled={disabled}
-      readOnly={readOnly}
-      prefixCls="foreman-numeric-input"
-      name={name}
-      id={id}
-    />
-  </CommonForm>
-);
+}) => {
+  useEffect(() => {
+    deprecate(
+      'forms/NumericInput',
+      'components/common/forms/CounterInput/CounterInput.js, or NumberInput from @patternfly/react-core',
+      '3.20'
+    );
+  }, []);
+  return (
+    <CommonForm label={label} className={className}>
+      <RCInputNumber
+        formatter={format}
+        parser={parser}
+        step={step}
+        min={minValue}
+        value={value}
+        precision={precision}
+        onChange={onChange}
+        disabled={disabled}
+        readOnly={readOnly}
+        prefixCls="foreman-numeric-input"
+        name={name}
+        id={id}
+      />
+    </CommonForm>
+  );
+};
 
 NumericInput.propTypes = {
   label: PropTypes.string,
