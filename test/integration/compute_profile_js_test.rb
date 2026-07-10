@@ -59,7 +59,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     assert click_button("Submit")
     visit compute_profile_path(selected_profile)
     assert click_link(compute_resources(:mycompute).to_s)
-    assert_equal  "2048 MB", find_field('compute_attribute_vm_attrs_memory').value
+    assert_equal  "2048", find_field('compute_attribute_vm_attrs_memory').value
     assert_equal  "1", find_field('compute_attribute_vm_attrs_cpus').value
   end
 

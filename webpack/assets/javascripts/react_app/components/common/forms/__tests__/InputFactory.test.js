@@ -83,7 +83,7 @@ describe('InputFactory', () => {
 
     it('should render MemoryAllocationInput for type="memory"', () => {
       render(<InputFactory type="memory" name="test" id="test-memory" />);
-      expect(screen.getByDisplayValue('2048 MB')).toBeInTheDocument();
+      expect(screen.getByDisplayValue('2048')).toBeInTheDocument();
     });
 
     it('should render CounterInput for type="counter"', () => {

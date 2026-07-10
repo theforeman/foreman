@@ -1,31 +1,47 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { BYTES_PER_MB } from '../constants';
 import MemoryAllocationInput from '../';
 
-
 describe('MemoryAllocationInput', () => {
-
-  it('warning alert', async () => {
-      const setWarning = jest.fn();
-      const component = mount(
-        <MemoryAllocationInput
-          value={11264*BYTES_PER_MB}
-          recommendedMaxValue={10240}
-          setWarning={setWarning}
-        />
-      );
-      expect(component.find('.foreman-numeric-input-input').prop('value')).toEqual('11264 MB');
-      expect(setWarning.mock.calls.length).toBe(1);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('error alert', async () => {
-      const setError = jest.fn();
-      const component = mount(
-        <MemoryAllocationInput value={21504*BYTES_PER_MB} maxValue={20480*BYTES_PER_MB} setError={setError} />
-      );
-      expect(component.find('.foreman-numeric-input-input').prop('value')).toEqual('21504 MB');
-      expect(setError.mock.calls.length).toBe(1);
+  it('calls setWarning when value exceeds recommendedMaxValue', async () => {
+    const setWarning = jest.fn();
+    render(
+      <MemoryAllocationInput
+        value={11264 * BYTES_PER_MB}
+        recommendedMaxValue={10240}
+        setWarning={setWarning}
+      />
+    );
+
+    const input = screen.getByRole('spinbutton');
+    expect(input).toHaveValue(11264);
+
+    await waitFor(() => {
+      expect(setWarning).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('calls setError when value exceeds maxValue', async () => {
+    const setError = jest.fn();
+    render(
+      <MemoryAllocationInput
+        value={21504 * BYTES_PER_MB}
+        maxValue={20480 * BYTES_PER_MB}
+        setError={setError}
+      />
+    );
+
+    const input = screen.getByRole('spinbutton');
+    expect(input).toHaveValue(21504);
+
+    await waitFor(() => {
+      expect(setError).toHaveBeenCalledTimes(1);
+    });
   });
 });

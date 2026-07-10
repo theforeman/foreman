@@ -55,7 +55,7 @@ describe('FormField', () => {
     );
 
     expect(
-      await screen.findByText('Specified value is higher than recommended maximum')
+      await screen.findByText(/Specified value is higher than recommended maximum 10/)
     ).toBeInTheDocument();
     expect(
       document.querySelector('.form-group.has-warning')
