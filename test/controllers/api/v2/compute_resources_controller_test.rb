@@ -272,19 +272,6 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get specific vmware storage domain - the deprecated way" do
-    storage_domain = OpenStruct.new(id: 'my11-test35-uuid99', name: 'test_vmware_datastore')
-
-    Foreman::Model::Vmware.any_instance.expects(:storage_domain).with('test_vmware_datastore').returns(storage_domain)
-
-    Foreman::Deprecation.expects(:api_deprecation_warning)
-
-    get :available_storage_domains, params: { :id => compute_resources(:vmware).to_param, :storage_domain => 'test_vmware_datastore' }
-    assert_response :success
-    available_storage_domains = ActiveSupport::JSON.decode(@response.body)
-    assert_equal storage_domain.id, available_storage_domains['results'].first.try(:[], 'id')
-  end
-
   test "should get specific vmware storage domain" do
     storage_domain = OpenStruct.new(id: 'my11-test35-uuid99', name: 'test_vmware_datastore')
 
@@ -294,19 +281,6 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_response :success
     storage_domain_response = ActiveSupport::JSON.decode(@response.body)
     assert_equal storage_domain.id, storage_domain_response.try(:[], 'id')
-  end
-
-  test "should get specific vmware storage pod - the deprecated way" do
-    storage_pod = OpenStruct.new(id: 'group-p123456', name: 'test_vmware_pod')
-
-    Foreman::Model::Vmware.any_instance.expects(:storage_pod).with('test_vmware_pod').returns(storage_pod)
-
-    Foreman::Deprecation.expects(:api_deprecation_warning)
-
-    get :available_storage_pods, params: { :id => compute_resources(:vmware).to_param, :storage_pod => 'test_vmware_pod' }
-    assert_response :success
-    available_storage_pods = ActiveSupport::JSON.decode(@response.body)
-    assert_equal storage_pod.id, available_storage_pods['results'].first.try(:[], 'id')
   end
 
   test "should get specific vmware storage pod" do
