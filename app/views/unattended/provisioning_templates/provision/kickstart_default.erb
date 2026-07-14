@@ -53,6 +53,7 @@ description: |
   - use_graphical_installer: boolean (default=false)
   - enable-remote-execution-pull: boolean (default=false)
   - additional-packages: string (default=undef)
+  - use-redhat-register-snippet: boolean (default=false)
 
   Reference links:
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
@@ -74,7 +75,7 @@ description: |
   use_ntp = host_param_true?('use-ntp')
   iface = @host.provision_interface
   appstream_present = false
-  use_rhsm = (@host.operatingsystem.name == 'RedHat' || @host.operatingsystem.name == 'RHEL') && os_major >= 9
+  use_rhsm = host_param_false?('use-redhat-register-snippet', false) && (@host.operatingsystem.name == 'RedHat' || @host.operatingsystem.name == 'RHEL') && os_major >= 9
 -%>
 # This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
 # for <%= @host %> running <%= @host.operatingsystem.name %> <%= os_major %> <%= @arch %>
