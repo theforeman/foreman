@@ -81,7 +81,11 @@ const PageLayout = ({
           variant={PageSectionVariants.light}
         >
           {customToolbar || (
-            <Toolbar ouiaId="page-toolbar" id="page-layout-toolbar">
+            <Toolbar
+              ouiaId="page-toolbar"
+              className="page-toolbar"
+              id="page-layout-toolbar"
+            >
               <ToolbarContent>
                 <ToolbarGroup
                   className="page-layout-toolbar-group-search"

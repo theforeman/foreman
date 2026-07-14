@@ -222,12 +222,19 @@ const TableIndexPage = ({
   ].filter(item => item);
 
   const customToolbar = (
-    <Toolbar ouiaId="page-toolbar" className="page-toolbar">
+    <Toolbar
+      ouiaId="page-toolbar"
+      className="page-toolbar"
+      id="page-layout-toolbar"
+    >
       <ToolbarContent>
         {searchable && (
-          <ToolbarGroup className="toolbar-group-search" variant="filter-group">
+          <ToolbarGroup
+            className="page-layout-toolbar-group-search"
+            variant="filter-group"
+          >
             {selectionToolbar}
-            <ToolbarItem className="toolbar-search">
+            <ToolbarItem id="page-layout-toolbar-search">
               <SearchBar
                 data={searchProps}
                 initialQuery=""
@@ -237,7 +244,7 @@ const TableIndexPage = ({
               />
             </ToolbarItem>
             {status === STATUS.PENDING && (
-              <ToolbarItem>
+              <ToolbarItem id="toolbar-spinner">
                 <Spinner size="sm" />
               </ToolbarItem>
             )}
