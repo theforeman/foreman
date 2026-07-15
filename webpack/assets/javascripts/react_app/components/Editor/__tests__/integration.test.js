@@ -8,6 +8,12 @@ import * as EditorActions from '../EditorActions'
 
 jest.mock('../../../redux/API');
 
+const expectTabSelected = (component, ouiaId) => {
+  expect(
+    component.find(`[data-ouia-component-id="${ouiaId}"]`).prop('aria-selected')
+  ).toBe(true);
+};
+
 describe('Editor integration test', () => {
   it('should flow', () => {
     jest
@@ -21,18 +27,14 @@ describe('Editor integration test', () => {
     );
     integrationTestHelper.takeStoreSnapshot('initial state');
 
-    const previewBtn = component.find('#preview-navitem').at(1);
+    const previewBtn = component.find('[data-ouia-component-id="preview-navitem"]');
     previewBtn.simulate('click');
+    component.update();
 
     integrationTestHelper.takeStoreAndLastActionSnapshot(
       'switched to preview view'
     );
-    expect(
-      component
-        .find('li[role="presentation"]')
-        .at(2)
-        .hasClass('active')
-    ).toBe(true);
+    expectTabSelected(component, 'preview-navitem');
 
     IntegrationTestHelper.flushAllPromises();
     component.update();

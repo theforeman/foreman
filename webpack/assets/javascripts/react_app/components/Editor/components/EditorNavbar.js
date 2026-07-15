@@ -1,10 +1,9 @@
 /* eslint-disable max-lines */
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Nav, Spinner, Alert, Button } from 'patternfly-react';
+import { Spinner, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import AutocompleteInput from '../../common/AutocompleteInput/AutocompleteInput';
-import EditorRadioButton from './EditorRadioButton';
 import EditorOptions from './EditorOptions';
 import EditorSafemodeCheckbox from './EditorSafemodeCheckbox';
 
@@ -28,7 +27,6 @@ const EditorNavbar = ({
   previewTemplate,
   isSafemodeEnabled,
   renderPath,
-  safemodeRenderPath,
   revertChanges,
   selectedHost,
   selectedView,
@@ -44,28 +42,12 @@ const EditorNavbar = ({
   toggleRenderView,
   value,
   templateKindId,
-  renderedEditorValue,
-  previewResult,
-  searchQuery,
-  onHostSelectToggle,
   onHostSearch,
-  onSearchClear,
-  isSelectOpen,
-  showError,
   fetchAndPreview,
+  safemode,
+  selectedRenderPath,
+  handleSafeModeChange,
 }) => {
-  const [safemode, setSafemode] = useState(isSafemodeEnabled);
-  const handleSafeModeChange = ({ currentTarget: { checked: newChecked } }) => {
-    setSafemode(newChecked);
-    const newRenderPath = newChecked ? safemodeRenderPath : renderPath;
-    previewTemplate({
-      host: selectedHost,
-      renderPath: newRenderPath,
-      templateKindId,
-    });
-  };
-  const selectedRenderPath = safemode ? safemodeRenderPath : renderPath;
-
   const hostOptions = useMemo(() => {
     const pool = isSearchingHosts ? filteredHosts : hosts;
     const mapped = Array.from(pool, h => ({
@@ -107,50 +89,63 @@ const EditorNavbar = ({
     }
   };
 
+  const handleTabSelect = (event, tabKey) => {
+    if (tabKey === selectedView) {
+      return;
+    }
+
+    if (tabKey === 'input') {
+      if (isRendering) toggleRenderView();
+      changeTab('input');
+      return;
+    }
+
+    if (tabKey === 'diff') {
+      changeTab('diff');
+      return;
+    }
+
+    if (tabKey === 'preview') {
+      if (!isRendering) toggleRenderView();
+      changeTab('preview');
+      if (selectedHost.id === '') {
+        fetchAndPreview(selectedRenderPath, templateKindId, !showHostSelector);
+      }
+    }
+  };
+
   return (
     <div className="navbar navbar-form navbar-full-width navbar-editor">
-      <Nav className="nav nav-tabs nav-tabs-pf nav-tabs-pf-secondary">
-        <EditorRadioButton
-          stateView={selectedView}
-          btnView="input"
-          title={__('Editor')}
-          onClick={() => {
-            if (selectedView !== 'input') {
-              if (isRendering) toggleRenderView();
-              changeTab('input');
-            }
-          }}
-        />
-        <EditorRadioButton
-          stateView={selectedView}
-          disabled={!isDiff}
-          btnView="diff"
-          title={__('Changes')}
-          onClick={() => {
-            if (selectedView !== 'diff') {
-              changeTab('diff');
-            }
-          }}
-        />
+      <div className="editor-navbar-tabs-row">
+        <Tabs
+          activeKey={selectedView}
+          onSelect={handleTabSelect}
+          ouiaId="editor-navbar-tabs"
+        >
+          <Tab
+            eventKey="input"
+            title={<TabTitleText>{__('Editor')}</TabTitleText>}
+            id="input-navitem"
+            ouiaId="input-navitem"
+          />
+          <Tab
+            eventKey="diff"
+            title={<TabTitleText>{__('Changes')}</TabTitleText>}
+            isDisabled={!isDiff}
+            id="diff-navitem"
+            ouiaId="diff-navitem"
+          />
+          {showPreview && (
+            <Tab
+              eventKey="preview"
+              title={<TabTitleText>{__('Preview')}</TabTitleText>}
+              id="preview-navitem"
+              ouiaId="preview-navitem"
+            />
+          )}
+        </Tabs>
         {showPreview && (
           <>
-            <EditorRadioButton
-              stateView={selectedView}
-              btnView="preview"
-              title={__('Preview')}
-              onClick={() => {
-                if (selectedView !== 'preview') {
-                  if (!isRendering) toggleRenderView();
-                  changeTab('preview');
-                  if (selectedHost.id === '')
-                    fetchAndPreview(
-                      selectedRenderPath,
-                      templateKindId,
-                      !showHostSelector
-                    );
-                }
-              }}
-            />
             {showHostSelector && selectedView === 'preview' && (
               <>
                 <AutocompleteInput
@@ -170,9 +165,7 @@ const EditorNavbar = ({
                   allowClear={false}
                 />
                 {isFetchingHosts && (
-                  <div id="editor-host-fetch-spinner">
-                    <Spinner size="sm" loading />
-                  </div>
+                  <Spinner size="sm" aria-label={__('Loading')} isInline />
                 )}
               </>
             )}
@@ -182,35 +175,12 @@ const EditorNavbar = ({
               disabled={isSafemodeEnabled}
               handleSafeModeChange={handleSafeModeChange}
             />
-            {selectedView === 'preview' &&
-              previewResult !== '' &&
-              renderedEditorValue !== value && (
-                <div id="outdated-preview-alert">
-                  <Alert type="warning">
-                    {__('Preview is outdated.')}
-                    <Button
-                      bsStyle="link"
-                      onClick={() =>
-                        previewTemplate({
-                          host: selectedHost,
-                          renderPath: selectedRenderPath,
-                          templateKindId,
-                        })
-                      }
-                    >
-                      {__('Preview')}
-                    </Button>
-                  </Alert>
-                </div>
-              )}
             {isLoading && (
-              <div id="preview-spinner">
-                <Spinner size="sm" loading />
-              </div>
+              <Spinner size="sm" aria-label={__('Loading')} isInline />
             )}
           </>
         )}
-      </Nav>
+      </div>
       <EditorOptions
         hosts={hosts}
         value={value}
@@ -256,7 +226,6 @@ EditorNavbar.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isRendering: PropTypes.bool.isRequired,
   isSearchingHosts: PropTypes.bool.isRequired,
-  isSelectOpen: PropTypes.bool.isRequired,
   keyBinding: PropTypes.string.isRequired,
   keyBindings: PropTypes.array.isRequired,
   autocompletion: PropTypes.bool.isRequired,
@@ -264,22 +233,18 @@ EditorNavbar.propTypes = {
   mode: PropTypes.string.isRequired,
   modes: PropTypes.array.isRequired,
   onHostSearch: PropTypes.func.isRequired,
-  onHostSelectToggle: PropTypes.func.isRequired,
-  onSearchClear: PropTypes.func.isRequired,
-  previewResult: PropTypes.string.isRequired,
   previewTemplate: PropTypes.func.isRequired,
-  renderedEditorValue: PropTypes.string.isRequired,
+  safemode: PropTypes.bool.isRequired,
+  selectedRenderPath: PropTypes.string.isRequired,
+  handleSafeModeChange: PropTypes.func.isRequired,
   isSafemodeEnabled: PropTypes.bool.isRequired,
   renderPath: PropTypes.string,
-  safemodeRenderPath: PropTypes.string,
   revertChanges: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string.isRequired,
   selectedHost: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     name: PropTypes.string,
   }).isRequired,
   selectedView: PropTypes.string.isRequired,
-  showError: PropTypes.bool.isRequired,
   showImport: PropTypes.bool.isRequired,
   showPreview: PropTypes.bool.isRequired,
   showHostSelector: PropTypes.bool,
@@ -296,7 +261,6 @@ EditorNavbar.defaultProps = {
   hosts: [],
   filteredHosts: [],
   renderPath: '',
-  safemodeRenderPath: '',
   template: '',
   showHostSelector: true,
   templateKindId: '',
