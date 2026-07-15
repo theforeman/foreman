@@ -62,22 +62,14 @@
 .navbar-editor {
   padding: 2px 2px 0 2px !important;
   margin: 10px 0 0 !important;
-  height: 40px;
+  height: 45px;
   min-height: unset !important;
 
-  .nav-tabs-pf-secondary {
+  .editor-navbar-tabs-row {
     float: left;
-    background: unset !important;
-    border-bottom: unset;
     display: flex;
-
-    a {
-      background: unset !important;
-    }
-
-    .dropdown-menu > li > a:hover {
-      background-color: #08c !important;
-    }
+    align-items: center;
+    height: 45px;
 
     #editor-select-container.autocomplete-input-wrapper {
       display: flex;
@@ -88,32 +80,15 @@
       min-width: 0;
     }
 
-    #outdated-preview-alert {
-      display: flex;
-      align-items: center;
-
-      .alert {
-        padding: 0;
-        display: flex;
-        margin: 0 5px;
-        height: 24px;
-        align-items: center;
-        border-radius: 2px;
-
-        .pficon-warning-triangle-o {
-          position: inherit;
-          font-size: 15px;
-          top: 0;
-          left: 0;
-          margin: 0 5px;
-        }
-      }
+    label.safemode-rendering-checkbox {
+      font-size: 14px;
+      font-weight: var(--pf-v5-global--link--FontWeight);
+      margin: 5px;
+      cursor: pointer;
     }
 
-    #preview-spinner {
-      align-items: center;
-      display: flex;
-      margin-left: 10px;
+    input#safemode-rendering-checkbox {
+      margin: 10px 5px 10px 0;
     }
   }
 
@@ -127,6 +102,9 @@
 
   #editor-dropdowns {
     float: right;
+    display: flex;
+    align-items: center;
+    height: 100%;
 
     #diff-toggle-buttons {
       float: left;
