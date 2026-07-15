@@ -1784,6 +1784,198 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.count, 0
   end
 
+  test "can search hosts excluding a parent hostgroup and its descendants" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+    host_without_group = FactoryBot.create(:host)
+
+    hosts = Host::Managed.search_for("parent_hostgroup != Common")
+    assert_includes hosts, host_in_other
+    assert_includes hosts, host_without_group
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "can search hosts excluding a parent hostgroup using <> operator" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+
+    hosts = Host::Managed.search_for("parent_hostgroup <> Common")
+    assert_includes hosts, host_in_other
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "search_by_hostgroup_and_descendants builds NOT IN for negated operators" do
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '<>', 'Common')
+    assert_match(/NOT IN/, result[:conditions])
+
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '=', 'Common')
+    refute_match(/NOT IN/, result[:conditions])
+  end
+
+  test "search hosts by non-existing parent hostgroup with != returns all hosts" do
+    FactoryBot.create(:host, :with_hostgroup)
+    hosts = Host::Managed.search_for("parent_hostgroup != Nosuchgroup")
+    assert_equal Host::Managed.count, hosts.count
+  end
+
+  test "can search hosts excluding a parent hostgroup and its descendants" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+    host_without_group = FactoryBot.create(:host)
+
+    hosts = Host::Managed.search_for("parent_hostgroup != Common")
+    assert_includes hosts, host_in_other
+    assert_includes hosts, host_without_group
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "can search hosts excluding a parent hostgroup using <> operator" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+
+    hosts = Host::Managed.search_for("parent_hostgroup <> Common")
+    assert_includes hosts, host_in_other
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "search_by_hostgroup_and_descendants builds NOT IN for negated operators" do
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '<>', 'Common')
+    assert_match(/NOT IN/, result[:conditions])
+
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '=', 'Common')
+    refute_match(/NOT IN/, result[:conditions])
+  end
+
+  test "search hosts by non-existing parent hostgroup with != returns all hosts" do
+    FactoryBot.create(:host, :with_hostgroup)
+    hosts = Host::Managed.search_for("parent_hostgroup != Nosuchgroup")
+    assert_equal Host::Managed.count, hosts.count
+  end
+
+  test "can search hosts excluding a parent hostgroup and its descendants" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+    host_without_group = FactoryBot.create(:host)
+
+    hosts = Host::Managed.search_for("parent_hostgroup != Common")
+    assert_includes hosts, host_in_other
+    assert_includes hosts, host_without_group
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "can search hosts excluding a parent hostgroup using <> operator" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+
+    hosts = Host::Managed.search_for("parent_hostgroup <> Common")
+    assert_includes hosts, host_in_other
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "search_by_hostgroup_and_descendants builds NOT IN for negated operators" do
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '<>', 'Common')
+    assert_match(/NOT IN/, result[:conditions])
+
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '=', 'Common')
+    refute_match(/NOT IN/, result[:conditions])
+  end
+
+  test "search hosts by non-existing parent hostgroup with != returns all hosts" do
+    FactoryBot.create(:host, :with_hostgroup)
+    hosts = Host::Managed.search_for("parent_hostgroup != Nosuchgroup")
+    assert_equal Host::Managed.count, hosts.count
+  end
+
+  test "can search hosts excluding a parent hostgroup and its descendants" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+    host_without_group = FactoryBot.create(:host)
+
+    hosts = Host::Managed.search_for("parent_hostgroup != Common")
+    assert_includes hosts, host_in_other
+    assert_includes hosts, host_without_group
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "can search hosts excluding a parent hostgroup using <> operator" do
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    host_in_child = FactoryBot.create(:host, :hostgroup => hostgroup)
+    host_in_parent = FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    host_in_other = FactoryBot.create(:host, :hostgroup => hostgroups(:unusual))
+
+    hosts = Host::Managed.search_for("parent_hostgroup <> Common")
+    assert_includes hosts, host_in_other
+    assert_not_includes hosts, host_in_child
+    assert_not_includes hosts, host_in_parent
+  end
+
+  test "search_by_hostgroup_and_descendants builds NOT IN for negated operators" do
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '<>', 'Common')
+    assert_match(/NOT IN/, result[:conditions])
+
+    result = Host::Managed.search_by_hostgroup_and_descendants('parent_hostgroup', '=', 'Common')
+    refute_match(/NOT IN/, result[:conditions])
+  end
+
+  test "search hosts by non-existing parent hostgroup with != returns all hosts" do
+    FactoryBot.create(:host, :with_hostgroup)
+    hosts = Host::Managed.search_for("parent_hostgroup != Nosuchgroup")
+    assert_equal Host::Managed.count, hosts.count
+  end
+
   test "can build a hash of all host facts" do
     host = FactoryBot.create(:host, :with_facts, :fact_count => 22)
     assert_equal host.facts.keys.length, 22
