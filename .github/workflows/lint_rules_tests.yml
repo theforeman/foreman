@@ -1,0 +1,43 @@
+name: Lint Rules Tests
+
+on:
+  pull_request:
+    paths:
+      - 'script/lint/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  setup_matrix:
+    name: Setup matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+    steps:
+      - name: Build test matrix
+        id: build_matrix
+        uses: theforeman/gha-matrix-builder@v0
+
+  test:
+    runs-on: ubuntu-latest
+    needs: setup_matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup_matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Generate package-lock
+        run: npm install --package-lock-only --no-audit
+      - name: Install dependencies
+        run: npm ci --no-audit
+      - name: Run lint rules tests
+        run: npm run test:lint-rules

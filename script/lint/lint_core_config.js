@@ -12,6 +12,7 @@ module.exports = {
         skipWords: [
           '70vh',
           '2xl',
+          '3xl',
           '45vh',
           '4xl',
           'activedescendant',
@@ -27,6 +28,7 @@ module.exports = {
           'Borderless',
           'bss',
           'btns',
+          'bullseye',
           'candlepin',
           'centos',
           'checkbox',
@@ -194,6 +196,7 @@ module.exports = {
           'unprocessable',
           'unselect',
           'unselecting',
+          'uname',
           'unstyled',
           'utf8',
           'virtualization',

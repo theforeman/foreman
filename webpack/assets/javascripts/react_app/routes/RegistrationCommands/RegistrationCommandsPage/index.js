@@ -268,6 +268,10 @@ const RegistrationCommandsPage = () => {
               id="generalSection"
               ref={generalTabRef}
             >
+              {/* The outer <Form> handles submission. This div applies PF form layout
+                  styling (label alignment, spacing) to the tab content without adding
+                  a nested <form> element, which would be invalid HTML. */}
+              {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components */}
               <div className="pf-v5-c-form">
                 <General
                   organizationId={organizationId}
@@ -318,6 +322,8 @@ const RegistrationCommandsPage = () => {
               ref={advancedTabRef}
               hidden
             >
+              {/* Same as above: PF form styling without a nested <form> element */}
+              {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components */}
               <div className="pf-v5-c-form">
                 <Advanced
                   configParams={configParams}

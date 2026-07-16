@@ -29,9 +29,7 @@ describe('FormField', () => {
     render(<FormField {...textFieldWithHelpProps} />);
 
     expect(screen.getByText('textField')).toBeInTheDocument();
-    expect(
-      document.querySelector('.pf-v5-c-form__group-label-help')
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Help' })).toBeInTheDocument();
   });
 
   it('renders server-side validation error', () => {
