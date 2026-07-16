@@ -9,6 +9,7 @@ import {
   Button,
   Form,
   FormGroup,
+  FormSection,
   InputGroup,
   TimePicker,
   TextInput,
@@ -234,7 +235,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
             )}
           </FormGroup>
           <FormGroup label={__('Expires')}>
-            <div className="pf-v5-c-form">
+            <FormSection>
               <FormGroup fieldId="token-expires-never">
                 <Radio
                   ouiaId="expires-never"
@@ -315,7 +316,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
                   }
                 />
               </FormGroup>
-            </div>
+            </FormSection>
             {expiresValidattionError && (
               <FormHelperText>
                 <HelperText>

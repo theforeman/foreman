@@ -88,7 +88,7 @@ export const InlineEdit = ({
             spacer={{ default: 'spacerNone' }}
             grow={{ default: 'grow' }}
           >
-            <div className="pf-v5-c-inline-edit__value">{value}</div>
+            <div className="inline-edit-value">{value}</div>
           </FlexItem>
           {editPermission && (
             <FlexItem spacer={{ default: 'spacerNone' }}>

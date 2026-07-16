@@ -93,5 +93,7 @@ module.exports = {
       },
     ],
     '@theforeman/rules/require-ouiaid': 'error',
+    '@theforeman/rules/prefer-pf-components': 'error',
+    '@theforeman/rules/prefer-pf-props': 'error',
   },
 };
