@@ -47,4 +47,28 @@ class UtilTest < ActiveSupport::TestCase
   test 'secure_encryption_key should match AS default key length' do
     assert_equal ActiveSupport::MessageEncryptor.key_len, secure_encryption_key.length
   end
+
+  test 'ssl_cert_store returns nil when cacert is blank' do
+    Foreman::Util.expects(:add_ca_bundle_to_store).never
+    assert_nil Foreman::Util.ssl_cert_store
+    assert_nil Foreman::Util.ssl_cert_store('')
+  end
+
+  test 'ssl_cert_store pins to cacert without system defaults when present' do
+    cacert = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    OpenSSL::X509::Store.any_instance.expects(:set_default_paths).never
+    Foreman::Util.expects(:add_ca_bundle_to_store).with(cacert, instance_of(OpenSSL::X509::Store))
+    Foreman::Util.ssl_cert_store(cacert)
+  end
+
+  test 'normalize_line_endings converts CRLF and CR line endings to LF' do
+    assert_equal "a\nb\nc\n", Foreman::Util.normalize_line_endings("a\r\nb\rc\r\n")
+    assert_nil Foreman::Util.normalize_line_endings(nil)
+    assert_equal '', Foreman::Util.normalize_line_endings('')
+  end
+
+  test 'ssl_cert_store accepts cacert with CRLF line endings' do
+    cacert = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt')).gsub("\n", "\r\n")
+    assert_instance_of OpenSSL::X509::Store, Foreman::Util.ssl_cert_store(cacert)
+  end
 end

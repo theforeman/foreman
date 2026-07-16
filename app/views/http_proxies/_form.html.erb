@@ -21,7 +21,7 @@
       <%= text_f   f, :url, :help_inline => _("URL of the proxy including schema (https://proxy.example.com:8080)") %>
       <%= text_f   f, :username, :help_inline => _("Username to use if authentication is required.") %>
       <%= password_f   f, :password, :help_inline => _("Password to use if authentication is required."), :unset => true %>
-      <%= textarea_f f, :cacert, :rows=> 5,   :help_inline => _("SSL CA Certificate to use if authentication is required.") %>
+      <%= textarea_f f, :cacert, :rows=> 5,   :help_inline => _("Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly.") %>
       <%= text_f   f, :test_url, :value => "https://aws.amazon.com", :name => "test_url", :label => _("Test URL"),
                    :help_inline => spinner_button_f(f, _('Test Connection'), "tfm.httpProxies.testConnection(this, '#{test_connection_http_proxies_path}')",
                                                      :id => 'test_connection_button',

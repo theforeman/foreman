@@ -37,6 +37,7 @@ export function testConnection(item, url) {
 
 export function changeLdapPort(item) {
   const port = $('#auth_source_ldap_port');
+  const tlsEnabled = $(item).is(':checked');
 
   if (port.length > 0) {
     const value = parseInt(port.val(), 10);
@@ -47,7 +48,7 @@ export function changeLdapPort(item) {
       defaultPorts.ldap != null &&
       defaultPorts.ldaps != null
     ) {
-      if ($(item).is(':checked')) {
+      if (tlsEnabled) {
         if (value === defaultPorts.ldap) {
           port.val(defaultPorts.ldaps);
         }
@@ -55,6 +56,12 @@ export function changeLdapPort(item) {
         port.val(defaultPorts.ldap);
       }
     }
+  }
+
+  $('#auth_source_ldap_cacert_group').toggle(tlsEnabled);
+
+  if (!tlsEnabled) {
+    $('#auth_source_ldap_cacert').val('');
   }
 }
 

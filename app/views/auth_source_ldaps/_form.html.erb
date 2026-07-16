@@ -17,7 +17,12 @@
       <%= text_f f, :name %>
       <%= text_f f, :host, :help_inline => link_to_function(_("Test Connection"), "tfm.authSource.testConnection(this, '#{test_connection_auth_source_ldaps_url}')",
                       :title => _("Test LDAP connectivity"), :id => "test_connection_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_connection_indicator').html_safe %>
-      <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'tfm.authSource.changeLdapPort(this)'}) %>
+      <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'tfm.authSource.changeLdapPort(this)',
+                      :help_inline => _("Disabling LDAPS clears any previously set CA certificate(s).")}) %>
+      <%= textarea_f f, :cacert, :rows => 5,
+                      :control_group_id => 'auth_source_ldap_cacert_group',
+                      :wrapper_class => "form-group#{' hide' unless f.object.tls?}",
+                      :help_block => _("Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly.") %>
       <%= number_f f, :port, :min => 1, :max => 65535,
                       :data => { :default_ports => AuthSourceLdap::DEFAULT_PORTS } %>
       <%= select_f f, :server_type, AuthSourceLdap::SERVER_TYPES, :first, :last,
@@ -26,7 +31,7 @@
     </div>
     <div class="tab-pane" id="account">
       <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe, :label_help => account_help_data[@auth_source_ldap.server_type], :data => { :help => account_help_data }, :autocomplete => 'new-account' %>
-      <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :unset => action_name == "edit" %>
+      <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :unset => %w[edit update].include?(action_name) %>
       <%= text_f f, :base_dn, :label => _("Base DN"), :size => "col-md-8", :label_help => base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => base_dn_help_data } %>
       <%= text_f f, :groups_base, :label => _("Groups base DN"), :size => "col-md-8", :label_help => groups_base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => groups_base_dn_help_data } %>
 

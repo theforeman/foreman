@@ -88,6 +88,28 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
     assert_empty auth_source_ldap.account_password
   end
 
+  test "#update keeps account_password field disabled when re-rendering the form after a validation failure" do
+    auth_source_ldap = FactoryBot.create(:auth_source_ldap, :service_account, :tls => true)
+    as_admin do
+      put :update, params: { :commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:name => auth_source_ldap.name, :cacert => 'not a valid cert'} }, session: set_session_user
+    end
+    assert_template 'edit'
+    assert_select "input#auth_source_ldap_account_password[disabled]"
+  end
+
+  test "#update without account_password does not erase existing account_password after a prior validation failure" do
+    auth_source_ldap = FactoryBot.create(:auth_source_ldap, :service_account, :tls => true)
+    old_pass = auth_source_ldap.account_password
+    as_admin do
+      put :update, params: { :commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:name => auth_source_ldap.name, :cacert => 'not a valid cert'} }, session: set_session_user
+      assert_template 'edit'
+
+      put :update, params: { :commit => "Update", :id => auth_source_ldap.id, :auth_source_ldap => {:name => auth_source_ldap.name, :cacert => ''} }, session: set_session_user
+    end
+    auth_source_ldap = AuthSourceLdap.unscoped.find(auth_source_ldap.id)
+    assert_equal old_pass, auth_source_ldap.account_password
+  end
+
   test "LDAP test succeeded" do
     AuthSourceLdap.any_instance.stubs(:test_connection).returns(:success => true)
     put :test_connection, params: { :id => AuthSourceLdap.unscoped.first, :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user

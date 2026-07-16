@@ -3,6 +3,10 @@ require 'test_helper'
 class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'ldap2', :host => 'ldap2', :server_type => 'posix' }
 
+  def sample_cacert
+    File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt')).chomp
+  end
+
   test "should get index" do
     get :index
     assert_response :success
@@ -18,6 +22,25 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should show auth_source_ldap with cacert" do
+    auth = auth_sources(:one)
+    auth.update!(:tls => true, :cacert => sample_cacert, :port => 636)
+    get :show, params: { :id => auth.to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal sample_cacert, show_response['cacert']
+  end
+
+  test "should include cacert in index" do
+    auth = auth_sources(:one)
+    auth.update!(:tls => true, :cacert => sample_cacert, :port => 636)
+    get :index
+    assert_response :success
+    results = ActiveSupport::JSON.decode(@response.body)['results']
+    entry = results.find { |r| r['id'] == auth.id }
+    assert_equal sample_cacert, entry['cacert']
+  end
+
   test "should create auth_source_ldap" do
     assert_difference('AuthSourceLdap.unscoped.count', 1) do
       post :create, params: { :auth_source_ldap => valid_attrs }
@@ -25,9 +48,30 @@ class Api::V2::AuthSourceLdapsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should create auth_source_ldap with cacert" do
+    attrs = valid_attrs.merge(:tls => true, :port => 636, :cacert => sample_cacert)
+    assert_difference('AuthSourceLdap.unscoped.count', 1) do
+      post :create, params: { :auth_source_ldap => attrs }
+    end
+    assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal sample_cacert, show_response['cacert']
+    assert_equal sample_cacert, AuthSourceLdap.unscoped.find(show_response['id']).cacert
+  end
+
   test "should update auth_source_ldap" do
     put :update, params: { :id => auth_sources(:one).to_param, :auth_source_ldap => valid_attrs }
     assert_response :success
+  end
+
+  test "should update auth_source_ldap cacert" do
+    auth = auth_sources(:one)
+    put :update, params: { :id => auth.to_param,
+                           :auth_source_ldap => { :tls => true, :port => 636, :cacert => sample_cacert } }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal sample_cacert, show_response['cacert']
+    assert_equal sample_cacert, auth.reload.cacert
   end
 
   test "should destroy auth_source_ldap" do

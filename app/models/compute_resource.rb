@@ -124,7 +124,11 @@ class ComputeResource < ApplicationRecord
   end
 
   def connection_options
-    http_proxy ? {:proxy => http_proxy.full_url, :ssl_cert_store => http_proxy.ssl_cert_store} : {}
+    return {} unless http_proxy
+    options = { :proxy => http_proxy.full_url }
+    store = http_proxy.ssl_cert_store
+    options[:ssl_cert_store] = store if store
+    options
   end
 
   # Override this method to specify provider name

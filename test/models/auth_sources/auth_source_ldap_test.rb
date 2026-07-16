@@ -206,6 +206,29 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     conf = FactoryBot.build_stubbed(:auth_source_ldap).to_config('user', 'pass')
     assert_kind_of Hash, conf[:encryption]
     assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
+    assert_nil conf[:encryption][:tls_options][:cert_store]
+  end
+
+  test '#to_config includes cert_store when tls and cacert are set' do
+    cacert = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    ldap = FactoryBot.build_stubbed(:auth_source_ldap, :tls => true, :cacert => cacert)
+    conf = ldap.to_config('user', 'pass')
+    assert_kind_of OpenSSL::X509::Store, conf[:encryption][:tls_options][:cert_store]
+    assert_equal OpenSSL::SSL::VERIFY_PEER, conf[:encryption][:tls_options][:verify_mode]
+  end
+
+  test 'cacert is cleared when tls is disabled' do
+    cacert = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    ldap = FactoryBot.build(:auth_source_ldap, :tls => false, :cacert => cacert)
+    assert ldap.valid?
+    assert_nil ldap.cacert
+  end
+
+  test 'disabling tls on an existing record clears its previously set cacert' do
+    cacert = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    ldap = FactoryBot.create(:auth_source_ldap, :tls => true, :cacert => cacert)
+    assert ldap.update(:tls => false)
+    assert_nil ldap.reload.cacert
   end
 
   test '#ldap_con does not cache connections with user auth' do
