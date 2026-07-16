@@ -30,6 +30,7 @@ class AuthSourceLdap < AuthSource
   include Encryptable
   encrypts :account_password
   include Taxonomix
+  include NormalizeCacert
 
   validates :host, :presence => true, :length => {:maximum => 60}
   validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :presence => true, :if => proc { |auth| auth.onthefly_register? }
@@ -38,10 +39,12 @@ class AuthSourceLdap < AuthSource
   validates :port, :presence => true, :numericality => {:only_integer => true}
   validates :server_type, :presence => true, :inclusion => { :in => SERVER_TYPES.keys.map(&:to_s) }
   validates :ldap_group_membership, :presence => true, :inclusion => { :in => :allowed_group_membership_types }, :if => proc { |auth| %w[posix netiq free_ipa].include?(auth.server_type.to_s) }
+  validates :cacert, :cacert => true
   validate :validate_ldap_filter, :unless => proc { |auth| auth.ldap_filter.blank? }
 
   before_validation :strip_ldap_attributes
   before_validation :sanitize_group_membership
+  before_validation :clear_cacert_unless_tls
   after_initialize :set_defaults, if: :new_record?
 
   scoped_search :on => :name, :complete_value => :true
@@ -101,7 +104,14 @@ class AuthSourceLdap < AuthSource
 
   def encryption_config
     return nil unless tls
-    { :method => :simple_tls, :tls_options => { :verify_mode => OpenSSL::SSL::VERIFY_PEER } }
+    tls_options = { :verify_mode => OpenSSL::SSL::VERIFY_PEER }
+    store = ssl_cert_store
+    tls_options[:cert_store] = store if store
+    { :method => :simple_tls, :tls_options => tls_options }
+  end
+
+  def ssl_cert_store
+    Foreman::Util.ssl_cert_store(cacert)
   end
 
   def ldap_con(login = nil, password = nil)
@@ -275,6 +285,10 @@ class AuthSourceLdap < AuthSource
     message = _("invalid LDAP filter syntax")
     Foreman::Logging.exception(message, e)
     errors.add(:ldap_filter, message)
+  end
+
+  def clear_cacert_unless_tls
+    self.cacert = nil unless tls?
   end
 
   def use_user_login_for_service?

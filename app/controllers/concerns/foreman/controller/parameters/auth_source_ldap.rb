@@ -13,6 +13,7 @@ module Foreman::Controller::Parameters::AuthSourceLdap
           :attr_mail,
           :attr_photo,
           :base_dn,
+          :cacert,
           :groups_base,
           :host,
           :ldap_filter,

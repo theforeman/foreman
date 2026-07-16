@@ -43,7 +43,8 @@ module Api
           param :attr_photo, String, :default_value => 'jpegPhoto'
           param :onthefly_register, :bool
           param :usergroup_sync, :bool, :desc => N_("sync external user groups on login")
-          param :tls, :bool
+          param :tls, :bool, :desc => N_("Enable LDAPS. Disabling it clears any previously set CA certificate(s).")
+          param :cacert, String, :desc => N_("PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly.")
           param :groups_base, String, :desc => N_("groups base DN")
           param :use_netgroups, :bool, :desc => N_("use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"), :deprecated => true
           param :ldap_group_membership, AuthSourceLdap::GROUP_MEMBERSHIP_TYPES.keys, :desc => N_("type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix.")

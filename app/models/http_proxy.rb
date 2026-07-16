@@ -5,6 +5,7 @@ class HttpProxy < ApplicationRecord
   include Authorizable
   include Taxonomix
   include Encryptable
+  include NormalizeCacert
 
   extend FriendlyId
   include Parameterizable::ByIdName
@@ -19,6 +20,7 @@ class HttpProxy < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
 
   validates :url, :format => { :with => /\Ahttps?:\/\// }, :presence => true
+  validates :cacert, :cacert => true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -42,23 +44,20 @@ class HttpProxy < ApplicationRecord
   end
 
   def ssl_cert_store
-    cert_store = OpenSSL::X509::Store.new
-    cert_store.set_default_paths
-    if cacert.present?
-      Foreman::Util.add_ca_bundle_to_store(cacert, cert_store)
-    end
-    cert_store
+    Foreman::Util.ssl_cert_store(cacert)
   end
 
   def test_connection(url)
-    RestClient::Request.execute(
+    options = {
       method: :head,
       url: url,
       proxy: full_url,
       timeout: 5,
       open_timeout: 5,
-      ssl_cert_store: ssl_cert_store
-    )
+    }
+    store = ssl_cert_store
+    options[:ssl_cert_store] = store if store
+    RestClient::Request.execute(options)
   rescue Excon::Error::Socket => e
     e.message
   end
