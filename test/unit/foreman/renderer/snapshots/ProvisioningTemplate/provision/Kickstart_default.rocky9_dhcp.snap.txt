@@ -310,7 +310,15 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https://host.example.com/api/controller/v2/job_templates/20/callback/
+TimeoutStartSec=360s
+# Wait until the Ansible Tower / AWX host name can be resolved before running curl.
+# Right after boot, DNS may not be usable yet (e.g. the network path is still
+# converging), which would make curl fail immediately with exit 6. curl's own retry
+# is not relied on for this: whether it retries exit 6 varies by version (curl 7.29
+# on EL7 does not, and --retry-all-errors is not available there), so we wait here
+# to handle it consistently across curl versions.
+ExecStartPre=-/usr/bin/timeout 60 /bin/sh -c 'until getent hosts host.example.com; do sleep 2; done'
+ExecStart=/usr/bin/curl -k -sS -f --connect-timeout 10 --max-time 30 --retry 7 --retry-delay 5 --data "host_config_key=" https://host.example.com/api/controller/v2/job_templates/20/callback/
 ExecStartPost=/usr/bin/systemctl disable ansible-callback
 
 [Install]
