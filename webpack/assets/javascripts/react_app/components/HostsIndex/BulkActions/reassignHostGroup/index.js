@@ -9,6 +9,7 @@ const BulkReassignHostgroupModalScene = ({ isOpen, closeModal }) => {
     fetchBulkParams,
     organizationId,
     locationId,
+    refreshTableData,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkReassignHostgroupModal
@@ -19,6 +20,7 @@ const BulkReassignHostgroupModalScene = ({ isOpen, closeModal }) => {
       locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
+      onSuccess={refreshTableData}
     />
   );
 };

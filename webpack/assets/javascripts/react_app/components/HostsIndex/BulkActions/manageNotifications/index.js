@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { ForemanActionsBarContext } from '../../../../components/HostDetails/ActionsBar';
 import BulkManageNotificationsModal from './BulkManageNotificationsModal';
 
-const BulkManageNotificationsModalScene = ({
-  isOpen,
-  closeModal,
-  onSuccess,
-}) => {
-  const { fetchBulkParams, selectedCount = 0 } = useContext(
+const BulkManageNotificationsModalScene = ({ isOpen, closeModal }) => {
+  const { fetchBulkParams, selectedCount = 0, refreshTableData } = useContext(
     ForemanActionsBarContext
   );
   return (
@@ -17,7 +13,7 @@ const BulkManageNotificationsModalScene = ({
       fetchBulkParams={fetchBulkParams}
       isOpen={isOpen}
       closeModal={closeModal}
-      onSuccess={onSuccess}
+      onSuccess={refreshTableData}
     />
   );
 };
@@ -27,9 +23,4 @@ export default BulkManageNotificationsModalScene;
 BulkManageNotificationsModalScene.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func,
-};
-
-BulkManageNotificationsModalScene.defaultProps = {
-  onSuccess: undefined,
 };
