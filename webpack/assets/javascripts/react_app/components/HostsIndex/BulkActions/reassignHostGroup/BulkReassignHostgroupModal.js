@@ -23,14 +23,8 @@ import {
   fetchHostgroups,
   HOSTGROUP_KEY,
 } from './actions';
-import { foremanUrl } from '../../../../common/helpers';
-import { APIActions } from '../../../../redux/API';
 import HostGroupSelect from './HostGroupSelect';
 import SkeletonLoader from '../../../common/SkeletonLoader';
-import {
-  HOSTS_API_PATH,
-  API_REQUEST_KEY,
-} from '../../../../routes/Hosts/constants';
 import './BulkReassignHostgroupModal.scss';
 
 // Helper function to format hostgroup title for display
@@ -79,6 +73,7 @@ const BulkReassignHostgroupModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  onSuccess: onSuccessCallback,
 }) => {
   const dispatch = useDispatch();
   const [hostgroupId, setHostgroupId] = useState('');
@@ -144,12 +139,7 @@ const BulkReassignHostgroupModal = ({
         message: response.data.message,
       })
     );
-    dispatch(
-      APIActions.get({
-        key: API_REQUEST_KEY,
-        url: foremanUrl(HOSTS_API_PATH),
-      })
-    );
+    if (onSuccessCallback) onSuccessCallback();
     handleModalClose();
   };
   const handleSave = () => {
@@ -289,6 +279,7 @@ BulkReassignHostgroupModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  onSuccess: PropTypes.func,
 };
 
 BulkReassignHostgroupModal.defaultProps = {
@@ -296,6 +287,7 @@ BulkReassignHostgroupModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  onSuccess: undefined,
 };
 
 export default BulkReassignHostgroupModal;

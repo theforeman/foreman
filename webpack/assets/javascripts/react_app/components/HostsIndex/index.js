@@ -231,7 +231,7 @@ const HostsIndex = () => {
   const refreshTableData = () =>
     setAPIOptions({
       ...apiOptions,
-      params: { search: urlSearchQuery },
+      params: { ...params, search: urlSearchQuery, page: 1 },
     });
   const deleteHostHandler = ({ hostName, computeId }) =>
     dispatch(
@@ -597,6 +597,7 @@ const HostsIndex = () => {
             fetchBulkParams,
             organizationId: currentOrganization?.id,
             locationId: currentLocation?.id,
+            refreshTableData,
           }}
         >
           <BulkAssignOrganizationModal
@@ -638,13 +639,6 @@ const HostsIndex = () => {
             key="bulk-manage-notifications-modal"
             isOpen={notificationsModalOpen}
             closeModal={() => setNotificationsModalOpen(false)}
-            // Re-fetch hosts with the current search so the table stays in sync
-            onSuccess={() =>
-              setAPIOptions({
-                ...apiOptions,
-                params: { search: urlSearchQuery },
-              })
-            }
           />
           <Slot id="_all-hosts-modals" multi />
         </ForemanActionsBarContext.Provider>

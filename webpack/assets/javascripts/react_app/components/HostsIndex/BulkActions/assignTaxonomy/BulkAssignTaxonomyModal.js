@@ -31,12 +31,6 @@ import {
   LOCATION_KEY,
   MODAL_TYPES,
 } from './BulkAssignTaxonomyConstants';
-import { foremanUrl } from '../../../../common/helpers';
-import { APIActions } from '../../../../redux/API';
-import {
-  HOSTS_API_PATH,
-  API_REQUEST_KEY,
-} from '../../../../routes/Hosts/constants';
 import TaxonomySelect from './TaxonomySelect';
 import { buildBulkRequestBody } from '../helpers';
 
@@ -56,6 +50,7 @@ const BulkAssignTaxonomyModal = ({
   organizationId,
   locationId,
   modalType,
+  onSuccess: onSuccessCallback,
 }) => {
   const org = modalType === MODAL_TYPES.ORGANIZATION;
   const taxType = org ? 'organization' : 'location';
@@ -129,12 +124,7 @@ const BulkAssignTaxonomyModal = ({
         message: response.data.message,
       })
     );
-    dispatch(
-      APIActions.get({
-        key: API_REQUEST_KEY,
-        url: foremanUrl(HOSTS_API_PATH),
-      })
-    );
+    if (onSuccessCallback) onSuccessCallback();
     handleModalClose();
   };
 
@@ -249,6 +239,7 @@ BulkAssignTaxonomyModal.propTypes = {
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
   modalType: PropTypes.string.isRequired,
+  onSuccess: PropTypes.func,
 };
 
 BulkAssignTaxonomyModal.defaultProps = {
@@ -256,4 +247,5 @@ BulkAssignTaxonomyModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  onSuccess: undefined,
 };

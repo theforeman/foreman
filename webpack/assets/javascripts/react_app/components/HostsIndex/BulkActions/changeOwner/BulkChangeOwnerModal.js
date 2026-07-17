@@ -23,17 +23,11 @@ import {
   USER_KEY,
   USERGROUP_KEY,
 } from './actions';
-import { foremanUrl } from '../../../../common/helpers';
-import { APIActions } from '../../../../redux/API';
 import { STATUS } from '../../../../constants';
 import {
   selectAPIStatus,
   selectAPIResponse,
 } from '../../../../redux/API/APISelectors';
-import {
-  HOSTS_API_PATH,
-  API_REQUEST_KEY,
-} from '../../../../routes/Hosts/constants';
 import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 
 const BulkChangeOwnerModal = ({
@@ -44,6 +38,7 @@ const BulkChangeOwnerModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  onSuccess: onSuccessCallback,
 }) => {
   const dispatch = useDispatch();
   const [ownerId, setOwnerId] = useState('');
@@ -123,12 +118,7 @@ const BulkChangeOwnerModal = ({
         message: response.data.message,
       })
     );
-    dispatch(
-      APIActions.get({
-        key: API_REQUEST_KEY,
-        url: foremanUrl(HOSTS_API_PATH),
-      })
-    );
+    if (onSuccessCallback) onSuccessCallback();
     handleModalClose();
   };
 
@@ -254,6 +244,7 @@ BulkChangeOwnerModal.propTypes = {
   selectAllHostsMode: PropTypes.bool.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  onSuccess: PropTypes.func,
 };
 
 BulkChangeOwnerModal.defaultProps = {
@@ -261,6 +252,7 @@ BulkChangeOwnerModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  onSuccess: undefined,
 };
 
 export default BulkChangeOwnerModal;

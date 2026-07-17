@@ -10,14 +10,8 @@ import {
   TreeView,
 } from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
-import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
 import { BULK_DISASSOCIATE_KEY, bulkDisassociate } from './actions';
-import { APIActions } from '../../../../redux/API';
-import {
-  HOSTS_API_PATH,
-  API_REQUEST_KEY,
-} from '../../../../routes/Hosts/constants';
 import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 
 const BulkDisassociateModal = ({
@@ -29,6 +23,7 @@ const BulkDisassociateModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  onSuccess: onSuccessCallback,
 }) => {
   const dispatch = useDispatch();
   const hostsWithComputeResource = selectedResults?.filter(
@@ -80,12 +75,7 @@ const BulkDisassociateModal = ({
         message: response.data.message,
       })
     );
-    dispatch(
-      APIActions.get({
-        key: API_REQUEST_KEY,
-        url: foremanUrl(HOSTS_API_PATH),
-      })
-    );
+    if (onSuccessCallback) onSuccessCallback();
     closeModal();
   };
 
@@ -193,6 +183,7 @@ BulkDisassociateModal.propTypes = {
   selectAllHostsMode: PropTypes.bool.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  onSuccess: PropTypes.func,
 };
 
 BulkDisassociateModal.defaultProps = {
@@ -201,6 +192,7 @@ BulkDisassociateModal.defaultProps = {
   selectedResults: [],
   organizationId: undefined,
   locationId: undefined,
+  onSuccess: undefined,
 };
 
 export default BulkDisassociateModal;

@@ -21,12 +21,6 @@ import { POWER_STATES, BULK_POWER_STATE_KEY } from './constants';
 import { bulkChangePowerState } from './actions';
 import { buildBulkRequestBody, failedHostsToastParams } from '../helpers';
 import { addToast } from '../../../ToastsList/slice';
-import {
-  HOSTS_API_PATH,
-  API_REQUEST_KEY,
-} from '../../../../routes/Hosts/constants';
-import { foremanUrl } from '../../../../common/helpers';
-import { APIActions } from '../../../../redux/API';
 
 const BulkPowerStateModal = ({
   selectedHostsCount,
@@ -35,6 +29,7 @@ const BulkPowerStateModal = ({
   locationId,
   isOpen,
   closeModal,
+  onSuccess: onSuccessCallback,
 }) => {
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [selectedPowerState, setSelectedPowerState] = useState('');
@@ -60,13 +55,7 @@ const BulkPowerStateModal = ({
         message: response.data.message,
       })
     );
-    dispatch(
-      APIActions.get({
-        key: API_REQUEST_KEY,
-        url: foremanUrl(HOSTS_API_PATH),
-      })
-    );
-
+    if (onSuccessCallback) onSuccessCallback();
     cleanup();
   };
 
@@ -212,6 +201,7 @@ BulkPowerStateModal.propTypes = {
   locationId: PropTypes.number,
   isOpen: PropTypes.bool,
   closeModal: PropTypes.func,
+  onSuccess: PropTypes.func,
 };
 
 BulkPowerStateModal.defaultProps = {
@@ -220,6 +210,7 @@ BulkPowerStateModal.defaultProps = {
   locationId: undefined,
   isOpen: false,
   closeModal: () => {},
+  onSuccess: undefined,
 };
 
 export default BulkPowerStateModal;
