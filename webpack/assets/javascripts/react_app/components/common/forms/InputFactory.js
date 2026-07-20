@@ -6,7 +6,7 @@ import { noop } from '../../../common/helpers';
 import SearchBar from '../../SearchBar';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
-import OrderableSelect from './OrderableSelect';
+import OrderableDualList from './OrderableDualList/OrderableDualList';
 import MemoryAllocationInput from '../../MemoryAllocationInput';
 import CounterInput from './CounterInput';
 import TimePicker from '../DateTimePicker/TimePicker';
@@ -17,7 +17,7 @@ const inputComponents = {
   select: Select,
   date: DatePicker,
   dateTime: DateTimePicker,
-  orderableSelect: OrderableSelect,
+  orderableSelect: OrderableDualList,
   time: TimePicker,
   memory: MemoryAllocationInput,
   counter: CounterInput,
@@ -84,6 +84,7 @@ InputFactory.propTypes = {
     PropTypes.string,
     PropTypes.number,
     PropTypes.bool,
+    PropTypes.array,
     PropTypes.instanceOf(Date),
   ]),
   name: PropTypes.string,
