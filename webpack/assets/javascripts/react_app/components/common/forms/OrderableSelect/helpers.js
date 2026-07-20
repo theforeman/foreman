@@ -3,6 +3,14 @@ import { DragSource, DropTarget } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { set } from 'lodash';
 
+import { deprecate } from '../../../../common/DeprecationService';
+
+deprecate(
+  'forms/OrderableSelect/helpers',
+  'OrderableDualListSelector from foremanReact/components/common/OrderableDualListSelector/OrderableDualListSelector',
+  '5.1'
+);
+
 export const orderDragged = (inputArray, dragIndex, hoverIndex) => {
   const dragedValue = inputArray[dragIndex];
   const ordered = [...inputArray];
