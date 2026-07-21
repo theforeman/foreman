@@ -94,6 +94,84 @@ class UserdataControllerTest < ActionController::TestCase
     end
   end
 
+  context '#vendor-data' do
+    let(:organization) { FactoryBot.create(:organization) }
+    let(:tax_location) { FactoryBot.create(:location) }
+    let(:vendor_data_content) { 'template content vendor_data' }
+    let(:vendor_data_template_kind) do
+      TemplateKind.where(name: 'vendor_data').first || FactoryBot.create(:template_kind, name: 'vendor_data')
+    end
+    let(:vendor_data_template) do
+      FactoryBot.create(
+        :provisioning_template,
+        template_kind: vendor_data_template_kind,
+        template: vendor_data_content,
+        locations: [tax_location],
+        organizations: [organization]
+      )
+    end
+    let(:os) do
+      FactoryBot.create(
+        :operatingsystem,
+        :with_associations,
+        family: 'Redhat',
+        provisioning_templates: [vendor_data_template]
+      )
+    end
+    let(:host) do
+      FactoryBot.create(
+        :host,
+        :managed,
+        operatingsystem: os,
+        organization: organization,
+        location: tax_location
+      )
+    end
+
+    setup do
+      FactoryBot.create(
+        :os_default_template,
+        template_kind: vendor_data_template_kind,
+        provisioning_template: vendor_data_template,
+        operatingsystem: os
+      )
+      @request.remote_ip = host.ip
+    end
+
+    test 'should get rendered vendor-data template' do
+      get :vendordata
+      assert_response :success
+      assert_equal vendor_data_content, @response.body
+    end
+
+    test 'should return an empty response when vendor-data template is not assigned' do
+      host.operatingsystem.os_default_templates.where(template_kind: vendor_data_template_kind).delete_all
+
+      get :vendordata
+      assert_response :success
+      assert_empty @response.body
+    end
+
+    test 'should return 404 for unknown ip address' do
+      @request.remote_ip = '198.51.100.1'
+      get :vendordata
+      assert_response :not_found
+      assert_includes @response.body, 'Could not find host for request 198.51.100.1'
+    end
+
+    test 'should get rendered vendor-data template when looking up host by mac' do
+      @request.remote_ip = '198.51.100.1'
+      get :vendordata, params: { mac: host.mac }
+      assert_response :success
+      assert_equal vendor_data_content, @response.body
+    end
+
+    test 'vendor-data route should route to vendordata action' do
+      assert_routing '/userdata/vendor-data', controller: 'userdata', action: 'vendordata', format: 'text'
+      assert_routing "/userdata/#{host.mac}/vendor-data", controller: 'userdata', action: 'vendordata', mac: host.mac, format: 'text'
+    end
+  end
+
   context '#metadata' do
     let(:host) { FactoryBot.create(:host, :managed) }
     setup do
