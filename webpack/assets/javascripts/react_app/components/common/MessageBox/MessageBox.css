@@ -1,19 +1,14 @@
 
   .message-box-root {
-    -ms-flex: 1 1;
     flex: 1 1;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -ms-flex-align: center;
     align-items: center;
-    -ms-flex-pack: center;
     justify-content: center;
   }
 
   .message-box-content {
-    -ms-flex: 0 0 30px;
+    flex: 0 0 30px;
     flex-basis: 30px;
     text-align: center;
   }

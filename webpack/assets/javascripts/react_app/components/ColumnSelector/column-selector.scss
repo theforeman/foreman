@@ -1,15 +1,7 @@
-.pf-v5-c-input-group {
+#column-selector {
   .columns-selector {
-    padding-left: 0px;
-
-    .pf-v5-c-button__icon.pf-m-start {
-      padding-right: 4px;
-    }
+    padding-left: 0;
   }
-}
-
-.pf-v5-c-tree-view {
-  padding-top: 0px
 }
 
 #btn-select-columns {
@@ -20,6 +12,6 @@
   }
 }
 
-div [data-ouia-component-id="manage-columns-modal"].pf-v5-c-modal-box {                                                                                                                                        
-  max-height: calc(100% - 128px);                                                                                                                                                          
+[data-ouia-component-id="manage-columns-modal"] {
+  max-height: calc(100% - 128px);
 }

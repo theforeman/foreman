@@ -53,7 +53,7 @@ PF5 brings its own layout and tokens; old PF3-scoped or component CSS often beco
 
 * *Audit styles* tied to the old component (same directory, imported SCSS/CSS, or global rules keyed on old class names). Open the screen in the app and confirm whether each rule still affects the PF5 markup.
 * *Delete* rules that no longer match any DOM, duplicate what PF5 already provides, or only existed to patch PF3 quirks that are gone.
-* *Update* rules that still apply (e.g. plugin-specific layout, integration with non-PF surfaces, or genuinely custom visuals). Prefer *specific selectors* so you do not bleed into core or other plugins.
+* *Update* rules that still apply (e.g. plugin-specific layout, integration with non-PF surfaces, or genuinely custom visuals). Prefer *specific selectors* so you do not bleed into core or other plugins. Run `npm run stylelint` to lint your CSS/SCSS.
 * Only delete CSS if it is component specific and declared in a global file.
 
 ## 9. Prefer local React state over Redux when it fits

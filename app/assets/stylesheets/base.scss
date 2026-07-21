@@ -1,3 +1,6 @@
+// stylelint-disable foreman/no-bare-element-selectors
+// stylelint-disable foreman/no-root-pf-overrides
+
 html {
   height: 100%;
   width: 100%;
@@ -17,12 +20,14 @@ html {
     var(--header-height) + var(--banner-height)
   );
   height: calc(100% - var(--header-height) - var(--banner-height));
+
   .rails-table-toolbar {
     padding-bottom: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
   &.pf-v5-c-page {
     display: block;
     grid-template-columns: unset;
@@ -40,6 +45,7 @@ body {
 #react-app-root {
   height: 100%;
   width: 100%;
+
   .pf-v5-c-page {
     // pf grid rule stops at @media (min-width: 1200px)
     display: grid;
@@ -597,11 +603,10 @@ table {
   overflow-wrap: normal;
   padding: 4px;
   white-space: pre;
-  word-wrap: normal;
 }
 
 .masked-input {
-  font-family: 'AllBullets';
+  font-family: 'AllBullets', sans-serif;
 }
 
 .btn-spinner {
@@ -672,6 +677,7 @@ span.btn a.disabled {
   td.pf-v5-c-table__td {
     padding-top: 2px;
     padding-bottom: 2px;
+
     > button {
       padding:0;
     }
@@ -679,8 +685,8 @@ span.btn a.disabled {
 }
 
 .user-banner-present {
+  // banner height is line height and a small padding
   --banner-height: calc(
-    2 * var(--pf-v5-global--spacer--xs) +
-      (var(--pf-v5-global--LineHeight--md) * var(--pf-v5-global--FontSize--sm))
-  ); // banner height is line height and a small padding
+    2 * var(--pf-v5-global--spacer--xs) + (var(--pf-v5-global--LineHeight--md) * var(--pf-v5-global--FontSize--sm))
+  );
 }

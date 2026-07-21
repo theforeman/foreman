@@ -1,3 +1,6 @@
+// stylelint-disable foreman/no-bare-element-selectors
+// stylelint-disable foreman/no-root-pf-overrides
+
 /*
   This file exists to make pf3 compatible with pf4.
   When migrating from pf3 to pf4, some styles might be removable.
@@ -56,6 +59,7 @@ a {
 
 .pf-v5-c-alert {
   line-height: var(--pf-v5-global--LineHeight--md);
+
   h4 {
     margin: 0;
     line-height: var(--pf-v5-global--LineHeight--md);

@@ -1,3 +1,6 @@
+// stylelint-disable foreman/no-bare-element-selectors
+// stylelint-disable foreman/no-root-pf-overrides
+
 .control-label {
   text-align: left;
   padding-left: 0;
@@ -149,15 +152,6 @@ a {
   z-index: 2000;
 }
 
-@-moz-document url-prefix() {
-  /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
-  *,
-  *::before,
-  *::after {
-    background-clip: padding-box;
-  }
-}
-
 .smart-var-left {
   max-height: 500px;
   direction: rtl;
@@ -194,7 +188,7 @@ a {
 }
 
 .tooltip {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .has-error {
@@ -350,7 +344,7 @@ span.btn-action.btn-primary a {
   ul, ol {
     margin-top: 0px;
     margin-bottom: 10px;
-  }*/
+  } */
   margin-bottom: 0;
 }
 

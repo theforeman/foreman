@@ -37,6 +37,7 @@ export const ActionButtons = ({ buttons }) => {
   return (
     <Dropdown
       ouiaId="action-buttons-dropdown"
+      className="action-buttons-dropdown"
       isOpen={isOpen}
       onOpenChange={nextOpen => setIsOpen(nextOpen)}
       toggle={toggleRef => (

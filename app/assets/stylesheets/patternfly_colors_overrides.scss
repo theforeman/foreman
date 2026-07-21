@@ -4,16 +4,21 @@
   .pf-v5-c-page__sidebar {
     --pf-v5-c-page__sidebar--Width: 250px;
     --pf-v5-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+
     #navigation-search .pf-v5-c-text-input-group {
       background-color: var(--pf-v5-global--palette--white);
+
       .pf-v5-c-text-input-group__icon{
         color: var(--pf-v5-global--palette--black-500);
       }
+
       .pf-v5-c-text-input-group__text-input {
         color: var(--pf-v5-global--palette--black-1000);
+
         &::placeholder {
           color: var(--pf-v5-global--palette--black-500);
         }
+
         ::placeholder {
           color: var(--pf-v5-global--palette--black-500);
         }
@@ -35,10 +40,12 @@
   .pf-v5-c-nav__subnav {
     --pf-v5-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
   }
+
   .pf-v5-c-nav__item {
     --pf-v5-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
   }
+
   .pf-v5-c-notification-badge {
-    --pf-v5-c-notification-badge--m-read--m-expanded--after--BackgroundColor: var(--pf-v5-global--palette--blue-500)
+    --pf-v5-c-notification-badge--m-read--m-expanded--after--BackgroundColor: var(--pf-v5-global--palette--blue-500);
   }
 }

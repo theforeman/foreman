@@ -1,9 +1,6 @@
-.pf-gray-background {
-  background: var(--pf-v5-global--BackgroundColor--200);
-}
-
-.pf-v5-c-page__main-section.pf-m-light.host-details-tabs-section {
+.host-details-tabs-section {
   padding-left: 24px;
+
   .tab-width-138 {
     max-width: calc(
       100vw - 138px
@@ -13,6 +10,7 @@
       max-width: calc(100vw - 64px);
     }
   }
+
   .tab-width-263 {
     max-width: calc(
       100vw - 263px
@@ -48,6 +46,7 @@
       height: 100%;
     }
   }
+
   .inline-edit-input-flex-item {
     display: contents;
   }

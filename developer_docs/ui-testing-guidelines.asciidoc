@@ -29,6 +29,17 @@ npm run lint:plugins <plugin-name>
 ```
 plugin name is optional, if not provided, all plugins will be linted.
 
+=== Running Stylelint (CSS/SCSS)
+To lint CSS/SCSS files:
+```bash
+npm run stylelint
+```
+To run Stylelint for plugins:
+```bash
+npm run stylelint:plugins <plugin-name>
+```
+plugin name is optional, if not provided, all plugins will be checked.
+
 == Writing tests
 Capybara integration tests are more thorough -- they run against a real browser with real data from FactoryBot, catching issues that unit tests miss (routing, API integration, component interactions). Use your best judgement, but here are some guidelines:
 

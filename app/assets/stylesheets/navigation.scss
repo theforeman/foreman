@@ -4,6 +4,7 @@
   .nav a {
     font-size: 13px;
   }
+
   .active > a,
   .open > a {
     background: linear-gradient(
@@ -18,8 +19,9 @@
   }
 }
 
-.pf-v5-c-masthead {
+#foreman-page .pf-v5-c-masthead  {
   background: var(--pf-v5-c-masthead--BackgroundColor) image-url('navbar.png');
+
   .user-icon {
     margin-right: 10px;
   }

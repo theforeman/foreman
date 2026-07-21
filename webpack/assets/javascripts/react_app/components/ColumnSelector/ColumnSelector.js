@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import {
   Button,
   InputGroup,
+  InputGroupItem,
   Modal,
   ModalVariant,
   TreeView,
@@ -150,8 +151,8 @@ const ColumnSelector = props => {
   };
 
   return (
-    <div id="column-selector">
-      <InputGroup>
+    <InputGroup id="column-selector">
+      <InputGroupItem>
         <Button
           ouiaId="manage-columns-button"
           id="btn-select-columns"
@@ -200,8 +201,8 @@ const ColumnSelector = props => {
         >
           <TreeView data={selectedColumns} onCheck={onCheck} hasCheckboxes />
         </Modal>
-      </InputGroup>
-    </div>
+      </InputGroupItem>
+    </InputGroup>
   );
 };
 

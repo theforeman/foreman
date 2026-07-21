@@ -1,19 +1,22 @@
 @import '../../../../common/variables';
 
-.pf-v5-c-masthead .pf-v5-c-toolbar {
+#foreman-page .pf-v5-c-masthead .pf-v5-c-toolbar {
   .pf-v5-c-context-selector__menu-search {
     border-bottom: 0;
   }
+
   .current-taxonomy-v {
     margin-right: 2px;
   }
+
   .organizations_clear,
   .locations_clear {
     border-bottom: var(--pf-v5-c-context-selector__menu-search--BorderBottomWidth)
       solid var(--pf-v5-c-context-selector__menu-search--BorderBottomColor);
   }
+
   .pf-v5-c-context-selector__menu-footer > a{
-    // to override secondry button text color being white if the button is in a menu
+    // to override secondary button text color being white if the button is in a menu
     color: $pf-v5-color-blue-400
   }
 }
