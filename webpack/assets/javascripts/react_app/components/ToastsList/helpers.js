@@ -20,7 +20,7 @@ export const toastType = type => {
   return fallbackTypes[type] || AlertVariant.custom;
 };
 
-const MAX_TOAST_TITLE_LENGTH = 60;
+export const MAX_TOAST_TITLE_LENGTH = 60;
 
 export const toastTitle = (message, type) => {
   if (message.length <= MAX_TOAST_TITLE_LENGTH) return message;
