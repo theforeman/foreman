@@ -95,3 +95,9 @@ You can make sure Webpack knows about your plugin by executing script `plugin_we
 ## How to extend core functionaly
 
 You can use https://github.com/theforeman/foreman/blob/develop/developer_docs/slot-and-fill.asciidoc[Slot&Fill] to extend react components from core.
+
+## Testing for regressions in core
+
+To ensure plugins don't break core functionality, you can run `rake test:core_tests` which will execute a small set of tests from Foreman core.
+
+This is executed automatically by the shared GitHub workflow in [@theforeman/actions](https://github.com/theforeman/actions).
