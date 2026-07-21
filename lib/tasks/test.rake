@@ -24,4 +24,12 @@ namespace :test do
     t.verbose = true
     t.warning = false
   end
+
+  desc "Core tests for plugins"
+  Rake::TestTask.new(:core_tests) do |t|
+    t.libs << "test"
+    t.pattern = ['test/unit/foreman/access_permissions_test.rb']
+    t.verbose = true
+    t.warning = false
+  end
 end
