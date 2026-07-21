@@ -107,6 +107,7 @@ module.exports = {
 
       pfClasses.forEach(pfClass => {
         if (reported.has(pfClass)) return;
+
         reported.add(pfClass);
 
         const component = findMatchingComponent(pfClass);

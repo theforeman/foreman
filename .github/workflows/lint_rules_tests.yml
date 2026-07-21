@@ -3,7 +3,7 @@ name: Lint Rules Tests
 on:
   pull_request:
     paths:
-      - 'script/lint/**'
+      - 'script/lint/@theforeman/**'
 
 permissions:
   contents: read

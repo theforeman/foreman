@@ -14,7 +14,7 @@
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
     "postlint": "./script/npm_lint_plugins.js",
     "test": "npx jest --setupFilesAfterEnv ./global_test_setup.js ./core_test_setup.js --testPathIgnorePatterns '/node_modules/' '<rootDir>/.+fixtures.+' --config ./webpack/jest.config.js",
-    "test:lint-rules": "npx jest --testPathPattern 'script/lint/'",
+    "test:lint-rules": "npx jest --testPathPattern 'script/lint/@theforeman'",
     "test:watch": "tfm-test --watchAll",
     "test:current": "tfm-test --watch",
     "test:plugins": "./script/npm_test_plugin.js",
