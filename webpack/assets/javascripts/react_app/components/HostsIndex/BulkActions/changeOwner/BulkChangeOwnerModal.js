@@ -44,6 +44,7 @@ const BulkChangeOwnerModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
 }) => {
   const dispatch = useDispatch();
   const [ownerId, setOwnerId] = useState('');
@@ -137,6 +138,7 @@ const BulkChangeOwnerModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       owner_id: ownerId,
     });
 
@@ -254,6 +256,7 @@ BulkChangeOwnerModal.propTypes = {
   selectAllHostsMode: PropTypes.bool.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  bulkScopeHash: PropTypes.string,
 };
 
 BulkChangeOwnerModal.defaultProps = {
@@ -261,6 +264,7 @@ BulkChangeOwnerModal.defaultProps = {
   closeModal: () => {},
   organizationId: undefined,
   locationId: undefined,
+  bulkScopeHash: undefined,
 };
 
 export default BulkChangeOwnerModal;

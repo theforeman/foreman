@@ -11,14 +11,17 @@ export const bulkDeleteHosts = ({
   bulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
   selectedCount,
   destroyVmOnHostDelete,
   onDeleteSuccess,
 }) => dispatch => {
   const successToast = () => sprintf(__('%s hosts deleted'), selectedCount);
-  const errorToast = ({ message }) => message;
+  const errorToast = ({ response, message }) =>
+    response?.data?.error?.message || message;
   const queryParams = new URLSearchParams({
     search: bulkParams,
+    ...(bulkScopeHash ? { scope_hash: bulkScopeHash } : {}),
     ...bulkActionTaxonomyParams({ organizationId, locationId }),
   });
   const url = foremanUrl(`/api/v2/hosts/bulk?${queryParams.toString()}`);

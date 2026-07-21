@@ -13,6 +13,7 @@ export const BulkAssignOrganizationModalScene = ({ isOpen, closeModal }) => {
     fetchBulkParams,
     organizationId,
     locationId,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkAssignOrganizationModal
@@ -22,6 +23,7 @@ export const BulkAssignOrganizationModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
     />
@@ -35,6 +37,7 @@ export const BulkAssignLocationModalScene = ({ isOpen, closeModal }) => {
     fetchBulkParams,
     organizationId,
     locationId,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkAssignLocationModal
@@ -44,6 +47,7 @@ export const BulkAssignLocationModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
     />

@@ -11,6 +11,7 @@ const BulkChangeOwnerModalScene = ({ isOpen, closeModal }) => {
     fetchBulkParams,
     organizationId,
     locationId,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkChangeOwnerModal
@@ -21,6 +22,7 @@ const BulkChangeOwnerModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
     />

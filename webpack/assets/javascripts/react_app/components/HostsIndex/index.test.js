@@ -6,6 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import '@testing-library/jest-dom';
 import HostsIndex, { getScheduleJobSearch } from './index';
+import { useAPI } from '../../common/hooks/API/APIHooks';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -89,6 +90,12 @@ jest.mock('../../Root/Context/ForemanContext', () => ({
   useForemanLocation: jest.fn(() => undefined),
 }));
 
+jest.mock('../../common/hooks/API/APIHooks', () => ({
+  useAPI: jest.fn(() => ({
+    response: { scope_hash: 'test-scope-hash' },
+  })),
+}));
+
 jest.mock('../common/Slot', () => ({
   __esModule: true,
   default: () => null,
@@ -137,6 +144,7 @@ describe('HostsIndex', () => {
 
   beforeEach(() => {
     capturedTableProps = null;
+    useAPI.mockClear();
   });
 
   test('merges API response page and perPage into params passed to Table', () => {
@@ -156,6 +164,16 @@ describe('HostsIndex', () => {
       page: 2, // From API response, not from params state (which has 1)
       per_page: 20, // From API response, not from params state (which has 10)
     });
+  });
+
+  test('requests the bulk scope hash via useAPI', () => {
+    render(
+      <Provider store={store}>
+        <HostsIndex />
+      </Provider>
+    );
+
+    expect(useAPI).toHaveBeenCalledWith('get', '/api/v2/hosts/bulk_scope_hash');
   });
 
   test('returns an explicit all-hosts search for empty select-all queries', () => {

@@ -4,11 +4,17 @@ module Api
       include Api::Version2
       include Api::V2::BulkHostsExtension
 
+      before_action :validate_scope_hash!,
+        :only => [:bulk_destroy, :build, :reassign_hostgroup, :change_owner,
+                  :disassociate, :change_power_state, :assign_organization,
+                  :assign_location]
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
       before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state, :manage_notifications]
       before_action :validate_power_action, :only => [:change_power_state]
 
       def_param_group :bulk_host_ids do
+        param :scope_hash, String, :required => false, :desc => N_("Fingerprint of the visible host scope when the bulk action was initiated")
+        param :skip_scope_hash, :bool, :required => false, :desc => N_("Skip validation of the visible host scope fingerprint for direct API usage")
         param :included, Hash, :desc => N_("Hosts to include in the action"), :required => true, :action_aware => true do
           param :search, String, :required => false, :desc => N_("Search string describing which hosts to perform the action on")
           param :ids, Array, :required => false, :desc => N_("List of host ids to perform the action on")
@@ -23,7 +29,12 @@ module Api
       api :DELETE, "/hosts/bulk/", N_("Delete multiple hosts")
       param_group :bulk_host_ids
       def bulk_destroy
-        process_response @hosts.destroy_all
+        deleted_hosts_count = @hosts.count
+        destroy_result = @hosts.destroy_all
+
+        process_response(destroy_result, {
+          :message => n_("%s host deleted", "%s hosts deleted", deleted_hosts_count) % deleted_hosts_count,
+        })
       end
 
       api :PUT, "/hosts/bulk/build", N_("Build")
@@ -208,6 +219,48 @@ module Api
       end
 
       private
+
+      def validate_scope_hash!
+        return if skip_scope_hash?
+
+        if scope_hash_param.blank?
+          Rails.logger.debug do
+            "Bulk scope hash missing for #{self.class}##{action_name} " \
+              "(user_id=#{User.current&.id}, organization_id=#{Organization.current&.id}, " \
+              "location_id=#{Location.current&.id})"
+          end
+
+          render_error(:custom_error, :status => :conflict, :locals => {
+            :message => _('The host scope changed or is missing integrity data. Refresh and retry the bulk action.'),
+          })
+          return
+        end
+
+        current_scope_hash = ::Hosts::BulkScopeHash.for_current_viewer
+        return if ActiveSupport::SecurityUtils.secure_compare(scope_hash_param, current_scope_hash)
+
+        Rails.logger.debug do
+          "Bulk scope hash mismatch for #{self.class}##{action_name} " \
+            "(user_id=#{User.current&.id}, organization_id=#{Organization.current&.id}, " \
+            "location_id=#{Location.current&.id}, received_scope_hash=#{scope_hash_param.inspect}, " \
+            "current_scope_hash=#{current_scope_hash.inspect})"
+        end
+
+        render_error(:custom_error, :status => :conflict, :locals => {
+          :message => _('The host scope changed or the organization/location context was modified in another tab. Refresh and retry the bulk action.'),
+        })
+      end
+
+      def scope_hash_param
+        params[:scope_hash].presence || params.dig(:hosts_bulk_action, :scope_hash).presence
+      end
+
+      def skip_scope_hash?
+        Foreman::Cast.to_bool(
+          params[:skip_scope_hash].presence ||
+          params.dig(:hosts_bulk_action, :skip_scope_hash).presence
+        )
+      end
 
       def find_deletable_hosts
         find_bulk_hosts(:destroy_hosts, included: params)

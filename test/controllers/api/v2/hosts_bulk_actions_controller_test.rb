@@ -12,6 +12,7 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       @usergroup = FactoryBot.create(:usergroup)
       @host_ids = [@host1.id, @host2.id, @host3.id]
     end
+    ::Hosts::BulkScopeHash.stubs(:for_current_viewer).returns(valid_scope_hash)
   end
 
   def valid_bulk_params(host_ids = @host_ids)
@@ -24,11 +25,20 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       :excluded => {
         :ids => [],
       },
+      :scope_hash => valid_scope_hash,
     }
   end
 
   def valid_power_params(host_ids = @host_ids, action = 'start')
     valid_bulk_params(host_ids).merge(:power => action)
+  end
+
+  def valid_bulk_destroy_params(host_ids = @host_ids)
+    {
+      :organization_id => @organization.id,
+      :ids => host_ids,
+      :scope_hash => valid_scope_hash,
+    }
   end
 
   test "should change owner with user id" do
@@ -115,6 +125,7 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
     put :change_owner, params: {
       :organization_id => @organization.id,
       :location_id => @location.id,
+      :scope_hash => valid_scope_hash,
       :included => {
         :search => 'name ~ *',
       },
@@ -258,7 +269,183 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
     end
   end
 
+  context "bulk_destroy" do
+    test "successfully deletes all selected hosts" do
+      assert_difference('Host.count', -@host_ids.size) do
+        delete :bulk_destroy, params: valid_bulk_destroy_params
+      end
+
+      assert_response :success
+    end
+  end
+
+  context "build" do
+    test "successfully builds all selected hosts" do
+      bulk_manager = mock('BulkHostsManager')
+      BulkHostsManager.expects(:new).with(hosts: anything).returns(bulk_manager)
+      bulk_manager.expects(:build).with(reboot: false).returns([])
+
+      put :build, params: valid_bulk_params
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Built 3 hosts/, body['message'])
+    end
+  end
+
+  context "disassociate" do
+    test "successfully disassociates selected hosts" do
+      bulk_manager = mock('BulkHostsManager')
+      BulkHostsManager.expects(:new).with(hosts: anything).returns(bulk_manager)
+      bulk_manager.expects(:disassociate)
+
+      put :disassociate, params: valid_bulk_params
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Updated hosts: Disassociated from compute resource/, body['message'])
+    end
+  end
+
+  context "scope_hash validation" do
+    test "allows bulk destroy without scope hash when skip_scope_hash is true" do
+      assert_difference('Host.count', -@host_ids.size) do
+        delete :bulk_destroy,
+          params: valid_bulk_destroy_params.except(:scope_hash).merge(:skip_scope_hash => true)
+      end
+
+      assert_response :success
+    end
+
+    test "rejects bulk destroy when scope hash is missing" do
+      assert_scope_hash_conflict(
+        :delete,
+        :bulk_destroy,
+        valid_bulk_destroy_params.except(:scope_hash)
+      )
+    end
+
+    test "rejects bulk destroy when scope hash mismatches" do
+      assert_scope_hash_conflict(
+        :delete,
+        :bulk_destroy,
+        valid_bulk_destroy_params.merge(:scope_hash => 'stale-scope-hash')
+      )
+    end
+
+    test "rejects build when scope hash is missing" do
+      assert_scope_hash_conflict(:put, :build, valid_bulk_params.except(:scope_hash))
+    end
+
+    test "allows build without scope hash when skip_scope_hash is true" do
+      bulk_manager = mock('BulkHostsManager')
+      BulkHostsManager.expects(:new).with(hosts: anything).returns(bulk_manager)
+      bulk_manager.expects(:build).with(reboot: false).returns([])
+
+      put :build,
+        params: valid_bulk_params.except(:scope_hash).merge(:skip_scope_hash => true)
+
+      assert_response :success
+    end
+
+    test "rejects build when scope hash mismatches" do
+      assert_scope_hash_conflict(:put, :build, valid_bulk_params.merge(:scope_hash => 'stale-scope-hash'))
+    end
+
+    test "rejects hostgroup reassignment when scope hash is missing" do
+      assert_scope_hash_conflict(
+        :put,
+        :reassign_hostgroup,
+        valid_bulk_params.except(:scope_hash).merge(:hostgroup_id => 1)
+      )
+    end
+
+    test "rejects hostgroup reassignment when scope hash mismatches" do
+      assert_scope_hash_conflict(
+        :put,
+        :reassign_hostgroup,
+        valid_bulk_params.merge(:hostgroup_id => 1, :scope_hash => 'stale-scope-hash')
+      )
+    end
+
+    test "rejects owner change when scope hash is missing" do
+      assert_scope_hash_conflict(
+        :put,
+        :change_owner,
+        valid_bulk_params.except(:scope_hash).merge(:owner_id => @user.id_and_type)
+      )
+    end
+
+    test "rejects owner change when scope hash mismatches" do
+      assert_scope_hash_conflict(
+        :put,
+        :change_owner,
+        valid_bulk_params.merge(:owner_id => @user.id_and_type, :scope_hash => 'stale-scope-hash')
+      )
+    end
+
+    test "rejects disassociate when scope hash is missing" do
+      assert_scope_hash_conflict(:put, :disassociate, valid_bulk_params.except(:scope_hash))
+    end
+
+    test "rejects disassociate when scope hash mismatches" do
+      assert_scope_hash_conflict(:put, :disassociate, valid_bulk_params.merge(:scope_hash => 'stale-scope-hash'))
+    end
+
+    test "rejects organization assignment when scope hash is missing" do
+      assert_scope_hash_conflict(
+        :put,
+        :assign_organization,
+        valid_bulk_params.except(:scope_hash).merge(:id => @organization.id, :mismatch_setting => true)
+      )
+    end
+
+    test "rejects organization assignment when scope hash mismatches" do
+      assert_scope_hash_conflict(
+        :put,
+        :assign_organization,
+        valid_bulk_params.merge(:id => @organization.id, :mismatch_setting => true, :scope_hash => 'stale-scope-hash')
+      )
+    end
+
+    test "rejects location assignment when scope hash is missing" do
+      assert_scope_hash_conflict(
+        :put,
+        :assign_location,
+        valid_bulk_params.except(:scope_hash).merge(:id => @location.id, :mismatch_setting => true)
+      )
+    end
+
+    test "rejects location assignment when scope hash mismatches" do
+      assert_scope_hash_conflict(
+        :put,
+        :assign_location,
+        valid_bulk_params.merge(:id => @location.id, :mismatch_setting => true, :scope_hash => 'stale-scope-hash')
+      )
+    end
+
+    test "rejects power change when scope hash is missing" do
+      assert_scope_hash_conflict(:put, :change_power_state, valid_power_params.except(:scope_hash))
+    end
+
+    test "rejects power change when scope hash mismatches" do
+      assert_scope_hash_conflict(:put, :change_power_state, valid_power_params.merge(:scope_hash => 'stale-scope-hash'))
+    end
+  end
+
   private
+
+  def valid_scope_hash
+    'valid-scope-hash'
+  end
+
+  def assert_scope_hash_conflict(http_method, action, params)
+    send(http_method, action, params: params)
+
+    assert_response :conflict
+    body = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/Refresh and retry the bulk action/, body['error']['message'])
+  end
 
   def set_session_user
     { :user => users(:admin).id }
