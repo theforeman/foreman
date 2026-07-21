@@ -6,6 +6,7 @@
   white-space: normal;
   height: 100%;
 }
+
 #foreman-main-container {
   height: fit-content;
 }
@@ -16,6 +17,7 @@
       padding-left: 0;
     }
   }
+
   #rails-app-content {
     margin-left: 0;
   }
@@ -31,25 +33,30 @@
   }
 }
 
-.pf-v5-c-nav {
+#foreman-nav {
   .nav-title-icon {
     word-break: break-word;
     overflow-wrap: break-word;
     white-space: normal;
   }
+
   .nav-icon {
     pointer-events: none;
     padding-right: 10px;
   }
+
   .nav-title {
     pointer-events: none;
   }
+
   .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable .pf-v5-c-nav__list::before {
     border: 0;
   }
+
   .pf-v5-c-nav__item.pf-m-expandable::before {
     z-index: var(--pf-v5-c-page__sidebar--ZIndex);
   }
+
   .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable::before {
     // in small screens, the expandable items have css to add a second border
     border-bottom: none;
@@ -62,15 +69,15 @@
   .navigation-search-menu {
     .pf-v5-c-menu__item {
       padding: 5px;
+
       .pf-v5-c-menu__item-description {
         word-break: break-word;
       }
     }
+
     min-width: 0;
     margin: 0;
-    --pf-v5-c-menu__list-item--hover--BackgroundColor: var(
-      --pf-v5-global--BackgroundColor--200
-    );
+
     --pf-v5-c-menu--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
     --pf-v5-c-menu__list-item--Color: var(--pf-v5-global--Color--100);
     --pf-v5-c-menu__list-item--BackgroundColor: transparent;
@@ -85,20 +92,22 @@
     --pf-v5-c-menu__item-description--Color: var(--pf-v5-global--Color--200);
     --pf-v5-c-menu__list-item--hover--Color: unset;
   }
+
   #navigation-search {
     width:calc(#{var(--pf-v5-c-page__sidebar--Width)} - 10px);
     margin-left: 5px;
+
     .pf-v5-c-button.pf-m-control {
       display: none;
     }
   }
 }
 
-.pf-v5-c-page {
+#foreman-page {
   --pf-v5-c-page--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
 }
 
-.pf-v5-c-page .pf-v5-c-masthead {
+#foreman-page .pf-v5-c-masthead {
   background-repeat: no-repeat;
   background-size: cover;
 

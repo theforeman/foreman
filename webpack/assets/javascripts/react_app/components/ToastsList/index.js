@@ -54,7 +54,13 @@ const ToastsList = ({ railsMessages }) => {
     )
   );
 
-  return toastsList.length > 0 && <AlertGroup isToast>{toastsList}</AlertGroup>;
+  return (
+    toastsList.length > 0 && (
+      <AlertGroup isToast className="foreman-toast-group">
+        {toastsList}
+      </AlertGroup>
+    )
+  );
 };
 
 ToastsList.propTypes = {

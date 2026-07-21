@@ -62,7 +62,7 @@ const EmptyStatePattern = props => {
   };
 
   return (
-    <EmptyState variant={variant}>
+    <EmptyState variant={variant} className="foreman-empty-state">
       <span className="empty-state-icon">
         <EmptyStateIcon />
       </span>

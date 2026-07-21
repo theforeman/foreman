@@ -45,6 +45,8 @@ jobs:
         run: npm ci --no-audit
       - name: Run linter
         run: npm run lint
+      - name: Run stylelint
+        run: npm run stylelint
       - name: Run tests
         run: npm run test
       - name: Publish Coveralls

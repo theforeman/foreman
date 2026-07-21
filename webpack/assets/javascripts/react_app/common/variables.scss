@@ -5,11 +5,13 @@
 $font-path: '~patternfly/dist/fonts/';
 $img-path: '~patternfly/dist/img/';
 $icon-font-path: '~patternfly/dist/fonts/';
+
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
 @import '~patternfly/dist/sass/patternfly/variables';
 
 // patternfly v5
 @import '~@patternfly/patternfly/base/patternfly-variables';
+
 $pf-v5-global--font-path: '~@patternfly/patternfly/assets/fonts';
 $fa-font-path: '~@patternfly/patternfly/assets/fonts/webfonts';
 $pf-v5-global--fonticon-path: '~@patternfly/patternfly/assets/pficon';

@@ -1,14 +1,17 @@
 .table-index-page {
   .pf-v5-c-toolbar__group {
     flex-grow: 1;
+
     &.pf-m-align-right {
       justify-content: flex-end;
     }
+
     &:first-child {
       margin-right: auto;
       width: min-content;
     }
   }
+
   .pf-v5-c-table tr.pf-m-clickable {
     cursor: default;
   }

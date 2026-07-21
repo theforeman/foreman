@@ -2,6 +2,7 @@
 
 #data-toolbar {
   background-color: unset;
+
   @media (max-width: $header-max-width) {
     justify-content: flex-end;
 
@@ -11,13 +12,13 @@
   }
 }
 
-.pf-v5-c-toolbar#data-toolbar {
+#data-toolbar.pf-v5-c-toolbar {
   // Override for unupdated plugins that use unupdated foreman CSS
   display: grid;
   justify-content: normal;
 }
 
-.pf-v5-c-masthead__brand {
+#foreman-page .pf-v5-c-masthead__brand {
   padding-right: 15px;
 
   &:hover {

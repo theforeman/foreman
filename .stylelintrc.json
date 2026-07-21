@@ -1,0 +1,39 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "ignoreFiles": [
+    "app/assets/stylesheets/unimported/**"
+  ],
+  "plugins": [
+    "./script/lint/stylelint-no-root-pf-overrides.js",
+    "./script/lint/stylelint-no-bare-element-selectors.js"
+  ],
+  "rules": {
+    "no-descending-specificity": null,
+    "foreman/no-root-pf-overrides": true,
+    "foreman/no-bare-element-selectors": true,
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "custom-property-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "at-rule-empty-line-before": null,
+    "custom-property-empty-line-before": null,
+    "scss/dollar-variable-empty-line-before": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "scss/dollar-variable-colon-space-after": null,
+    "scss/load-partial-extension": null,
+    "scss/load-no-partial-leading-underscore": null,
+    "scss/no-global-function-names": null,
+    "media-feature-range-notation": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "color-function-alias-notation": null,
+    "font-family-name-quotes": null,
+    "property-no-vendor-prefix": null,
+    "shorthand-property-no-redundant-values": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-property-value-keyword-no-deprecated": null,
+    "length-zero-no-unit": null,
+    "no-invalid-position-at-import-rule": null
+  }
+}
