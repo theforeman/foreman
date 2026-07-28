@@ -11,7 +11,6 @@ module.exports = [
   'core-js/shim',
   'regenerator-runtime/runtime',
   'formik',
-  'rc-input-number',
   'react',
   'react-ace',
   'react-dom',
