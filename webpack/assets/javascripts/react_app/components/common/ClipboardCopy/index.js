@@ -15,6 +15,7 @@ const ClipboardCopy = ({ text: defaultText, textareaProps }) => (
     isExpanded
     isReadOnly={textareaProps.readOnly ?? false}
     className={textareaProps.className ?? null}
+    ouiaId="clipboard-copy-init-config"
   >
     {defaultText}
   </PFClipboardCopy>

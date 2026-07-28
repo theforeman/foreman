@@ -7,6 +7,7 @@ export const ErrorPresenter = props => (
   <ClipboardCopy
     isReadOnly
     isBlock
+    ouiaId="clipboard-copy-error"
     hoverTip={__('Copy')}
     clickTip={__('Copied!')}
     variant="inline-compact"

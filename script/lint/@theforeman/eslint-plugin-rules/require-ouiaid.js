@@ -3,48 +3,59 @@ const getProp = require('jsx-ast-utils/getProp');
 module.exports = {
   create(context) {
     const patternflyImports = new Set();
-    const options = context.options.length
-      ? context.options
-      : [
-          'Alert',
-          'Breadcrumb',
-          'Button',
-          'Card',
-          'Checkbox',
-          'Chip',
-          'ChipGroup',
-          'ContextSelector',
-          'Dropdown',
-          'DropdownItem',
-          'DropdownSeparator',
-          'DropdownToggle',
-          'DropdownToggleCheckbox',
-          'FormSelect',
-          'Menu',
-          'Modal',
-          'ModalBoxCloseButton',
-          'ModalContent',
-          'Nav',
-          'NavExpandable',
-          'NavItem',
-          'OptionsMenu',
-          'Pagination',
-          'Radio',
-          'RowWrapper',
-          'Select',
-          'Switch',
-          'TabButton',
-          'TabContent',
-          'Tab',
-          'Tabs',
-          'Text',
-          'TextInput',
-          'Title',
-          'Toolbar',
-          'Table',
-          'TableComposable',
-          'Tr',
-        ];
+    const defaults = [
+      'Alert',
+      'Breadcrumb',
+      'Button',
+      'Card',
+      'Checkbox',
+      'Chip',
+      'ChipGroup',
+      'ClipboardCopy',
+      'ContextSelector',
+      'Dropdown',
+      'DropdownItem',
+      'DropdownSeparator',
+      'DropdownToggle',
+      'DropdownToggleCheckbox',
+      'FormSelect',
+      'Menu',
+      'MenuToggle',
+      'Modal',
+      'ModalBoxCloseButton',
+      'ModalContent',
+      'Nav',
+      'NavExpandable',
+      'NavItem',
+      'OptionsMenu',
+      'Pagination',
+      'Radio',
+      'RowWrapper',
+      'Select',
+      'Switch',
+      'Tab',
+      'TabButton',
+      'TabContent',
+      'Table',
+      'TableComposable',
+      'Tabs',
+      'Text',
+      'TextInput',
+      'Title',
+      'Toolbar',
+      'Tr',
+    ];
+
+    const { additional } =
+      (context.options.length === 1 && context.options[0]) || {};
+    const { options: contextOptions } = context;
+
+    let options = defaults;
+    if (additional) {
+      options = [...defaults, ...additional];
+    } else if (contextOptions.length) {
+      options = contextOptions;
+    }
 
     function addPatternflyImport(node) {
       if (

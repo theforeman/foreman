@@ -81,6 +81,7 @@ const CardTemplate = ({
                     toggle={toggleRef => (
                       <MenuToggle
                         ref={toggleRef}
+                        ouiaId="template-card-dropdown-toggle"
                         variant="plain"
                         isExpanded={dropdownVisibility}
                         onClick={() => onDropdownToggle(!dropdownVisibility)}

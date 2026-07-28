@@ -43,6 +43,7 @@ const HostGroupSelect = ({
   const toggle = toggleRef => (
     <MenuToggle
       ref={toggleRef}
+      ouiaId="host-group-select-toggle"
       variant="typeahead"
       aria-label="Typeahead menu toggle"
       onClick={onToggleClick}

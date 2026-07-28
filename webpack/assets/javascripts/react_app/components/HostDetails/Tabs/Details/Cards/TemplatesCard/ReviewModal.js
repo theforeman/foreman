@@ -105,6 +105,7 @@ export const ReviewModal = ({
             isExpanded
             isReadOnly
             isCode
+            ouiaId="clipboard-copy-template-review"
             variant={ClipboardCopyVariant.expansion}
           >
             {response}

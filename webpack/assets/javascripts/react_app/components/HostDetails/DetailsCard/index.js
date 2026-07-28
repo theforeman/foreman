@@ -73,7 +73,11 @@ const DetailsCard = ({
                 status={status}
               >
                 {ip6 && (
-                  <ClipboardCopy isBlock variant="inline-compact">
+                  <ClipboardCopy
+                    isBlock
+                    variant="inline-compact"
+                    ouiaId="clipboard-copy-ipv6"
+                  >
                     {ip6}
                   </ClipboardCopy>
                 )}
@@ -88,7 +92,11 @@ const DetailsCard = ({
                 status={status}
               >
                 {ip && (
-                  <ClipboardCopy isBlock variant="inline-compact">
+                  <ClipboardCopy
+                    isBlock
+                    variant="inline-compact"
+                    ouiaId="clipboard-copy-ipv4"
+                  >
                     {ip}
                   </ClipboardCopy>
                 )}
@@ -103,7 +111,11 @@ const DetailsCard = ({
                 status={status}
               >
                 {mac && (
-                  <ClipboardCopy isBlock variant="inline-compact">
+                  <ClipboardCopy
+                    isBlock
+                    variant="inline-compact"
+                    ouiaId="clipboard-copy-mac"
+                  >
                     {mac}
                   </ClipboardCopy>
                 )}

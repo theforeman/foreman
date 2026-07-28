@@ -172,6 +172,7 @@ const BulkPowerStateModal = ({
           toggle={toggleRef => (
             <MenuToggle
               ref={toggleRef}
+              ouiaId="power-state-toggle"
               onClick={() => setIsSelectOpen(!isSelectOpen)}
               isExpanded={isSelectOpen}
               style={{ width: '100%' }}

@@ -30,6 +30,7 @@ const Command = ({ apiStatus, command }) => {
             isReadOnly
             isCode
             isExpanded
+            ouiaId="clipboard-copy-registration-command"
           >
             {command}
           </ClipboardCopy>

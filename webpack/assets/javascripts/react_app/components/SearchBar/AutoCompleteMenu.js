@@ -19,6 +19,7 @@ export const AutoCompleteMenu = ({ results, error }) => {
             isBlock
             isReadOnly
             variant="inline-compact"
+            ouiaId="clipboard-copy-search-error"
             hoverTip={__('Copy to clipboard')}
             clickTip={__('Copied to clipboard')}
           >

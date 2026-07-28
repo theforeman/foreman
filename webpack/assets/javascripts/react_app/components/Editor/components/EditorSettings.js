@@ -42,6 +42,7 @@ const SettingsSelect = ({
         toggle={toggleRef => (
           <MenuToggle
             ref={toggleRef}
+            ouiaId="editor-settings-toggle"
             onClick={() => {
               if (!disabled) {
                 setIsOpen(!isOpen);
