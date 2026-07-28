@@ -51,6 +51,7 @@ export const ActionKebab = ({ items, menuOpen, setMenuOpen }) => {
   const menuToggle = (
     <MenuToggle
       variant="plain"
+      ouiaId="hosts-index-kebab-toggle"
       aria-label="plain kebab"
       onClick={() => setMenuOpen(prev => !prev)}
       isExpanded={menuOpen}

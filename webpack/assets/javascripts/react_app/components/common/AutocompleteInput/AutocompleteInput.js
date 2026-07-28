@@ -147,6 +147,7 @@ export const AutocompleteInputComponent = ({
   const toggle = toggleRef => (
     <MenuToggle
       ref={toggleRef}
+      ouiaId="autocomplete-input-toggle"
       variant="typeahead"
       aria-label="Typeahead menu toggle"
       onClick={onToggleClick}

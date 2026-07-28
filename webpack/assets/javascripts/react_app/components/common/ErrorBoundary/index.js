@@ -80,7 +80,11 @@ class ErrorBoundary extends React.Component {
           />
         </GridItem>
         <GridItem sm={8} smOffset={2}>
-          <ClipboardCopy isReadOnly variant={ClipboardCopyVariant.expansion}>
+          <ClipboardCopy
+            isReadOnly
+            ouiaId="clipboard-copy-error-boundary"
+            variant={ClipboardCopyVariant.expansion}
+          >
             {error.toString()}
             {info.componentStack}
           </ClipboardCopy>

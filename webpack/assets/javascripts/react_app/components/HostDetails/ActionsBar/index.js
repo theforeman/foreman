@@ -220,6 +220,7 @@ const ActionsBar = ({
                 <MenuToggle
                   ref={toggleRef}
                   id="hostdetails-kebab"
+                  ouiaId="host-details-kebab-toggle"
                   variant="plain"
                   isExpanded={kebabIsOpen}
                   onClick={() => onKebabToggle(!kebabIsOpen)}

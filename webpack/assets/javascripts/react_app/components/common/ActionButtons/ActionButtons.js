@@ -43,6 +43,7 @@ export const ActionButtons = ({ buttons }) => {
       toggle={toggleRef => (
         <MenuToggle
           ref={toggleRef}
+          ouiaId="action-buttons-toggle"
           variant="secondary"
           aria-label="Menu toggle with action split button"
           isExpanded={isOpen}

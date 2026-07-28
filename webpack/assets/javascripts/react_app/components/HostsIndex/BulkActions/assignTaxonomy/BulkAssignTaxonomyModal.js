@@ -90,6 +90,7 @@ const BulkAssignTaxonomyModal = ({
   const toggle = toggleRef => (
     <MenuToggle
       ref={toggleRef}
+      ouiaId="bulk-assign-taxonomy-toggle"
       onClick={onToggleClick}
       isExpanded={selectOpen}
       style={{ width: '95%' }}

@@ -47,6 +47,7 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
                 <ClipboardCopy
                   isBlock
                   variant="inline-compact"
+                  ouiaId="clipboard-copy-name"
                   hoverTip={__('Copy to clipboard')}
                   clickTip={__('Copied to clipboard')}
                 >
@@ -72,7 +73,11 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
               emptyState={<DefaultLoaderEmptyState />}
             >
               {domain && (
-                <ClipboardCopy isBlock variant="inline-compact">
+                <ClipboardCopy
+                  isBlock
+                  variant="inline-compact"
+                  ouiaId="clipboard-copy-domain"
+                >
                   {domain}
                 </ClipboardCopy>
               )}

@@ -86,6 +86,7 @@ const BulkChangeOwnerModal = ({
   const toggle = toggleRef => (
     <MenuToggle
       ref={toggleRef}
+      ouiaId="bulk-change-owner-toggle"
       onClick={onToggleClick}
       isExpanded={ownerSelectOpen}
       style={{ width: '500px' }}

@@ -21,6 +21,7 @@ const NewTokenInfo = ({ newPersonalAccessToken, onDismiss }) => (
         >
           <ClipboardCopy
             isReadOnly
+            ouiaId="clipboard-copy-personal-access-token"
             hoverTip={__('Copy to clipboard')}
             clickTip={__('Copied to clipboard')}
             variant="inline-compact"
