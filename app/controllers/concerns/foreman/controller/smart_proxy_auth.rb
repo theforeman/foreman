@@ -79,7 +79,7 @@ module Foreman::Controller::SmartProxyAuth
     return false unless request_hosts
     Rails.logger.info request_hosts
 
-    hosts = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
+    hosts = proxies.group_by { |p| URI.parse(p.url).host }
 
     # For loopback addresses in non-SSL mode, only match against trusted_hosts,
     # not registered smart proxy URLs. This prevents local processes from
@@ -94,7 +94,7 @@ module Foreman::Controller::SmartProxyAuth
     end
 
     if (host = detect_matching_host(allowed_hosts, request_hosts))
-      @detected_proxy = hosts[host] if host
+      @detected_proxy = hosts[host]&.first
       true
     else
       logger.warn "No smart proxy server found on #{request_hosts.inspect} and is not in trusted_hosts"

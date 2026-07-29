@@ -108,6 +108,19 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     assert_equal proxy, @controller.detected_proxy
   end
 
+  def test_multiple_proxies_with_same_hostname
+    Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
+    Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
+    @request.env['HTTPS'] = 'on'
+    @request.env['SSL_CLIENT_S_DN'] = 'CN=proxy.example.com'
+    @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+    proxy1 = FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com:8443')
+    proxy2 = FactoryBot.create(:smart_proxy, :url => 'https://proxy.example.com/pulp/api/v3/smart_proxy')
+    assert @controller.send(:auth_smart_proxy)
+    assert_includes [proxy1, proxy2], @controller.detected_proxy
+  end
+
   def test_wild_card_certificates_are_supported
     Setting[:ssl_client_dn_env] = 'SSL_CLIENT_S_DN'
     Setting[:ssl_client_verify_env] = 'SSL_CLIENT_VERIFY'
