@@ -14,9 +14,9 @@ module KeyType
       if key_type.present?
         case key_type.to_sym
           when :json, :array
-            val = JSON.dump(val)
+            val = JSON.dump(val) unless val.is_a?(String)
           when :yaml, :hash
-            val = YAML.dump val
+            val = YAML.dump val unless val.is_a?(String)
             val.sub!(/\A---\s*$\n/, '')
         end
       end
