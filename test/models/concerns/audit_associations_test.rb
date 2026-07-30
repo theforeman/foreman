@@ -43,4 +43,19 @@ class AuditAssociationsTest < ActiveSupport::TestCase
     assert_equal [Role.default.id, role.id].sort, audit.audited_changes['role_ids'].sort
     assert_equal 'destroy', audit.action
   end
+
+  test "audited associations-only update preserves existing except options" do
+    except = Host::Managed.audited_options[:except].dup
+    associations = Host::Managed.audited_options[:associations].dup
+
+    Host::Managed.audited :associations => [:pools]
+
+    assert_equal except, Host::Managed.audited_options[:except]
+    assert_includes Host::Managed.audited_options[:associations], 'pool_ids'
+    associations.each do |association|
+      assert_includes Host::Managed.audited_options[:associations], association
+    end
+  ensure
+    Host::Managed.audited_options[:associations] = associations if associations
+  end
 end
