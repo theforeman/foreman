@@ -269,4 +269,34 @@ class SmartProxyTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe '#self_or_colocated_with_feature' do
+    test 'returns a proxy on the same host with the requested feature' do
+      proxy_a = FactoryBot.create(:template_smart_proxy, :url => 'https://colocated.example.com:8443')
+      proxy_b = FactoryBot.create(:smart_proxy, :url => 'https://colocated.example.com:9090')
+      proxy_b.smart_proxy_features << FactoryBot.build(:smart_proxy_feature, :tftp, :smart_proxy => proxy_b)
+
+      assert_equal proxy_a, proxy_b.self_or_colocated_with_feature('Templates')
+    end
+
+    test 'returns nil when no co-located proxy has the feature' do
+      proxy = FactoryBot.create(:smart_proxy, :url => 'https://lonely.example.com:8443')
+
+      assert_nil proxy.self_or_colocated_with_feature('Templates')
+    end
+
+    test 'returns self when self has the requested feature' do
+      proxy = FactoryBot.create(:template_smart_proxy, :url => 'https://selfmatch.example.com:8443')
+
+      assert_equal proxy, proxy.self_or_colocated_with_feature('Templates')
+    end
+
+    test 'does not match proxies on different hosts' do
+      FactoryBot.create(:template_smart_proxy, :url => 'https://other.example.com:8443')
+      proxy = FactoryBot.create(:smart_proxy, :url => 'https://different.example.com:8443')
+      proxy.smart_proxy_features.destroy_all
+
+      assert_nil proxy.self_or_colocated_with_feature('Templates')
+    end
+  end
 end

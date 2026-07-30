@@ -49,6 +49,12 @@ class SmartProxy < ApplicationRecord
     URI(url).host
   end
 
+  def self_or_colocated_with_feature(feature_name)
+    SmartProxy.unscoped.with_features(feature_name).find do |sp|
+      sp.hostname == hostname
+    end
+  end
+
   def to_s
     hostname
   end
