@@ -107,6 +107,7 @@ class Subnet < ApplicationRecord
 
   validate :validate_ranges
   validate :check_if_type_changed, :on => :update
+  validate :network_must_not_contain_prefix
 
   default_scope lambda {
     with_taxonomy_scope do
@@ -385,20 +386,21 @@ class Subnet < ApplicationRecord
     end
   end
 
+  def network_must_not_contain_prefix
+    return unless network.present? && network.to_s.include?('/')
+
+    errors.add(:network, _("must not include a CIDR prefix"))
+  end
+
   def normalize_addresses
     IP_FIELDS.each do |f|
       val = send(f)
+      # Skip normalization for a network that still carries a CIDR suffix;
+      # it will be rejected by network_must_not_contain_prefix.
+      next if f == :network && val.to_s.include?('/')
       send("#{f}=", normalize_ip(val)) if val.present?
     end
-    strip_network_cidr
     self
-  end
-
-  def strip_network_cidr
-    return unless network.present? && network.include?('/')
-    parts = network.split('/')
-    self.network = parts[0]
-    self.cidr = parts[1].to_i if mask.blank? || cidr.nil?
   end
 
   def ensure_ip_addrs_valid

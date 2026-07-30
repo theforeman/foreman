@@ -64,16 +64,16 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
   end
 
   test "should find the subnet with highest CIDR prefix by IP order A" do
-    Subnet::Ipv6.create!(:network => "2001:db8::/32", :mask => "ffff:ffff::", :name => "net_32")
-    to_find = Subnet::Ipv6.create!(:network => "2001:db8::/33", :mask => "  ffff:ffff:8000::", :name => "net_33")
+    Subnet::Ipv6.create!(:network => "2001:db8::", :mask => "ffff:ffff::", :name => "net_32")
+    to_find = Subnet::Ipv6.create!(:network => "2001:db8::", :mask => "  ffff:ffff:8000::", :name => "net_33")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::1")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::13")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::cafe")
   end
 
   test "should find the subnet with highest CIDR prefix by IP order B" do
-    to_find = Subnet::Ipv6.create!(:network => "2001:db8::/33", :mask => "  ffff:ffff:8000::", :name => "net_33")
-    Subnet::Ipv6.create!(:network => "2001:db8::/32", :mask => "ffff:ffff::", :name => "net_32")
+    to_find = Subnet::Ipv6.create!(:network => "2001:db8::", :mask => "  ffff:ffff:8000::", :name => "net_33")
+    Subnet::Ipv6.create!(:network => "2001:db8::", :mask => "ffff:ffff::", :name => "net_32")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::1")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::13")
     assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::cafe")
