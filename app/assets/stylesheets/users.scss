@@ -1,27 +1,56 @@
-#audit_summary_query_builder {
-  display: block;
+$connector-color: $color-pf-black-300;
+$connector-offset: 15px;
+$connector-radius: 10px;
+
+.mail_notification_options {
+  margin-bottom: 1em;
+}
+
+.mail_notification_option {
+  position: relative;
   top: -6px;
   left: 20%;
-  width: 92%;
-}
 
-#audit_summary_query_builder::before {
-  content: "";
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-width: 0 0 1px 1px;
-  border-radius: 0 0 0 10px;
-  position: absolute;
-  left: -15px;
-  top: -15px;
-}
+  --connector-tick: 17px;
 
-.mail_notification_query {
-  margin: 8px;
+  &.checkbox-inline {
+    --connector-tick: 13px;
+  }
 
-  .audit_summary_query_setting {
-    cursor: pointer;
-    font-size: 10px;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -$connector-offset;
+    top: -$connector-offset;
+    bottom: 0;
+    border-left: 1px solid $connector-color;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: -$connector-offset;
+    top: var(--connector-tick);
+    width: $connector-offset;
+    border-bottom: 1px solid $connector-color;
+  }
+
+  &:last-child {
+    &::before {
+      bottom: auto;
+      height: calc(#{$connector-offset} + var(--connector-tick) + 1px);
+      width: $connector-offset;
+      border-bottom: 1px solid $connector-color;
+      border-radius: 0 0 0 $connector-radius;
+    }
+
+    &::after {
+      content: none;
+    }
   }
 }
 
+#audit_summary_query_builder {
+  display: block;
+  width: 80%;
+}

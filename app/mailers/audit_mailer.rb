@@ -6,6 +6,8 @@ class AuditMailer < ApplicationMailer
     time = options[:time] ? %(time >= "#{options[:time]}") : 'time > yesterday'
     @query = options[:query].present? ? "#{options[:query]} and #{time}" : time.to_s
     @count = Audit.authorized_as(user, :view_audit_logs, Audit).search_for(@query).count
+    return if skip_empty?(@count, options)
+
     @limit = (Setting[:entries_per_page] > @count) ? @count : Setting[:entries_per_page]
     @audits = Audit.authorized_as(user, :view_audit_logs, Audit).search_for(@query).limit(@limit)
 
