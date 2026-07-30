@@ -1,9 +1,15 @@
 module AuditAssociations
   module AssociationsDefinitions
     def audited(options = {})
+      options = options.dup
       options[:associations] = normalize_associations(options[:associations])
       if options[:associations].present?
         configure_dirty_associations(options[:associations])
+      end
+
+      if audited_already? && association_only_audited_update?(options)
+        audited_options[:associations] = Array(audited_options[:associations]) | options[:associations]
+        return
       end
 
       super
@@ -28,6 +34,19 @@ module AuditAssociations
     def configure_dirty_associations(associations)
       include DirtyAssociations unless included_modules.include?(DirtyAssociations)
       dirty_has_many_associations(*associations)
+    end
+
+    private
+
+    def audited_already?
+      included_modules.include?(Audited::Auditor::AuditedInstanceMethods)
+    end
+
+    # True when the caller only supplied :associations (the pattern used by plugins
+    # to extend association auditing). Explicit :except/:only/:on/etc. still replace.
+    def association_only_audited_update?(options)
+      options[:associations].present? &&
+        (options.keys.map(&:to_sym) - [:associations]).empty?
     end
   end
 end
