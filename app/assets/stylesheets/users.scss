@@ -1,27 +1,75 @@
-#audit_summary_query_builder {
-  display: block;
+$connector-color: $color-pf-black-300;
+$connector-offset: 15px;
+$connector-radius: 10px;
+
+// Groups the per-subscription settings of one notification. Deliberately
+// layout neutral: the partials inside it can come from plugins, which position
+// themselves against the form, so anything set here would compound with their
+// own offsets.
+.mail_notification_options {
+  margin-bottom: 1em;
+}
+
+// One row of the tree hanging off the interval select. Rows opt in, so that a
+// partial drawing its own connector keeps rendering the way it always has.
+// --connector-tick is where the row's 1px connector line starts, measured from
+// the row's top: rows are not all the same height and their controls are not
+// centred in them, so it has to be given per row rather than derived from the
+// row itself. Both pseudo elements draw that line across [tick, tick + 1px] so
+// that they stay on whole pixels and agree with each other.
+.mail_notification_option {
+  position: relative;
   top: -6px;
   left: 20%;
-  width: 92%;
-}
 
-#audit_summary_query_builder::before {
-  content: "";
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-width: 0 0 1px 1px;
-  border-radius: 0 0 0 10px;
-  position: absolute;
-  left: -15px;
-  top: -15px;
-}
+  // a .form-control is 26px tall, so its centre sits 18px into the row
+  --connector-tick: 17px;
 
-.mail_notification_query {
-  margin: 8px;
+  // 3px of .form-horizontal padding plus half of the 13px checkbox
+  &.checkbox-inline {
+    --connector-tick: 13px;
+  }
 
-  .audit_summary_query_setting {
-    cursor: pointer;
-    font-size: 10px;
+  // trunk running through the row, overlapping into the row above so that it
+  // stays unbroken across the rows' margins
+  &::before {
+    content: "";
+    position: absolute;
+    left: -$connector-offset;
+    top: -$connector-offset;
+    bottom: 0;
+    border-left: 1px solid $connector-color;
+  }
+
+  // straight tee into the row's control
+  &::after {
+    content: "";
+    position: absolute;
+    left: -$connector-offset;
+    top: var(--connector-tick);
+    width: $connector-offset;
+    border-bottom: 1px solid $connector-color;
+  }
+
+  // the trunk ends in the last row, closing with a rounded elbow instead
+  &:last-child {
+    &::before {
+      bottom: auto;
+      // the extra pixel puts the border-bottom, which is drawn inside the
+      // box, on the same line as the tee's border-bottom, which hangs below it
+      height: calc(#{$connector-offset} + var(--connector-tick) + 1px);
+      width: $connector-offset;
+      border-bottom: 1px solid $connector-color;
+      border-radius: 0 0 0 $connector-radius;
+    }
+
+    &::after {
+      content: none;
+    }
   }
 }
 
+#audit_summary_query_builder {
+  display: block;
+  width: 92%;
+}

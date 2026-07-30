@@ -5,7 +5,10 @@ class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
   default :delivery_method => proc { Setting[:delivery_method] },
     :from => proc { Setting[:email_reply_address] || "noreply@foreman.example.org" }
-  after_action :set_delivery_options
+
+  # #skip_empty? leaves the mailer with a NullMail, which has no delivery method
+  # to configure, so the callback has to be skipped along with the delivery.
+  after_action :set_delivery_options, unless: -> { @skip_delivery }
 
   def self.delivery_settings
     options = {}
@@ -48,6 +51,15 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   private
+
+  # Report mailers call this with the number of items they are about to
+  # summarise. When there is nothing to report and the subscription asks for
+  # empty mails to be skipped, the mailer action returns early and no mail is
+  # built at all.
+  def skip_empty?(count, options)
+    @skip_delivery = count.to_i.zero? &&
+                     ActiveRecord::Type::Boolean.new.cast(options[:skip_if_empty]).present?
+  end
 
   def set_locale_for(user)
     old_loc = FastGettext.locale
