@@ -129,8 +129,14 @@ msgid "%s warning message"
 msgid_plural "%s warning messages"
 msgstr[0] "%s 警告信息"
 
+msgid "%s was successfully created."
+msgstr ""
+
 msgid "%s was successfully deleted"
 msgstr "%s 被成功删除"
+
+msgid "%s was successfully updated."
+msgstr ""
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -397,6 +403,9 @@ msgstr "如果有与主机关联的资源（如域或子网），且与您要为
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
 msgstr "如果有与主机关联的资源（如域或子网），且与您要为其分配主机的 {taxonomy} 没有关联，则会发生不匹配的情况。不匹配时修复（Fix on mismatch）的选项会在 {taxonomy} 中添加此类资源，因此是推荐的选择。"
+
+msgid "A model with this name already exists. Please choose a different name."
+msgstr ""
 
 msgid "A notification when a host finishes building"
 msgstr "当主机完成构建时的通知"
@@ -1229,6 +1238,9 @@ msgstr "BMC 密码使用情况"
 msgid "Back"
 msgstr "返回"
 
+msgid "Back to hardware models"
+msgstr ""
+
 msgid "Back to host"
 msgstr "转到主机"
 
@@ -1240,6 +1252,9 @@ msgstr "后端系统状态"
 
 msgid "Backtrace"
 msgstr "回溯"
+
+msgid "Bar chart"
+msgstr ""
 
 msgid "Bare Metal"
 msgstr "裸机"
@@ -2163,6 +2178,9 @@ msgstr "为操作系统创建嵌入的参数"
 msgid "Create a nested parameter for an organization"
 msgstr "为机构创建嵌入的参数"
 
+msgid "Create a new hardware model"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "创建分区表"
 
@@ -2715,6 +2733,9 @@ msgstr "这个接口的设备标识符。不同的平台和环境可能会有不
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "设备标识符，例如：eth0 或者 eth1.1"
 
+msgid "Disable"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "停用通知"
 
@@ -2965,6 +2986,9 @@ msgstr "嵌入式 Ruby（ERB）是一个基于带有纯文本和 Ruby 代码的�
 msgid "Empty"
 msgstr "空"
 
+msgid "Enable"
+msgstr ""
+
 msgid "Enable Caching"
 msgstr "启用缓存"
 
@@ -3006,6 +3030,9 @@ msgstr "启用 %s 用于在下一次引导时重新构建"
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "启用 %s 用于在下一次引导时重新构建，但对主机加电时出错"
+
+msgid "Enablement state of the selected hosts may vary."
+msgstr ""
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr "包含注释，它会在模板呈现期间被忽略："
@@ -3437,6 +3464,11 @@ msgstr "撤销更新计算 %{compute_resource} 实例 %{name} 失败： %{e}"
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "更新计算 %{compute_resource} 实例 %{name} 失败： %{e}"
+
+msgid "Failed to update notifications for %s host"
+msgid_plural "Failed to update notifications for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "验证 %{host} 失败：%{error}"
@@ -4079,9 +4111,6 @@ msgstr "十六进制值。对于实例标题的颜色，才会在实例标题被
 
 msgid "Hidden Value"
 msgstr "隐藏值"
-
-msgid "Hide Content"
-msgstr "隐藏內容"
 
 msgid "Hide advanced fields"
 msgstr "隐藏高级字段"
@@ -5820,6 +5849,9 @@ msgstr "正在载入 VM 信息......"
 msgid "Loading filters ..."
 msgstr "正在加载过滤器......"
 
+msgid "Loading form"
+msgstr ""
+
 msgid "Loading host information ..."
 msgstr "正在加载主机信息 ..."
 
@@ -6112,6 +6144,9 @@ msgstr "管理主机"
 
 msgid "Manage host statuses"
 msgstr "管理主机状态"
+
+msgid "Manage notifications"
+msgstr ""
 
 msgid "Managed"
 msgstr "管理"
@@ -6873,6 +6908,9 @@ msgstr "通知蓝图"
 msgid "Notification recipient"
 msgstr "通知接收者"
 
+msgid "Notification state"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
 msgstr "通知蓝图|操作"
@@ -6904,8 +6942,19 @@ msgstr "发现"
 msgid "Notifications"
 msgstr "通知"
 
+msgid "Notifications %{action} for %{count} host"
+msgid_plural "Notifications %{action} for %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
+msgstr ""
+
 msgid "Notifications can't be assigned to this user."
 msgstr "通知无法分配给此用户。"
+
+msgid "Notifications enabled"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -8341,6 +8390,9 @@ msgstr "返回到最后一个页面"
 msgid "Return to the last page"
 msgstr "返回到最后一个页面"
 
+msgid "Return to the previous page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr "返回代表一个给定类型的主机状态的字符串"
 
@@ -8606,8 +8658,8 @@ msgstr "脚本模版"
 msgid "Search"
 msgstr "搜索"
 
-msgid "Search and go"
-msgstr "搜索和转至"
+msgid "Search (Ctrl+Shift+F)"
+msgstr ""
 
 msgid "Search error"
 msgstr "搜索错误"
@@ -8653,9 +8705,6 @@ msgstr "选择操作"
 
 msgid "Select All"
 msgstr "选择所有"
-
-msgid "Select Host..."
-msgstr "选择主机..."
 
 msgid "Select Hosts"
 msgstr "选择主机"
@@ -8792,6 +8841,9 @@ msgstr "向用户的电子邮件地址发送测试信息以确认配置正常工
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "向新用户发送附带用户名及URL 的欢迎使用电子邮件"
+
+msgid "Send email notifications when configuration errors are reported"
+msgstr ""
 
 msgid "Send report via e-mail"
 msgstr "通过电子邮件发送报告"
@@ -10034,6 +10086,9 @@ msgstr "完整 DNS 域名"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "已找到您添加作为外部用户组的群组。但是，未从中找到与您的认证源库 DN 和过滤器匹配的用户。请验证该外部用户组是否从属于验证源过滤器"
 
+msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
+msgstr ""
+
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr "主机 %s 不存在，或需要访问权限。如果问题一直存在，请联系您的管理员。"
 
@@ -10514,6 +10569,9 @@ msgstr "生成报告的 UTC 时间"
 msgid "UUID"
 msgstr "UUID"
 
+msgid "UUID of a VM to import from a compute resource"
+msgstr ""
+
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "用于跟踪编配任务状态的 UUID，GET /api/orchestration/:UUID/tasks"
 
@@ -10627,6 +10685,9 @@ msgstr "无法获取安装的 BMC 供应商"
 
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "无法初始化 ProxyAPI 类 %s"
+
+msgid "Unable to load hardware model"
+msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr "无法从外部 IPAM 获取子网 %{subnet} 的 IP 地址。"
@@ -11510,6 +11571,9 @@ msgstr "是否显示 All Hosts 的新概览页面"
 
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "分类参数值是否由 Foreman 管理。"
+
+msgid "Whether to enable or disable notification alerts for the selected hosts"
+msgstr ""
 
 msgid "Whether to pull RSS notifications or not"
 msgstr "是否获取 RSS 通知"

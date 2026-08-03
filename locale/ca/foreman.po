@@ -133,7 +133,13 @@ msgid_plural "%s warning messages"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%s was successfully created."
+msgstr ""
+
 msgid "%s was successfully deleted"
+msgstr ""
+
+msgid "%s was successfully updated."
 msgstr ""
 
 msgid "%s week ago"
@@ -401,6 +407,9 @@ msgid "A mismatch happens if there is a resource associated with a host, such as
 msgstr ""
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
+msgstr ""
+
+msgid "A model with this name already exists. Please choose a different name."
 msgstr ""
 
 msgid "A notification when a host finishes building"
@@ -1235,6 +1244,9 @@ msgstr ""
 msgid "Back"
 msgstr "Enrere"
 
+msgid "Back to hardware models"
+msgstr ""
+
 msgid "Back to host"
 msgstr "Torna a l'amfitrió"
 
@@ -1246,6 +1258,9 @@ msgstr ""
 
 msgid "Backtrace"
 msgstr "Traça inversa"
+
+msgid "Bar chart"
+msgstr ""
 
 msgid "Bare Metal"
 msgstr ""
@@ -2170,6 +2185,9 @@ msgstr "Crea un paràmetre niat per un sistema operatiu"
 msgid "Create a nested parameter for an organization"
 msgstr "Crea un paràmetre niat per una organització"
 
+msgid "Create a new hardware model"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Crea una taula de particions"
 
@@ -2722,6 +2740,9 @@ msgstr ""
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "L'identificador de dispositiu, p.ex. eth0 o eth1.1"
 
+msgid "Disable"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "inhabilita les notificacions"
 
@@ -2973,6 +2994,9 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
+msgid "Enable"
+msgstr ""
+
 msgid "Enable Caching"
 msgstr ""
 
@@ -3014,6 +3038,9 @@ msgstr ""
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "%s ha estat habilitat per a la reconstrucció amb la següent arrencada, però ja fallat l'apagada i engegada de l'amfitrió"
+
+msgid "Enablement state of the selected hosts may vary."
+msgstr ""
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr ""
@@ -3449,6 +3476,11 @@ msgstr ""
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
+
+msgid "Failed to update notifications for %s host"
+msgid_plural "Failed to update notifications for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "No s'ha pogut validar %{host}: %{error}"
@@ -4090,9 +4122,6 @@ msgid "Hex value for color for the instance title banner. It will only be used i
 msgstr ""
 
 msgid "Hidden Value"
-msgstr ""
-
-msgid "Hide Content"
 msgstr ""
 
 msgid "Hide advanced fields"
@@ -5825,6 +5854,9 @@ msgstr "S'està carregant la informació de la MV ..."
 msgid "Loading filters ..."
 msgstr "S'estan carregant els filtres ..."
 
+msgid "Loading form"
+msgstr ""
+
 msgid "Loading host information ..."
 msgstr "S'està carregant la informació de l'amfitrió ..."
 
@@ -6116,6 +6148,9 @@ msgid "Manage host"
 msgstr "Gestiona l'amfitrió"
 
 msgid "Manage host statuses"
+msgstr ""
+
+msgid "Manage notifications"
 msgstr ""
 
 msgid "Managed"
@@ -6878,6 +6913,9 @@ msgstr ""
 msgid "Notification recipient"
 msgstr ""
 
+msgid "Notification state"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
 msgstr ""
@@ -6909,7 +6947,18 @@ msgstr ""
 msgid "Notifications"
 msgstr "Notificacions"
 
+msgid "Notifications %{action} for %{count} host"
+msgid_plural "Notifications %{action} for %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
+msgstr ""
+
 msgid "Notifications can't be assigned to this user."
+msgstr ""
+
+msgid "Notifications enabled"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8342,6 +8391,9 @@ msgstr ""
 msgid "Return to the last page"
 msgstr ""
 
+msgid "Return to the previous page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
@@ -8609,7 +8661,7 @@ msgstr ""
 msgid "Search"
 msgstr "Cerca"
 
-msgid "Search and go"
+msgid "Search (Ctrl+Shift+F)"
 msgstr ""
 
 msgid "Search error"
@@ -8656,9 +8708,6 @@ msgstr "Selecciona l'acció"
 
 msgid "Select All"
 msgstr "Selecciona-ho tot"
-
-msgid "Select Host..."
-msgstr ""
 
 msgid "Select Hosts"
 msgstr "Selecciona els amfitrions"
@@ -8796,6 +8845,9 @@ msgstr "Envia un missatge de prova a l'adreça electrònica de l'usuari per conf
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "Envia un missatge de benvinguda als usuaris nous incloent-hi el nom d'usuari i l'URL"
+
+msgid "Send email notifications when configuration errors are reported"
+msgstr ""
 
 msgid "Send report via e-mail"
 msgstr ""
@@ -10041,6 +10093,9 @@ msgstr "Tot el nom de domini DNS"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
+msgstr ""
+
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
@@ -10520,6 +10575,9 @@ msgstr ""
 msgid "UUID"
 msgstr "UUID"
 
+msgid "UUID of a VM to import from a compute resource"
+msgstr ""
+
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
@@ -10632,6 +10690,9 @@ msgid "Unable to get installed BMC providers"
 msgstr "No es poden obtenir els proveïdors BMC instal·lats"
 
 msgid "Unable to initialize ProxyAPI class %s"
+msgstr ""
+
+msgid "Unable to load hardware model"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -11510,6 +11571,9 @@ msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
+msgstr ""
+
+msgid "Whether to enable or disable notification alerts for the selected hosts"
 msgstr ""
 
 msgid "Whether to pull RSS notifications or not"

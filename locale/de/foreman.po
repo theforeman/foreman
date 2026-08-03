@@ -19,7 +19,7 @@
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Jörg Dreffein, 2022
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# Markus Bucher <bucher@atix.de>, 2019-2020
+# Markus Bucher <bucher@atix.de>, 2019-2020,2026
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
 # Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
 # pdolinic, 2021
@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026\n"
+"Last-Translator: Markus Bucher <bucher@atix.de>, 2019-2020,2026\n"
 "Language-Team: German (http://app.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,8 +162,14 @@ msgid_plural "%s warning messages"
 msgstr[0] "%s Warnmeldung"
 msgstr[1] "%s Warnmeldungen"
 
+msgid "%s was successfully created."
+msgstr ""
+
 msgid "%s was successfully deleted"
 msgstr "%s wurde erfolgreich gelöscht"
+
+msgid "%s was successfully updated."
+msgstr ""
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -442,6 +448,9 @@ msgid "A mismatch happens if there is a resource associated with a host, such as
 msgstr ""
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
+msgstr ""
+
+msgid "A model with this name already exists. Please choose a different name."
 msgstr ""
 
 msgid "A notification when a host finishes building"
@@ -1276,6 +1285,9 @@ msgstr "BMC-Passwortnutzung"
 msgid "Back"
 msgstr "Zurück"
 
+msgid "Back to hardware models"
+msgstr ""
+
 msgid "Back to host"
 msgstr "Zurück zu Host"
 
@@ -1287,6 +1299,9 @@ msgstr "Backend-Systemstatus"
 
 msgid "Backtrace"
 msgstr "Ablaufverfolgung"
+
+msgid "Bar chart"
+msgstr ""
 
 msgid "Bare Metal"
 msgstr "Hardware"
@@ -1462,7 +1477,7 @@ msgid "Cache refreshing is not supported for %s"
 msgstr "Cache-refreshing wird nicht unterstützt für %s"
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
-msgstr "Der Cache verlangsamt Abfragen zu VMWare um das Seiten Rendering zu beschleunigen"
+msgstr "Ergebnisse langsamer Abfragen zu VMWare zwischenspeichern um das Laden von Seiten zu beschleunigen"
 
 msgid "Caching"
 msgstr "Caching"
@@ -2211,6 +2226,9 @@ msgstr "Verschachtelten Parameter für ein Betriebssystem erstellen"
 msgid "Create a nested parameter for an organization"
 msgstr "Verschachtelten Parameter für eine Organisation erstellen"
 
+msgid "Create a new hardware model"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Partitionstabelle erstellen"
 
@@ -2763,6 +2781,9 @@ msgstr "Die Gerätekennung für diese Schnittstelle. DIese kann auf verschiedene
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "Gerätebezeichner, z.B. eth0 oder eth1.1"
 
+msgid "Disable"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "Benachrichtigungen deaktivieren"
 
@@ -3014,6 +3035,9 @@ msgstr "Embedded Ruby (ERB) ist ein Tool zum Generieren von Textdateien basieren
 msgid "Empty"
 msgstr "Leer"
 
+msgid "Enable"
+msgstr ""
+
 msgid "Enable Caching"
 msgstr "Caching aktivieren"
 
@@ -3055,6 +3079,9 @@ msgstr "aktiviere %s für Neuerstellung beim nächsten Systemstart"
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "Neuerstellung für %s aktiviert für den nächsten Boot, aber der Power-Cycle des Host schlug fehl"
+
+msgid "Enablement state of the selected hosts may vary."
+msgstr ""
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr "Schließt einen Kommentar ein, der beim Rendern der Vorlage ignoriert wird:"
@@ -3492,6 +3519,11 @@ msgstr "Konnte die Aktualisierung der Recheninstanz %{name} auf %{compute_resour
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Konnte die Recheninstanz %{name} auf %{compute_resource} nicht aktualisieren: %{e} "
+
+msgid "Failed to update notifications for %s host"
+msgid_plural "Failed to update notifications for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "Fehler beim Prüfen von %{host}: %{error}"
@@ -4134,9 +4166,6 @@ msgstr "Hex-Wert für die Farbe des Instanztitelbanners. Er wird nur verwendet, 
 
 msgid "Hidden Value"
 msgstr "Verborgener Wert"
-
-msgid "Hide Content"
-msgstr "Inhalt ausblenden"
 
 msgid "Hide advanced fields"
 msgstr "Erweiterte Felder ausblenden"
@@ -5877,6 +5906,9 @@ msgstr "VM-Informationen werden geladen..."
 msgid "Loading filters ..."
 msgstr "Filter werden geladen …"
 
+msgid "Loading form"
+msgstr ""
+
 msgid "Loading host information ..."
 msgstr "Hostinformation wird geladen ..."
 
@@ -6169,6 +6201,9 @@ msgstr "Host verwalten"
 
 msgid "Manage host statuses"
 msgstr "Host-Status verwalten"
+
+msgid "Manage notifications"
+msgstr ""
 
 msgid "Managed"
 msgstr "Verwaltet"
@@ -6930,6 +6965,9 @@ msgstr "Benachrichtigungsplan"
 msgid "Notification recipient"
 msgstr "Benachrichtigungsempfänger"
 
+msgid "Notification state"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
 msgstr "BenachrichtigungBlueprint|Aktionen"
@@ -6961,8 +6999,19 @@ msgstr "Gesehen"
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
+msgid "Notifications %{action} for %{count} host"
+msgid_plural "Notifications %{action} for %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
+msgstr ""
+
 msgid "Notifications can't be assigned to this user."
 msgstr "Benachrichtigungen können diesem Benutzer nicht zugewiesen werden."
+
+msgid "Notifications enabled"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -8403,6 +8452,9 @@ msgstr ""
 msgid "Return to the last page"
 msgstr ""
 
+msgid "Return to the previous page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr "Gibt einen String aus, der für einen Hoststatus eines bestimmten Typen steht"
 
@@ -8670,7 +8722,7 @@ msgstr "Skriptvorlage"
 msgid "Search"
 msgstr "Suche"
 
-msgid "Search and go"
+msgid "Search (Ctrl+Shift+F)"
 msgstr ""
 
 msgid "Search error"
@@ -8717,9 +8769,6 @@ msgstr "Aktion auswählen"
 
 msgid "Select All"
 msgstr "Alle auswählen"
-
-msgid "Select Host..."
-msgstr "Host auswählen..."
 
 msgid "Select Hosts"
 msgstr "Hosts auswählen"
@@ -8857,6 +8906,9 @@ msgstr "Senden Sie eine Test-E-Mail an die Adresse des Benutzers um sicherzustel
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "Willkommens-E-Mail inklusive Benutzername und URL an neue Benutzer senden"
+
+msgid "Send email notifications when configuration errors are reported"
+msgstr ""
 
 msgid "Send report via e-mail"
 msgstr "Bericht per eMail schicken"
@@ -10102,6 +10154,9 @@ msgstr "Der vollständige DNS-Domänenname"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "Die Gruppen, welche Sie als externe Benutzergruppen hinzugefügt haben, wurden gefunden. Allerdings wurden, basierend auf der angegebenen Base DN und Filter, keine Benutzer in diesen Gruppen gefunden. Bitte überprüfen Sie den Authentifizierungsquellen-Filter."
 
+msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
+msgstr ""
+
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
@@ -10585,6 +10640,9 @@ msgstr "UTC-Zeit zu der ein Bericht generiert wird"
 msgid "UUID"
 msgstr "UUID"
 
+msgid "UUID of a VM to import from a compute resource"
+msgstr ""
+
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "UUID zum Tracken des Status der Orchestrierungsaufgaben, GET /api/orchestration/:UUID/tasks"
 
@@ -10698,6 +10756,9 @@ msgstr "Installierte BMC-Anbieter konnten nicht geladen werden"
 
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI Klasse %s kann nicht initialisiert werden"
+
+msgid "Unable to load hardware model"
+msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr "IP-Adresse für Subnetz %{subnet} in externem IPAM kann nicht abgerufen werden."
@@ -11582,6 +11643,9 @@ msgstr "Ob die neue Übersichtsseite für alle Hosts angezeigt werden soll oder 
 
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "Ob der Klassenparameter von Foreman verwaltet wird."
+
+msgid "Whether to enable or disable notification alerts for the selected hosts"
+msgstr ""
 
 msgid "Whether to pull RSS notifications or not"
 msgstr "Ob RSS-Benachrichtigungen angezogen werden sollen oder nicht"
