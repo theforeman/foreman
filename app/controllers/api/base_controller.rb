@@ -319,7 +319,7 @@ module Api
     end
 
     def log_response_body
-      logger.debug { "Body: #{response.body}" }
+      logger.debug { "Body: #{response.body}" } unless response.headers['Content-Disposition']&.include?('attachment')
     end
 
     private
