@@ -7,6 +7,7 @@ module StripWhitespace
 
   def strip_spaces
     changes.each do |column, values|
+      next if self.class.columns_hash[column]&.type == :binary
       self[column] = self[column].strip if (self[column].is_a?(String) && !skip_strip_attrs.include?(column))
     end
   end

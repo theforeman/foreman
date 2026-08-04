@@ -189,8 +189,14 @@ module Api
         else
           data = StoredValue.read(params[:job_id])
           return not_found(_('Report data are not available, it has probably expired.')) unless data
-          data = data.to_json if @composer.mime_type == 'application/json'
-          send_data data, type: @composer.mime_type, filename: @composer.report_filename
+          if data.b[0, 2] == "\x1f\x8b".b  # This header indicates the start of a gzip file
+            filename = @composer.report_filename
+            filename += '.gz' unless filename.end_with?('.gz')
+            send_data data, type: 'application/gzip', filename: filename
+          else
+            data = data.to_json if @composer.mime_type == 'application/json'
+            send_data data, type: @composer.mime_type, filename: @composer.report_filename
+          end
         end
       end
 

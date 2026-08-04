@@ -30,22 +30,32 @@ require:
   version: 4.9.0
 -%>
 <%- report_headers 'Host', 'Operating System', 'Environment', 'Erratum', 'Type', 'Published', 'Available since', 'Severity', 'Packages', 'CVEs', 'Reboot suggested' -%>
-<%- errata_filter = input('Errata filter') %>
-<%- load_hosts(search: input('Hosts filter'), preload: [:operatingsystem]).each_record do |host| -%>
-<%-   (input('Installability') == 'applicable' ? host_applicable_errata_filtered(host, errata_filter) : host_installable_errata_filtered(host, errata_filter)).each do |erratum| -%>
-<%-     report_row(
-          'Host': host.name,
-          'Operating System': host.operatingsystem,
-          'Environment': host.single_lifecycle_environment,
-          'Erratum': erratum.errata_id,
-          'Type': erratum.errata_type,
-          'Published': erratum.issued,
-          'Available since': erratum.created_at,
-          'Severity': erratum.severity,
-          'Packages': erratum.package_names,
-          'CVEs': erratum.cves.map { |c| c.cve_id },
-          'Reboot suggested': erratum.reboot_suggested,
-        ) -%>
+<%- errata_filter = input('Errata filter') -%>
+<%- installability = input('Installability') -%>
+<%# Tune host batch size to match your preferred memory consumption. -%>
+<%# Expect ~1.5KiB consumption per erratum per host. A 500 host batch of 100 errata per host would consume ~73MiB. -%>
+<%- host_batch_size = 500 -%>
+<%- hosts = load_hosts(search: input('Hosts filter'), preload: [:operatingsystem], batch: host_batch_size) -%>
+<%- hosts.each do |host_batch| -%>
+<%-   batch_data = load_errata_and_cves_by_host(host_batch.to_a, installability: installability, errata_filter: errata_filter) -%>
+<%-   errata_by_host = batch_data[:errata_by_host] -%>
+<%-   cves_by_erratum = batch_data[:cves_by_erratum] -%>
+<%-   host_batch.each do |host| -%>
+<%-     (errata_by_host[host.id] || []).each do |erratum| -%>
+<%-       report_row(
+            'Host': host.name,
+            'Operating System': host.operatingsystem,
+            'Environment': host.single_lifecycle_environment,
+            'Erratum': erratum.errata_id,
+            'Type': erratum.errata_type,
+            'Published': erratum.issued,
+            'Available since': erratum.created_at,
+            'Severity': erratum.severity,
+            'Packages': erratum.package_names,
+            'CVEs': cves_by_erratum[erratum.errata_id] || [],
+            'Reboot suggested': erratum.reboot_suggested,
+          ) -%>
+<%-     end -%>
 <%-   end -%>
 <%- end -%>
 <%= report_render -%>
