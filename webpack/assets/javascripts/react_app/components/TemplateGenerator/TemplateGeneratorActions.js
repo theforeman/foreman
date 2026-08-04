@@ -50,7 +50,7 @@ const _getErrors = errorResponse => {
 export const pollReportData = pollUrl => dispatch => {
   dispatch({ type: TEMPLATE_GENERATE_POLLING, payload: { url: pollUrl } });
 
-  return API.get(pollUrl, { responseType: 'blob' })
+  return API.get(pollUrl, {}, {}, { responseType: 'blob' })
     .then(response => {
       if (response.status === HTTP_STATUS_CODES.OK) {
         dispatch({ type: TEMPLATE_GENERATE_SUCCESS, payload: {} });
