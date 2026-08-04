@@ -6,7 +6,7 @@ class SmartProxiesController < ApplicationController
   before_action :find_status, :only => [:ping, :tftp_server]
 
   def index
-    @smart_proxies = resource_base_search_and_page.includes(:features)
+    @smart_proxies = resource_base_search_and_page.includes(:features, :smart_proxy_features)
   end
 
   def show
@@ -144,7 +144,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def resource_base
-    super.eager_load(:locations, :organizations)
+    super.includes(:locations, :organizations)
   end
 
   def versions_mismatched?(proxy_versions_hash)

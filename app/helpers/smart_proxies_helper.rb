@@ -23,11 +23,12 @@ module SmartProxiesHelper
 
   def feature_actions(proxy, authorizer)
     actions = []
+    feature_names = proxy.features.map(&:name)
 
     actions << display_link_if_authorized(_("Refresh"), hash_for_refresh_smart_proxy_path(:id => proxy).
                                                                  merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
 
-    if proxy.has_feature?('Puppet CA')
+    if feature_names.include?('Puppet CA')
       actions << display_link_if_authorized(_("Certificates"), hash_for_smart_proxy_path(:id => proxy).
                                                                merge(:auth_object => proxy, :permission => 'view_smart_proxies_puppetca', :authorizer => authorizer, :anchor => 'certificates'))
 
@@ -35,11 +36,11 @@ module SmartProxiesHelper
                                                            merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => authorizer, :anchor => 'autosign'))
     end
 
-    if proxy.has_feature?('DHCP')
+    if feature_names.include?('DHCP')
       actions << display_link_if_authorized(_("Import IPv4 subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
     end
 
-    if proxy.has_feature?('Logs')
+    if feature_names.include?('Logs')
       actions << link_to_function_if_authorized(_('Expire logs'), "expireLogs(this, (new Date).getTime() / 1000);",
         hash_for_expire_logs_smart_proxy_path(:id => proxy), {
           :data => {
