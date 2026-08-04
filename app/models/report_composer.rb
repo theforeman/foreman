@@ -239,7 +239,7 @@ class ReportComposer
   def render(mode: Foreman::Renderer::REAL_MODE, **params)
     params[:params] = { :format => format }.merge(params.fetch(:params, {}))
     result = @template.render(mode: mode, template_input_values: template_input_values, **params)
-    result = ActiveSupport::Gzip.compress(result) if gzip?
+    result = ActiveSupport::Gzip.compress(result) if gzip? || result.bytesize > Setting[:report_auto_gzip_threshold].megabytes
     result
   end
 

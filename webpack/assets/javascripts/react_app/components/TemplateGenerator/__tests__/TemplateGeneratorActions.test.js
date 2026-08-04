@@ -48,7 +48,7 @@ describe('TemplateGeneratorActions', () => {
       runActionInDepth(() => actions.generateTemplate(), 2).then(callTree => {
         expect(callTree[1][0].type).toEqual(TEMPLATE_GENERATE_POLLING);
         expect(callTree[1][0].payload).toHaveProperty('url', dataUrl);
-        expect(API.get.mock.calls[0]).toEqual([dataUrl, expect.any(Object)]);
+        expect(API.get.mock.calls[0]).toEqual([dataUrl, {}, {}, { responseType: 'blob' }]);
       });
     });
 

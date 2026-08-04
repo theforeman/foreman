@@ -433,15 +433,15 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
         assert_equal 'plain response', response.body
       end
 
-      it 'return gziped stored_content if job done and has gzip param' do
-        stub_plan_arguments(gzip: true)
-        compressed_value = ActiveSupport::Gzip.compress('plain response')
-        StoredValue.expects('read').with('JOBID').returns(compressed_value)
+      it 'serves compressed report as gzip download' do
+        stub_plan_arguments
+        compressed = ActiveSupport::Gzip.compress('plain response')
+        StoredValue.expects('read').with('JOBID').returns(compressed)
 
         get :report_data, params: { id: report_template.id, job_id: 'JOBID' }
         assert_response :success
         assert_equal 'application/gzip', response.media_type
-        assert_equal compressed_value, response.body
+        assert_equal compressed, response.body
       end
     end
   end
