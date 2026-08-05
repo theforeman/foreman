@@ -59,7 +59,9 @@ const PageLayout = ({
         <PageSection variant={PageSectionVariants.light} type="breadcrumb">
           <div id="breadcrumb">
             {customBreadcrumbs ||
-              (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
+              (breadcrumbOptions && (
+                <BreadcrumbBar {...breadcrumbOptions} isPf4 />
+              ))}
           </div>
         </PageSection>
       )}
