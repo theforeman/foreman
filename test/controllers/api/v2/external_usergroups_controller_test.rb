@@ -13,6 +13,14 @@ class Api::V2::ExternalUsergroupsControllerTest < ActionController::TestCase
     refute_empty ActiveSupport::JSON.decode(@response.body)['results']
   end
 
+  test 'external user groups in auth source ldap' do
+    get :index, params: { auth_source_ldap_id: @external_usergroup.auth_source_id }
+
+    assert_response :success
+    assert_not_nil assigns(:external_usergroups)
+    refute_empty ActiveSupport::JSON.decode(@response.body)['results']
+  end
+
   test 'show an external user group' do
     get :show, params: { :usergroup_id => @external_usergroup.usergroup_id,
                          :id           => @external_usergroup.id }
