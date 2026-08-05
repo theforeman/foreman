@@ -83,8 +83,15 @@ module Api
       association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.plural_name == parent_name.pluralize }
       # if couldn't find an association by name, try to find one by class
       association ||= resource_class.reflect_on_all_associations.detect { |assoc| assoc.class_name == parent_name.camelize }
-      if association.nil? && parent_name == 'host'
-        association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.class_name == 'Host::Base' }
+      # the parent might be an STI subclass (e.g. AuthSourceLdap < AuthSource, Host::Managed < Host::Base)
+      # while the association is declared against the STI base class, so fall back to a subclass check
+      if association.nil?
+        parent_class = resource_class_for(resource_name(parent_name))
+        association = resource_class.reflect_on_all_associations.detect do |assoc|
+          parent_class && !assoc.polymorphic? && parent_class <= assoc.klass
+        rescue NameError
+          false
+        end
       end
       return resource_class.all if association.nil? && Taxonomy.types.include?(resource_class_for(resource_name(parent_name)))
       raise "Association not found for #{parent_name}" unless association
