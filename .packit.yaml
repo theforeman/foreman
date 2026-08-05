@@ -38,6 +38,9 @@ jobs:
         additional_modules: "foreman-devel:el9"
         additional_repos:
           - https://yum.theforeman.org/releases/nightly/el9/x86_64/
+      rhel-10:
+        additional_repos:
+          - https://yum.theforeman.org/releases/nightly/el10/x86_64/
     module_hotfixes: true
 
   - <<: *copr
