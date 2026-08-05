@@ -46,7 +46,7 @@ module Hostext
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title, :only_explicit => true
       scoped_search :relation => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
+      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :operators => ['=', '!=', '<>'], :ext_method => :search_by_hostgroup_and_descendants
       scoped_search :relation => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
       scoped_search :relation => :domain,      :on => :id,      :complete_enabled => false, :rename => :domain_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :realm,       :on => :name,    :complete_value => true, :rename => :realm
@@ -174,16 +174,32 @@ module Hostext
       end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
-        conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
+        negate = parent_hostgroup_search_negated?(operator)
+        lookup_operator = parent_hostgroup_lookup_operator(operator)
+        conditions = sanitize_sql_for_conditions(["hostgroups.title #{lookup_operator} ?", value_to_sql(lookup_operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
-        hostgroup = Hostgroup.unscoped.with_taxonomy_scope.find_by(conditions)
+        hostgroup = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).first
         if hostgroup.present?
           hostgroup_ids = hostgroup.subtree_ids
-          opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
+          if hostgroup_ids.blank?
+            opts = negate ? '1 = 1' : 'hosts.id < 0'
+          elsif negate
+            opts = "(hosts.hostgroup_id NOT IN (#{hostgroup_ids.join(',')}) OR hosts.hostgroup_id IS NULL)"
+          else
+            opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
+          end
         else
-          opts = "hosts.id < 0"
+          opts = negate ? '1 = 1' : 'hosts.id < 0'
         end
         {:conditions => opts}
+      end
+
+      def parent_hostgroup_search_negated?(operator)
+        ['<>', '!=', 'NOT ILIKE', 'NOT IN'].include?(operator.to_s.strip)
+      end
+
+      def parent_hostgroup_lookup_operator(operator)
+        parent_hostgroup_search_negated?(operator) ? '=' : operator
       end
 
       def search_by_params(key, operator, value)
