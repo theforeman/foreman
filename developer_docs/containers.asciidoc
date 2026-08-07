@@ -3,7 +3,7 @@
 :toc: right
 :toclevels: 5
 
-The goal of this tutorial is to help developers to use quickly and easily a ready made Foreman container, or in cases where required, build their own version of it. 
+The goal of this tutorial is to help developers to use quickly and easily a ready made Foreman container, or in cases where required, build their own version of it.
 
 Taken from original post at https://community.theforeman.org/t/dockerfile-is-now-included-in-foreman-core/13987/1
 
@@ -30,8 +30,8 @@ sudo service docker start
 [source, bash]
 ....
 docker-compose pull
-docker-compose run app bundle exec rake db:create db:migrate
-docker-compose run app bundle exec rake db:seed permissions:reset password=changeme 
+docker-compose run app bin/rake db:create db:migrate
+docker-compose run app bin/rake db:seed permissions:reset password=changeme
 docker-compose up
 ....
 
@@ -51,7 +51,7 @@ docker-compose down
 [source, bash]
 ....
 docker-compose pull
-docker-compose run app bundle exec rake db:migrate db:seed
+docker-compose run app bin/rake db:migrate db:seed
 docker-compose up
 ....
 

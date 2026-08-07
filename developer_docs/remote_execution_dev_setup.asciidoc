@@ -32,7 +32,7 @@ Install plugin dependencies & migrate database
 bundle install
 npm install
 
-bundle exec rails db:migrate
+bin/rails db:migrate
 ....
 
 Create initializer for Dynflow running as separate process
@@ -98,7 +98,7 @@ In Foreman on the detail of Smart Proxy click refresh and verify that `Script` (
 ....
 # In Foreman folder
 bundle exec foreman start
-bundle exec rake dynflow:executor
+bin/rake dynflow:executor
 
 # In Smart Proxy folder
 bundle exec bin/smart-proxy

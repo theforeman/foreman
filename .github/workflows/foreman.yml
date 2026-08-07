@@ -125,10 +125,10 @@ jobs:
         if: contains(matrix.task, 'external')
       - name: Prepare test env
         run: |
-          bundle exec rake db:create
-          bundle exec rake db:migrate
+          bin/rake db:create
+          bin/rake db:migrate
       - name: Run rake ${{ matrix.task }}
-        run: ${{ contains(matrix.task, 'apipie') && 'APIPIE_RECORD=examples FOREMAN_APIPIE_LANGS=en' || '' }} bundle exec rake ${{ matrix.task }}
+        run: ${{ contains(matrix.task, 'apipie') && 'APIPIE_RECORD=examples FOREMAN_APIPIE_LANGS=en' || '' }} bin/rake ${{ matrix.task }}
       - name: Archive apidoc
         uses: actions/upload-artifact@v7
         if: contains(matrix.task, 'apipie')

@@ -122,16 +122,16 @@ Rails (and subsequently Foreman) will use these connection settings under “dev
 Set up database schema:
 [source, ruby]
 ....
-bundle exec rake db:create # if not already created
-bundle exec rake db:migrate
-SEED_ADMIN_PASSWORD=changeme bundle exec rake db:seed
+bin/rake db:create # if not already created
+bin/rake db:migrate
+SEED_ADMIN_PASSWORD=changeme bin/rake db:seed
 ....
 
 The previous commands will create databases only for the development environment, for test environment you need to run also:
 [source, ruby]
 ....
-RAILS_ENV=test bundle exec rake db:create
-RAILS_ENV=test bundle exec rake db:migrate
+RAILS_ENV=test bin/rake db:create
+RAILS_ENV=test bin/rake db:migrate
 ....
 
 [[Running]]
@@ -143,12 +143,12 @@ bundle exec foreman start
 ....
 
 You can also run Foreman in two separate processes - frontend and rails.
-This way when you need to restart Foreman (for code reload) you don't have to wait for webpack build. 
+This way when you need to restart Foreman (for code reload) you don't have to wait for webpack build.
 Additionally, this allows you to use interactive tools which bind to the console such as [pry](https://github.com/pry/pry) or [byebug](https://github.com/deivid-rodriguez/byebug).
 [source, bash]
 ....
 # Rails
-bundle exec rails s -b 0.0.0.0 -p 3000
+bin/rails s -b 0.0.0.0 -p 3000
 
 # Frontend
 bundle exec foreman start webpack
@@ -168,7 +168,7 @@ list of options that can be set in an .env file (as well as in the cli call):
 If you can't find your admin user's password, you can update its password from rails console:
 [source, ruby]
 ....
-bundle exec rake permissions:reset password=changeme
+bin/rake permissions:reset password=changeme
 ....
 
 Now you can login with `admin` user and its new password.
@@ -176,13 +176,13 @@ Now you can login with `admin` user and its new password.
 === Seeding mock data
 [source, ruby]
 ....
-bundle exec rake seed:forgeries
+bin/rake seed:forgeries
 ....
 
 All rake tasks are available with the following command:
 [source, ruby]
 ....
-bundle exec rake -T
+bin/rake -T
 ....
 
 === Running tests in Foreman
@@ -206,13 +206,13 @@ bundle exec rubocop --auto-correct-all # (safe and unsafe)
 To run Foreman's tests:
 [source, shell]
 ....
-bundle exec rake test [TEST=<path_to_file>]
+bin/rake test [TEST=<path_to_file>]
 ....
 
 To run a specific test:
 [source, shell]
 ....
-bundle exec rails test <path_to_file>:<test_line_number>
+bin/rails test <path_to_file>:<test_line_number>
 ....
 
 ===== Foreman Integration Tests
@@ -230,8 +230,8 @@ To run Foreman's integration tests:
 [source, shell]
 ....
 npm install # make sure to install npm dependencies for webpack
-bundle exec rake webpack:compile
-bundle exec rake test TEST=test/integration/<test_file> [DEBUG_JS_TEST=1]
+bin/rake webpack:compile
+bin/rake test TEST=test/integration/<test_file> [DEBUG_JS_TEST=1]
 ....
 
 
@@ -291,28 +291,28 @@ Another option is to re-run `npm install` in foreman,
 which will trigger in the end a postinstall script that will install all node modules of plugins.
 
 After you've installed the dependencies,
-run `bundle exec rake db:migrate` and `bundle exec rake db:seed` to update the database scheme.
+run `bin/rake db:migrate` and `bin/rake db:seed` to update the database scheme.
 
 === Running tests in plugins
 Make sure to run plugins tests from the Foreman directory.
 In order to run rubocop test in the plugin, use the following command:
 [source, ruby]
 ....
-bundle exec rake <PLUGIN_NAME>:rubocop
+bin/rake <PLUGIN_NAME>:rubocop
 ....
 
 To run all of the plugin's tests:
 [source, ruby]
 ....
 npm install # make sure to install npm dependencies for webpack
-bundle exec rake webpack:compile # only needed if you have integration tests that uses JS
-bundle exec rake test:<PLUGIN_NAME>
+bin/rake webpack:compile # only needed if you have integration tests that uses JS
+bin/rake test:<PLUGIN_NAME>
 ....
 
 To run a specific plugin's test:
 [source, ruby]
 ....
-bundle exec rake test TEST="../<PLUGIN_PATH>/test/PATH/TO/TEST"
+bin/rake test TEST="../<PLUGIN_PATH>/test/PATH/TO/TEST"
 ....
 
 [[Forklift]]

@@ -52,11 +52,11 @@ tx-pull: $(EDITFILES)
 
 # Extract strings and update the .pot, prepare .edit.po files
 extract-strings:
-	bundle exec rake locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
+	bin/rake locale:find DOMAIN=$(DOMAIN) SKIP_MODEL=1
 
 # Merge .edit.po into .po
 update-po:
-	bundle exec rake locale:find locale:po_to_json DOMAIN=$(DOMAIN) SKIP_MODEL=1
+	bin/rake locale:find locale:po_to_json DOMAIN=$(DOMAIN) SKIP_MODEL=1
 
 tx-update: extract-strings tx-pull update-po
 	git commit -m "i18n - extracting new, pulling from tx" . ../app/assets/javascripts/locale

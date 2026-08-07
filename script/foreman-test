@@ -8,7 +8,7 @@
 #   3. From anywhere (on PATH):    foreman-test katello test/models/foo_test.rb
 #   4. With direct paths:          foreman-test ../katello/test/models/foo_test.rb
 #
-# Arguments containing ":" are treated as rake tasks and run via bundle exec rake.
+# Arguments containing ":" are treated as rake tasks and run via bin/rake.
 # When run without test file arguments, delegates to: rake test:<plugin>
 # When run with test files, uses direct ruby invocation (faster, no rake overhead).
 
@@ -185,7 +185,7 @@ fi
 
 if [[ ${#RAKE_TASKS[@]} -gt 0 ]]; then
   cd "$FOREMAN_PATH"
-  exec bundle exec rake "${RAKE_TASKS[@]}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
+  exec bin/rake "${RAKE_TASKS[@]}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
 elif [[ ${#TEST_FILES[@]} -gt 0 ]]; then
   cd "$FOREMAN_PATH"
 
@@ -222,5 +222,5 @@ elif [[ ${#TEST_FILES[@]} -gt 0 ]]; then
   fi
 else
   cd "$FOREMAN_PATH"
-  exec bundle exec rake test:"${PLUGIN_NAME//-/_}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
+  exec bin/rake test:"${PLUGIN_NAME//-/_}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
 fi

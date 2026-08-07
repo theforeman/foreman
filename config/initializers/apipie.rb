@@ -38,7 +38,7 @@ Apipie.configure do |config|
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
   # By default we disabled the cache, but if you need to speed the testing up, you can switch it to `true`.
-  # To speed up the generation of the cache, please use FOREMAN_APIPIE_LANGS=en bundle exec rake apipie:cache
+  # To speed up the generation of the cache, please use FOREMAN_APIPIE_LANGS=en bin/rake apipie:cache
   config.use_cache = false
   # config.languages = [] # turn off localized API docs and CLI, useful for development
   config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales

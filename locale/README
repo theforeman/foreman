@@ -8,7 +8,7 @@ Users and developers
 
 If you do not see translations in the production mode, run either
 
-  # rake gettext:pack
+  # bin/rake gettext:pack
 
 or
 
@@ -23,8 +23,8 @@ To re-extract strings from codebase and model into POT/PO files, make sure you
 have up-to-date model (best is to start with clean database) and extract via
 rake task:
 
-  # rake db:migrate
-  # rake db:seed
-  # rake locale:find
+  # bin/rake db:migrate
+  # bin/rake db:seed
+  # bin/rake locale:find
 
 Please do not use gettext:pack directly as we do additional postprocessing.
