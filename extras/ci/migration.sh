@@ -42,13 +42,13 @@ echo "Bundlizing..."
 bundle install
 
 echo "Dropping the database."
-rake db:drop:all
+bin/rake db:drop:all
 
 echo "Creating the new database."
-rake db:create
+bin/rake db:create
 
 echo "Migrating..."
-rake db:migrate
+bin/rake db:migrate
 
 if [ $# == 3 ]; then
     echo "Updating to $3"
@@ -58,7 +58,7 @@ if [ $# == 3 ]; then
     bundle update
 
     echo "Migrating to the new revision"
-    rake db:migrate
+    bin/rake db:migrate
 fi
 
 echo "You've made it this far. Looks like things are operational..."

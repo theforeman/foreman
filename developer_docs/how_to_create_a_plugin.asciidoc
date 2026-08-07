@@ -1070,9 +1070,9 @@ root
 [[running-your-migrations]]
 ==== Running your migrations
 
-* You can use `rake db:migrate` in your app directly to run all pending
+* You can use `bin/rake db:migrate` in your app directly to run all pending
 migrations (from all available plugins).
-* You can use `rake db:migrate SCOPE=my_plugin` to apply migrations from a
+* You can use `bin/rake db:migrate SCOPE=my_plugin` to apply migrations from a
 single plugin only.
 
 [[advanced]]
@@ -1083,7 +1083,7 @@ migrations file name, i.e.: `000000_my_migration_name.my_plugin.rb`.
 
 If all your migrations were created using this scheme, the user will be
 able to remove every trace of the plugin from the database +
-by running `rake db:migrate SCOPE=my_plugin VERSION=0` statement.
+by running `bin/rake db:migrate SCOPE=my_plugin VERSION=0` statement.
 
 [[adding-new-provisioning-templates]]
 === Adding new provisioning templates
@@ -1266,7 +1266,7 @@ package installed and run (again in the *foreman* app folder):
 
 [source, bash]
 ----
-$ rake plugin:assets:precompile[foreman_plugin]
+$ bin/rake plugin:assets:precompile[foreman_plugin]
 ----
 
 [[scheduling-recurring-tasks]]
@@ -2516,8 +2516,8 @@ folder):
 ----
 $ mkdir ../foreman_plugin/locale
 $ mkdir ../foreman_plugin/locale/en
-$ rake plugin:gettext[foreman_plugin]
-$ rake plugin:po_to_json[foreman_plugin]
+$ bin/rake plugin:gettext[foreman_plugin]
+$ bin/rake plugin:po_to_json[foreman_plugin]
 ----
 
 This should create locale/foreman_plugin.pot file. Edit the header
@@ -2585,9 +2585,9 @@ the latest updates:
 1.  In the plugin dir, pull updates into the .edit.po plain text files:
 `make -C locale tx-update`
 2.  In the Foreman dir, merge the updates into the PO files:
-`rake plugin:gettext[foreman_plugin]`
+`bin/rake plugin:gettext[foreman_plugin]`
 3.  In the Foreman dir, generate files with translations for use in frontend:
-`rake plugin:po_to_json[foreman_plugin]`
+`bin/rake plugin:po_to_json[foreman_plugin]`
 4.  In the plugin dir, rebuild the MO files: `make -C locale mo-files`
 
 These files should be .gitignored:
@@ -2744,7 +2744,7 @@ You can automatically generate a whitelist by running:
 
 [source, bash]
 ----
-AS_DEPRECATION_WHITELIST=~/plugin_path AS_DEPRECATION_RECORD=yes rake
+AS_DEPRECATION_WHITELIST=~/plugin_path AS_DEPRECATION_RECORD=yes bin/rake
 test:foreman_your_plugin
 ----
 

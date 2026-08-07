@@ -3,7 +3,7 @@
 # and compares the result with copies in test/unit/foreman/renderer/snapshots.
 # After review of changes, snapshots can be easily regenerated with:
 #
-#   bundle exec rake snapshots:generate RAILS_ENV=test
+#   bin/rake snapshots:generate RAILS_ENV=test
 #
 
 require 'test_helper'

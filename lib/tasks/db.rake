@@ -3,7 +3,7 @@ desc <<-END_DESC
   Reset PostgreSQL sequences to their max values. Does nothing on other databases.
 
   Examples:
-    rake db:sequence:reset - reset primary key sequence to max value (only for PostgreSQL)
+    bin/rake db:sequence:reset - reset primary key sequence to max value (only for PostgreSQL)
 
 END_DESC
 

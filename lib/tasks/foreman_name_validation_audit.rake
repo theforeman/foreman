@@ -2,7 +2,7 @@ desc <<-END_DESC
   List domains whose names do not match Net::Validations::DOMAIN_NAME_REGEXP.
 
   Examples:
-    bundle exec rake foreman:audit_domain_names RAILS_ENV=production
+    bin/rake foreman:audit_domain_names RAILS_ENV=production
 END_DESC
 
 namespace :foreman do

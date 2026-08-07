@@ -3,7 +3,7 @@
 :toc: right
 :toclevels: 5
 
-A short guide, intended for either quick local fixes that developers can do in their env, or say that they tried before opening bug reports to save time. 
+A short guide, intended for either quick local fixes that developers can do in their env, or say that they tried before opening bug reports to save time.
 
 ## What is (probably) a ui error?
 When something isn't displaying correctly, such as a blank or partially loaded page, UI elements overlapping, or unexpected behavior without corresponding server-side errors.
@@ -29,7 +29,7 @@ If you've recently updated the Foreman version or code and your changes aren't v
 
 * Clear your browser's cache.
 
-* Run `bundle exec rake assets:clobber`.
+* Run `bin/rake assets:clobber`.
 
 ## Other Errors
 
