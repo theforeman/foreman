@@ -40,6 +40,8 @@ jobs:
       BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:redis:service:telemetry:vmware
     steps:
       - uses: actions/checkout@v4
+      - run: sudo apt-get update
+      - run: sudo apt-get -qq -y install libcap-dev
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -77,7 +79,7 @@ jobs:
           - 'test:external'
     steps:
       - run: sudo apt-get update
-      - run: sudo apt-get -qq -y install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev
+      - run: sudo apt-get -qq -y install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev libcap-dev
       - name: generate artifact suffix
         run: echo "ARTIFACT_SUFFIX=$(echo 'ruby-${{ matrix.ruby }}-node-${{ matrix.node }}-pg-${{ matrix.postgresql }}-${{ matrix.task }}' | tr -cd '[:alnum:]-.')" >> "${GITHUB_ENV}"
       - name: "Check out Foreman"
