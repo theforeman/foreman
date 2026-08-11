@@ -4,7 +4,7 @@ on:
     types: [created]
 jobs:
   breaks-robottelo:
-    uses: theforeman/actions/.github/workflows/breaks-robottelo.yml@v0
+    uses: theforeman/actions/.github/workflows/breaks-robottelo.yml@v1
     permissions:
       pull-requests: write
     with:
