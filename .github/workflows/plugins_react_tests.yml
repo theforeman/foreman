@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Checkout Foreman
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: ${{ github.workspace }}/projects/foreman
       - name: Generate Foreman npm dependencies package-lock
@@ -61,7 +61,7 @@ jobs:
         run: npm ci --no-audit
         working-directory: ${{ github.workspace }}/projects/foreman
       - name: Checkout ${{ matrix.plugin.repo }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ matrix.plugin.repo }}
           path: ${{ github.workspace }}/projects/plugin
