@@ -39,7 +39,7 @@ jobs:
     env:
       BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:redis:service:telemetry:vmware
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: sudo apt-get update
       - run: sudo apt-get -qq -y install libcap-dev
       - name: Setup Ruby
@@ -83,7 +83,7 @@ jobs:
       - name: generate artifact suffix
         run: echo "ARTIFACT_SUFFIX=$(echo 'ruby-${{ matrix.ruby }}-node-${{ matrix.node }}-pg-${{ matrix.postgresql }}-${{ matrix.task }}' | tr -cd '[:alnum:]-.')" >> "${GITHUB_ENV}"
       - name: "Check out Foreman"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: "Set up Ruby ${{ matrix.ruby }}"
         uses: ruby/setup-ruby@v1
         with:

@@ -31,7 +31,7 @@ jobs:
       matrix: ${{ fromJson(needs.setup_matrix.outputs.matrix) }}
     steps:
       - name: Checkout Foreman
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
