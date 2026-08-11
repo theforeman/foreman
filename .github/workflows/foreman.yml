@@ -90,7 +90,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Archive Gemfile.lock
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Gemfile-${{ env.ARTIFACT_SUFFIX }}.lock
           path: Gemfile.lock
@@ -110,7 +110,7 @@ jobs:
         run: npm install --package-lock-only --no-audit
         if: contains(matrix.task, 'compile')
       - name: Archive package-lock.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: package-lock-${{ env.ARTIFACT_SUFFIX }}.json
           path: package-lock.json
@@ -130,14 +130,14 @@ jobs:
       - name: Run rake ${{ matrix.task }}
         run: ${{ contains(matrix.task, 'apipie') && 'APIPIE_RECORD=examples FOREMAN_APIPIE_LANGS=en' || '' }} bundle exec rake ${{ matrix.task }}
       - name: Archive apidoc
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: contains(matrix.task, 'apipie')
         with:
           name: apidoc-${{ env.ARTIFACT_SUFFIX }}
           path: public/apipie-cache/apidoc/
       - name: Archive all_react_app_exports
         if: contains(matrix.task, 'compile')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: all_react_app_exports-${{ env.ARTIFACT_SUFFIX }}.js
           path: webpack/assets/javascripts/all_react_app_exports.js
