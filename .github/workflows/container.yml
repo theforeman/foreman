@@ -15,6 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Build container
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           tags: quay.io/foreman/foreman:pr
