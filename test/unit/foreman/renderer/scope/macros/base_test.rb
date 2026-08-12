@@ -195,10 +195,35 @@ class BaseMacrosTest < ActiveSupport::TestCase
   end
 
   test 'URI::Generic jail test' do
-    allowed = [:host, :path, :port, :query, :scheme]
+    allowed = [:fragment, :host, :hostname, :path, :port, :query, :scheme]
     allowed.each do |m|
       assert URI::HTTP::Jail.allowed?(m), "Method #{m} is not available in URI::HTTP::Jail while should be allowed."
     end
+  end
+
+  test 'parse_url returns hostname for URL with domain' do
+    result = @scope.parse_url('https://tower.example.com:8443/api/v2')
+    assert_equal 'tower.example.com', result.hostname
+  end
+
+  test 'parse_url returns hostname for URL with IPv4' do
+    result = @scope.parse_url('https://192.168.1.1:8443/api/v2')
+    assert_equal '192.168.1.1', result.hostname
+  end
+
+  test 'parse_url returns hostname for URL with IPv6' do
+    result = @scope.parse_url('https://[::1]:8443/api/v2')
+    assert_equal '::1', result.hostname
+  end
+
+  test 'parse_url handles invalid URL without raising' do
+    result = @scope.parse_url('not a valid url %%')
+    assert_nil result.hostname
+  end
+
+  test 'parse_url handles empty string without raising' do
+    result = @scope.parse_url('')
+    assert_nil result.hostname
   end
 
   context 'subnet helpers' do

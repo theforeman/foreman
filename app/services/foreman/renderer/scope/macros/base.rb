@@ -462,6 +462,18 @@ module Foreman
             Foreman::Version.new.short
           end
 
+          apipie :method, 'Parses a URL string and returns a URI object' do
+            required :url, String, desc: 'URL string to parse'
+            returns URI::Generic, desc: 'Parsed URI object; use .hostname, .host, .port, .path, .scheme, .query on the result'
+            example "parse_url('https://tower.example.com:443').hostname # => 'tower.example.com'"
+            example "parse_url('https://[::1]').hostname # => '::1'"
+          end
+          def parse_url(url)
+            URI.parse(url.to_s)
+          rescue URI::InvalidURIError
+            URI.parse('')
+          end
+
           private
 
           def validate_subnet(subnet)
