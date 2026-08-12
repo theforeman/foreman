@@ -111,6 +111,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s 개월 전 "
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr "%s 저장됨"
 
@@ -468,6 +471,9 @@ msgstr "접근 거부됨"
 msgid "Access unattended without build"
 msgstr "빌드 없이 무인 액세스"
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "계정 "
 
@@ -497,9 +503,6 @@ msgstr "자동 서명 항목 추가"
 
 msgid "Add Combination"
 msgstr "조합 추가"
-
-msgid "Add Controller"
-msgstr "컨트롤러 추가"
 
 msgid "Add Input"
 msgstr "입력 추가"
@@ -534,11 +537,17 @@ msgstr "가상 머신에 CD-ROM 드라이브를 추가합니다."
 msgid "Add a template combination"
 msgstr "템플릿 조합 추가 "
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "사용자의 SSH 키 추가"
 
 msgid "Add an email notification for a user"
 msgstr "사용자에 대한 이메일 알림 추가"
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "외부 사용자 그룹 추가 "
@@ -554,6 +563,9 @@ msgstr "등록을 위한 리포지토리 추가 (%s 세트)"
 
 msgid "Add repository"
 msgstr "리포지터리 추가"
+
+msgid "Add selected"
+msgstr ""
 
 msgid "Add tag"
 msgstr "태그 추가"
@@ -654,9 +666,6 @@ msgstr "전체 환경 "
 msgid "All host groups"
 msgstr "전체 호스트 그룹 "
 
-msgid "All hosts"
-msgstr "전체 호스트 "
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "전체 호스트 데이터는 위치 및 조직의 설정과 일치합니다."
 
@@ -711,6 +720,9 @@ msgstr "전체 사용자 "
 msgid "Allocated"
 msgstr "할당됨 "
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "할당 (GB)"
 
@@ -740,6 +752,9 @@ msgstr "이메일 주소가 필요합니다. 계정 세부 정보를 업데이�
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "LDAP에 연결하는 동안 오류가 발생했습니다. Foreman 호스트에서 인증 소스 호스트에 연결할 수 있고 온라인 상태인지 확인하십시오."
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr "연결을 테스트하는 동안 오류가 발생했습니다: "
@@ -833,6 +848,9 @@ msgstr "로그아웃하시겠습니까?"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "%{vm}의 %{act}을(를) 실행하시겠습니까?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr "템플릿을 되돌리시겠습니까?"
@@ -1230,6 +1248,9 @@ msgstr "BMC 비밀번호 사용"
 msgid "Back"
 msgstr "뒤로 "
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1468,11 +1489,17 @@ msgstr "%s의 보류 중인 빌드가 취소됨  "
 msgid "Cannot add audit comment to a locked template."
 msgstr "잠긴 템플릿에 감사 설명을 추가할 수 없습니다."
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "키가 %s이고 마운트 지점이 없는 경우 pagelet을 추가할 수 없습니다."
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "%s 키와 부분 키가 없는 pagelet을 추가할 수 없습니다."
+
+msgid "Cannot add volumes to an existing VM"
+msgstr ""
 
 msgid "Cannot be in the past"
 msgstr "과거가 될 수 없음"
@@ -1900,6 +1927,9 @@ msgstr "첫 번째 검색 이후에도 일치하는 항목 검색을 계속하�
 msgid "Continue?"
 msgstr "계속하시겠습니까?"
 
+msgid "Controller"
+msgstr ""
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr "LDAP에서 사용자의 그룹 멤버십을 조회하는 데 사용할 메커니즘을 제어합니다."
 
@@ -2173,6 +2203,9 @@ msgstr "조직의 중첩된 매개 변수 생성 "
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "파티션 테이블 생성 "
 
@@ -2226,6 +2259,9 @@ msgstr "호스트에 인터페이스 생성 "
 
 msgid "Create an operating system"
 msgstr "운영 체제 생성 "
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "자동 서명 항목 생성"
@@ -2491,9 +2527,6 @@ msgstr "%s을(를) 삭제하시겠습니까?"
 msgid "Delete :a_resource"
 msgstr ":a_resource 삭제 "
 
-msgid "Delete Controller"
-msgstr "컨트롤러 삭제"
-
 msgid "Delete Hosts"
 msgstr "호스트 삭제 "
 
@@ -2728,6 +2761,9 @@ msgstr "장치 식별자. 예: eth0 또는 eth1.1"
 msgid "Disable"
 msgstr "비활성화 "
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "통지 비활성화 "
 
@@ -2779,9 +2815,6 @@ msgstr "디스크"
 msgid "Disk '%s'"
 msgstr "디스크 '%s '"
 
-msgid "Disk Mode"
-msgstr "디스크 모드"
-
 msgid "Disk allocation"
 msgstr "디스크 할당"
 
@@ -2791,8 +2824,8 @@ msgstr "디스크 용량"
 msgid "Disk label"
 msgstr "디스크 레이블"
 
-msgid "Disk name"
-msgstr "디스크 이름"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr "디스크 경로"
@@ -2980,6 +3013,9 @@ msgstr "비어 있음"
 
 msgid "Enable"
 msgstr "활성화 "
+
+msgid "Enable %s?"
+msgstr ""
 
 msgid "Enable Caching"
 msgstr "캐싱 활성화"
@@ -3352,6 +3388,9 @@ msgstr ""
 "컴퓨팅 %{compute_resource} 인스턴스 %{name}을(를) 생성하지 못했습니다: %{message}\n"
 " "
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "VM %{name}를 배포하지 못했습니다. 실패: %{e}"
 
@@ -3509,6 +3548,9 @@ msgstr "%s의 TFTP 부팅 파일 가져오기 "
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "호스트의 전원이 켜져 있는지 여부의 상태를 가져옵니다. 지원되는 호스트는 VM 및 BMC가 있는 물리적 호스트입니다."
+
+msgid "Field is required"
+msgstr ""
 
 msgid "Field name"
 msgstr "필드 이름"
@@ -4062,9 +4104,6 @@ msgstr "HTTPS 부팅에는 httpboot 기능과 https_port 노출 설정이 있는
 msgid "HTTPS endpoint"
 msgstr "HTTPS 엔드포인트"
 
-msgid "Hard disk"
-msgstr "하드 디스크"
-
 msgid "Harddisk"
 msgstr "하드 디스크"
 
@@ -4495,6 +4534,9 @@ msgstr "작업에서 명시적으로 제외할 호스트. 포함된 매개변수
 msgid "Hosts to include in the action"
 msgstr "작업에 포함할 호스트"
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Foreman 보고가 비활성화된 호스트"
 
@@ -4688,9 +4730,6 @@ msgstr "호스트 그룹의 ID입니다. 참고: 호스트 그룹을 변경하�
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "호스트를 재할당할 호스트 그룹의 ID"
-
-msgid "ID of the organization"
-msgstr "조직의 ID"
 
 msgid "ID of the owner to reassign the hosts to"
 msgstr "호스트를 재할당할 소유자의 ID"
@@ -5198,6 +5237,9 @@ msgstr "송신 메일 위치가 잘못되었습니다. 임의 위치에 settings
 
 msgid "Invalid smart-proxy id"
 msgstr "잘못된 스마트-프록시 id"
+
+msgid "Invalid status"
+msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "잘못된 태그입니다. 키 및 값 속성이 있는 맵의 배열이어야 합니다."
@@ -6173,6 +6215,9 @@ msgstr "최고"
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "구조화된 하위 트리의 최대 키 양, Foreman에 저장된 통계::dropped_subtree_facts"
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr "최대 구조화된 팩트"
 
@@ -6659,9 +6704,6 @@ msgstr "기록을 찾을 수 없음 "
 
 msgid "No host could be found for rendering the template"
 msgstr "템플릿을 렌더링할 호스트를 찾을 수 없습니다."
-
-msgid "No host found"
-msgstr "호스트를 찾을 수 없습니다"
 
 msgid "No host found to associate this VM with"
 msgstr "이 VM에 연결된 호스트를 찾을 수 없음 "
@@ -7709,6 +7751,9 @@ msgstr "컴퓨터 인스턴스 %s의 파워 업 "
 msgid "Power%s"
 msgstr "전원%s"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr "접두사 길이는 비워 둘 수 없습니다."
 
@@ -8134,14 +8179,26 @@ msgstr "매처 제거"
 msgid "Remove Parameter"
 msgstr "매개 변수 삭제 "
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "사용자에 대한 이메일 알림 제거"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "%{host}에 대해 충돌하는 %{type} 제거"
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
 msgstr "태그 제거"
+
+msgid "Remove volume"
+msgstr ""
 
 msgid "Remove widget"
 msgstr "위젯 제거"
@@ -8845,6 +8902,9 @@ msgstr "서버 그룹"
 msgid "Server hint data"
 msgstr "서버 힌트 데이터"
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "서버 유형 "
 
@@ -9322,17 +9382,11 @@ msgstr "값 "
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "공백으로 구분된 옵션 (예: miimon=100). 본드 인터페이스의 경우에만 사용합니다. "
 
-msgid "Specified value is higher than maximum value"
-msgstr "최대값보다 큰 값이 지정되었습니다"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "최대값 %s보다 큰 값이 지정되었습니다"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "권장된 최대값 보다 큰 값이 지정되었습니다"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "권장된 최대값 %s보다 큰 값이 지정되었습니다"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "매처 지정"
@@ -9923,6 +9977,18 @@ msgstr "OS 디스크 레이아웃 옵션으로 사용할 텍스트(또는 ERB �
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "로그인 페이지 푸터에 표시할 텍스트입니다. 키워드 $VERSION이 현재 버전으로 대체되었습니다."
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "호스트에 대해 %{proxy_type} Puppet ca 프록시를 설정할 수 없습니다: %{host_names}"
@@ -10032,6 +10098,9 @@ msgstr "다음과 같은 오류로 인해 빌드가 정상적으로 진행되지
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr "다음 예제는 이것을 사용하여 FQDN과 IP 주소 사이의 불필요한 줄바꿈을 제거하는 방법을 보여줍니다."
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "다음 필드를 확인해야 합니다 "
 
@@ -10061,12 +10130,6 @@ msgstr "전체 DNS 도메인 이름 "
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "외부 사용자 그룹으로 추가한 그룹을 찾았습니다. 그러나 사용자의 인증 소스 기본 DN 및 필터와 일치하는 사용자가 그 안에 없습니다. 외부 사용자 그룹이 인증 소스 필터에 속하는지 확인하십시오."
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "호스트 %s이/가 존재하지 않거나 액세스 권한이 필요합니다. 이 문제가 계속되면 관리자에게 문의하세요."
 
 msgid "The host must be powered off to build."
 msgstr ""
@@ -10229,6 +10292,9 @@ msgstr "이 작업은 연결된 VM과 해당 디스크를 <b>삭제</b>하고 �
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "이 IP 주소는 외부 IPAM에서 이미 예약되었습니다."
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "이 작업을 수행하면 이 호스트와 모든 데이터(예: 팩트, 보고서)가 삭제됩니다."
@@ -10658,7 +10724,7 @@ msgstr "설치된 BMC 공급자를 가져올 수 없습니다 "
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI 클래스 %s을(를) 초기화할 수 없습니다."
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10831,6 +10897,9 @@ msgstr "관리되지 않는 호스트 "
 
 msgid "Unnamed"
 msgstr "이름 없음"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s에 대해 지원되지 않는 IPAM 모드"
@@ -11702,6 +11771,12 @@ msgstr "다른 사용자의 메일 통지를 삭제할 권한이 없습니다."
 msgid "You do not have permission to edit the login"
 msgstr "로그인을 편집할 수 있는 권한이 없습니다."
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "표시 가능한 호스트가 없습니다. Foreman에서 호스트를 추가하거나 프로비저닝할 수 있습니다. 또는 Foreman에 보고하도록 호스트를 구성할 수 있습니다."
 
@@ -11966,6 +12041,9 @@ msgstr "선택한 서브넷과 일치하지 않습니다 "
 msgid "domain"
 msgstr "도메인 "
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr "소요 시간 (ms)"
 
@@ -12058,6 +12136,9 @@ msgstr "글로벌 설정"
 
 msgid "groups base DN"
 msgstr "그룹 기본 DN"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "이미 사용되고 있습니다"

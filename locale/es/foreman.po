@@ -150,6 +150,9 @@ msgstr[0] "Hace %s mes"
 msgstr[1] "Hace % meses"
 msgstr[2] "Hace % meses"
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr ""
 
@@ -535,6 +538,9 @@ msgstr "Acceso denegado"
 msgid "Access unattended without build"
 msgstr "Acceso sin supervisión y sin compilación"
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "Cuenta"
 
@@ -564,9 +570,6 @@ msgstr "Añadir entrada autofirmada"
 
 msgid "Add Combination"
 msgstr "Añadir combinación"
-
-msgid "Add Controller"
-msgstr "Añadir controlador"
 
 msgid "Add Input"
 msgstr "Agregar entrada"
@@ -601,11 +604,17 @@ msgstr "Agregue una unidad de CD-ROM a la máquina virtual."
 msgid "Add a template combination"
 msgstr "Añadir una combinación de plantillas"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "Añadir una clave SSH para un usuario"
 
 msgid "Add an email notification for a user"
 msgstr "Añadir una notificación por correo electrónico para un usuario"
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "Añadir grupo de usuarios externo"
@@ -620,6 +629,9 @@ msgid "Add repositories for registration (%s set)"
 msgstr ""
 
 msgid "Add repository"
+msgstr ""
+
+msgid "Add selected"
 msgstr ""
 
 msgid "Add tag"
@@ -721,9 +733,6 @@ msgstr "Todos los entornos"
 msgid "All host groups"
 msgstr "Todos los grupos de hosts"
 
-msgid "All hosts"
-msgstr "Todos los hosts"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "Toda la información de los hosts coincide con la configuración de ubicaciones y organizaciones."
 
@@ -778,6 +787,9 @@ msgstr "Todos los usuarios"
 msgid "Allocated"
 msgstr "Asignado"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "Asignados (GB)"
 
@@ -807,6 +819,9 @@ msgstr "Se requiere una dirección de correo electrónico; actualice los detalle
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "Ocurrió un error al intentar conectarse a LDAP. Corrobore que el host de Foreman pueda llegar al host fuente de autenticación y que esté en línea."
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr "Se ha producido un error al probar la conexión: "
@@ -900,6 +915,9 @@ msgstr "¿Está seguro de que desea cerrar sesión?"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "¿Seguro de que: %{act} %{vm}?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr "¿Está seguro de que le gustaría revertir la plantilla?"
@@ -1299,6 +1317,9 @@ msgstr "Uso de la contraseña BMC"
 msgid "Back"
 msgstr "Atrás"
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1538,11 +1559,17 @@ msgstr "Cancelar construcción pendiente para %s"
 msgid "Cannot add audit comment to a locked template."
 msgstr "No se puede añadir un comentario de auditoría a una plantilla bloqueada."
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "No se puede agregar pagelet con la clave %s y sin punto de montaje"
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "No se puede agregar pagelet con la clave %s y sin parcial"
+
+msgid "Cannot add volumes to an existing VM"
+msgstr ""
 
 msgid "Cannot be in the past"
 msgstr "No puede estar en el pasado"
@@ -1970,6 +1997,9 @@ msgstr "¿Desea continuar buscando coincidencias después del primer resultado (
 msgid "Continue?"
 msgstr "¿Continuar?"
 
+msgid "Controller"
+msgstr ""
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr ""
 
@@ -2243,6 +2273,9 @@ msgstr "Crear un parámetro anidado para una organización"
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Crear una tabla de particiones"
 
@@ -2296,6 +2329,9 @@ msgstr "Crear una interfaz en un host"
 
 msgid "Create an operating system"
 msgstr "Crear un sistema operativo"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "Crear entrada de autofirmado"
@@ -2561,9 +2597,6 @@ msgstr "Borrar %s?"
 msgid "Delete :a_resource"
 msgstr "Borrar :a_resource"
 
-msgid "Delete Controller"
-msgstr "Eliminar controlador"
-
 msgid "Delete Hosts"
 msgstr "Borrar hosts"
 
@@ -2798,6 +2831,9 @@ msgstr "Identificador de dispositivo, p.ej. eth0 o eth1.1"
 msgid "Disable"
 msgstr ""
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "Inhabilitar Notificaciones"
 
@@ -2849,9 +2885,6 @@ msgstr "Disco"
 msgid "Disk '%s'"
 msgstr ""
 
-msgid "Disk Mode"
-msgstr "Modo de disco"
-
 msgid "Disk allocation"
 msgstr ""
 
@@ -2861,8 +2894,8 @@ msgstr ""
 msgid "Disk label"
 msgstr ""
 
-msgid "Disk name"
-msgstr "Nombre de disco"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr ""
@@ -3052,6 +3085,9 @@ msgstr "[vacío]"
 
 msgid "Enable"
 msgstr "Activar"
+
+msgid "Enable %s?"
+msgstr ""
 
 msgid "Enable Caching"
 msgstr "Habilitar el caché"
@@ -3428,6 +3464,9 @@ msgstr ""
 "Fallo al crear una instancia de computación %{name} %{compute_resource}: %{message}\n"
 " "
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "Fallo al desplegar el vm %{name}, fallo: %{e}"
 
@@ -3588,6 +3627,9 @@ msgstr "Recolectar archivos de arranque TFTP para %s"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "Obtener el estado de si el huésped está encendido o no. Los hosts admitidos son máquinas virtuales y hosts físicos con BMC."
+
+msgid "Field is required"
+msgstr ""
 
 msgid "Field name"
 msgstr "Nombre de campo"
@@ -4140,9 +4182,6 @@ msgstr "El arranque HTTPS requiere un proxy con la función httpboot y la config
 msgid "HTTPS endpoint"
 msgstr "El punto final de HTTPS"
 
-msgid "Hard disk"
-msgstr "Disco duro"
-
 msgid "Harddisk"
 msgstr "Disco duro"
 
@@ -4576,6 +4615,9 @@ msgstr ""
 msgid "Hosts to include in the action"
 msgstr ""
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Hosts en los que los informes de Foreman están deshabilitados"
 
@@ -4768,9 +4810,6 @@ msgid "ID of the host group. Note: Changing the host group will re-apply attribu
 msgstr ""
 
 msgid "ID of the hostgroup to reassign the hosts to"
-msgstr ""
-
-msgid "ID of the organization"
 msgstr ""
 
 msgid "ID of the owner to reassign the hosts to"
@@ -5289,6 +5328,9 @@ msgstr "Ubicación inválida de sendmail, utilice settings.yaml para una ubicaci
 
 msgid "Invalid smart-proxy id"
 msgstr "ID de proxy inteligente inválido"
+
+msgid "Invalid status"
+msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "Etiquetas no válidas, debe ser un array de mapas con propiedades de clave y valor"
@@ -6264,6 +6306,9 @@ msgstr ""
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "Cantidad máxima de claves en el subárbol estructurado, estadísticas almacenadas en foreman::dropped_subtree_facts"
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr "Eventos estructurados al máximo"
 
@@ -6750,9 +6795,6 @@ msgstr "No se encontró historial"
 
 msgid "No host could be found for rendering the template"
 msgstr "No se pudo encontrar ningún host para reproducir la plantilla."
-
-msgid "No host found"
-msgstr "No se ha encontrado ningún anfitrión"
 
 msgid "No host found to associate this VM with"
 msgstr "No se encontró ningún host  a asociar con esta máquina virtual"
@@ -7807,6 +7849,9 @@ msgstr "Encienda la instancia %s"
 msgid "Power%s"
 msgstr "Energía"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr "La longitud del prefijo no puede estar en blanco"
 
@@ -8238,14 +8283,26 @@ msgstr "Eliminar concordancia"
 msgid "Remove Parameter"
 msgstr "Borrar parámetro"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "Eliminar una notificación de correo electrónico para un usuario"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "Elimine los % conflictivos{type} para %{host}"
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
 msgstr "Eliminar la etiqueta"
+
+msgid "Remove volume"
+msgstr ""
 
 msgid "Remove widget"
 msgstr "Eliminar el widget"
@@ -8956,6 +9013,9 @@ msgstr "Grupo de servidores"
 msgid "Server hint data"
 msgstr "Datos de indicador del servidor"
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "Tipo de servidor"
 
@@ -9436,17 +9496,11 @@ msgstr "Valor"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "Opciones separadas por espacios, p.ej miimon=100. Solo para interfaces de vínculo."
 
-msgid "Specified value is higher than maximum value"
-msgstr "El valor especificado es superior al valor máximo"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "El valor especificado es superior al valor máximo %s"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "El valor especificado es superior al máximo recomendado"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "El valor especificado es superior al máximo recomendado"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "Especificar concordancias"
@@ -10037,6 +10091,18 @@ msgstr ""
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "Texto a mostrar en el pie de página de la página de acceso. La palabra clave $VERSION se sustituye por la versión actual."
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "No se pudo establecer el proxy %{proxy_type} para el host: %{host_names}."
@@ -10148,6 +10214,9 @@ msgstr "Los siguientes errores pueden impedir el éxito de la compilación:"
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr "El siguiente ejemplo demuestra cómo se utiliza para eliminar las nuevas líneas innecesarias entre un FQDN y una dirección IP:"
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "Los siguientes campos necesitan revisión"
 
@@ -10177,12 +10246,6 @@ msgstr "Nombre completo del dominio DNS"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "Se hallaron grupos agregados como grupos de usuarios externos. Sin embargo, no se hallaron usuarios incluidos en ellos que coincidan con el filtro y la DN de origen de fuente de autenticación. Corrobore que los grupos de usuarios externos pertenezcan al filtro de origen de autenticación."
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "El host %s no existe o se necesitan permisos de acceso. Póngase en contacto con su administrador si este problema continúa."
 
 msgid "The host must be powered off to build."
 msgstr ""
@@ -10349,6 +10412,9 @@ msgstr "Esto <b>eliminará</b> las máquinas virtuales vinculadas y sus discos, 
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "Esta dirección IP ya ha sido reservada en el IPAM externo"
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "Esta acción borrará este host y todos sus datos (es decir, hechos, informe)"
@@ -10782,7 +10848,7 @@ msgstr "No se pueden obtener los proveedores BMC instalados"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "No es posible inicializar clase ProxyAPI %s."
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10955,6 +11021,9 @@ msgstr "Host sin administrar"
 
 msgid "Unnamed"
 msgstr "Sin nombre"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "Modo IPAM no compatible para %s"
@@ -11837,6 +11906,12 @@ msgstr "No tiene permiso para eliminar una notificación de correo de otro usuar
 msgid "You do not have permission to edit the login"
 msgstr "No tiene permiso para editar el inicio de sesión"
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "No tiene hosts visibles. Los hosts se pueden añadir y aprovisionar desde Foreman, o configurarse para informar a Foreman."
 
@@ -12101,6 +12176,9 @@ msgstr "no coincide con la subred seleccionada"
 msgid "domain"
 msgstr "Dominio"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr ""
 
@@ -12193,6 +12271,9 @@ msgstr "configuración global"
 
 msgid "groups base DN"
 msgstr "DN base para grupos"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "ya está en uso"

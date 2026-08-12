@@ -119,6 +119,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s 月前"
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr "%s 保存"
 
@@ -476,6 +479,9 @@ msgstr "拒绝访问"
 msgid "Access unattended without build"
 msgstr "无人值守访问且不构建"
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "帐号"
 
@@ -505,9 +511,6 @@ msgstr "添加 Autosign 条目"
 
 msgid "Add Combination"
 msgstr "添加组合"
-
-msgid "Add Controller"
-msgstr "添加控制器"
 
 msgid "Add Input"
 msgstr "添加输入"
@@ -542,11 +545,17 @@ msgstr "添加 CD-ROM 驱动器到虚拟机。"
 msgid "Add a template combination"
 msgstr "添加模板组合"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "为用户添加 SSH 密钥"
 
 msgid "Add an email notification for a user"
 msgstr "为用户添加电子邮件通知"
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "添加外部用户组"
@@ -562,6 +571,9 @@ msgstr "为注册添加软件仓库(%s 设置)"
 
 msgid "Add repository"
 msgstr "添加软件仓库"
+
+msgid "Add selected"
+msgstr ""
 
 msgid "Add tag"
 msgstr "添加标签"
@@ -662,9 +674,6 @@ msgstr "所有环境"
 msgid "All host groups"
 msgstr "所有主机组"
 
-msgid "All hosts"
-msgstr "所有主机"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "该位置和机构下所有配置的主机。"
 
@@ -719,6 +728,9 @@ msgstr "所有用户"
 msgid "Allocated"
 msgstr "已分配的"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "分配（GB）"
 
@@ -748,6 +760,9 @@ msgstr "电子邮件地址为必填，请更新您的帐户详情"
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "尝试连接至 LDAP 时出错，请验证认证源主机可以从您的 Foreman 访问并在线。"
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr "测试连接时出现错误： "
@@ -841,6 +856,9 @@ msgstr "确定要注销吗？"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "您确定要开启 %{act} %{vm}?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr "您确定要还原模板吗？"
@@ -1238,6 +1256,9 @@ msgstr "BMC 密码使用情况"
 msgid "Back"
 msgstr "返回"
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1476,11 +1497,17 @@ msgstr "取消对 %s 的待处理构建"
 msgid "Cannot add audit comment to a locked template."
 msgstr "无法将审核注释添加到锁定的模板。"
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "无法添加有键 %s 但没有挂载点的 pagelet"
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "无法添加有键 %s 但没有 partial 的 pagelet"
+
+msgid "Cannot add volumes to an existing VM"
+msgstr ""
 
 msgid "Cannot be in the past"
 msgstr "不能为过去"
@@ -1908,6 +1935,9 @@ msgstr "要在找到第一个匹配项后继续查找吗（仅阵列/散列/json
 msgid "Continue?"
 msgstr "要继续操作码？"
 
+msgid "Controller"
+msgstr "控制器"
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr "控制在 LDAP 中用于查找用户的组成员资格的机制。"
 
@@ -2181,6 +2211,9 @@ msgstr "为机构创建嵌入的参数"
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "创建分区表"
 
@@ -2234,6 +2267,9 @@ msgstr "在主机中创建接口"
 
 msgid "Create an operating system"
 msgstr "创建操作系统"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "创建自动签名条目"
@@ -2499,9 +2535,6 @@ msgstr "刪除 %s?"
 msgid "Delete :a_resource"
 msgstr "删除 :a_resource"
 
-msgid "Delete Controller"
-msgstr "删除控制器"
-
 msgid "Delete Hosts"
 msgstr "删除主机"
 
@@ -2736,6 +2769,9 @@ msgstr "设备标识符，例如：eth0 或者 eth1.1"
 msgid "Disable"
 msgstr ""
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "停用通知"
 
@@ -2787,9 +2823,6 @@ msgstr "磁盘"
 msgid "Disk '%s'"
 msgstr "磁盘 '%s'"
 
-msgid "Disk Mode"
-msgstr "磁盘模式"
-
 msgid "Disk allocation"
 msgstr "磁盘分配"
 
@@ -2799,8 +2832,8 @@ msgstr "磁盘容量"
 msgid "Disk label"
 msgstr "磁盘标签"
 
-msgid "Disk name"
-msgstr "磁盘名称"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr "磁盘路径"
@@ -2987,6 +3020,9 @@ msgid "Empty"
 msgstr "空"
 
 msgid "Enable"
+msgstr ""
+
+msgid "Enable %s?"
 msgstr ""
 
 msgid "Enable Caching"
@@ -3360,6 +3396,9 @@ msgstr ""
 "创建计算 %{compute_resource} 实例 %{name} 失败： %{message}\n"
 " "
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "部署虚拟机 %{name} 失败，错误：%{e}"
 
@@ -3517,6 +3556,9 @@ msgstr "为 %s 获取 TFTP 引导文件"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "获取主机电源是否打开的状态。支持的主机是 VM 和具有BMC 的物理主机。"
+
+msgid "Field is required"
+msgstr ""
 
 msgid "Field name"
 msgstr "项名称"
@@ -4070,9 +4112,6 @@ msgstr "HTTPS 引导需要具有 httpboot 功能和 https_port 公开设置的�
 msgid "HTTPS endpoint"
 msgstr "HTTPS 端点"
 
-msgid "Hard disk"
-msgstr "硬盘"
-
 msgid "Harddisk"
 msgstr "硬盘"
 
@@ -4506,6 +4545,9 @@ msgstr "主机明确排除在操作之外。除非还传递了包含的参数，
 msgid "Hosts to include in the action"
 msgstr "操作中要包含的主机"
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "禁用 Foreman 报告功能的主机"
 
@@ -4699,9 +4741,6 @@ msgstr "主机组的 ID。请注意：更改主机组将重新应用从新主机
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "将主机重新分配到的主机组的 ID"
-
-msgid "ID of the organization"
-msgstr "机构 ID"
 
 msgid "ID of the owner to reassign the hosts to"
 msgstr "将主机重新分配到的所有者 ID"
@@ -5215,6 +5254,9 @@ msgstr "无效的 sendmail 位置，使用 settings.yaml 作为任意位置"
 
 msgid "Invalid smart-proxy id"
 msgstr "无效的智能代理服务器 ID"
+
+msgid "Invalid status"
+msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "无效的标签必须是带有键和值属性的一组映射"
@@ -6190,6 +6232,9 @@ msgstr "最大"
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "结构化子树中的最大密钥数，统计信息存储在 foreman::dropped_subtree_facts 中"
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr "最大结构化 fact"
 
@@ -6676,9 +6721,6 @@ msgstr "没有发现历史信息"
 
 msgid "No host could be found for rendering the template"
 msgstr "未找到呈现该模板的主机"
-
-msgid "No host found"
-msgstr "没有找到主机"
 
 msgid "No host found to associate this VM with"
 msgstr "没有找到与这个 VM 关联的主机"
@@ -7733,6 +7775,9 @@ msgstr "启动计算实例 %s"
 msgid "Power%s"
 msgstr "开启 %s"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr "前缀长度不能为空"
 
@@ -8158,14 +8203,26 @@ msgstr "删除匹配器"
 msgid "Remove Parameter"
 msgstr "删除参数"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "删除用户的电子邮件通知"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "为 %{host} 删除冲突 %{type}"
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
 msgstr "删除标签"
+
+msgid "Remove volume"
+msgstr ""
 
 msgid "Remove widget"
 msgstr "删除小插件"
@@ -8869,6 +8926,9 @@ msgstr "服务器组"
 msgid "Server hint data"
 msgstr "服务器提示数据"
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "服务器类型"
 
@@ -9346,17 +9406,11 @@ msgstr "值"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "使用空格分隔的选项，例如：miimon=100。仅用于捆绑接口。"
 
-msgid "Specified value is higher than maximum value"
-msgstr "指定了比最大值更大的值"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "指定的值比最大值 %s 大"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "指定的值大于建议的最大值"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "指定的值比推荐的最大值 %s 大"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "指定匹配器"
@@ -9947,6 +10001,18 @@ msgstr "用作 OS 磁盘布局选项的文本（或 ERB 模板）。如果要使
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "在登录页的页脚中显示的文本。关键字 $VERSION 替换为当前版本。"
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "无法为主机 %{host_names} 设置 %{proxy_type} 代理服务器。"
@@ -10056,6 +10122,9 @@ msgstr "以下错误可能使构建失败："
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr "下面的示例演示如何使用它来删除 FQDN 和 IP 地址之间的不必要的换行符："
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "需要检查以下字段"
 
@@ -10085,12 +10154,6 @@ msgstr "完整 DNS 域名"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "已找到您添加作为外部用户组的群组。但是，未从中找到与您的认证源库 DN 和过滤器匹配的用户。请验证该外部用户组是否从属于验证源过滤器"
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "主机 %s 不存在，或需要访问权限。如果问题一直存在，请联系您的管理员。"
 
 msgid "The host must be powered off to build."
 msgstr ""
@@ -10253,6 +10316,9 @@ msgstr "这<b>将删除</b>连接的虚拟机以及它们的磁盘，且此操�
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "此 IP 地址已在外部 IPAM 中保留"
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "此操作将删除此主机及其所有数据（例如 fact，报告）"
@@ -10686,7 +10752,7 @@ msgstr "无法获取安装的 BMC 供应商"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "无法初始化 ProxyAPI 类 %s"
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10859,6 +10925,9 @@ msgstr "取消管理主机"
 
 msgid "Unnamed"
 msgstr "未命名"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s 不支持的 IPAM 模式"
@@ -11739,6 +11808,12 @@ msgstr "您没有权限删除其他用户的邮件通知"
 msgid "You do not have permission to edit the login"
 msgstr "您没有编辑此登录名的权限"
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "您没有任何可见主机。可使用 Forman 添加和预配主机，或将其配置为向 Foreman 提交报告。"
 
@@ -12003,6 +12078,9 @@ msgstr "与所选子网不匹配"
 msgid "domain"
 msgstr "域"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr "持续时间 (ms)"
 
@@ -12095,6 +12173,9 @@ msgstr "全局设置"
 
 msgid "groups base DN"
 msgstr "组基础 DN"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "已被使用"

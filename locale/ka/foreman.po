@@ -86,7 +86,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%s host is selected for power state change"
-msgstr ""
+msgstr "კვების მდგომარეობის ცვლილებისთვის არჩეულია %s ჰოსტი"
 
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
@@ -94,7 +94,7 @@ msgstr[0] "%s ჰოსტი დაყენებულია ასაგე�
 msgstr[1] "%s ჰოსტი დაყენებულია ასაგებად და გადასატვირთად."
 
 msgid "%s hosts are selected for power state change"
-msgstr ""
+msgstr "კვების მდგომარეობის ცვლილებისთვის არჩეულია %s ჰოსტი"
 
 msgid "%s hosts deleted"
 msgstr "%s ჰოსტი წაიშალა"
@@ -118,6 +118,9 @@ msgid_plural "%s months ago"
 msgstr[0] "%s თვის წინ"
 msgstr[1] "%s თვის წინ"
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr "%s შენახულია"
 
@@ -130,13 +133,13 @@ msgstr[0] "გაფრთხილების %s შეტყობინე�
 msgstr[1] "გაფრთხილების %s შეტყობინება"
 
 msgid "%s was successfully created."
-msgstr ""
+msgstr "%s წარმატებით შეიქმნა."
 
 msgid "%s was successfully deleted"
 msgstr "%s წარმატებით წაიშალა"
 
 msgid "%s was successfully updated."
-msgstr ""
+msgstr "%s წარმატებით განახლდა."
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -452,25 +455,25 @@ msgid "API documentation"
 msgstr "API-ის დოკუმენტაცია"
 
 msgid "AWS Account ID"
-msgstr ""
+msgstr "AWS ანგარიშის ID"
 
 msgid "AWS Billing Product"
-msgstr ""
+msgstr "AWS ბილინგის პროდუქტი"
 
 msgid "AWS Instance ID"
-msgstr ""
+msgstr "AWS გაშვებული ასლის ID"
 
 msgid "AWS Instance Type"
-msgstr ""
+msgstr "AWS გაშვებული ასლის ტიპი"
 
 msgid "AWS Marketplace Product"
-msgstr ""
+msgstr "AWS-ის ბაზრის პროდუქტი"
 
 msgid "AWS Region"
-msgstr ""
+msgstr "AWS-ის რეგიონი"
 
 msgid "AWS details"
-msgstr ""
+msgstr "AWS დეტალები"
 
 msgid "About"
 msgstr "შესახებ"
@@ -486,6 +489,9 @@ msgstr "წვდომა აკრძალულია"
 
 msgid "Access unattended without build"
 msgstr "მართული წვდომა აგების გარეშე"
+
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
 
 msgid "Account"
 msgstr "ანგარიში"
@@ -517,9 +523,6 @@ msgstr "ავტომატური ხელმოწერის ჩან�
 msgid "Add Combination"
 msgstr "კომბინაციის დამატება"
 
-msgid "Add Controller"
-msgstr "კონტროლერის დაატება"
-
 msgid "Add Input"
 msgstr "შეყვანის დამატება"
 
@@ -542,7 +545,7 @@ msgid "Add SSH key"
 msgstr "SSH გასაღების დამატება"
 
 msgid "Add Virtual TPM module to the VM."
-msgstr ""
+msgstr "ვირტუალური TPM მოდულის დამატება ვმ-ზე."
 
 msgid "Add Volume"
 msgstr "ტომის დამატება"
@@ -553,11 +556,17 @@ msgstr "ვირტუალურ მანქანაზე CD-ROM ამძ
 msgid "Add a template combination"
 msgstr "შაბლონის კომბინაციის დამატება"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "მომხმარებლის SSH გასაღების დამატება"
 
 msgid "Add an email notification for a user"
 msgstr "მომხმარებლისთვის ელფოსტის შეტყობინების დამატება"
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "გარე მომხმარებლის ჯგუფის დამატება"
@@ -573,6 +582,9 @@ msgstr ""
 
 msgid "Add repository"
 msgstr "რეპოზიტორიის დამატება"
+
+msgid "Add selected"
+msgstr ""
 
 msgid "Add tag"
 msgstr "ჭდის დამატება"
@@ -673,9 +685,6 @@ msgstr "ყველა გარემო"
 msgid "All host groups"
 msgstr "ჰოსტის ყველა ჯგუფი"
 
-msgid "All hosts"
-msgstr "ყველა ჰოსტი"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "ყველა ჰოსტის მონაცემები ემთხვევა მდებარეობებისა და ორგანიზაციების კონფიგურაციებს."
 
@@ -730,6 +739,9 @@ msgstr "ყველა მომხმარებელი"
 msgid "Allocated"
 msgstr "გამოყოფილი"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "გამოყოფილია (გბ)"
 
@@ -759,6 +771,9 @@ msgstr "საჭიროა ელფოსტის მისამართ�
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "მოხდა შეცდომა LDAP-თან დაკავშირების მცდელობისას. გადაამოწმეთ ავტორიზაციის წყაროს ჰოსტამდე თქვენი Foreman ჰოსტიდან და რომ ის ონლაინაა."
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr "სატესტო შეერთება წარუმატებელია: "
@@ -853,6 +868,9 @@ msgstr "დარწმუნებული ბრძანდებით, რ
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "გნებავთ %{vm}-ის კვების %{act} ?"
 
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
+
 msgid "Are you sure you would like to revert the Template?"
 msgstr "დარწმუნებული ბრძანდებით, რომ გნებავთ, დააბრუნოთ შაბლონი?"
 
@@ -914,10 +932,10 @@ msgid "Assign a host to the smart proxy"
 msgstr "ჰოსტის ჭკვიან პროქსიზე მინიჭება"
 
 msgid "Assign location"
-msgstr ""
+msgstr "მდებარეობის მინიჭება"
 
 msgid "Assign organization"
-msgstr ""
+msgstr "ორგანიზაციის მინიჭება"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -1194,19 +1212,19 @@ msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "ავიცილო შერწყმისას თავიდან დუბლირებული მნიშვნელობები(მხოლოდ მასივის ტიპი)?"
 
 msgid "Azure Instance ID"
-msgstr ""
+msgstr "Azure გაშვებული ასლის ID"
 
 msgid "Azure Offer"
-msgstr ""
+msgstr "Azure შეთავაზება"
 
 msgid "Azure SKU"
-msgstr ""
+msgstr "Azure SKU"
 
 msgid "Azure Subscription ID"
-msgstr ""
+msgstr "Azure გამოწერის ID"
 
 msgid "Azure details"
-msgstr ""
+msgstr "Azure დეტალები"
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1250,8 +1268,11 @@ msgstr "BMC-ის პაროლი"
 msgid "Back"
 msgstr "უკან"
 
-msgid "Back to hardware models"
+msgid "Back to all hosts"
 msgstr ""
+
+msgid "Back to hardware models"
+msgstr "დაბრუნება აპარატურის მოდელებზე"
 
 msgid "Back to host"
 msgstr "ჰოსტზე დაბრუნება"
@@ -1260,13 +1281,13 @@ msgid "Back to host list"
 msgstr "ჰოსტების სიაზე დაბრუნება"
 
 msgid "Backend system status"
-msgstr ""
+msgstr "უკანაბოლო სისტემის სტატუსი"
 
 msgid "Backtrace"
 msgstr "შეცდომის მიდევნება"
 
 msgid "Bar chart"
-msgstr ""
+msgstr "ჰისტოგრამა"
 
 msgid "Bare Metal"
 msgstr "შიშველი მეტალი"
@@ -1297,7 +1318,7 @@ msgid "Bookmark"
 msgstr "სანიშნი"
 
 msgid "Bookmark created."
-msgstr ""
+msgstr "სანიშნე შეიქმნა."
 
 msgid "Bookmark this search"
 msgstr "ამ ძებნის სანიშნეებში ჩამატება"
@@ -1481,7 +1502,7 @@ msgid "Cancel build request for this host"
 msgstr "ამ ჰოსტის აგების მოთხოვნის გაუქმება"
 
 msgid "Cancel the current build."
-msgstr ""
+msgstr "მიმდინარე აგების გაუქმება."
 
 msgid "Canceled pending build for %s"
 msgstr "%s-ის აგება გაუქმებულია"
@@ -1489,11 +1510,17 @@ msgstr "%s-ის აგება გაუქმებულია"
 msgid "Cannot add audit comment to a locked template."
 msgstr "აუდიტის კომენტარის დაბლოკილი შაბლონისათვის დამატება შეუძლებელია."
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "მინიგვერდის %s გასაღებით და მიმაგრების წერტილის გარეშე დამატება შეუძლებელია"
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "მინიგვერდის %s გასაღებით და ნაწილობრივის გარეშე დამატება შეუძლებელია"
+
+msgid "Cannot add volumes to an existing VM"
+msgstr ""
 
 msgid "Cannot be in the past"
 msgstr "წარსულში ვერ იქნება"
@@ -1559,22 +1586,22 @@ msgid "Change Puppet CA"
 msgstr "Puppet CA-ის შეცვლა"
 
 msgid "Change associations"
-msgstr ""
+msgstr "ასოცირებების შეცვლა"
 
 msgid "Change host group"
 msgstr "ჰოსტის ჯგუფის შეცვლა"
 
 msgid "Change location"
-msgstr ""
+msgstr "მდებარეობის შეცვლა"
 
 msgid "Change organization"
-msgstr ""
+msgstr "ორგანიზაციის შეცვლა"
 
 msgid "Change owner"
-msgstr ""
+msgstr "მფლობელის შეცვლა"
 
 msgid "Change power state"
-msgstr ""
+msgstr "კვების მდგომარეობის შეცვლა"
 
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr ""
@@ -1634,10 +1661,10 @@ msgid "Clear"
 msgstr "გაწმენდა"
 
 msgid "Clear all"
-msgstr ""
+msgstr "ყველას გასუფთავება"
 
 msgid "Clear group"
-msgstr ""
+msgstr "ჯგუფის გასუფთავება"
 
 msgid "Clear host status"
 msgstr "ჰოსტის სტატუსის გასუფთავება"
@@ -1685,7 +1712,7 @@ msgid "Close"
 msgstr "დახურვა"
 
 msgid "Cloud provider details"
-msgstr ""
+msgstr "ღრუბლოვანი მომწოდებლის დეტალები"
 
 msgid "Cloud-init template"
 msgstr "Cloud-init -ის შაბლონი"
@@ -1721,7 +1748,7 @@ msgid "Community"
 msgstr "საზგადოება"
 
 msgid "Compact table mode"
-msgstr ""
+msgstr "კომპაქტური ცხრილის რეჟიმი"
 
 msgid "Compress the report using gzip"
 msgstr "ანგარიშის შეკუმშვა gzip-ით"
@@ -1920,6 +1947,9 @@ msgstr ""
 
 msgid "Continue?"
 msgstr "გავაგრძლო?"
+
+msgid "Controller"
+msgstr "კონტროლერი"
 
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr ""
@@ -2192,6 +2222,9 @@ msgid "Create a nested parameter for an organization"
 msgstr "ორგანიზაციის ჩადგმული პარამეტრის შექმნა"
 
 msgid "Create a new hardware model"
+msgstr "ახალი პარატურის მოდელის შექმნა"
+
+msgid "Create a new host"
 msgstr ""
 
 msgid "Create a partition table"
@@ -2247,6 +2280,9 @@ msgstr "ჰოსტზე ინტერფეისის შექმნა"
 
 msgid "Create an operating system"
 msgstr "ოპერაციული სისტემის შექმნა"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "თვითხელმოწერადი ჩანაწერის შექმნა"
@@ -2312,7 +2348,7 @@ msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "LDAP-ის ძებნის ფილტრის ხელით მითითება, <i>არასავალდებულო</i>"
 
 msgid "Cycle"
-msgstr ""
+msgstr "ციკლი"
 
 msgid "DB pending seed"
 msgstr "DB მარცვალს ელოდება"
@@ -2408,13 +2444,13 @@ msgid "Date"
 msgstr "თარიღი"
 
 msgid "Date and time are required"
-msgstr ""
+msgstr "თარიღი და დრო სავალდებულოა"
 
 msgid "Date is required"
-msgstr ""
+msgstr "თარიღი სავალდებულოა"
 
 msgid "Date must be in the future"
-msgstr ""
+msgstr "თარიღი მომავალში უნდა იყოს"
 
 msgid "Default"
 msgstr "ნაგულისხმევი"
@@ -2511,9 +2547,6 @@ msgstr "წავშალო \"%s\"?"
 
 msgid "Delete :a_resource"
 msgstr ":a_resource-ის წაშლა"
-
-msgid "Delete Controller"
-msgstr "კონტროლერის წაშლა"
 
 msgid "Delete Hosts"
 msgstr "ჰოსტების წაშლა"
@@ -2749,6 +2782,9 @@ msgstr "მოწყობილობის იდენტიფიკატ�
 msgid "Disable"
 msgstr "გამორთვა"
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "შეტყობინებების გამორთვა"
 
@@ -2768,19 +2804,19 @@ msgid "Disabling Safe mode"
 msgstr "უსაფრთხო რეჟიმის გამორთვა"
 
 msgid "Disassociate"
-msgstr ""
+msgstr "განცალკევება"
 
 msgid "Disassociate Hosts"
 msgstr "ჰოსტების ასოციაციის მოხსნა"
 
 msgid "Disassociate compute resources"
-msgstr ""
+msgstr "გამოთვლითი რესურსის ასოციაციის მოხსნა"
 
 msgid "Disassociate host"
 msgstr "ჰოსტის ასოცირების მოხსნა"
 
 msgid "Disassociate hosts"
-msgstr ""
+msgstr "ჰოსტების ასოციაციის მოხსნა"
 
 msgid "Disassociate the host from a VM"
 msgstr "ჰოსტის ასოცირების მოხსნა ვმ-დან"
@@ -2800,9 +2836,6 @@ msgstr "დისკი"
 msgid "Disk '%s'"
 msgstr "დისკი '%s'"
 
-msgid "Disk Mode"
-msgstr "დისკის რეჟიმი"
-
 msgid "Disk allocation"
 msgstr "დისკის განაწილება"
 
@@ -2812,8 +2845,8 @@ msgstr "დისკის მოცულობა"
 msgid "Disk label"
 msgstr "დისკის ჭდე"
 
-msgid "Disk name"
-msgstr "დისკის სახელი"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr "დისკის ბილიკი"
@@ -2902,7 +2935,7 @@ msgid "Download generated report"
 msgstr "გენერირებული ანგარიშის გადმოწერა"
 
 msgid "Download utility"
-msgstr ""
+msgstr "პროგრამის გადმოწერა"
 
 msgid "Downloads a generated report"
 msgstr "გენერირებული ანგაირშის გადმოწერა"
@@ -3002,6 +3035,9 @@ msgstr "ცარიელი"
 
 msgid "Enable"
 msgstr "ჩართვა"
+
+msgid "Enable %s?"
+msgstr ""
 
 msgid "Enable Caching"
 msgstr "ქეშინგის ჩართვა"
@@ -3172,7 +3208,7 @@ msgid "Exclude pattern for facts stored in foreman"
 msgstr "Foreman-ში დამახსოვრებული ფაქტების შაბლონების გამოტოვება"
 
 msgid "Excluded hosts"
-msgstr ""
+msgstr "გამორიცხული ჰოსტები"
 
 msgid "Exit Full Screen"
 msgstr "სრული ეკრანიდან გამოსვლა"
@@ -3313,7 +3349,7 @@ msgid "Fail on Mismatch"
 msgstr "შეუსაბამობაზე პროცესის შეწყვეტა"
 
 msgid "Fail on mismatch"
-msgstr ""
+msgstr "შეწყვეტა შეუსაბამობისას"
 
 msgid "Failed"
 msgstr "შეცდომა"
@@ -3376,6 +3412,9 @@ msgid ""
 msgstr ""
 "გამოთვლით რესურსის (%{compute_resource}) ასლის (%{name}) შექმნის შეცდომა: %{message}\n"
 " "
+
+msgid "Failed to delete: "
+msgstr ""
 
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "ვმ-ის გაშლის შეცდომა %{name}, შეცდომა: %{e}"
@@ -3443,7 +3482,7 @@ msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "%{name}-სთვის სერტიფიკატის წაშლის შეცდომა: %{e}"
 
 msgid "Failed to render template '%{t}', error: %{e}"
-msgstr ""
+msgstr "ნიმუშის '%{t}' რენდერი ჩავარდა. შეცდომა: %{e}"
 
 msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
 msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
@@ -3538,6 +3577,9 @@ msgstr "%s-თვის TFTP-ით ჩასატვირთი ფაილ�
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "მიიღეთ სტატუსი, ჩართულია თუ არა ჰოსტი. მხარდაჭერილი ჰოსტები არის VM-ები და ფიზიკური ჰოსტები BMC-ებით."
 
+msgid "Field is required"
+msgstr ""
+
 msgid "Field name"
 msgstr "ველის სახელი"
 
@@ -3618,13 +3660,13 @@ msgid "Fix Mismatches"
 msgstr "შეუსაბამობების გასწორება"
 
 msgid "Fix location on mismatch"
-msgstr ""
+msgstr "მდებარეობის გასწორება შეუსაბამობისას"
 
 msgid "Fix on mismatch"
-msgstr ""
+msgstr "გასწორება შეუსაბამობისას"
 
 msgid "Fix organization on mismatch"
-msgstr ""
+msgstr "ორგანიზაციის გასწორება შეუსაბამობისას"
 
 msgid "Fixed IP"
 msgstr "ფიქსირებული IP"
@@ -3702,7 +3744,7 @@ msgid "Foreman UUID"
 msgstr "Foreman UUID"
 
 msgid "Foreman Upgrade"
-msgstr ""
+msgstr "Foreman-ის ვერსიის აწევა"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
@@ -3773,7 +3815,7 @@ msgid "Foreman ticketing system"
 msgstr "Foreman-ის ბილეთებს სისტემა"
 
 msgid "Foreman upgrade"
-msgstr ""
+msgstr "Foreman-ის ვერსიის აწევა"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
@@ -3845,7 +3887,7 @@ msgid "Found %{count} reports from the last %{days} days"
 msgstr "ბოლო %{days} დღეში ნაპოვნია %{count} ანგარიში"
 
 msgid "FreeIPA"
-msgstr ""
+msgstr "FreeIPA"
 
 msgid "Full"
 msgstr "სრული"
@@ -3872,22 +3914,22 @@ msgid "Function not available for %s"
 msgstr "%s-სთვის ფუნქცია მიუწვდომელია"
 
 msgid "GCP Instance ID"
-msgstr ""
+msgstr "GCP გაშვებული ასლის ID"
 
 msgid "GCP License Code"
-msgstr ""
+msgstr "GCP ლიცენზიის კოდი"
 
 msgid "GCP Project ID"
-msgstr ""
+msgstr "GCP პროექტის ID"
 
 msgid "GCP Project Number"
-msgstr ""
+msgstr "GCP პროექტის ნომერი"
 
 msgid "GCP Zone"
-msgstr ""
+msgstr "GCP ზონა"
 
 msgid "GCP details"
-msgstr ""
+msgstr "GCP დეტალები"
 
 msgid "GMT time"
 msgstr "GMT დრო"
@@ -4028,7 +4070,7 @@ msgid "Good host with reports"
 msgstr "კარგი ჰოსტი ანგარიშებით"
 
 msgid "Group membership type"
-msgstr ""
+msgstr "ჯგუფის წევრობის ტიპი"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "IPAM-ის მორგებულ გარე გაშვებულ ასლში ჯგუფი არ არსებობს"
@@ -4087,9 +4129,6 @@ msgstr "HTTPS-ით ჩატვირთვა მოითხოვს პრ
 msgid "HTTPS endpoint"
 msgstr "HTTPS ბოლოწერტილი"
 
-msgid "Hard disk"
-msgstr "მყარი დისკი"
-
 msgid "Harddisk"
 msgstr "მყარიდისკი"
 
@@ -4136,7 +4175,7 @@ msgid "Hide all values for this parameter."
 msgstr "პარამეტრის ყველა მნიშვნელობის დამალვა."
 
 msgid "Hide this notification"
-msgstr ""
+msgstr "ამ გაფრთხილების დამალვა"
 
 msgid "Hide this value"
 msgstr "მნიშვნელობის დამალვა"
@@ -4473,7 +4512,7 @@ msgid "Hosts"
 msgstr "ჰოსტები"
 
 msgid "Hosts associated to compute resources"
-msgstr ""
+msgstr "გამოთვლით რესურსებთან დაკავშირებული ჰოსტები"
 
 msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
 msgstr ""
@@ -4519,6 +4558,9 @@ msgstr ""
 
 msgid "Hosts to include in the action"
 msgstr "ჰოსტები, რომლებზეც ქმედებები გადატარდება"
+
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
 
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "ჰოსტები, რომლებზეც Foreman-ის ანგარიშები გამორთულია"
@@ -4714,9 +4756,6 @@ msgstr ""
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "ჰოსტების ჯგუფის ID ჰოსტების თავიდან მისანიჭებლად"
 
-msgid "ID of the organization"
-msgstr "ორგანიზაციის ID"
-
 msgid "ID of the owner to reassign the hosts to"
 msgstr ""
 
@@ -4810,7 +4849,7 @@ msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv4 მისამართი. საჭირო არაა, თუ ქვექსელს DHCP პროქსით იყენებთ"
 
 msgid "IPv4:"
-msgstr ""
+msgstr "IPv4:"
 
 msgid "IPv6"
 msgstr "IPv6"
@@ -4839,7 +4878,7 @@ msgid "IPv6 subnet"
 msgstr "IPv6 ქვექსელი"
 
 msgid "IPv6:"
-msgstr ""
+msgstr "IPv6:"
 
 msgid "Identifier"
 msgstr "იდენტიფიკატორი"
@@ -4933,7 +4972,7 @@ msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "გამოთვლით რესურსის მიერ მოწოდებული ასლის ID. მაგ: ami-.."
 
 msgid "Image not found"
-msgstr ""
+msgstr "გამოსახულება აღმოჩენილი არაა"
 
 msgid "Image path"
 msgstr "გამოსახულების ბილიკი"
@@ -5203,7 +5242,7 @@ msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "'%{os}'-ის არასწორი მედია '%{medium}'"
 
 msgid "Invalid power action"
-msgstr ""
+msgstr "კვების არასწორი ქმედება"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "კვებისს არასწორი მდგომარეობა: %{action}, მხარდაჭერილი ქმედებებია %{supported}"
@@ -5226,6 +5265,9 @@ msgstr "Sendmail-ის არასწორი მდებარეობა.
 msgid "Invalid smart-proxy id"
 msgstr "ჭკვიანი პროქსის არასწორი ID"
 
+msgid "Invalid status"
+msgstr ""
+
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "არასწორი ჭდეები. უნდა წარმოადგენდეს რუკების მასივს, გასაღებებით და მნიშვნელობებით"
 
@@ -5233,7 +5275,7 @@ msgid "Invalid type for host creation via facts: %s"
 msgstr "არასწორი ტიპი ფაქტების საშუალებით ჰოსტის შესაქმნელად: %s"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "არასწორი მნიშვნელობა"
 
 msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
 msgstr ""
@@ -5242,16 +5284,16 @@ msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "ვერსიის არასწორი ფორმატი. შეიყვანეთ ფორმატში x.y (მხოლოდ ძირითადი ვერსია)."
 
 msgid "Invalidate JWTs"
-msgstr ""
+msgstr "JWT-ების არასწორად გამოცხადება"
 
 msgid "Invalidate JWTs for all users"
-msgstr ""
+msgstr "JWT-ების არასწორად გამოცხადება ყველა მომხმარებლისთვის"
 
 msgid "Invalidate all JSON Web Tokens for %s?"
-msgstr ""
+msgstr "გამოცხადდეს ყველა JSON ვებ-ტოკენი არასწორად %s-ისთვის?"
 
 msgid "Invalidate all JSON Web Tokens for all users?"
-msgstr ""
+msgstr "გამოცხადდეს ყველა JSON ვებ-ტოკენი არასწორად ყველა მომხმარებლისთვის?"
 
 msgid "Invalidate all registration tokens for a specific user"
 msgstr ""
@@ -5260,7 +5302,7 @@ msgid "Invalidate all registration tokens for multiple users"
 msgstr ""
 
 msgid "Invalidate tokens for self?"
-msgstr ""
+msgstr "გაუქმდეს ტოკები თქვენთვისვე?"
 
 msgid "Is this setting encrypted?"
 msgstr "პარამეტრი დაშიფრულია?"
@@ -5308,7 +5350,7 @@ msgid "JWT SSO: Failed to decode JWT."
 msgstr "JWT SSO: JWT-ის გაშიფვრა ჩავარდა."
 
 msgid "JWT Tokens"
-msgstr ""
+msgstr "JWT ტოკენები"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
@@ -5425,7 +5467,7 @@ msgid "Level"
 msgstr "დონე"
 
 msgid "Libvirt and OpenStack"
-msgstr ""
+msgstr "Libvirt და OpenStack"
 
 msgid "Libvirt default console address"
 msgstr "Libvirt-ის კონსოლის ნაგულისხმები მისამართი"
@@ -5860,7 +5902,7 @@ msgid "Loading filters ..."
 msgstr "ფილტრების ჩატვირთვა ..."
 
 msgid "Loading form"
-msgstr ""
+msgstr "ფორმის ჩატვირთვა"
 
 msgid "Loading host information ..."
 msgstr "ჰოსტის ინფორმაციის ჩატვირთვა ..."
@@ -5908,7 +5950,7 @@ msgid "Location fact"
 msgstr "მდებარეობის ფაქტი"
 
 msgid "Location is set to %s"
-msgstr ""
+msgstr "მდებარეობა დაყენებულია %s-ზე"
 
 msgid "Location parameters"
 msgstr "მდებარეობის მორგება"
@@ -5920,7 +5962,7 @@ msgid "Locations"
 msgstr "მდებარეობები"
 
 msgid "Locations are inherited from the role"
-msgstr ""
+msgstr "მდებარეობები მემკვიდრეობით გადაეცემა როლიდან"
 
 msgid "Lock"
 msgstr "ჩაკეტვა"
@@ -6156,7 +6198,7 @@ msgid "Manage host statuses"
 msgstr "ჰოსტის სტატუსების მართვა"
 
 msgid "Manage notifications"
-msgstr ""
+msgstr "გაფრთხილებების მართვა"
 
 msgid "Managed"
 msgstr "მართული"
@@ -6177,10 +6219,10 @@ msgid "Manually select and assign hosts with no %s"
 msgstr "%s-ის გარეშე ჰოსტების ხელით არჩევა და მინიჭება"
 
 msgid "Mark all read"
-msgstr ""
+msgstr "ყველას წაკითხულად დანიშვნა"
 
 msgid "Mark group as read"
-msgstr ""
+msgstr "ჯგუფის წაკითხულად მონიშვნა"
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code>domain = example.com</code> or <code>hostgroup = webserver</code>."
 msgstr ""
@@ -6198,6 +6240,9 @@ msgid "Maximum"
 msgstr "მაქსიმუმი"
 
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
+msgstr ""
+
+msgid "Maximum number of disks (%s) has been reached"
 msgstr ""
 
 msgid "Maximum structured facts"
@@ -6377,13 +6422,13 @@ msgid "NICs"
 msgstr "NIC-ები"
 
 msgid "NIS Netgroups"
-msgstr ""
+msgstr "NIS-ის ქსელური ჯგუფები"
 
 msgid "Name"
 msgstr "სახელი"
 
 msgid "Name already exists"
-msgstr ""
+msgstr "სახელი უკვე არსებობს"
 
 msgid "Name can't contain spaces"
 msgstr "სახელი არ შეიძლება შეიცავდეს გამოტოვებებს"
@@ -6392,7 +6437,7 @@ msgid "Name has already been taken"
 msgstr "სახელი უკვე დაკავებულია"
 
 msgid "Name is too long, max %s"
-msgstr ""
+msgstr "სახელი ძალიან გრძელია, მაქს %s"
 
 msgid "Name of media"
 msgstr "მედიის სახელი"
@@ -6419,7 +6464,7 @@ msgid "Need help with Foreman? Got a different type of question? Ask them all on
 msgstr ""
 
 msgid "Need help?"
-msgstr ""
+msgstr "გჭირდებათ დახმარება?"
 
 msgid "Nest"
 msgstr "ბუდე"
@@ -6687,9 +6732,6 @@ msgstr "ისტორიის გარეშე"
 msgid "No host could be found for rendering the template"
 msgstr "ამ შაბლონის დასარენდერებლად ჰოსტი არ არსებობს"
 
-msgid "No host found"
-msgstr "ჰოსტი ნაპოვნი არაა"
-
 msgid "No host found to associate this VM with"
 msgstr "ეს ვმ-ი არცერთ ჰოსტთან არაა ასოცირებული"
 
@@ -6760,10 +6802,10 @@ msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr "არჩეულ ჰოსტებზე პარამეტრი არ იყო გამოყოფილი, მასობრივი მინიჭება შეუძლებელია"
 
 msgid "No permission to cancel the build."
-msgstr ""
+msgstr "აგების გაუქმების უფლება არ გაქვთ."
 
 msgid "No permission to start build for this host."
-msgstr ""
+msgstr "ამ ჰოსტისთვის აგების დაწყების უფლება არ გაქვთ."
 
 msgid "No plugins found"
 msgstr "დამატებები ნაპოვნი არაა"
@@ -6778,7 +6820,7 @@ msgid "No puppet activity for this host in the last %s days"
 msgstr ""
 
 msgid "No record found for search '%s'"
-msgstr ""
+msgstr "ძებნისთვის '%s' ჩანაწერი აღმოჩენილი არაა"
 
 msgid "No report"
 msgstr "ანგარიშის გარეშე"
@@ -6790,7 +6832,7 @@ msgid "No results found"
 msgstr "შედეგების გარეშე"
 
 msgid "No results found for %s"
-msgstr ""
+msgstr "სტრიქონისთვის '%s' შედეგები აღმოჩენილი არაა"
 
 msgid "No setting value provided."
 msgstr "პარამეტრის მნიშვნელობა მითითებული არაა."
@@ -6892,7 +6934,7 @@ msgid "Nothing to add"
 msgstr "დასამატებელი არაფერია"
 
 msgid "Nothing to do."
-msgstr ""
+msgstr "გასაკეთებელი არაფერია."
 
 msgid "Nothing to select."
 msgstr "ასარჩევი არაფერია."
@@ -6919,7 +6961,7 @@ msgid "Notification recipient"
 msgstr "შეტყობინების მიმღები"
 
 msgid "Notification state"
-msgstr ""
+msgstr "გაფრთხილების მდგომარეობა"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
@@ -6964,7 +7006,7 @@ msgid "Notifications can't be assigned to this user."
 msgstr "შეტყობინებების მინიჭება ამ მომხმარებელზე შეუძლებელია."
 
 msgid "Notifications enabled"
-msgstr ""
+msgstr "გაფრთხილებები ჩართულია"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -7086,7 +7128,7 @@ msgid "One or more of the associated filters are invalid which prevented the rol
 msgstr "ერთი ან მეტი ასოცირებული ფილტრი არასწორია. ეს როლის შენახვას ხელს უშლის"
 
 msgid "Only compatible with UEFI firmware."
-msgstr ""
+msgstr "თავსებადია, მხოლოდ, UEFI მიკროკოდთან."
 
 msgid "Only for BMC interfaces."
 msgstr "მხოლოდ BMC ინტერფეისებისთვის."
@@ -7249,7 +7291,7 @@ msgid "Organization fact"
 msgstr "ორგანიზაციის ფაქტი"
 
 msgid "Organization is set to %s"
-msgstr ""
+msgstr "ორგანიზაცია დაყენებულია %s-ზე"
 
 msgid "Organization parameters"
 msgstr "ორგანიზაციის მორგება"
@@ -7258,7 +7300,7 @@ msgid "Organizations"
 msgstr "ორგანიზაციები"
 
 msgid "Organizations are inherited from the role"
-msgstr ""
+msgstr "ორგანიზაციები მემკვიდრეობით მიიღება როლიდან"
 
 msgid "Origin"
 msgstr "საწყისი"
@@ -7336,10 +7378,10 @@ msgid "POAP PXE template"
 msgstr "POAP PXE -ის შაბლონი"
 
 msgid "POSIX"
-msgstr ""
+msgstr "POSIX"
 
 msgid "POSIX + RFC4519"
-msgstr ""
+msgstr "POSIX + RFC4519"
 
 msgid "PXE"
 msgstr "PXE"
@@ -7490,7 +7532,7 @@ msgid "Password"
 msgstr "პაროლი"
 
 msgid "Password for EC2, VMware, OpenStack. Secret key for EC2"
-msgstr ""
+msgstr "პაროლი EC2-ისთვის, VMware-ისთვის, OpenStack-ისთვის. საიდუმლო გასაღები EC2-ისთვის"
 
 msgid "Password has been changed"
 msgstr "პაროლი შეცვლილია"
@@ -7614,7 +7656,7 @@ msgid "Photo attribute"
 msgstr "ფოტო ატრიბუტი"
 
 msgid "Physical"
-msgstr ""
+msgstr "ფიზიკური"
 
 msgid "Physical (Bridge)"
 msgstr "ფიზიკური (ხიდი)"
@@ -7658,7 +7700,7 @@ msgid "Please provide a medium provider. It can be found as @medium_provider in 
 msgstr "გთხოვთ, მიუთითოთ შუალედური მომწოდებელი. ის შეიძლება მოიძებნოს როგორც @medium_provider შაბლონებში, ან Foreman::Plugin.medium_providers_registry.find_provider(მასპინძელი)"
 
 msgid "Please provide search parameter"
-msgstr ""
+msgstr "ძებნის პარამეტრის მითითება აუცილებელია"
 
 msgid "Please request one of the required permissions listed below from a Foreman administrator:"
 msgstr "საჭიროა ერთი ან მეტი ქვემოთ ჩამოთვლილი წვდომის გამოთხოვა Foreman-ის ადმინისტრატორისგან:"
@@ -7715,7 +7757,7 @@ msgid "Power a Virtual Machine"
 msgstr "ვირტუალური მანქანის ჩართვა"
 
 msgid "Power action is required"
-msgstr ""
+msgstr "საჭიროა კვების ქმედება"
 
 msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
 msgstr ""
@@ -7724,19 +7766,22 @@ msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "კვების სტატუსი წარმატებით იქნა დაყენებული ჰოსტზე: \\\"%s\"\\"
 
 msgid "Power management not available for this host"
-msgstr ""
+msgstr "ამ ჰოსტისთვის კვების მართვა ხელმისაწვდომი არაა"
 
 msgid "Power operations are not enabled on this host."
 msgstr "ამ ჰოსტისთვის კვების ოპერაციები ჩართული არაა."
 
 msgid "Power state"
-msgstr ""
+msgstr "კვების მდგომარეობა"
 
 msgid "Power up compute instance %s"
 msgstr "%s-ის გამოთვლის  გაშვებული ასლის კვების ჩართვა"
 
 msgid "Power%s"
 msgstr "კვება %s"
+
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
 
 msgid "Prefix length can't be blank"
 msgstr "პრეფიქსის სიგრძე ცარიელი არ შეიძლება იყოს"
@@ -8116,7 +8161,7 @@ msgid "Register Host"
 msgstr "ჰოსტის რეგისტრაცია"
 
 msgid "Registration Tokens"
-msgstr ""
+msgstr "რეგისტრაციის ტოკენები"
 
 msgid "Registration command"
 msgstr "რეგისტრაციის ბრძანება"
@@ -8167,20 +8212,32 @@ msgstr "შესატყვისის წაშლა"
 msgid "Remove Parameter"
 msgstr "პარამეტრის წაშლა"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "მომხმარებლისთვის ელფოსტის შეტყობინების წაშლა"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "კონფლიქტური %{type} -ის წაშლა %{host}-ისთვის"
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
 msgstr "ჭდის წაშლა"
+
+msgid "Remove volume"
+msgstr ""
 
 msgid "Remove widget"
 msgstr "ვიჯეტის წაშლა"
 
 msgid "Removed %{from} from %{to}"
-msgstr ""
+msgstr "%{from} წაიშალა %{to}-დან"
 
 msgid "Removed assignment of host group from %s host"
 msgid_plural "Removed assignment of host group from %s hosts"
@@ -8401,7 +8458,7 @@ msgid "Return to the last page"
 msgstr "ბოლო გვერდზე დაბრუნება"
 
 msgid "Return to the previous page"
-msgstr ""
+msgstr "წინა გვერდზე დაბრუნება"
 
 msgid "Returns string representing a host status of a given type"
 msgstr "აბრუნებს ჰოსტის მითითებული ტიპის სტატუსის სტრიქონს"
@@ -8671,7 +8728,7 @@ msgid "Search"
 msgstr "_ძებნა"
 
 msgid "Search (Ctrl+Shift+F)"
-msgstr ""
+msgstr "ძებნა (Ctrl+Shift+F)"
 
 msgid "Search error"
 msgstr "ძებნის შეცდომა"
@@ -8794,7 +8851,7 @@ msgid "Select partition tables"
 msgstr "აირჩიეთ დანაყოფის ცხრილი"
 
 msgid "Select power state"
-msgstr ""
+msgstr "აირჩიეთ კვების მდგომარეობა"
 
 msgid "Select provisioning templates"
 msgstr "აირჩიეთ სამუშაოდ მომზადების შაბლონები"
@@ -8829,7 +8886,7 @@ msgid "Selectable values for user inputs"
 msgstr "მომხმარებლის შეყვანების არჩევადი მნიშვნელობები"
 
 msgid "Selected hosts"
-msgstr ""
+msgstr "მონიშნული ჰოსტები"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "მონიშნული ჰოსტები ახლა მიმაგრებულია %s-ზე"
@@ -8882,11 +8939,14 @@ msgstr "სერვერის ჯგუფი"
 msgid "Server hint data"
 msgstr "სერვერის მინიშნების მონაცემები"
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "სერვერის ტიპი"
 
 msgid "Service name"
-msgstr ""
+msgstr "სერვისის სახელი"
 
 msgid "Service unavailable"
 msgstr "სერვისი მიუწვდომელია"
@@ -9309,7 +9369,7 @@ msgid "Sockets"
 msgstr "სოკეტები"
 
 msgid "Soft"
-msgstr ""
+msgstr "რბილი"
 
 msgid "Some imported user account details cannot be saved: %s"
 msgstr "შემოტანილი მომხმარებლის ზოგიერთი დეტალის შენახვის შეცდომა: %s"
@@ -9361,17 +9421,11 @@ msgstr "მნიშვნელობა"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "მძიმით გამოყოფიი პარამეტრები. მაგ: miimon=100. მხოლოდ გადაბმული ქსელური ინტერფეისებისთვის."
 
-msgid "Specified value is higher than maximum value"
-msgstr "მითითებული მნიშვნელობა დასაშვებ მაქსიმუმზე მეტია"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "მითითებული მნიშვნელობა მაქსიმალურ მნიშვნელობაზე დიდია: %s"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "მითითებული მნიშვნელობა რეკომენდებული მაქსიმუმზე მეტია"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "მითითებული მნიშვნელობა %s-ის რეკომენდებულ მაქსიმუმზე მეტია"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "მიუთითეთ შესატყვისები"
@@ -9409,10 +9463,10 @@ msgid "Start"
 msgstr "დაწყება"
 
 msgid "Start build for this host."
-msgstr ""
+msgstr "აგების დაწყება ამ ჰოსტისთვის."
 
 msgid "Start typing to search"
-msgstr ""
+msgstr "მოსაძებნად კრეფა დაიწყეთ"
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "IP-ის ავტომატური რჩევის საწყისი მისამართი"
@@ -9592,7 +9646,7 @@ msgid "Success"
 msgstr "წარმატება"
 
 msgid "Successfully Invalidated registration tokens."
-msgstr ""
+msgstr "რეგისტრაციის ტოკენები წარმატებით გამოცხადდა გაუქმებულად."
 
 msgid "Successfully created %s."
 msgstr "\"%s\" წარმატებით შეიქმნა."
@@ -9607,7 +9661,7 @@ msgid "Successfully deleted report."
 msgstr "ანგარიში წარმატებით წაიშალა."
 
 msgid "Successfully invalidated registration tokens for %s."
-msgstr ""
+msgstr "რეგისტრაციის ტოკენები წარმატებით გამოცხადდა გაუქმებულად მომხმარებლისთვის %s."
 
 msgid "Successfully invalidated registration tokens for all users."
 msgstr ""
@@ -9892,7 +9946,7 @@ msgid "Templates from this category can be accessed publicly using the /unattend
 msgstr ""
 
 msgid "Templates rendered with errors"
-msgstr ""
+msgstr "ნიმუში შეცდომებით დარენდერდა"
 
 msgid "Templates resolved for this operating system"
 msgstr "ოპერაციული სისტემისთვის ამოხსნილი შაბლონები"
@@ -9960,6 +10014,18 @@ msgid "Text (or ERB template) to be used as your OS disk layout options. Leave e
 msgstr ""
 
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
+msgstr ""
+
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
 msgstr ""
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
@@ -10072,6 +10138,9 @@ msgstr "შეცდომები, რომლებსაც აგები
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr ""
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "საჭიროა შემდეგი ველების გადახედვა"
 
@@ -10102,14 +10171,8 @@ msgstr "სრული DNS დომენური სახელი"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "თქვენ მიერ დამატებული ჯგუფები, როგორც გარე მომხმარებელთა ჯგუფები, ნაპოვნია. თუმცა, არცერთი მომხმარებელი არ მოიძებნა მათში, რომლებიც ემთხვევა თქვენი ავტორიზაციის წყაროს DN-ს და ფილტრს. გთხოვთ დარწმუნდეთ, რომ მომხმარებლის გარე ჯგუფები ეკუთვნის ავტორიზაციის წყაროს ფილტრს"
 
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "ჰოსტი (%s) არ არსებობს ან წვდომები არ გაგაჩნიათ. პრობლემის გადასაჭრელად დაუკავშირდით სისტემურ ადმინისტრატორს."
-
 msgid "The host must be powered off to build."
-msgstr ""
+msgstr "ასაგებად ჰოსტი გამორთული უნდა იყოს."
 
 msgid "The hostname of the LDAP server"
 msgstr "LDAP სერვერის ჰოსტის სახელი"
@@ -10191,7 +10254,7 @@ msgid "The services to be configured are determined by the subnet and domain tha
 msgstr ""
 
 msgid "The snippet '%{name}' threw an error: %{exc}"
-msgstr ""
+msgstr "ფრაგმენტმა '%{name}' ამოაგდო შეცდომა: %{exc}"
 
 msgid "The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu"
 msgstr ""
@@ -10269,6 +10332,9 @@ msgstr "ასევე <b>წაიშლება</b> მიბმული �
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "ეს IP მისამართი უკვე დარეზერვებულია გარე IPAM-ში"
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "ქმედება წაშლის ამ ჰოსტს და მის ყველა მონაცემებს. (მაგ: ფაქტებს, ანგარიშებს)"
@@ -10539,13 +10605,13 @@ msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr "პროტოკოლის ტიპი: IPv4 თუ IPv6. ნაგულისხმები მნიშვნელობაა IPv4"
 
 msgid "UEFI"
-msgstr ""
+msgstr "UEFI"
 
 msgid "UEFI Secure Boot"
-msgstr ""
+msgstr "UEFI უსაფრთხო ჩატვირთვა"
 
 msgid "UI Preferences"
-msgstr ""
+msgstr "ინტერფეისის პარამეტრები"
 
 msgid "URL"
 msgstr "ბმული"
@@ -10703,7 +10769,7 @@ msgstr "BMC-ის დაყენებული მომწოდებლე
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI-ის კლასის ინიციალიზაციის შეცდომა: %s"
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10815,7 +10881,7 @@ msgid "Undo selection"
 msgstr "მონიშნულის დაბრუნება"
 
 msgid "Unexpected error occurred."
-msgstr ""
+msgstr "აღმოჩენილია მოულოდნელი შეცდომა."
 
 msgid "Unhide this value"
 msgstr "მნიშვნელობის გამოჩენა"
@@ -10827,7 +10893,7 @@ msgid "Unknown"
 msgstr "უცნობი"
 
 msgid "Unknown '%{klass}' resource class"
-msgstr ""
+msgstr "უცნობი '%{klass}' რესურსის კლასი"
 
 msgid "Unknown IPAM type - can't continue"
 msgstr "IPAM-ის უცნობი ტიპი - გაგრძელება შეუძლებელია"
@@ -10876,6 +10942,9 @@ msgstr "ჰოსტის მართვის მოხსნა"
 
 msgid "Unnamed"
 msgstr "უსახელო"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "IPAM-ის მხარდაუჭერელი რეჟიმი %s-სთვის"
@@ -11046,8 +11115,8 @@ msgstr[1] ""
 
 msgid "Updated host: changed owner"
 msgid_plural "Updated hosts: changed owner"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ჰოსტი განახლდა: მფლობელი შეიცვალა"
+msgstr[1] "ჰოსტები განახლდა: მფლობელი შეიცვალა"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "ჰოსტები განახლდა: ვმ-ის ასოცირება მოხსნილია"
@@ -11062,7 +11131,7 @@ msgid "Updates a table preference for a given table"
 msgstr "მითითებული ცხრილის პარამეტრების დეტალების ცხრილის განახლება"
 
 msgid "Upgrade documentation"
-msgstr ""
+msgstr "ვერსიის აწევის დოკუმენტაცია"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -11113,7 +11182,7 @@ msgid "Use UUID for certificates"
 msgstr "სერტიფიკატებისთვის UUID-ის გამოყენება"
 
 msgid "Use compact UI"
-msgstr ""
+msgstr "კომპაქტური ინტერფეისის გამოყენება"
 
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
@@ -11236,7 +11305,7 @@ msgid "Username"
 msgstr "მოხმარებელი"
 
 msgid "Username for EC2, VMware, OpenStack. Access Key for EC2."
-msgstr ""
+msgstr "მომხმარებლის სახელი EC2-ისთვის, VMware-ისთვის, OpenStack-ისთვის. წვდომის გასაღები EC2-ისთვის."
 
 msgid "Username to use if authentication is required."
 msgstr "მომხმარებლის სახელი, თუ მოთხოვნილია ავთენტიკაცია."
@@ -11431,7 +11500,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr "სამუშაოდ მომზადების შაბლონის ნახვა {openTemplate}."
 
 msgid "View upgrade documentation"
-msgstr ""
+msgstr "ვერსიის აწევის დოკუმენტაციის ნახვა"
 
 msgid "Virtual"
 msgstr "ვირტუალური"
@@ -11455,7 +11524,7 @@ msgid "Virtual NIC"
 msgstr "ვირტუალური NIC"
 
 msgid "Virtual TPM"
-msgstr ""
+msgstr "ვირტუალური TPM"
 
 msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr "ვირტუალური მანქანის პარამეტრების ჩასწორება შეუძლებელია არსებულ მანქანაზე %s-ში"
@@ -11467,7 +11536,7 @@ msgid "Virtualization"
 msgstr "ვირტუალიზაცია"
 
 msgid "Visit the community forum"
-msgstr ""
+msgstr "ეწვიეთ საზოგადოებრივ ფორუმს"
 
 msgid "WARNING"
 msgstr "გაფრთხილება"
@@ -11748,6 +11817,12 @@ msgstr "თქვენ არ გაქვთ უფლება წაშა�
 msgid "You do not have permission to edit the login"
 msgstr "მომხმარებლის სახელის შეცვლის წვდომის შეცდომა"
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr ""
 
@@ -11803,7 +11878,7 @@ msgid "Your session has expired, please login again"
 msgstr "სესიას ვადა გაუვიდა. საჭიროა, თავიდან შეხვიდეთ"
 
 msgid "Your session has expired; please log in again"
-msgstr ""
+msgstr "სესიის ვადა გასულია. თავიდან შედით"
 
 msgid "ZTP PXE template"
 msgstr "ZTP PXE -ის შაბლონი"
@@ -11818,7 +11893,7 @@ msgid "a location"
 msgstr "მდებარეობა"
 
 msgid "active"
-msgstr ""
+msgstr "აქტიური"
 
 msgid "add a input for this template"
 msgstr "შაბლონისთვის შეყვანების დამატება"
@@ -12012,8 +12087,11 @@ msgstr "არ ემთხვევა არჩეულ ქვექსელ
 msgid "domain"
 msgstr "დომენი"
 
-msgid "duration (ms)"
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
 msgstr ""
+
+msgid "duration (ms)"
+msgstr "ხანგრძლივობა (მწმ)"
 
 msgid "e-mail reporting"
 msgstr "ანგარიში ელფოსტით"
@@ -12073,7 +12151,7 @@ msgid "for Libvirt and VMware only"
 msgstr "მხოლოდ Libvirt და VMware-სთვის"
 
 msgid "for Libvirt only"
-msgstr ""
+msgstr "მხოლოდ Libvirt-ისთვის"
 
 msgid "for OpenStack (v3) only"
 msgstr "მხოლოდ OpenStack (v3)-სთვის"
@@ -12085,7 +12163,7 @@ msgid "for VMware"
 msgstr "vMware-სთვის"
 
 msgid "for VMware Datacenter"
-msgstr ""
+msgstr "VMware Datacenter-ისთვის"
 
 msgid "for proxy"
 msgstr "პროქსისთვის"
@@ -12104,6 +12182,9 @@ msgstr "გლობალური პარამეტრი"
 
 msgid "groups base DN"
 msgstr "ჯგუფების საბაზისო DN"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "უკვე აღებულია"

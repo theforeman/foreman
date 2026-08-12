@@ -117,6 +117,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s か月前"
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr "%s 保存済み"
 
@@ -474,6 +477,9 @@ msgstr "アクセスは拒否されました"
 msgid "Access unattended without build"
 msgstr "ビルドなしで自動アクセス"
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "アカウント"
 
@@ -503,9 +509,6 @@ msgstr "エントリーの自動署名の追加"
 
 msgid "Add Combination"
 msgstr "組み合わせの追加"
-
-msgid "Add Controller"
-msgstr "コントローラーの追加"
 
 msgid "Add Input"
 msgstr "入力を追加"
@@ -540,11 +543,17 @@ msgstr "CD-ROM ドライブを仮想マシンに追加します。"
 msgid "Add a template combination"
 msgstr "テンプレートの組み合わせの追加"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "ユーザーの SSH キーの追加"
 
 msgid "Add an email notification for a user"
 msgstr "ユーザーのメール通知を追加します"
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "外部ユーザーグループの追加"
@@ -560,6 +569,9 @@ msgstr "登録用リポジトリーの追加 (%sセット)"
 
 msgid "Add repository"
 msgstr "リポジトリーの追加"
+
+msgid "Add selected"
+msgstr ""
 
 msgid "Add tag"
 msgstr "タグの追加"
@@ -660,9 +672,6 @@ msgstr "すべての環境"
 msgid "All host groups"
 msgstr "すべてのホストグループ"
 
-msgid "All hosts"
-msgstr "すべてのホスト"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "ホストデータはすべて、ロケーションと組織の設定と一致します。"
 
@@ -717,6 +726,9 @@ msgstr "すべてのユーザー"
 msgid "Allocated"
 msgstr "割り当て済み"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "割り当て (GB)"
 
@@ -746,6 +758,9 @@ msgstr "メールアドレスが必要です。アカウント詳細を更新し
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "LDAP に接続を試行中にエラーが発生しました。認証ソースホストが Foreman ホストから到達でき、オンラインであることを確認してください。"
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr "接続のテスト中にエラーが発生しました: "
@@ -839,6 +854,9 @@ msgstr "ログアウトしてもよろしいですか?"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "%{vm} の %{act} を実行してもよいですか?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr "このテンプレートを元に戻してもよろしいですか?"
@@ -1236,6 +1254,9 @@ msgstr "BMC パスワードの使用"
 msgid "Back"
 msgstr "戻る"
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1474,11 +1495,17 @@ msgstr "%s の保留中ビルドを取り消しました"
 msgid "Cannot add audit comment to a locked template."
 msgstr "テンプレートがロックされている場合には監査コメントを追加できません。"
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "マウントポイントなしでキー %s を使用して pagelet を追加できません"
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "部分なしにキー %s を使用して pagelet を追加できません"
+
+msgid "Cannot add volumes to an existing VM"
+msgstr ""
 
 msgid "Cannot be in the past"
 msgstr "過去になることはできません"
@@ -1906,6 +1933,9 @@ msgstr "最初の検索後に一致する候補の検索を続行しますか (�
 msgid "Continue?"
 msgstr "続行しますか?"
 
+msgid "Controller"
+msgstr "コントローラー"
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr "LDAP でユーザーのグループメンバーシップを検索するために使用されるメカニズムを制御します。"
 
@@ -2179,6 +2209,9 @@ msgstr "組織のネストされたパラメーターの作成"
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "パーティションテーブルの作成"
 
@@ -2232,6 +2265,9 @@ msgstr "ホスト上のインターフェイスを作成"
 
 msgid "Create an operating system"
 msgstr "オペレーティングシステムの作成"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "自動署名エントリーの作成"
@@ -2497,9 +2533,6 @@ msgstr "%s を削除しますか?"
 msgid "Delete :a_resource"
 msgstr ":a_resource の削除"
 
-msgid "Delete Controller"
-msgstr "コントローラーの削除"
-
 msgid "Delete Hosts"
 msgstr "ホストの削除"
 
@@ -2734,6 +2767,9 @@ msgstr "デバイス ID。例: eth0 または eth1.1"
 msgid "Disable"
 msgstr "無効化"
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "通知の無効化"
 
@@ -2785,9 +2821,6 @@ msgstr "ディスク"
 msgid "Disk '%s'"
 msgstr "ディスク '%s'"
 
-msgid "Disk Mode"
-msgstr "ディスクモード"
-
 msgid "Disk allocation"
 msgstr "ディスク割り当て"
 
@@ -2797,8 +2830,8 @@ msgstr "ディスク容量"
 msgid "Disk label"
 msgstr "ディスクラベル"
 
-msgid "Disk name"
-msgstr "ディスク名"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr "ディスクパス"
@@ -2986,6 +3019,9 @@ msgstr "空白"
 
 msgid "Enable"
 msgstr "有効化"
+
+msgid "Enable %s?"
+msgstr ""
 
 msgid "Enable Caching"
 msgstr "キャッシングの有効化"
@@ -3358,6 +3394,9 @@ msgstr ""
 "コンピュート %{compute_resource} のインスタンス %{name} の作成に失敗しました: %{message}\n"
 " "
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "vm %{name} のデプロイに失敗しました。エラー: %{e}"
 
@@ -3515,6 +3554,9 @@ msgstr "%s の TFTP ブートファイルの取得"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "ホストの電源がオンかどうかのステータスを取得します。VM および BMC を備えた物理ホストがサポート対象のホストです。"
+
+msgid "Field is required"
+msgstr ""
 
 msgid "Field name"
 msgstr "フィールド名"
@@ -4068,9 +4110,6 @@ msgstr "HTTPS ブートには、httpboot 機能と https_port 公開設定を備
 msgid "HTTPS endpoint"
 msgstr "HTTPS エンドポイント"
 
-msgid "Hard disk"
-msgstr "ハードディスク"
-
 msgid "Harddisk"
 msgstr "ハードディスク"
 
@@ -4504,6 +4543,9 @@ msgstr "アクションから明示的に除外するホスト。それ以外の
 msgid "Hosts to include in the action"
 msgstr "アクションに追加するホスト"
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Foreman レポート機能が無効なホスト"
 
@@ -4697,9 +4739,6 @@ msgstr "ホストグループの ID。注記: ホストグループを変更す�
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "ホストを再割り当てするホストグループの ID"
-
-msgid "ID of the organization"
-msgstr "組織の ID"
 
 msgid "ID of the owner to reassign the hosts to"
 msgstr "ホストを再割り当てする所有者の ID"
@@ -5213,6 +5252,9 @@ msgstr "sendmail の場所が無効です。任意の場所に settings.yaml を
 
 msgid "Invalid smart-proxy id"
 msgstr "無効な smart-proxy ID"
+
+msgid "Invalid status"
+msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "無効なタグ。キーおよび値のプロパティーのあるマップの配列である必要があります。"
@@ -6188,6 +6230,9 @@ msgstr "最大"
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "構造化サブツリーでのキーの最大数、統計は foreman::dropped_subtree_facts に保存されます。"
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr "最大の構造化ファクト"
 
@@ -6674,9 +6719,6 @@ msgstr "履歴が見つかりません"
 
 msgid "No host could be found for rendering the template"
 msgstr "テンプレートをレンダリングするためのホストが見つかりませんでした"
-
-msgid "No host found"
-msgstr "ホストが見つかりません"
 
 msgid "No host found to associate this VM with"
 msgstr "この VM を関連付けるホストが見つかりません"
@@ -7731,6 +7773,9 @@ msgstr "コンピュートインスタンス %s の電源投入"
 msgid "Power%s"
 msgstr "電源 %s"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr "接頭辞の長さを空白にすることはできません"
 
@@ -8156,14 +8201,26 @@ msgstr "Matcher の削除"
 msgid "Remove Parameter"
 msgstr "パラメーターの削除"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "ユーザーのメール通知を削除します"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "%{host} の競合する %{type} の削除"
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
 msgstr "タグの削除"
+
+msgid "Remove volume"
+msgstr ""
 
 msgid "Remove widget"
 msgstr "ウィジェットの削除"
@@ -8867,6 +8924,9 @@ msgstr "サーバーグループ"
 msgid "Server hint data"
 msgstr "サーバーヒントデータ"
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "サーバータイプ"
 
@@ -9344,17 +9404,11 @@ msgstr "値"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "スペース区切りのオプション (例: miimon=100)。ボンドインターフェイスの場合のみ使用します。"
 
-msgid "Specified value is higher than maximum value"
-msgstr "最大値よりも大きい値が指定されています"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "最大値 %s よりも大きい値が指定されています"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "推奨される最大値よりも大きい値が指定されています"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "推奨される最大値 %s よりも大きい値が指定されています"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "Matcher の指定"
@@ -9945,6 +9999,18 @@ msgstr "OS ディスクレイアウトのオプションとして使用するテ
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "ログインページのフッターに表示されるテキスト。キーワードの $VERSION は、現在のバージョンに置き換えられます。"
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "ホスト: %{host_names} に %{proxy_type} プロキシーを設定できませんでした。"
@@ -10054,6 +10120,9 @@ msgstr "以下のエラーにより、ビルドが正常に行なわれなくな
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr "以下の例では、これを使用して、FQDN および IP アドレスの間の不必要な改行を削除する方法を説明します。"
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "以下のフィールドは確認が必要です"
 
@@ -10083,12 +10152,6 @@ msgstr "完全 DNS ドメイン名"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "外部ユーザーグループとして追加したグループは見つかりましたが、そのグループ内に、認証ソースの基本 DN およびフィルターと合致するユーザーが見つかりませんでした。外部ユーザーグループが認証ソースフィルターに属することを確認してください"
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "ホスト %s が存在しないか、アクセスパーミッションが必要です。この問題が続く場合は、管理者に連絡してください。"
 
 msgid "The host must be powered off to build."
 msgstr ""
@@ -10251,6 +10314,9 @@ msgstr "この操作では、リンクされている仮想マシンとそのデ
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "この IP アドレスはすでに外部 IPAM で確保されています"
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "このアクションにより、このホストおよびすべてのデータ (ファクト、レポート等) が削除されます。"
@@ -10684,7 +10750,7 @@ msgstr "インストール済みの BMC プロバイダーを取得できませ�
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI クラス %s を初期化できません"
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10857,6 +10923,9 @@ msgstr "ホストの管理解除"
 
 msgid "Unnamed"
 msgstr "名前なし"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s のサポート対象外の IPAM モード"
@@ -11737,6 +11806,12 @@ msgstr "他のユーザーのメール通知を削除するパーミッション
 msgid "You do not have permission to edit the login"
 msgstr "ログインを編集するパーミッションがありません"
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "表示可能なホストがありません。ホストは Foreman から追加およびプロビジョニングしたり、Foreman に報告するよう設定したりできます。"
 
@@ -12001,6 +12076,9 @@ msgstr "選択されたサブネットに一致しません"
 msgid "domain"
 msgstr "ドメイン"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr "期間 (ミリ秒)"
 
@@ -12093,6 +12171,9 @@ msgstr "グローバル設定"
 
 msgid "groups base DN"
 msgstr "グループベース DN"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "すでに使用されています"

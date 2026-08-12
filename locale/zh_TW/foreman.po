@@ -123,6 +123,9 @@ msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr ""
 
@@ -482,6 +485,9 @@ msgstr "拒絕存取"
 msgid "Access unattended without build"
 msgstr ""
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "帳號"
 
@@ -510,9 +516,6 @@ msgid "Add Autosign entry"
 msgstr "新增 Autosign 項目"
 
 msgid "Add Combination"
-msgstr ""
-
-msgid "Add Controller"
 msgstr ""
 
 msgid "Add Input"
@@ -548,10 +551,16 @@ msgstr ""
 msgid "Add a template combination"
 msgstr "新增範本組合"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr ""
 
 msgid "Add an email notification for a user"
+msgstr ""
+
+msgid "Add another volume"
 msgstr ""
 
 msgid "Add external user group"
@@ -567,6 +576,9 @@ msgid "Add repositories for registration (%s set)"
 msgstr ""
 
 msgid "Add repository"
+msgstr ""
+
+msgid "Add selected"
 msgstr ""
 
 msgid "Add tag"
@@ -668,9 +680,6 @@ msgstr "所有環境"
 msgid "All host groups"
 msgstr "所有主機群組"
 
-msgid "All hosts"
-msgstr "所有主機"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "所有與位置和組織配置相符的主機資料。"
 
@@ -725,6 +734,9 @@ msgstr "所有使用者"
 msgid "Allocated"
 msgstr "已配置"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "配置（GB）"
 
@@ -753,6 +765,9 @@ msgid "An email address is required, please update your account details"
 msgstr ""
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
+msgstr ""
+
+msgid "An error occurred loading the data."
 msgstr ""
 
 msgid "An error occurred while testing the connection: "
@@ -847,6 +862,9 @@ msgstr ""
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "您是否確定要開啓 %{act} %{vm} 的電源？"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr ""
@@ -1245,6 +1263,9 @@ msgstr ""
 msgid "Back"
 msgstr "上一步"
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1484,10 +1505,16 @@ msgstr "已取消 %s 的處理中組建"
 msgid "Cannot add audit comment to a locked template."
 msgstr ""
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr ""
 
 msgid "Cannot add pagelet with key %s and without partial"
+msgstr ""
+
+msgid "Cannot add volumes to an existing VM"
 msgstr ""
 
 msgid "Cannot be in the past"
@@ -1916,6 +1943,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "繼續？"
 
+msgid "Controller"
+msgstr ""
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr ""
 
@@ -2189,6 +2219,9 @@ msgstr "為組織建立巢式參數。"
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "建立分割表"
 
@@ -2242,6 +2275,9 @@ msgstr "在主機上建立介面"
 
 msgid "Create an operating system"
 msgstr "建立作業系統"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr ""
@@ -2507,9 +2543,6 @@ msgstr "是否刪除 %s？"
 msgid "Delete :a_resource"
 msgstr "刪除資源(_R)"
 
-msgid "Delete Controller"
-msgstr ""
-
 msgid "Delete Hosts"
 msgstr "刪除主機"
 
@@ -2744,6 +2777,9 @@ msgstr "裝置辨識子，例如 eth0 或 eth1.1"
 msgid "Disable"
 msgstr ""
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "停用通知"
 
@@ -2795,9 +2831,6 @@ msgstr "磁碟"
 msgid "Disk '%s'"
 msgstr ""
 
-msgid "Disk Mode"
-msgstr ""
-
 msgid "Disk allocation"
 msgstr ""
 
@@ -2807,7 +2840,7 @@ msgstr ""
 msgid "Disk label"
 msgstr ""
 
-msgid "Disk name"
+msgid "Disk mode"
 msgstr ""
 
 msgid "Disk path"
@@ -2996,6 +3029,9 @@ msgid "Empty"
 msgstr ""
 
 msgid "Enable"
+msgstr ""
+
+msgid "Enable %s?"
 msgstr ""
 
 msgid "Enable Caching"
@@ -3370,6 +3406,9 @@ msgid ""
 " "
 msgstr "建立運算 %{compute_resource} instance %{name} 失敗：%{message}"
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
@@ -3529,6 +3568,9 @@ msgid "Fetch TFTP boot files for %s"
 msgstr "為 %s 擷取 TFTP 開機檔案"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
+msgstr ""
+
+msgid "Field is required"
 msgstr ""
 
 msgid "Field name"
@@ -4083,9 +4125,6 @@ msgstr ""
 msgid "HTTPS endpoint"
 msgstr ""
 
-msgid "Hard disk"
-msgstr ""
-
 msgid "Harddisk"
 msgstr ""
 
@@ -4516,6 +4555,9 @@ msgstr ""
 msgid "Hosts to include in the action"
 msgstr ""
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "停用了 Foreman 報告的主機"
 
@@ -4708,9 +4750,6 @@ msgid "ID of the host group. Note: Changing the host group will re-apply attribu
 msgstr ""
 
 msgid "ID of the hostgroup to reassign the hosts to"
-msgstr ""
-
-msgid "ID of the organization"
 msgstr ""
 
 msgid "ID of the owner to reassign the hosts to"
@@ -5220,6 +5259,9 @@ msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
 msgstr ""
 
 msgid "Invalid smart-proxy id"
+msgstr ""
+
+msgid "Invalid status"
 msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
@@ -6196,6 +6238,9 @@ msgstr ""
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr ""
 
@@ -6682,9 +6727,6 @@ msgstr "找不到歷史記錄"
 
 msgid "No host could be found for rendering the template"
 msgstr "找不到主機可轉譯範本"
-
-msgid "No host found"
-msgstr ""
 
 msgid "No host found to associate this VM with"
 msgstr "找不到與此 VM 相聯的主機"
@@ -7732,6 +7774,9 @@ msgstr "啟動運算事例 %s 的電源"
 msgid "Power%s"
 msgstr "電源 %s"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr ""
 
@@ -8159,13 +8204,25 @@ msgstr ""
 msgid "Remove Parameter"
 msgstr "移除參數"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr ""
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
+msgstr ""
+
+msgid "Remove volume"
 msgstr ""
 
 msgid "Remove widget"
@@ -8874,6 +8931,9 @@ msgstr ""
 msgid "Server hint data"
 msgstr ""
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "伺服器類型"
 
@@ -9353,16 +9413,10 @@ msgstr "值"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "以空格區隔開的選項，例如 miimon=100。僅適用於 bond 介面卡。"
 
-msgid "Specified value is higher than maximum value"
+msgid "Specified value is higher than maximum value %s%s"
 msgstr ""
 
-msgid "Specified value is higher than maximum value %s"
-msgstr ""
-
-msgid "Specified value is higher than recommended maximum"
-msgstr ""
-
-msgid "Specified value is higher than recommended maximum %s"
+msgid "Specified value is higher than recommended maximum %s%s"
 msgstr ""
 
 msgid "Specify Matchers"
@@ -9954,6 +10008,18 @@ msgstr ""
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr ""
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
@@ -10064,6 +10130,9 @@ msgstr "下列錯誤可能會造成組建無法成功："
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr ""
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "下列欄位需要重新檢查"
 
@@ -10092,12 +10161,6 @@ msgid "The full DNS domain name"
 msgstr "完整的 DNS 區域名稱"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
-msgstr ""
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
 msgid "The host must be powered off to build."
@@ -10262,6 +10325,9 @@ msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversib
 msgstr ""
 
 msgid "This IP address has already been reserved in External IPAM"
+msgstr ""
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
 msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
@@ -10693,7 +10759,7 @@ msgstr "無法取得已安裝的 BMC 供應者"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "無法初始化 ProxyAPI 類別 %s"
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10866,6 +10932,9 @@ msgstr "未受管理的主機"
 
 msgid "Unnamed"
 msgstr "未命名"
+
+msgid "Unrecognized features"
+msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
@@ -11732,6 +11801,12 @@ msgstr ""
 msgid "You do not have permission to edit the login"
 msgstr ""
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "您沒有任何可見的主機。主機可以從 Foreman 新增、佈建，或配置為向 Foreman 報告。"
 
@@ -11996,6 +12071,9 @@ msgstr "與選擇的子網路不符"
 msgid "domain"
 msgstr "網域"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr ""
 
@@ -12088,6 +12166,9 @@ msgstr ""
 
 msgid "groups base DN"
 msgstr "群組基礎 DN"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "已被使用"

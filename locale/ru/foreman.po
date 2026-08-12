@@ -144,6 +144,9 @@ msgstr[1] "%s месяца назад"
 msgstr[2] "%s месяцев назад"
 msgstr[3] "%s месяцев назад"
 
+msgid "%s of %s items selected"
+msgstr ""
+
 msgid "%s saved"
 msgstr ""
 
@@ -511,6 +514,9 @@ msgstr "Доступ запрещен"
 msgid "Access unattended without build"
 msgstr ""
 
+msgid "Accessing this page requires the following permissions:"
+msgstr ""
+
 msgid "Account"
 msgstr "Учетная запись"
 
@@ -540,9 +546,6 @@ msgstr "Добавить запись для автоматической под
 
 msgid "Add Combination"
 msgstr "Добавить комбинацию"
-
-msgid "Add Controller"
-msgstr "Добавить Контроллер"
 
 msgid "Add Input"
 msgstr "Добавить параметр"
@@ -577,11 +580,17 @@ msgstr ""
 msgid "Add a template combination"
 msgstr "Добавить комбинацию шаблонов"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add an SSH key for a user"
 msgstr "Добавить пользователю ключ SSH"
 
 msgid "Add an email notification for a user"
 msgstr "Добавить уведомление пользователя по email "
+
+msgid "Add another volume"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "Добавить внешнюю группу пользователей"
@@ -596,6 +605,9 @@ msgid "Add repositories for registration (%s set)"
 msgstr ""
 
 msgid "Add repository"
+msgstr ""
+
+msgid "Add selected"
 msgstr ""
 
 msgid "Add tag"
@@ -697,9 +709,6 @@ msgstr "Все окружения"
 msgid "All host groups"
 msgstr "Все группы узлов"
 
-msgid "All hosts"
-msgstr "Все узлы"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "Данные всех узлов соответствуют конфигурации местоположения и организаций."
 
@@ -754,6 +763,9 @@ msgstr "Все пользователи"
 msgid "Allocated"
 msgstr "Выделено"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr ""
+
 msgid "Allocation (GB)"
 msgstr "Выделено (ГБ)"
 
@@ -783,6 +795,9 @@ msgstr "Адрес электронной почты является обяза
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "Произошла ошибка при попытке подключиться к LDAP, пожалуйста, убедитесь, что узел-источник аутентификационных данных доступен с вашего узла Foreman и находится в сети."
+
+msgid "An error occurred loading the data."
+msgstr ""
 
 msgid "An error occurred while testing the connection: "
 msgstr ""
@@ -876,6 +891,9 @@ msgstr ""
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Вы действительно хотите %{act} %{vm}?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr ""
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr ""
@@ -1276,6 +1294,9 @@ msgstr ""
 msgid "Back"
 msgstr "Назад"
 
+msgid "Back to all hosts"
+msgstr ""
+
 msgid "Back to hardware models"
 msgstr ""
 
@@ -1515,10 +1536,16 @@ msgstr "Ожидающая сборка для %s отменена"
 msgid "Cannot add audit comment to a locked template."
 msgstr ""
 
+msgid "Cannot add controllers to an existing VM"
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr ""
 
 msgid "Cannot add pagelet with key %s and without partial"
+msgstr ""
+
+msgid "Cannot add volumes to an existing VM"
 msgstr ""
 
 msgid "Cannot be in the past"
@@ -1947,6 +1974,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "Продолжить?"
 
+msgid "Controller"
+msgstr ""
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr ""
 
@@ -2220,6 +2250,9 @@ msgstr "Создать вложенный параметр для организ
 msgid "Create a new hardware model"
 msgstr ""
 
+msgid "Create a new host"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Создать таблицу разделов"
 
@@ -2273,6 +2306,9 @@ msgstr "Создать интерфейс на узле"
 
 msgid "Create an operating system"
 msgstr "Создать операционную систему"
+
+msgid "Create another controller"
+msgstr ""
 
 msgid "Create autosign entry"
 msgstr "Создать запись автоматической подписи"
@@ -2538,9 +2574,6 @@ msgstr "Удалить %s?"
 msgid "Delete :a_resource"
 msgstr "Удалить :a_resource"
 
-msgid "Delete Controller"
-msgstr "Удалить Контроллер"
-
 msgid "Delete Hosts"
 msgstr "Удалить узлы"
 
@@ -2775,6 +2808,9 @@ msgstr "Имя интерфейса, например eth0 или eth1.1"
 msgid "Disable"
 msgstr "Отключен"
 
+msgid "Disable %s?"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "Отключить уведомления"
 
@@ -2826,9 +2862,6 @@ msgstr "Диск"
 msgid "Disk '%s'"
 msgstr ""
 
-msgid "Disk Mode"
-msgstr "Режим диска"
-
 msgid "Disk allocation"
 msgstr ""
 
@@ -2838,8 +2871,8 @@ msgstr ""
 msgid "Disk label"
 msgstr ""
 
-msgid "Disk name"
-msgstr "Имя диска"
+msgid "Disk mode"
+msgstr ""
 
 msgid "Disk path"
 msgstr ""
@@ -3029,6 +3062,9 @@ msgid "Empty"
 msgstr "Пусто"
 
 msgid "Enable"
+msgstr ""
+
+msgid "Enable %s?"
 msgstr ""
 
 msgid "Enable Caching"
@@ -3405,6 +3441,9 @@ msgid ""
 " "
 msgstr "Не удалось создать вычислительный %{compute_resource} экземпляр  %{name}: %{message}"
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
@@ -3564,6 +3603,9 @@ msgid "Fetch TFTP boot files for %s"
 msgstr "Получить загрузочные файлы TFTP для %s"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
+msgstr ""
+
+msgid "Field is required"
 msgstr ""
 
 msgid "Field name"
@@ -4118,9 +4160,6 @@ msgstr ""
 msgid "HTTPS endpoint"
 msgstr ""
 
-msgid "Hard disk"
-msgstr "Жесткий диск"
-
 msgid "Harddisk"
 msgstr ""
 
@@ -4551,6 +4590,9 @@ msgstr ""
 msgid "Hosts to include in the action"
 msgstr ""
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Узлы, на которых отчеты Foreman отключены"
 
@@ -4743,9 +4785,6 @@ msgid "ID of the host group. Note: Changing the host group will re-apply attribu
 msgstr ""
 
 msgid "ID of the hostgroup to reassign the hosts to"
-msgstr ""
-
-msgid "ID of the organization"
 msgstr ""
 
 msgid "ID of the owner to reassign the hosts to"
@@ -5256,6 +5295,9 @@ msgstr ""
 
 msgid "Invalid smart-proxy id"
 msgstr "Неверный идентификатор смарт прокси"
+
+msgid "Invalid status"
+msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr ""
@@ -6231,6 +6273,9 @@ msgstr ""
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
 
+msgid "Maximum number of disks (%s) has been reached"
+msgstr ""
+
 msgid "Maximum structured facts"
 msgstr ""
 
@@ -6717,9 +6762,6 @@ msgstr "Нет событий."
 
 msgid "No host could be found for rendering the template"
 msgstr "Не удалось найти узлы для обработки шаблона"
-
-msgid "No host found"
-msgstr ""
 
 msgid "No host found to associate this VM with"
 msgstr "Не найден узел для связи с этой виртуальной машиной"
@@ -7767,6 +7809,9 @@ msgstr "Включить экземпляр %s"
 msgid "Power%s"
 msgstr "%s питание"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr ""
+
 msgid "Prefix length can't be blank"
 msgstr ""
 
@@ -8196,13 +8241,25 @@ msgstr ""
 msgid "Remove Parameter"
 msgstr "Удалить параметр"
 
+msgid "Remove all"
+msgstr ""
+
 msgid "Remove an email notification for a user"
 msgstr "Удалить уведомление пользователя по email "
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
+msgid "Remove controller"
+msgstr ""
+
+msgid "Remove selected"
+msgstr ""
+
 msgid "Remove tag"
+msgstr ""
+
+msgid "Remove volume"
 msgstr ""
 
 msgid "Remove widget"
@@ -8911,6 +8968,9 @@ msgstr ""
 msgid "Server hint data"
 msgstr ""
 
+msgid "Server returned: "
+msgstr ""
+
 msgid "Server type"
 msgstr "Тип сервера"
 
@@ -9392,16 +9452,10 @@ msgstr "Значение"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "Список параметров через запятую, например: miimon=100. Только для агрегированных интерфейсов."
 
-msgid "Specified value is higher than maximum value"
-msgstr "Указанное значение превышает максимальное"
-
-msgid "Specified value is higher than maximum value %s"
+msgid "Specified value is higher than maximum value %s%s"
 msgstr ""
 
-msgid "Specified value is higher than recommended maximum"
-msgstr "Указанное значение превышает рекомендуемое максимальное"
-
-msgid "Specified value is higher than recommended maximum %s"
+msgid "Specified value is higher than recommended maximum %s%s"
 msgstr ""
 
 msgid "Specify Matchers"
@@ -9993,6 +10047,18 @@ msgstr ""
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr ""
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s could not be loaded."
+msgstr ""
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr ""
+
+msgid "The %s with id %s could not be loaded."
+msgstr ""
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "Не удалось настроить прокси %{proxy_type} для узла %{host_names}."
@@ -10105,6 +10171,9 @@ msgstr "Следующие ошибки могут предотвратить у
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr ""
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr "Проверьте значения выделенных полей"
 
@@ -10134,12 +10203,6 @@ msgstr "Полное DNS-имя домена"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "Группы, которые вы добавили в качестве внешних групп пользователей, были найдены. Однако внутри них отсутствуют пользователеи, которые соответствовуют вашему базовому DN и фильтру источника аутентификации. Пожалуйста, убедитесь, что внешние группы пользователей входят в фильтр источника аутентификации"
-
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr ""
 
 msgid "The host must be powered off to build."
 msgstr ""
@@ -10307,6 +10370,9 @@ msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversib
 msgstr ""
 
 msgid "This IP address has already been reserved in External IPAM"
+msgstr ""
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
 msgstr ""
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
@@ -10740,7 +10806,7 @@ msgstr "Не удалось получить список установленн
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "Не удалось инициализировать класс ProxyAPI: %s"
 
-msgid "Unable to load hardware model"
+msgid "Unable to load %s"
 msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
@@ -10912,6 +10978,9 @@ msgid "Unmanage host"
 msgstr "Отменить управление узлом"
 
 msgid "Unnamed"
+msgstr ""
+
+msgid "Unrecognized features"
 msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
@@ -11782,6 +11851,12 @@ msgstr "Недостаточно прав для удаление почтово
 msgid "You do not have permission to edit the login"
 msgstr ""
 
+msgid "You do not have permission to view the %s with id %s."
+msgstr ""
+
+msgid "You do not have permission to view this %s."
+msgstr ""
+
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "У вас нет ни одного видимого узла. Вы можете добавить узлы с целью их подготовки и отслеживания состояния средствами Foreman."
 
@@ -12046,6 +12121,9 @@ msgstr "выбранные подсети не совпадают"
 msgid "domain"
 msgstr "домен"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr ""
+
 msgid "duration (ms)"
 msgstr ""
 
@@ -12138,6 +12216,9 @@ msgstr ""
 
 msgid "groups base DN"
 msgstr "базовое DN группы"
+
+msgid "hardware model"
+msgstr ""
 
 msgid "has already been taken"
 msgstr "уже используется"
