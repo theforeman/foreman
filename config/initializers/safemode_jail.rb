@@ -17,7 +17,7 @@ class ActiveRecord::Batches::BatchEnumerator::Jail < Safemode::Jail
 end
 
 class URI::Generic::Jail < Safemode::Jail
-  allow :host, :path, :port, :query, :scheme
+  allow :fragment, :host, :hostname, :path, :port, :query, :scheme
 end
 
 class ActiveSupport::TimeWithZone::Jail < Safemode::Jail
