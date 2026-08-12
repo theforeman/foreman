@@ -56,6 +56,27 @@ module HostStatus
       end
     end
 
+    def self.computed_status_sql
+      token_expired_clause = if Setting[:token_duration] != 0
+                               "WHEN hosts.build = true AND tokens.id IS NOT NULL AND tokens.expires < CURRENT_TIMESTAMP THEN #{TOKEN_EXPIRED}"
+                             end
+
+      <<~SQL.squish
+        CASE
+          #{token_expired_clause}
+          WHEN hosts.build = true
+          THEN #{PENDING}
+          WHEN hosts.build_errors IS NOT NULL
+          THEN #{BUILD_FAILED}
+          ELSE #{BUILT}
+        END
+      SQL
+    end
+
+    def self.computed_status_joins
+      "LEFT JOIN tokens ON tokens.host_id = #{table_name}.host_id"
+    end
+
     def waiting_for_build?
       host&.build
     end

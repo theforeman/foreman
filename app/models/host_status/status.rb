@@ -82,5 +82,15 @@ module HostStatus
     def update_status
       self.status = to_status
     end
+
+    def self.computed_status_sql
+      "#{table_name}.status"
+    end
+
+    def self.computed_status_joins
+      nil
+    end
+
+    private_class_method :computed_status_sql, :computed_status_joins
   end
 end

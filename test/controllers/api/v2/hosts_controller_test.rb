@@ -157,6 +157,29 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       "API should not return stale database column value"
   end
 
+  test "total counts reflect dynamically computed status, not stale DB column" do
+    # Create a host in build mode with a token that will expire
+    host = FactoryBot.create(:host, :managed, :build => true)
+    Setting[:token_duration] = 60 # 60 minutes
+
+    # Create the build status record — at this point, token is fresh → PENDING
+    status = host.get_status(HostStatus::BuildStatus)
+    status.refresh!
+    assert_equal HostStatus::BuildStatus::PENDING, status.reload.status
+
+    # Expire the token by moving time forward
+    host.token.update!(expires: 1.hour.ago)
+
+    # DB column still says PENDING, but computed status should be TOKEN_EXPIRED
+    presenter = HostStatusPresenter.new(HostStatus::BuildStatus)
+    totals = presenter.total
+
+    assert_equal 0, totals.fetch(HostStatus::BuildStatus::PENDING, 0),
+      "Stale PENDING count should be 0"
+    assert_equal 1, totals.fetch(HostStatus::BuildStatus::TOKEN_EXPIRED, 0),
+      "TOKEN_EXPIRED count should reflect current state"
+  end
+
   test "index should show ok status for hosts with recent reports" do
     # Create report within outofsync_interval
     @host.reports.create!(
