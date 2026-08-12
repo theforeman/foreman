@@ -111,11 +111,20 @@ class HostStatusPresenter
   private
 
   def total_data
-    status_class.joins(:host).merge(Host.authorized).group(:status).count
+    @total_data ||= begin
+      scope = status_class.joins(:host).merge(Host.authorized)
+      scope = scope.joins(status_class.computed_status_joins) if status_class.computed_status_joins
+      scope.group(Arel.sql(status_class.computed_status_sql)).count
+    end
   end
 
   def owned_data
-    status_class.joins(:host).merge(Host::Managed.authorized.search_for('owner = current_user').reorder('')).group(:status).count
+    @owned_data ||= begin
+      scope = status_class.joins(:host)
+                          .merge(Host::Managed.authorized.search_for('owner = current_user').reorder(''))
+      scope = scope.joins(status_class.computed_status_joins) if status_class.computed_status_joins
+      scope.group(Arel.sql(status_class.computed_status_sql)).count
+    end
   end
 
   def total_queries
