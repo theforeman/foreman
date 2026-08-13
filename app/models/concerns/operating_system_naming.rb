@@ -4,14 +4,16 @@ module OperatingSystemNaming
   module ClassMethods
     # Find all operatingsystems that are duplicates of the given operating system according to all unique constraints
     def find_by_attributes(name: nil, major: nil, minor: nil, description: nil)
-      where_attributes = {
+      attributes = {
         name: name,
         major: major,
         minor: minor,
-      }.compact
+      }
+      where_attributes = attributes.compact
+      return none if where_attributes.empty? && description.blank?
       scope = where(where_attributes)
       scope = scope.or(where(description: description)) if description.present?
-      scope.or(where(title: generate_title(**where_attributes.merge(description: description))))
+      scope.or(where(title: generate_title(**attributes.merge(description: description))))
     end
 
     def title_name
