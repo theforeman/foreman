@@ -46,7 +46,7 @@ module Hostext
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_fullname
       scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :hostgroup_title, :only_explicit => true
       scoped_search :relation => :hostgroup,   :on => :id,      :complete_enabled => false, :rename => :hostgroup_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants
+      scoped_search :relation => :hostgroup,   :on => :title,   :complete_value => true,  :rename => :parent_hostgroup, :only_explicit => true, :ext_method => :search_by_hostgroup_and_descendants, :operators => ['= ', '!= ', '~ ', '!~ ', '^ ', '!^ ']
       scoped_search :relation => :domain,      :on => :name,    :complete_value => true,  :rename => :domain
       scoped_search :relation => :domain,      :on => :id,      :complete_enabled => false, :rename => :domain_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :realm,       :on => :name,    :complete_value => true, :rename => :realm
@@ -55,7 +55,7 @@ module Hostext
       scoped_search :relation => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster, :only_explicit => true
       scoped_search :on => :puppet_proxy_id, :complete_value => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :puppet_ca_proxy, :on => :name, :complete_value => true, :rename => :puppet_ca, :only_explicit => true
-      scoped_search :relation => :puppet_proxy, :on => :name, :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true
+      scoped_search :relation => :puppet_proxy, :on => :name, :complete_value => true, :rename => :smart_proxy, :ext_method => :search_by_proxy, :only_explicit => true, :operators => ['= ', '!= ', '~ ', '!~ ']
       scoped_search :relation => :compute_resource, :on => :name,    :complete_value => true, :rename => :compute_resource
       scoped_search :relation => :compute_resource, :on => :id,      :complete_enabled => false, :rename => :compute_resource_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :image, :on => :name, :complete_value => true, :rename => :image
@@ -63,8 +63,8 @@ module Hostext
       scoped_search :relation => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :relation => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
       scoped_search :relation => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true, :ext_method => :search_by_os_major
-      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true, :ext_method => :search_by_os_minor
+      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true, :ext_method => :search_by_os_major, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
+      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true, :ext_method => :search_by_os_minor, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
       scoped_search :relation => :operatingsystem, :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
       scoped_search :relation => :primary_interface, :on => :ip, :complete_value => true
@@ -73,7 +73,7 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :ip6, :complete_value => true, :rename => :has_ip6, :only_explicit => true
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
-      scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
+      scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
       scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
       scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
 
@@ -173,17 +173,40 @@ module Hostext
         { conditions: sanitize_sql_array([sql, user_ids, usergroup_ids]) }
       end
 
+      # Negated operators have to be applied to the hosts, not to the hostgroup
+      # titles, otherwise descendants of an excluded hostgroup would match
+      # through their own title.
+      NEGATED_HOSTGROUP_OPERATORS = {
+        '<>' => '=',
+        '!=' => '=',
+        'NOT IN' => 'IN',
+        'NOT LIKE' => 'LIKE',
+        'NOT ILIKE' => 'ILIKE',
+      }.freeze
+
       def search_by_hostgroup_and_descendants(key, operator, value)
-        conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
-        # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
-        hostgroup = Hostgroup.unscoped.with_taxonomy_scope.find_by(conditions)
-        if hostgroup.present?
-          hostgroup_ids = hostgroup.subtree_ids
-          opts = "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
-        else
-          opts = "hosts.id < 0"
-        end
-        {:conditions => opts}
+        sql_operator = operator.strip
+        negated = NEGATED_HOSTGROUP_OPERATORS.key?(sql_operator)
+        sql_operator = NEGATED_HOSTGROUP_OPERATORS[sql_operator] if negated
+
+        # The IN operator takes a comma separated list of values and needs its
+        # placeholder wrapped in parentheses. Unlike regular fields, external
+        # methods receive the raw value, so the list has to be split here.
+        conditions = if sql_operator == 'IN'
+                       sanitize_sql_for_conditions(['hostgroups.title IN (?)', value.split(',').map(&:strip)])
+                     else
+                       sanitize_sql_for_conditions(["hostgroups.title #{sql_operator} ?", value_to_sql(sql_operator, value)])
+                     end
+        hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).flat_map(&:subtree_ids).uniq
+
+        opts = if hostgroup_ids.empty?
+                 negated ? '1 = 1' : '1 = 0'
+               elsif negated
+                 "(hosts.hostgroup_id IS NULL OR hosts.hostgroup_id NOT IN (#{hostgroup_ids.join(',')}))"
+               else
+                 "hosts.hostgroup_id IN (#{hostgroup_ids.join(',')})"
+               end
+        {conditions: opts}
       end
 
       def search_by_params(key, operator, value)
