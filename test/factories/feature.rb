@@ -45,5 +45,9 @@ FactoryBot.define do
     trait :external_ipam do
       name { 'External IPAM' }
     end
+
+    trait :puppet do
+      name { 'Puppet' }
+    end
   end
 end

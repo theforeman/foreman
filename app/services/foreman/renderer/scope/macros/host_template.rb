@@ -60,6 +60,15 @@ module Foreman
             host.try(:puppet_server).presence || host_param('puppet_server')
           end
 
+          apipie :method, 'Returns Puppet server\'s port configured via the assigned Smart Proxy or the puppet_server_port host parameter' do
+            returns Integer, desc: 'Returns the configured Puppet server\'s port (1-65535), or nil if not configured'
+          end
+          def host_puppet_server_port
+            check_host
+            port = host.try(:puppet_server_port).presence || host_param('puppet_server_port')
+            validate_port(port, 'Puppet Server')
+          end
+
           apipie :method, 'Returns Puppet CA server\'s hostname configured through the ENC or the puppet_ca_server host parameter' do
             returns String, desc: 'Returns the configured Puppet CA server\'s hostname, or nil if not configured'
           end
@@ -74,7 +83,7 @@ module Foreman
           def host_puppet_ca_server_port
             check_host
             port = host.try(:puppet_ca_server_port).presence || host_param('puppet_ca_server_port')
-            validate_port(port)
+            validate_port(port, 'Puppet CA Server')
           end
 
           apipie :method, 'Returns the Puppet environment configured configured through the ENC or the puppet_environment host parameter' do
@@ -245,15 +254,15 @@ module Foreman
             raise HostParamUndefined.new(name: name, host: host) unless host.params.key?(name)
           end
 
-          def validate_port(value)
-            return nil if value.nil?
+          def validate_port(value, desc = 'This')
+            return nil if value.blank?
 
             unless value.to_s.match?(/^\d+$/)
-              raise ArgumentError, "Puppet CA server port must be an integer, got: #{value.inspect}"
+              raise ArgumentError, "#{desc} port must be an integer, got: #{value.inspect}"
             end
             port = value.to_i
             if port < 1 || port > 65535
-              raise ArgumentError, "Puppet CA server port must be between 1 and 65535, got: #{value.inspect}"
+              raise ArgumentError, "#{desc} port must be between 1 and 65535, got: #{value.inspect}"
             end
             port
           end
