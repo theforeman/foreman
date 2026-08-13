@@ -1777,6 +1777,47 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ["Common", "Common/db"].sort, hosts.map { |h| h.hostgroup.title }.sort
   end
 
+  test "can search hosts by parent hostgroup and its descendants using the ^ operator" do
+    parent_hostgroup = FactoryBot.create(:hostgroup)
+    child_hostgroup = FactoryBot.create(:hostgroup, parent: parent_hostgroup)
+    unrelated_hostgroup = FactoryBot.create(:hostgroup)
+
+    FactoryBot.create(:host, hostgroup: parent_hostgroup)
+    FactoryBot.create(:host, hostgroup: child_hostgroup)
+    FactoryBot.create(:host, hostgroup: unrelated_hostgroup)
+
+    hosts = Host::Managed.search_for("parent_hostgroup ^ (#{parent_hostgroup.title})")
+    assert_equal [parent_hostgroup.title, child_hostgroup.title].sort, hosts.map { |h| h.hostgroup.title }.sort
+
+    hosts = Host::Managed.search_for("parent_hostgroup ^ (#{parent_hostgroup.title}, #{unrelated_hostgroup.title})")
+    assert_equal [parent_hostgroup.title, child_hostgroup.title, unrelated_hostgroup.title].sort, hosts.map { |h| h.hostgroup.title }.sort
+  end
+
+  test "can search hosts excluding a parent hostgroup and its descendants" do
+    parent_hostgroup = FactoryBot.create(:hostgroup)
+    child_hostgroup = FactoryBot.create(:hostgroup, parent: parent_hostgroup)
+    unrelated_hostgroup = FactoryBot.create(:hostgroup)
+
+    FactoryBot.create(:host, hostgroup: parent_hostgroup)
+    FactoryBot.create(:host, hostgroup: child_hostgroup)
+    FactoryBot.create(:host, hostgroup: unrelated_hostgroup)
+
+    # descendants of the excluded hostgroup must not match through their own title
+    hosts = Host::Managed.search_for("parent_hostgroup !^ (#{parent_hostgroup.title})")
+    refute_includes hosts.map { |h| h.hostgroup&.title }, child_hostgroup.title
+    assert_includes hosts.map { |h| h.hostgroup&.title }, unrelated_hostgroup.title
+
+    hosts = Host::Managed.search_for("parent_hostgroup != #{parent_hostgroup.title}")
+    refute_includes hosts.map { |h| h.hostgroup&.title }, child_hostgroup.title
+  end
+
+  test "search hosts by non-existing parent hostgroup with the ^ operator returns no results" do
+    FactoryBot.create(:host, :with_hostgroup)
+    refute_equal Host::Managed.count, 0
+    hosts = Host::Managed.search_for("parent_hostgroup ^ (Nosuchgroup, Neitherthisone)")
+    assert_equal hosts.count, 0
+  end
+
   test "search hosts by non-existing parent hostgroup returns no results" do
     FactoryBot.create(:host, :with_hostgroup)
     refute_equal Host::Managed.count, 0
@@ -1948,6 +1989,19 @@ class HostTest < ActiveSupport::TestCase
         assert completions.include?(" facts.#{fact.name} "), "completion missing: #{fact}"
       end
     end
+  end
+
+  test "does not auto-complete operators unsupported by external methods" do
+    completed_operators = ->(key) { Host::Managed.complete_for("#{key} ").map { |completion| completion.split(' ').last } }
+
+    # smart_proxy, os_major and os_minor crash on IN/NOT IN, and comparing
+    # names with </> makes no sense
+    assert_equal ['=', '!=', '~', '!~'].sort, completed_operators.call('smart_proxy').sort
+    assert_equal ['=', '!=', '>', '<', '<=', '>=', '~', '!~'].sort, completed_operators.call('os_major').sort
+    assert_equal ['=', '!=', '>', '<', '<=', '>=', '~', '!~'].sort, completed_operators.call('os_minor').sort
+
+    # parent_hostgroup supports IN/NOT IN, but not </>
+    assert_equal ['=', '!=', '~', '!~', '^', '!^'].sort, completed_operators.call('parent_hostgroup').sort
   end
 
   test "can auto-complete user searches by current_user" do
