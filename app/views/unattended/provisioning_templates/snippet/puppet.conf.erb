@@ -31,6 +31,7 @@ description: |
     ssl_dir = '\$vardir/ssl'
   end
 
+  host_puppet_server_port_default = 8140
   host_puppet_ca_server_port_default = 8140
 -%>
 [main]
@@ -58,6 +59,11 @@ ca_port         = <%= host_puppet_ca_server_port %>
 certname        = <%= @host.certname %>
 <%- if host_puppet_server.present? -%>
 server          = <%= host_puppet_server %>
+<%- end -%>
+<%- if host_puppet_server_port.present? -%>
+<%- if host_puppet_server_port.to_i != host_puppet_server_port_default -%>
+port            = <%= host_puppet_server_port %>
+<%- end -%>
 <%- end -%>
 <%- if host_puppet_environment.present? -%>
 environment     = <%= host_puppet_environment %>

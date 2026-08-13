@@ -369,6 +369,23 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 8443, host.puppet_ca_server_port
   end
 
+  test "should read the Puppet Server port from its proxy settings" do
+    host = FactoryBot.build_stubbed(:host)
+    assert_nil host.puppet_server_port
+
+    proxy = FactoryBot.create(:puppet_smart_proxy, url: 'https://smartproxy.example.com:8443')
+    host.puppet_proxy = proxy
+    assert_equal 8140, host.puppet_server_port
+
+    features = {
+      'puppet' => {
+        settings: {'puppet_url': 'https://puppet.example.com:8443'},
+      },
+    }
+    SmartProxyFeature.import_features(proxy, features)
+    assert_equal 8443, host.puppet_server_port
+  end
+
   test "should populate primary interface attributes even without existing interface" do
     host = FactoryBot.build(:host, :managed => false)
     host.interfaces = []

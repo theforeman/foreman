@@ -108,6 +108,11 @@ module HostCommon
   end
   alias_method :puppetmaster, :puppet_server
 
+  # The Puppet server port. Exposed as a provisioning macro.
+  def puppet_server_port
+    puppet_server_uri.try(:port)
+  end
+
   def puppet_ca_server_uri
     return unless puppet_ca_proxy
     url = puppet_ca_proxy.setting('Puppet CA', 'puppet_url')
