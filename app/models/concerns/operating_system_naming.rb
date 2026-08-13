@@ -8,7 +8,9 @@ module OperatingSystemNaming
         name: name,
         major: major,
         minor: minor,
-      }.compact
+      }
+      attributes = where_attributes.compact
+      return none if attributes.empty? && description.blank?
       scope = where(where_attributes)
       scope = scope.or(where(description: description)) if description.present?
       scope.or(where(title: generate_title(**where_attributes.merge(description: description))))
