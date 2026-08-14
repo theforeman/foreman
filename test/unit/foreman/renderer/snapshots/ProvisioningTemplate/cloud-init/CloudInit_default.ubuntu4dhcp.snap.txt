@@ -87,14 +87,10 @@ runcmd:
 
 - |
   apt-get update
-  apt-get install -y puppet
+  apt-get install -y puppet-agent
   
-  cat > /etc/puppet/puppet.conf << EOF
+  cat > /etc/puppetlabs/puppet/puppet.conf << EOF
   [main]
-  vardir = /var/lib/puppet
-  logdir = /var/log/puppet
-  rundir = /var/run/puppet
-  ssldir = \$vardir/ssl
   
   [agent]
   pluginsync      = true
@@ -104,11 +100,6 @@ runcmd:
   EOF
   
   
-  if [ -f "/etc/default/puppet" ]
-  then
-  /bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
-  fi
-  /usr/bin/puppet agent --enable
   
   # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
   export FACTER_is_installer=true
@@ -116,7 +107,7 @@ runcmd:
   # You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
   # or set a full puppet run by setting "run-puppet-in-installer" = true
   echo "Performing initial puppet run for --tags no_such_tag"
-  /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+  /opt/puppetlabs/bin/puppet agent --config /etc/puppetlabs/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
   systemctl enable puppet
 
 phone_home:
