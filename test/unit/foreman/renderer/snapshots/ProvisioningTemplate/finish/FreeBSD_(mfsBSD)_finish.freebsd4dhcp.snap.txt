@@ -24,7 +24,7 @@ pkg update > /root/install/pkg_update.txt
 pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 
-pkg install -y puppet8
+pkg install -y openvox-agent8
 
 cat > /usr/local/etc/puppet/puppet.conf << EOF
 [main]
@@ -41,7 +41,7 @@ certname        = snapshot-ipv4-dhcp-freebsd
 EOF
 
 
-echo 'puppet_enable="YES"' >>/etc/rc.conf
+sysrc puppet_enable=YES
 
 # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
 export FACTER_is_installer=true
