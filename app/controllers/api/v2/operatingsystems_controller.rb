@@ -64,7 +64,13 @@ module Api
 
       def create
         @operatingsystem = Operatingsystem.new(operatingsystem_params)
-        process_response @operatingsystem.save
+        process_create_with_record_not_unique(@operatingsystem) do |operatingsystem|
+          @operatingsystem = Operatingsystem.find_by(
+            name: operatingsystem.name,
+            major: operatingsystem.major,
+            minor: operatingsystem.minor
+          )
+        end
       end
 
       api :PUT, "/operatingsystems/:id/", N_("Update an operating system")
