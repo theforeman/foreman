@@ -307,7 +307,7 @@ rm /etc/resolv.conf
 <%
   puppet_repo_url_base = 'http://yum.puppet.com'
   if host_param_true?('enable-official-puppet8-repo')
-    puppet_repo_url = "#{puppet_repo_url_base}/puppet7/sles/#{os_major}/#{@host.architecture}/"
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet8/sles/#{os_major}/#{@host.architecture}/"
   elsif host_param_true?('enable-official-puppet7-repo')
     puppet_repo_url = "#{puppet_repo_url_base}/puppet7/sles/#{os_major}/#{@host.architecture}/"
   elsif host_param_true?('enable-puppetlabs-puppet6-repo')
