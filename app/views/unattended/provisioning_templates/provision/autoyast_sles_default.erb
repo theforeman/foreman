@@ -11,7 +11,6 @@ description: |
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
-  aio_enabled = host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6')
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
@@ -182,11 +181,7 @@ description: |
     <packages config:type="list">
       <package>openssh</package>
 <% if puppet_enabled -%>
-<% if aio_enabled -%>
       <package>puppet-agent</package>
-<% else -%>
-      <package>rubygem-puppet</package>
-<% end -%>
 <% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
