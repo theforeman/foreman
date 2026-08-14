@@ -71,6 +71,12 @@ FactoryBot.define do
       layout { "select disk 0\nclean\nconvert gpt\ncreate partition efi size=200\nformat quick fs=fat32 label=\"System\"\nassign letter=\"S\"\ncreate partition msr size=16\ncreate partition primary\nformat quick fs=ntfs label=\"Windows\"\nassign letter=\"W\"\nlist volume\nexit" }
       os_family { 'Windows' }
     end
+
+    trait :freebsd do
+      sequence(:name) { |n| "freebsd default#{n}" }
+      layout { "# Not supported with zfsinstall" }
+      os_family { 'Freebsd' }
+    end
   end
 
   factory :parameter do
@@ -404,6 +410,10 @@ FactoryBot.define do
 
       trait :with_rocky10 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky10) }
+      end
+
+      trait :with_freebsd do
+        operatingsystem { FactoryBot.build(:for_snapshots_freebsd) }
       end
 
       factory :host_for_snapshots_ipv4_dhcp_windows10 do

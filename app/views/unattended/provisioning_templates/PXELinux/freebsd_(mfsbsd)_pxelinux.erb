@@ -4,6 +4,8 @@ name: FreeBSD (mfsBSD) PXELinux
 model: ProvisioningTemplate
 oses:
 - FreeBSD
+test_on:
+- freebsd4dhcp
 description: |
   The template to render PXELinux bootloader configuration for FreeBSD.
   The output is deployed on the host's subnet TFTP proxy.

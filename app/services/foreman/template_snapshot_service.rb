@@ -162,6 +162,13 @@ module Foreman
       define_host_params(host)
     end
 
+    def freebsd4dhcp
+      host = FactoryBot.build(:host_for_snapshots, :with_freebsd,
+        name: 'snapshot-ipv4-dhcp-freebsd',
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
+      define_host_params(host)
+    end
+
     def windows10_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_windows10,
         name: 'snapshot-ipv4-dhcp-windows10',

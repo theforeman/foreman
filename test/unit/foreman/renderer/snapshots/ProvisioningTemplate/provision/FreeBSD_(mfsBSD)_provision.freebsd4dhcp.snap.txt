@@ -6,7 +6,7 @@ first_disk="`echo ${disk_layout##*[1-9]} | /usr/bin/cut -d' ' -f1`"
 test -z "$first_disk" || echo "First disk: $first_disk"
 
 /root/bin/destroygeom -d $first_disk || exit 1
-/root/bin/zfsinstall -d $first_disk -s 2G -u url --url http://mirror.centos.org/centos/7/os/x86_64 || exit 1
+/root/bin/zfsinstall -d $first_disk -s 2G -u http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/11.2-RELEASE || exit 1
 
 cp /etc/resolv.conf /mnt/etc/resolv.conf
 mount -t devfs devfs /mnt/dev

@@ -303,6 +303,17 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :for_snapshots_freebsd, class: Freebsd do
+      name { 'FreeBSD' }
+      major { '11' }
+      minor { '2' }
+      type { 'Freebsd' }
+      title { 'FreeBSD 11.2' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:medium, :freebsd)] }
+      ptables { [FactoryBot.build(:ptable, :freebsd, name: 'ptable')] }
+    end
+
     factory :for_snapshots_windows10, class: Windows do
       name { 'Windows' }
       major { '10' }
