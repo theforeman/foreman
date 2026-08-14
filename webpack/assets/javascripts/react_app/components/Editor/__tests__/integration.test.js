@@ -1,48 +1,43 @@
 import React from 'react';
+import { screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import userEvent from '@testing-library/user-event';
+import API from '../../../redux/API/API';
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
+import { editorOptions } from '../Editor.fixtures';
+import Editor from '../index';
 
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+jest.mock('@patternfly/react-core', () => {
+  const actual = jest.requireActual('@patternfly/react-core');
+  return {
+    ...actual,
+    Tooltip: ({ children }) => children,
+  };
+});
 
-import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
-import Editor, { reducers } from '../index';
-import * as EditorActions from '../EditorActions'
-
-jest.mock('../../../redux/API');
-
-const expectTabSelected = (component, ouiaId) => {
-  expect(
-    component.find(`[data-ouia-component-id="${ouiaId}"]`).prop('aria-selected')
-  ).toBe(true);
-};
+const { renderWithStore } = rtlHelpers;
 
 describe('Editor integration test', () => {
-  it('should flow', () => {
-    jest
-      .spyOn(EditorActions, 'fetchTemplatePreview')
-      .mockImplementation(async () => serverRenderResponse);
+  beforeEach(() => {
+    API.get.mockResolvedValue({ data: [] });
+    API.post.mockResolvedValue({ data: ['rendered content'] });
+  });
 
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
+  it('should switch to preview tab and open fullscreen modal', async () => {
+    renderWithStore(<Editor {...editorOptions} />);
 
-    const component = integrationTestHelper.mount(
-      <Editor {...editorOptions} />
-    );
-    integrationTestHelper.takeStoreSnapshot('initial state');
+    expect(
+      screen.getByRole('tab', { name: 'Editor' })
+    ).toHaveAttribute('aria-selected', 'true');
 
-    const previewBtn = component.find('[data-ouia-component-id="preview-navitem"]');
-    previewBtn.simulate('click');
-    component.update();
+    await userEvent.click(screen.getByRole('tab', { name: 'Preview' }));
 
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'switched to preview view'
-    );
-    expectTabSelected(component, 'preview-navitem');
+    expect(
+      screen.getByRole('tab', { name: 'Preview' })
+    ).toHaveAttribute('aria-selected', 'true');
 
-    IntegrationTestHelper.flushAllPromises();
-    component.update();
+    await userEvent.click(screen.getByRole('button', { name: 'Maximize' }));
 
-    const maximizeBtn = component.find('#fullscreen-btn').at(0);
-    maximizeBtn.simulate('click');
-
-    integrationTestHelper.takeStoreAndLastActionSnapshot('entered fullscreen');
-    expect(component.find('.editor-modal').length).toBeGreaterThan(0);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });
