@@ -1,7 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
-
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom/extend-expect';
 
 import {
   passwordStrengthDataWithVerify,
@@ -11,69 +11,124 @@ import {
 
 import PasswordStrength from '../PasswordStrength';
 
-const createStubs = () => ({
+const defaultProps = {
   updatePassword: jest.fn(),
   updatePasswordConfirmation: jest.fn(),
-});
-
-const createProps = (props = {}) => ({
-  ...createStubs(),
   ...passwordStrengthDefaultProps,
-  ...props,
-});
-
-const fixtures = {
-  'renders password-strength': createProps(),
-  'renders password-strength with password-confirmation': createProps({
-    data: { ...passwordStrengthDataWithVerify },
-  }),
-  'renders password-strength with unmatched password-confirmation': createProps(
-    {
-      doesPasswordsMatch: false,
-      data: { ...passwordStrengthDataWithVerify },
-    }
-  ),
-  'renders password-strength with user-input-ids': createProps({
-    data: { ...passwordStrengthDataWithInputIds },
-  }),
 };
 
 describe('PasswordStrength component', () => {
-  jest
-    .spyOn(document, 'getElementById')
-    .mockImplementation(id => ({ value: id }));
+  beforeEach(() => {
+    jest
+      .spyOn(document, 'getElementById')
+      .mockImplementation(id => ({ value: id }));
+  });
 
-  describe('rendering', () =>
-    testComponentSnapshotsWithFixtures(PasswordStrength, fixtures));
+  afterEach(() => jest.clearAllMocks());
 
-  describe('triggering', () => {
-    const setInputValue = (input, value) => {
-      input.instance().value = value; // eslint-disable-line no-param-reassign
-      input.simulate('change', { target: { value } });
-    };
+  it('renders the password label', () => {
+    render(<PasswordStrength {...defaultProps} />);
 
-    it('should trigger updatePassword', () => {
-      const props = createProps();
-      const component = mount(<PasswordStrength {...props} />);
+    expect(screen.getByText('Password')).toBeInTheDocument();
+  });
 
-      const passwordInput = component.find(`input#${props.data.id}`);
-      setInputValue(passwordInput, 'some-value');
+  it('renders the password input', () => {
+    render(<PasswordStrength {...defaultProps} />);
 
-      expect(props.updatePassword.mock.calls).toMatchSnapshot();
-    });
+    const input = document.querySelector(`input#${defaultProps.data.id}`);
+    expect(input).toBeInTheDocument();
+  });
 
-    it('should trigger updatePasswordConfirmation', () => {
-      const props = createProps({
-        data: { ...passwordStrengthDataWithVerify },
-      });
-      const component = mount(<PasswordStrength {...props} />);
+  it('does not render the verify field when verify is not provided', () => {
+    render(<PasswordStrength {...defaultProps} />);
 
-      const passwordConfirmationInput = component.find(
-        'input#password_confirmation'
-      );
-      setInputValue(passwordConfirmationInput, 'some-value');
+    expect(screen.queryByText('Verify')).not.toBeInTheDocument();
+  });
 
-      expect(props.updatePasswordConfirmation.mock.calls).toMatchSnapshot();
-    });
+  it('renders the verify field when verify data is provided', () => {
+    render(
+      <PasswordStrength
+        {...defaultProps}
+        data={passwordStrengthDataWithVerify}
+      />
+    );
+
+    expect(screen.getByText('Verify')).toBeInTheDocument();
+    expect(
+      document.querySelector('input#password_confirmation')
+    ).toBeInTheDocument();
+  });
+
+  it('shows password error when password is not present', () => {
+    render(
+      <PasswordStrength {...defaultProps} passwordPresent={false} />
+    );
+
+    expect(
+      screen.getByText(defaultProps.data.error)
+    ).toBeInTheDocument();
+  });
+
+  it('shows "Passwords do not match" when passwords do not match', () => {
+    render(
+      <PasswordStrength
+        {...defaultProps}
+        doesPasswordsMatch={false}
+        data={passwordStrengthDataWithVerify}
+      />
+    );
+
+    expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
+  });
+
+  it('shows verify error when passwords match', () => {
+    render(
+      <PasswordStrength
+        {...defaultProps}
+        doesPasswordsMatch
+        data={passwordStrengthDataWithVerify}
+      />
+    );
+
+    expect(
+      screen.getByText(passwordStrengthDataWithVerify.verify.error)
+    ).toBeInTheDocument();
+  });
+
+  it('calls updatePassword when password input changes', async () => {
+    render(<PasswordStrength {...defaultProps} />);
+
+    const input = document.querySelector(`input#${defaultProps.data.id}`);
+    await userEvent.type(input, 'some-value');
+
+    expect(defaultProps.updatePassword).toHaveBeenLastCalledWith('some-value');
+  });
+
+  it('calls updatePasswordConfirmation when confirmation input changes', async () => {
+    render(
+      <PasswordStrength
+        {...defaultProps}
+        data={passwordStrengthDataWithVerify}
+      />
+    );
+
+    const input = document.querySelector('input#password_confirmation');
+    await userEvent.type(input, 'some-value');
+
+    expect(defaultProps.updatePasswordConfirmation).toHaveBeenLastCalledWith(
+      'some-value'
+    );
+  });
+
+  it('reads user input values from DOM when userInputIds are provided', () => {
+    render(
+      <PasswordStrength
+        {...defaultProps}
+        data={passwordStrengthDataWithInputIds}
+      />
+    );
+
+    expect(document.getElementById).toHaveBeenCalledWith('input1');
+    expect(document.getElementById).toHaveBeenCalledWith('input2');
   });
 });
