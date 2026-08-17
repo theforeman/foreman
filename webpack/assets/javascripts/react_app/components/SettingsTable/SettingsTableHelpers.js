@@ -93,8 +93,11 @@ const formatArray = (attr, setting) => {
 const formatTextValue = setting => setting.value;
 const formatTextDefault = setting => setting.default;
 
+export const isEmptyValue = value =>
+  value === null || value === undefined || value === '';
+
 const formatEmpty = (attr, emptyValue, setting) => {
-  if (!setting[attr]) {
+  if (isEmptyValue(setting[attr])) {
     return emptyValue;
   }
   return null;
@@ -112,7 +115,7 @@ const formatArraySelectionValue = setting =>
 const formatArraySelection = (attr, setting) => {
   const selectValues = arraySelection(setting);
 
-  if (!setting[attr] || !selectValues) {
+  if (isEmptyValue(setting[attr]) || !selectValues) {
     return null;
   }
 
