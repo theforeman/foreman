@@ -1,73 +1,69 @@
 import React from 'react';
-
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
-
+import { screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
 import { passwords } from '../PasswordStrength.fixtures';
-import PasswordStrength, { reducers } from '../index';
+import PasswordStrength from '../index';
 
-// mock the document.getElementById
-document.getElementById = jest.fn(id => ({ value: passwords[id].password }));
+const { renderWithStore } = rtlHelpers;
+
+document.getElementById = jest.fn(id => {
+  const entry = passwords[id];
+  return entry ? { value: entry.password } : null;
+});
+
+const renderPasswordStrength = () =>
+  renderWithStore(
+    <PasswordStrength
+      data={{
+        className: 'form-control',
+        id: 'user_password',
+        name: 'user[password]',
+        verify: { name: 'user[password_confirmation]' },
+        userInputIds: ['username', 'email'],
+      }}
+    />
+  );
 
 describe('PasswordStrength integration test', () => {
-  // the password-strength 3rd-party reading the input.value instead the event.value
-  // therefore, it is not enough to simulate a change-event
-  const setInputValue = (input, value) => {
-    input.instance().value = value; // eslint-disable-line no-param-reassign
-    input.simulate('change', { target: { value } });
-  };
+  const passwordTestCases = Object.entries(passwords).map(
+    ([key, { password, expected }]) => [key, password, expected]
+  );
 
-  it('should flow', () => {
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
+  it.each(passwordTestCases)(
+    'displays correct strength for %s password',
+    async (_key, password, expected) => {
+      const { container } = renderPasswordStrength();
+      const passwordInput = container.querySelector('#user_password');
 
-    const component = integrationTestHelper.mount(
-      <div>
-        <input id="username" value={passwords.username.password} readOnly />
-        <input id="email" value={passwords.email.password} readOnly />
-        <PasswordStrength
-          data={{
-            className: 'form-control',
-            id: 'user_password',
-            name: 'user[password]',
-            verify: { name: 'user[password_confirmation]' },
-            userInputIds: ['username', 'email'],
-          }}
-        />
-      </div>
-    );
+      await userEvent.type(passwordInput, password);
 
-    const passwordInput = component.find('input#user_password');
-    const passwordConfirmationInput = component.find(
-      'input#password_confirmation'
-    );
-    const passwordWarning = component.find(
-      '.ReactPasswordStrength-strength-desc'
-    );
+      expect(screen.getByText(expected)).toBeInTheDocument();
+    }
+  );
 
-    integrationTestHelper.takeStoreSnapshot('initial state');
+  it('shows error when password confirmation does not match', async () => {
+    const { container } = renderPasswordStrength();
+    const passwordInput = container.querySelector('#user_password');
+    const confirmInput = container.querySelector('#password_confirmation');
 
-    Object.keys(passwords).forEach(key => {
-      const { password, expected } = passwords[key];
+    await userEvent.type(passwordInput, passwords.veryStrong.password);
+    await userEvent.type(confirmInput, passwords.strong.password);
 
-      setInputValue(passwordInput, password);
+    expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
+  });
 
-      expect(passwordWarning.text()).toBe(expected);
-      integrationTestHelper.takeStoreAndLastActionSnapshot(`${key} fixture`);
-    });
+  it('does not show error when password confirmation matches', async () => {
+    const { container } = renderPasswordStrength();
+    const passwordInput = container.querySelector('#user_password');
+    const confirmInput = container.querySelector('#password_confirmation');
 
-    setInputValue(passwordConfirmationInput, passwords.strong.password);
+    await userEvent.type(passwordInput, passwords.veryStrong.password);
+    await userEvent.type(confirmInput, passwords.veryStrong.password);
+
     expect(
-      component.find(`CommonForm[label="${'Verify'}"] .help-block`)
-    ).toHaveLength(1);
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'unmached password confirmation'
-    );
-
-    setInputValue(passwordConfirmationInput, passwords.veryStrong.password);
-    expect(
-      component.find(`CommonForm[label="${'Verify'}"] .help-block`)
-    ).toHaveLength(0);
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'mached password confirmation'
-    );
+      screen.queryByText('Passwords do not match')
+    ).not.toBeInTheDocument();
   });
 });
