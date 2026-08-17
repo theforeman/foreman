@@ -106,7 +106,10 @@ module Authorizable
     end
 
     def completer_scope(_options)
-      authorized(find_permission_name(:view))
+      authorized_scope = authorized(find_permission_name(:view))
+      return authorized_scope unless authorized_scope.eager_loading?
+
+      where(primary_key => authorized_scope.select(arel_table[primary_key]))
     end
   end
 end
