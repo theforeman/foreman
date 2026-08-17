@@ -32,7 +32,8 @@ description: |
   end
 
   host_puppet_server_port_default = 8140
-  host_puppet_ca_server_port_default = 8140
+  # Puppet defaults ca_port to serverport.
+  host_puppet_ca_server_port_default = host_puppet_server_port.present? ? host_puppet_server_port.to_i : host_puppet_server_port_default
 -%>
 [main]
 <%- unless host_param('dns_alt_names').to_s.empty? -%>
@@ -62,7 +63,7 @@ server          = <%= host_puppet_server %>
 <%- end -%>
 <%- if host_puppet_server_port.present? -%>
 <%- if host_puppet_server_port.to_i != host_puppet_server_port_default -%>
-port            = <%= host_puppet_server_port %>
+serverport      = <%= host_puppet_server_port %>
 <%- end -%>
 <%- end -%>
 <%- if host_puppet_environment.present? -%>
