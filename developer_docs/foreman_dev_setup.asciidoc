@@ -22,7 +22,7 @@ Install the development packages:
 sudo dnf install gcc-c++ make git ruby ruby-devel rubygem-bundler \
     libvirt-devel postgresql-devel openssl-devel \
     libxml2-devel libxslt-devel zlib-devel \
-    readline-devel systemd-devel tar libcurl-devel nodejs
+    readline-devel systemd-devel tar libcurl-devel libcap-devel nodejs
 ....
 
 Fedora ships with a too new Ruby. It's recommended to install https://github.com/rbenv/rbenv[rbenv] to install a compatible version:
