@@ -5,6 +5,7 @@ import {
   hasDefault,
   withTooltip,
   defaultToString,
+  isEmptyValue,
   valueToString,
 } from '../SettingsTableHelpers';
 
@@ -12,11 +13,7 @@ const innerCell = props => {
   const { setting } = props;
 
   let field = (
-    <div
-      className={
-        setting.value || setting.settingsType === 'boolean' ? '' : 'empty-value'
-      }
-    >
+    <div className={isEmptyValue(setting.value) ? 'empty-value' : ''}>
       {valueToString(setting)}
     </div>
   );

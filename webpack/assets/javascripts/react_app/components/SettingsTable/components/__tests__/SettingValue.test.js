@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
 import {
+  integerSetting,
   rootPass,
   stringSetting,
   withoutFullName,
@@ -82,5 +83,17 @@ describe('SettingValue', () => {
     );
 
     expect(screen.getByText('Empty')).toBeInTheDocument();
+  });
+
+  it('renders zero as a non-empty value', () => {
+    render(<SettingValue setting={{ ...integerSetting, value: 0 }} />);
+
+    expect(screen.getByText('0')).not.toHaveClass('empty-value');
+  });
+
+  it('marks a null value as empty', () => {
+    render(<SettingValue setting={{ ...integerSetting, value: null }} />);
+
+    expect(screen.getByText('Empty')).toHaveClass('empty-value');
   });
 });
