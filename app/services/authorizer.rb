@@ -103,6 +103,11 @@ class Authorizer
     result[:where] << { id: base_ids } if @base_collection.present?
 
     search_string = build_scoped_search_condition(all_filters)
+    # A blank search is unrestricted, while false means the taxonomy scopes do not overlap.
+    if search_string == false
+      result[:where] << '1=0'
+      return result
+    end
     return result if search_string.blank?
 
     begin
@@ -132,6 +137,7 @@ class Authorizer
       # Do not do any scoping if there's a filter which grants the permission universally
       base_conditions = filters.any? { |f| f.taxonomy_search.nil? && f.search.nil? } ? [] : filters.map(&:search_condition)
       tax_conditions = filters.first.taxonomy_search_condition_for_user(@user)
+      return false unless tax_conditions
 
       QueryBuilder.join(
         'AND',
@@ -146,7 +152,10 @@ class Authorizer
       # This means we cannot take any shortcuts and need to build a query where
       # the checks for user's taxonomies are evaluated for each filter
       # individually
-      conditions = filters.map { |f| f.search_condition_for_user(@user) }
+      conditions = filters.map { |filter| filter.search_condition_for_user(@user) }
+      conditions.reject! { |condition| condition == false }
+      return false if conditions.empty?
+
       QueryBuilder.join('OR', conditions)
     end
   end

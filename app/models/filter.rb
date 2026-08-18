@@ -121,18 +121,25 @@ class Filter < ApplicationRecord
   def search_condition_for_user(user)
     return search_condition unless granular?
 
-    parts = [search]
-    parts += taxonomy_search_condition_for_user(user, taxonomy_search)
-    QueryBuilder.join('AND', parts)
+    taxonomy_conditions = taxonomy_search_condition_for_user(user, taxonomy_search)
+    return false unless taxonomy_conditions
+
+    QueryBuilder.join('AND', [search] + taxonomy_conditions)
   end
 
   def taxonomy_search_condition_for_user(user, search = nil)
     parts = []
     if resource_taxable_by_organization?
-      parts << merge_taxonomy_search('organization_id', search, user.organization_and_child_ids)
+      condition = merge_taxonomy_search('organization_id', search, user.organization_and_child_ids)
+      return false unless condition
+
+      parts << condition
     end
     if resource_taxable_by_location?
-      parts << merge_taxonomy_search('location_id', search, user.location_and_child_ids)
+      condition = merge_taxonomy_search('location_id', search, user.location_and_child_ids)
+      return false unless condition
+
+      parts << condition
     end
     parts
   end
@@ -143,7 +150,9 @@ class Filter < ApplicationRecord
           else
             search.scan(/\d+/).map(&:to_i) & user_ids
           end
-    QueryBuilder.key_value_in(key, ids, :block)
+    return false if ids.empty?
+
+    QueryBuilder.key_value_in(key, ids)
   end
 
   def expire_topbar_cache
