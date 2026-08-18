@@ -43,15 +43,16 @@ module Orchestration::SshProvision
   def setSSHWaitForResponse
     logger.info "Starting SSH provisioning script - waiting for #{provision_host} to respond"
     if compute_resource.respond_to?(:key_pair) && compute_resource.key_pair.try(:secret)
-      credentials = { :key_data => [compute_resource.key_pair.secret] }
+      credentials = { :key_data => compute_resource.key_pair.secret }
     elsif vm.respond_to?(:password) && vm.password.present?
-      credentials = { :password => vm.password, :auth_methods => ["password", "keyboard-interactive"] }
+      credentials = { :password => vm.password }
     elsif image.respond_to?(:password) && image.password.present?
-      credentials = { :password => image.password, :auth_methods => ["password", "keyboard-interactive"] }
+      credentials = { :password => image.password }
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
     self.client = Foreman::Provision::Ssh.new provision_host, image.try(:username), { :template => template_file.path, :uuid => uuid }.merge(credentials)
+    client.ping
   rescue => e
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end
@@ -60,7 +61,7 @@ module Orchestration::SshProvision
   end
 
   def setSSHProvision
-    logger.info "SSH connection established to #{provision_host} - executing template"
+    logger.info "SSH connection to #{provision_host} okay: executing template"
     if client.deploy!
       # since we are in a after_commit callback, we need to fetch our host again, and clean up puppet ca on our own
       Host.find(id).built
