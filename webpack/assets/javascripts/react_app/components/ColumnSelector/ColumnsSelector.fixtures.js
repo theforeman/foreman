@@ -20,7 +20,7 @@ export const ColumnSelectorProps = {
         {
           name: 'Name',
           key: 'name',
-          checkProps: { locked: true, checked: true },
+          checkProps: { disabled: true, checked: true },
         },
         {
           name: 'Operating system',
