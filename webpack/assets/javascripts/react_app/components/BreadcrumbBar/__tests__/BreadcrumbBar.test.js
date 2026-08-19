@@ -1,13 +1,14 @@
 import React from 'react';
-import { render, fireEvent, screen, act } from '@testing-library/react';
-
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 
 import BreadcrumbBar from '../BreadcrumbBar';
 import {
   breadcrumbBar,
   breadcrumbBarSwithcable,
   mockBreadcrumbItemOnClick,
+  resource,
 } from '../BreadcrumbBar.fixtures';
 
 const createStubs = () => ({
@@ -16,54 +17,83 @@ const createStubs = () => ({
   loadSwitcherResourcesByResource: jest.fn(),
 });
 
-const fixtures = {
-  'renders breadcrumb-bar': breadcrumbBar,
-  'renders switchable breadcrumb-bar': breadcrumbBarSwithcable,
-};
-
-jest.useFakeTimers();
-
 describe('BreadcrumbBar', () => {
-  describe('rendering', () =>
-    testComponentSnapshotsWithFixtures(BreadcrumbBar, fixtures));
+  afterEach(() => jest.clearAllMocks());
+
+  describe('rendering', () => {
+    it('renders non-switchable breadcrumb bar', () => {
+      render(<BreadcrumbBar {...breadcrumbBar} />);
+
+      expect(screen.getByText('root')).toBeInTheDocument();
+      expect(screen.getByText('child with onClick')).toBeInTheDocument();
+      expect(screen.getByText('active child')).toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'open breadcrumb switcher' })
+      ).not.toBeInTheDocument();
+    });
+
+    it('renders switchable breadcrumb bar with switcher button', () => {
+      render(<BreadcrumbBar {...breadcrumbBarSwithcable} />);
+
+      expect(screen.getByText('root')).toBeInTheDocument();
+      expect(screen.getByText('child with onClick')).toBeInTheDocument();
+      expect(screen.getByText('active child')).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: 'open breadcrumb switcher' })
+      ).toBeInTheDocument();
+    });
+  });
 
   describe('triggering', () => {
-    it('should trigger callbacks', async () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it('should trigger callbacks on switcher interaction', async () => {
       const props = { ...breadcrumbBarSwithcable, ...createStubs() };
       const { rerender } = render(<BreadcrumbBar {...props} />);
 
-      expect(props.openSwitcher.mock.calls).toHaveLength(0);
-      expect(props.closeSwitcher.mock.calls).toHaveLength(0);
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(0);
+      expect(props.openSwitcher).not.toHaveBeenCalled();
+      expect(props.closeSwitcher).not.toHaveBeenCalled();
+      expect(props.loadSwitcherResourcesByResource).not.toHaveBeenCalled();
 
-      await act(async () =>
-        fireEvent.click(screen.getByLabelText('open breadcrumb switcher'))
+      userEvent.click(
+        screen.getByRole('button', { name: 'open breadcrumb switcher' })
       );
-      expect(props.openSwitcher.mock.calls).toHaveLength(1);
+      expect(props.openSwitcher).toHaveBeenCalledTimes(1);
+
       rerender(<BreadcrumbBar {...{ ...props, isSwitcherOpen: true }} />);
       await act(async () => jest.runAllTimers());
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(1);
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenCalledTimes(1);
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenCalledWith(
+        resource
+      );
+
       rerender(
         <BreadcrumbBar
           {...{ ...props, isSwitcherOpen: true, currentPage: 2, total: 40 }}
         />
       );
-      await act(async () =>
-        fireEvent.click(screen.getByLabelText('Go to next page'))
-      );
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(2);
 
-      await act(async () =>
-        fireEvent.click(screen.getByLabelText('Go to previous page'))
+      userEvent.click(
+        screen.getByRole('button', { name: 'Go to next page' })
       );
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(3);
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenCalledTimes(2);
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenLastCalledWith(
+        resource,
+        { page: 3, searchQuery: 'some value', perPage: 10 }
+      );
 
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot(
-        'loadSwitcherResourcesByResource calls'
+      userEvent.click(
+        screen.getByRole('button', { name: 'Go to previous page' })
+      );
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenCalledTimes(3);
+      expect(props.loadSwitcherResourcesByResource).toHaveBeenLastCalledWith(
+        resource,
+        { page: 2, searchQuery: 'some value', perPage: 10 }
       );
     });
 
-    it('onclick callbacks should work', async () => {
+    it('should call onClick callbacks', async () => {
       window.history.pushState({}, 'Test Title', '/hosts/1');
       const props = {
         ...breadcrumbBarSwithcable,
@@ -75,18 +105,16 @@ describe('BreadcrumbBar', () => {
 
       render(<BreadcrumbBar {...props} />);
       await act(async () => jest.runAllTimers());
-      expect(props.onSwitcherItemClick.mock.calls).toHaveLength(0);
-      // test breadcrumb switcher item click
-      await act(async () =>
-        fireEvent.click(screen.getByText('breadcrumb item 3'))
-      );
-      expect(props.onSwitcherItemClick.mock.calls).toHaveLength(1);
 
-      // test breadcrumb item click
-      await act(async () =>
-        fireEvent.click(screen.getByText('child with onClick'))
-      );
-      expect(mockBreadcrumbItemOnClick.mock.calls).toHaveLength(1);
+      expect(props.onSwitcherItemClick).not.toHaveBeenCalled();
+
+      userEvent.click(screen.getByText('breadcrumb item 3'));
+      await act(async () => jest.runAllTimers());
+      expect(props.onSwitcherItemClick).toHaveBeenCalledTimes(1);
+
+      userEvent.click(screen.getByText('child with onClick'));
+      await act(async () => jest.runAllTimers());
+      expect(mockBreadcrumbItemOnClick).toHaveBeenCalledTimes(1);
     });
   });
 });
