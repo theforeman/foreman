@@ -6,13 +6,13 @@ snippet: true
 description: |
   Generates a puppet.conf file which is required for the puppet agent bootstraping.
   The puppet server and CA is configured based on the host configuration. It supports
-  Puppet 7 and newer. Supports hostcert_renewal_interval for Puppet 8+.
+  Puppet 8 and newer. Supports hostcert_renewal_interval for Puppet 8+.
 -%>
 <%
   os_family = @host.operatingsystem.family
   os_name   = @host.operatingsystem.name
 
-  aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7')
+  aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8')
   aio_available = os_family == 'Debian' || os_family == 'Redhat' || os_family == 'Suse'
 
   if os_family == 'Windows'

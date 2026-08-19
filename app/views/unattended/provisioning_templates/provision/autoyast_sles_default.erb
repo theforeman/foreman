@@ -11,7 +11,7 @@ description: |
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
-  aio_enabled = host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7')
+  aio_enabled = host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8')
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
@@ -303,14 +303,10 @@ rm /etc/resolv.conf
   <% end -%>
 <% end -%>
 <% if puppet_enabled -%>
-<% if host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') -%>
+<% if host_param_true?('enable-official-puppet8-repo') -%>
 <%
   puppet_repo_url_base = 'http://yum.puppet.com'
-  if host_param_true?('enable-official-puppet8-repo')
-    puppet_repo_url = "#{puppet_repo_url_base}/puppet8/sles/#{os_major}/#{@host.architecture}/"
-  elsif host_param_true?('enable-official-puppet7-repo')
-    puppet_repo_url = "#{puppet_repo_url_base}/puppet7/sles/#{os_major}/#{@host.architecture}/"
-  end
+  puppet_repo_url = "#{puppet_repo_url_base}/puppet8/sles/#{os_major}/#{@host.architecture}/"
 %>
     <listentry>
         <media_url><![CDATA[<%= puppet_repo_url %>]]></media_url>
