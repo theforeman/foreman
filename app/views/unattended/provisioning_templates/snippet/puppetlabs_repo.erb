@@ -34,6 +34,13 @@ elsif os_family == 'Debian'
 elsif os_family == 'Windows'
   repo_host = 'downloads.puppet.com'
   repo_os = 'windows'
+  puppet_architecture = @host.architecture.to_s
+  case puppet_architecture
+  when 'x86_64', 'x86-64', 'amd64'
+    puppet_architecture = 'x64'
+  when 'i386', 'i486', 'i586', 'i686'
+    puppet_architecture = 'x86'
+  end
 end
 
 if host_param_true?('enable-puppetlabs-repo')
@@ -57,8 +64,8 @@ apt-get -y install ca-certificates
 wget -O /tmp/<%= repo_name %>-<%= repo_os %>.deb<%= proxy_string %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>.deb
 dpkg -i /tmp/<%= repo_name %>-<%= repo_os %>.deb
 <% elsif os_family == 'Windows' -%>
-$puppet_agent_source = 'https://<%= repo_host %>/<%= repo_os %>/puppet-agent-<%= @host.architecture %>-latest.msi'
-$puppet_agent_msi = "${env:TEMP}\puppet-agent-<%= @host.architecture %>.msi"
+$puppet_agent_source = 'https://<%= repo_host %>/<%= repo_os %>/<%= repo_name.split('-').first %>/puppet-agent-<%= puppet_architecture %>-latest.msi'
+$puppet_agent_msi = "${env:TEMP}\puppet-agent-<%= puppet_architecture %>.msi"
 Write-Host "Downloading puppet-agent from ${$puppet_agent_source} to ${puppet_agent_msi}"
 Start-BitsTransfer -Source "${puppet_agent_source}" -Destination "${puppet_agent_msi}"<%= proxy_string_bits %>
 <% end -%>
