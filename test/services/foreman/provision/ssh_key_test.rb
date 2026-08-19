@@ -4,9 +4,9 @@ class Foreman::Provision::SshKeyTest < ActiveSupport::TestCase
   KEYS = {
     'rsa2048'  => { fingerprint: 'YM91jAmHbxhgh/d1NtHzBtGqqR1ARwVb0KDF0pGZAVc=', length: 2048 },
     'rsa4096'  => { fingerprint: '8rD/tQMje6HUk1dZELelNM5SMpiGO+1BrEgrfSZdvg0=', length: 4096 },
-    'ecdsa256' => { fingerprint: '4dEJKo6jNj7vVT6Y90D5UQf6QIJ6/U65GAlP+C86zhw=', length: 520 },
-    'ecdsa384' => { fingerprint: 'wFWPwwLl/pMIsCcJATtzNuly0V4rIQcyS6Bp8Icrb5Y=', length: 776 },
-    'ecdsa521' => { fingerprint: '3x7Jb/6rsjGjALMvKGznxc9cw+63YCHhXeOnJ9qs7DM=', length: 1064 },
+    'ecdsa256' => { fingerprint: '4dEJKo6jNj7vVT6Y90D5UQf6QIJ6/U65GAlP+C86zhw=', length: 256 },
+    'ecdsa384' => { fingerprint: 'wFWPwwLl/pMIsCcJATtzNuly0V4rIQcyS6Bp8Icrb5Y=', length: 384 },
+    'ecdsa521' => { fingerprint: '3x7Jb/6rsjGjALMvKGznxc9cw+63YCHhXeOnJ9qs7DM=', length: 521 },
     'ed25519'  => { fingerprint: 'dkKrxf6K2+QZlM3c0JMc7pGvr33OkamPFAG+6n93v5k=', length: 256 },
   }.freeze
 
@@ -53,19 +53,49 @@ class Foreman::Provision::SshKeyTest < ActiveSupport::TestCase
     let(:key) { public_key('rsa2048') }
     let(:service) { Foreman::Provision::SshKey.new(key) }
 
-    test 'wraps fingerprint errors in Error' do
-      SSHKey.stubs(:sha256_fingerprint).raises(SSHKey::PublicKeyError, 'boom')
+    setup do
+      Open3.stubs(:capture3).returns(['', 'ssh-keygen boom', stub(:success? => false)])
+    end
+
+    test 'raises Error when calculating the fingerprint' do
       assert_raises(Foreman::Provision::SshKey::Error) { service.fingerprint }
     end
 
-    test 'wraps length errors in Error' do
-      SSHKey.stubs(:ssh_public_key_bits).raises(SSHKey::PublicKeyError, 'prask')
+    test 'raises Error when calculating the length' do
       assert_raises(Foreman::Provision::SshKey::Error) { service.length }
     end
 
-    test 'wraps validation errors in Error' do
-      SSHKey.stubs(:valid_ssh_public_key?).raises(SSHKey::PublicKeyError, 'taky nejsem klic')
-      assert_raises(Foreman::Provision::SshKey::Error) { service.valid? }
+    test 'reports the key as invalid' do
+      refute service.valid?
+    end
+  end
+
+  context '.generate' do
+    test 'generates a valid public key' do
+      key = Foreman::Provision::SshKey.generate
+      assert Foreman::Provision::SshKey.new(key).valid?
+    end
+
+    %w[rsa ecdsa ed25519].each do |type|
+      test "generates a valid #{type} key" do
+        key = Foreman::Provision::SshKey.generate(:type => type)
+        assert Foreman::Provision::SshKey.new(key).valid?
+      end
+    end
+
+    test 'generates a unique key on every call' do
+      refute_equal Foreman::Provision::SshKey.generate, Foreman::Provision::SshKey.generate
+    end
+
+    test 'appends the given comment' do
+      key = Foreman::Provision::SshKey.generate(:comment => 'foreman@example.com')
+      assert_equal 'foreman@example.com', key.split(' ').last
+    end
+
+    test 'raises Error on an unknown key type' do
+      assert_raises(Foreman::Provision::SshKey::Error) do
+        Foreman::Provision::SshKey.generate(:type => 'nonsense')
+      end
     end
   end
 end
