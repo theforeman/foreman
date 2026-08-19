@@ -18,7 +18,7 @@ os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
-puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo')
 voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
 
 if puppetlabs_repo_enabled && voxpupuli_repo_enabled
@@ -56,8 +56,6 @@ elsif host_param_true?('enable-official-puppet8-repo')
   repo_name = 'puppet8-release'
 elsif host_param_true?('enable-official-puppet7-repo')
   repo_name = 'puppet7-release'
-elsif host_param_true?('enable-puppetlabs-puppet6-repo')
-  repo_name = 'puppet6-release'
 end
 -%>
 <% if repo_name -%>
