@@ -101,8 +101,8 @@ FactoryBot.define do
 
     factory :ubuntu14_10, class: Debian do
       sequence(:name) { 'Ubuntu' }
-      major { '14' }
-      minor { '10' }
+      major { '14.10' }
+      minor { '' }
       type { 'Debian' }
       release_name { 'utopic' }
       title { 'Ubuntu Utopic' }

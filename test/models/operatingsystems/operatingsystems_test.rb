@@ -42,7 +42,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-ZX7K5DrIw8GD-coreos_production_pxe.vmlinuz' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-zk3iA1lqbWLp-linux' },
     :debian7_1   => { 'os' => :debian7_1,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-k1O72L6ktmiV-linux' },
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-nBGUKFMjrPYz-linux' },
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-HnL7pVmauGTo-linux' },
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-51xY4YC2vskO-linux' } }.
   each do |os, config|
     test "kernel location for #{config['arch']} #{os}" do
@@ -63,7 +63,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-ZX7K5DrIw8GD-coreos_production_pxe_image.cpio.gz' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-zk3iA1lqbWLp-initrd.gz' },
     :debian7_1   => { 'os' => :debian7_1,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-k1O72L6ktmiV-initrd.gz' },
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-nBGUKFMjrPYz-initrd.gz' },
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-HnL7pVmauGTo-initrd.gz' },
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-51xY4YC2vskO-initrd' } }.
   each do |os, config|
     test "initrd location for #{config['arch']} #{os}" do
@@ -84,7 +84,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-ZX7K5DrIw8GD'},
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-zk3iA1lqbWLp'},
     :debian7_1   => { 'os' => :debian7_1,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-k1O72L6ktmiV'},
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-nBGUKFMjrPYz'},
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-HnL7pVmauGTo'},
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-51xY4YC2vskO' } }.
   each do |os, config|
     test "pxe prefix for #{os}" do
