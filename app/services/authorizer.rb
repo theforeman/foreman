@@ -52,7 +52,9 @@ class Authorizer
                                                               "OR (#{locations})",
                                                           *values]).distinct
 
-    all_filters = all_filters.reorder(nil).to_a # load all records, so #empty? does not call extra COUNT(*) query
+    # Load all records, so #empty? does not call an extra COUNT(*) query, and preload
+    # associations used by Filter#resource_type to avoid per-filter queries.
+    all_filters = all_filters.preload(:filterings => :permission).reorder(nil).to_a
     Foreman::Logging.logger('permissions').debug do
       all_filters.map do |f|
         "filter with role_id: #{f.role_id} limited: #{f.search.present?} search: #{f.search} taxonomy_search: #{f.taxonomy_search}"

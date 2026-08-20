@@ -328,6 +328,20 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_empty auth.find_collection(Host::Managed, permission: :view_hosts)
   end
 
+  test "#find_collection preloads filterings and permissions" do
+    permission = Permission.find_by_name('view_domains')
+    FactoryBot.create_list(:role, 2).each do |role|
+      FactoryBot.create(:user_user_role, :owner => @user, :role => role)
+      FactoryBot.create(:filter, :role => role, :permissions => [permission])
+    end
+    @user.reload
+    auth = Authorizer.new(@user)
+
+    assert_sql_queries(2, /SELECT .* FROM "(?:filterings|permissions)"/) do
+      auth.find_collection(Domain, :permission => :view_domains)
+    end
+  end
+
   describe '#find_collection' do
     context 'using joined_on option' do
       test 'allows filtering on associations that do not match association class' do
