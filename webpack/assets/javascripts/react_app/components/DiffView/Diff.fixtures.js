@@ -1,5 +1,3 @@
-import { noop } from '../../common/helpers';
-
 import { SPLIT, UNIFIED } from './DiffConsts.js';
 
 export const patch = `
@@ -19,20 +17,10 @@ export const diffMock = {
   viewType: SPLIT,
 };
 
-export const radioMock = {
-  stateView: SPLIT,
-  changeState: noop,
-};
-
 export const patchMock = {
   viewType: UNIFIED,
   patch,
 };
-
-export const fixtures = {
-    'render DiffView w/oldText & newText': diffMock,
-    'render DiffView w/Patch': patchMock,
-  };
 
 export const PF_SELECTED = 'pf-m-selected';
 
