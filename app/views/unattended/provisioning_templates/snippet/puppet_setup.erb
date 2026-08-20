@@ -17,7 +17,6 @@ os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
-aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6')
 aio_openvox_enabled = host_param_true?('enable-openvox7') || host_param_true?('enable-openvox8')
 
 if host_param('run-puppet-in-installer-tags')
@@ -34,18 +33,14 @@ elsif os_family == 'Windows'
   windows_package = "puppet-agent-#{@host.architecture}.msi"
   etc_path = 'C:\ProgramData\PuppetLabs\puppet\etc'
   bin_path = 'C:\Program Files\Puppet Labs\Puppet\bin'
-elsif aio_enabled
-  linux_package = 'puppet-agent'
-  etc_path = '/etc/puppetlabs/puppet'
-  bin_path = '/opt/puppetlabs/bin'
 elsif aio_openvox_enabled
   linux_package = 'openvox-agent'
   etc_path = '/etc/puppetlabs/puppet'
   bin_path = '/opt/puppetlabs/bin'
 else
-  linux_package = os_family == 'Suse' ? 'rubygem-puppet' : 'puppet'
-  etc_path = '/etc/puppet'
-  bin_path = '/usr/bin'
+  linux_package = 'puppet-agent'
+  etc_path = '/etc/puppetlabs/puppet'
+  bin_path = '/opt/puppetlabs/bin'
 end
 -%>
 <% if os_family == 'Debian' -%>
@@ -60,10 +55,10 @@ else
   yum -t -y install <%= linux_package %>
 fi
 <% elsif os_family == 'Suse' -%>
-<% if aio_enabled -%>
-rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
-<% elsif aio_openvox_enabled -%>
+<% if aio_openvox_enabled -%>
 rpmkeys --import https://yum.voxpupuli.org/GPG-KEY-openvox.pub
+<% else -%>
+rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
 <% end -%>
 <% if @host.provision_method == 'image' -%>
 /usr/bin/zypper -n --gpg-auto-import-keys install <%= linux_package %>
@@ -116,20 +111,6 @@ puppet_unit=puppet
 <% end -%>
 <% if os_family == 'Freebsd' -%>
 echo 'puppet_enable="YES"' >>/etc/rc.conf
-<% end -%>
-<% unless aio_enabled || aio_openvox_enabled -%>
-<% if os_family == 'Debian' -%>
-if [ -f "/etc/default/puppet" ]
-then
-/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
-fi
-<%= bin_path %>/puppet agent --enable
-<% elsif os_family == 'Suse' -%>
-if [ -f "/etc/sysconfig/puppet" ]
-then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= host_puppet_server %>/ /etc/sysconfig/puppet
-fi
-<% end -%>
 <% end -%>
 <%#
 IMPORTANT NOTE: Setting "run-puppet-in-installer" is UNSUPPORTED!

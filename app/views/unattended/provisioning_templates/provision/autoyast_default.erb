@@ -9,7 +9,6 @@ description: |
 -%>
 <%
   # safemode renderer does not support unary negation
-  aio_enabled = host_param_true?('enable-puppetlabs-repo') || %w[official-puppet8 official-puppet7].any? { |repo| host_param_true?("enable-#{repo}-repo") }
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
@@ -174,11 +173,7 @@ description: |
     </patterns>
     <packages config:type="list">
 <% if puppet_enabled -%>
-<% if aio_enabled -%>
       <package>puppet-agent</package>
-<% else -%>
-      <package>rubygem-puppet</package>
-<% end -%>
 <% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
@@ -282,7 +277,7 @@ rm /etc/resolv.conf
   </timezone>
   <add-on>
     <add_on_others config:type="list">
-<% if puppet_enabled && aio_enabled -%>
+<% if puppet_enabled -%>
 <%
   puppet_repo_url_base = 'https://yum.puppet.com'
   if host_param_true?('enable-official-puppet8-repo')
