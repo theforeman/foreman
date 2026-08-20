@@ -35,7 +35,16 @@ module Host
     belongs_to :organization
     belongs_to :hostgroup
 
-    alias_attribute :hostname, :name
+    # Defined explicitly (rather than via alias_attribute) because `friendly_id :name`
+    # above overrides `name=` with its own setter, and Rails 7.2 stops alias_attribute
+    # from delegating to non-generated (manually overridden) setters like that.
+    def hostname
+      name
+    end
+
+    def hostname=(value)
+      self.name = value
+    end
 
     validates :name, :presence => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP, :message => N_(Net::Validations::HOST_REGEXP_ERR_MSG)}
     validate :host_has_required_interfaces

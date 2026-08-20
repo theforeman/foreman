@@ -375,7 +375,7 @@ module Foreman #:nodoc:
       return @pending_migrations unless @pending_migrations.nil?
 
       @pending_migrations = ActiveRecord::Base.connection.migration_context.needs_migration?
-      @pending_migrations ||= ActiveRecord::MigrationContext.new(migrations_paths, ActiveRecord::SchemaMigration).needs_migration?
+      @pending_migrations ||= ActiveRecord::MigrationContext.new(migrations_paths).needs_migration?
 
       Rails.logger.debug("There are pending migrations for #{id}. Please run foreman-rake db:migrate.") if @pending_migrations
 

@@ -70,7 +70,15 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
 
       get :global, params: { hostgroup_id: 0 }, session: set_session_user
       assert_response :not_found
-      assert_includes @response.body, "echo \"Couldn't find Hostgroup with 'id'=0\""
+      # Rails >= 7.1 calls #inspect on the id in RecordNotFound's message
+      # (rails/rails@dd6fcc43) rather than interpolating it plainly. That
+      # was a security fix for ANSI escape injection into logs via a
+      # crafted id (CVE-2025-55193 / GHSA-76r7-hhxj-r776, backported to
+      # activerecord 7.1.5.2+). params['hostgroup_id'] is a String here
+      # (HTTP query strings have no integer type, and Apipie's `:number`
+      # param type only validates, it doesn't cast), so its inspected
+      # form is quoted: 'id'=0 became 'id'="0".
+      assert_includes @response.body, "echo \"Couldn't find Hostgroup with 'id'=\"0\"\""
     end
 
     context 'with :url parameter' do

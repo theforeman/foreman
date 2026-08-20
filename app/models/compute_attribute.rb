@@ -7,7 +7,7 @@ class ComputeAttribute < ApplicationRecord
   validates :compute_profile_id, :presence => true, :uniqueness => {:scope => :compute_resource_id}
   validates :compute_resource_id, :presence => true, :uniqueness => {:scope => :compute_profile_id}
 
-  serialize :vm_attrs, Hash
+  serialize :vm_attrs, type: Hash
   before_save :update_name
 
   delegate :provider_friendly_name, :to => :compute_resource
