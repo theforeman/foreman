@@ -1,3 +1,18 @@
+# Libvirt support is optional, the fog-libvirt and ruby-libvirt gems are only
+# loaded when the system libvirt libraries are present. CI is expected to have
+# libvirt installed, so the libvirt tests must run there even if the gems are
+# missing - failing loudly is better than silently losing test coverage.
+def libvirt_available?
+  # Both GitHub Actions and GitLab CI set CI=true, as does Jenkins.
+  return true if ENV['CI'].present?
+
+  Foreman::Model::Libvirt.available?
+end
+
+def skip_without_libvirt
+  skip 'libvirt is not available' unless libvirt_available?
+end
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   # Note: You'll currently still have to declare fixtures explicitly in integration tests

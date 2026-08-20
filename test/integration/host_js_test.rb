@@ -1,7 +1,7 @@
 require 'integration_test_helper'
 require 'integration/shared/host_finders'
 require 'integration/shared/host_orchestration_stubs'
-require 'fog/libvirt/models/compute/node'
+require 'fog/libvirt/models/compute/node' if Foreman::Model::Libvirt.available?
 
 class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
@@ -18,6 +18,7 @@ class HostJSTest < IntegrationTestWithJavascript
   include HostOrchestrationStubs
 
   before do
+    skip_without_libvirt
     as_admin { @host = FactoryBot.create(:host, :managed) }
     Fog.mock!
     Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Libvirt::Compute::Node.new(:cpus => 4))

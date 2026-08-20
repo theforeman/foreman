@@ -48,6 +48,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should create compute resource" do
+    skip_without_libvirt
     role = FactoryBot.build(:role)
     role.add_permissions!([:view_locations, :assign_locations, :edit_locations, :view_organizations, :assign_organizations, :edit_organizations])
     setup_user "create", 'compute_resources', ''
@@ -93,6 +94,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test 'blank password submitted in compute resource edit form unsets password' do
+    skip_without_libvirt
     setup_user "edit"
     put :update, params: { :id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :password => ''} }, session: set_session_user
     @compute_resource = ComputeResource.unscoped.find(@compute_resource.id)
@@ -124,6 +126,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update compute resource" do
+    skip_without_libvirt
     setup_user "edit"
     put :update, params: { :id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"} }, session: set_session_user
     assert_redirected_to compute_resources_path

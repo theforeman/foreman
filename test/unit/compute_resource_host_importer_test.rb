@@ -74,6 +74,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on libvirt' do
+    setup { skip_without_libvirt }
     let(:compute_resource) { FactoryBot.build(:libvirt_cr) }
     let(:uuid) { '6695eb01-f6a4-8304-79aa-97f2502e193f' }
 

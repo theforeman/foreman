@@ -13,6 +13,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "password is saved encrypted when updated" do
+    skip_without_libvirt
     compute_resource = compute_resources(:one)
     compute_resource.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     compute_resource.password = "123456"
@@ -55,18 +56,21 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "attrs[:setpw] is set to 1 if compute resource is Libvirt" do
+    skip_without_libvirt
     cr = compute_resources(:mycompute)
     assert cr.update(:set_console_password => 1)
     assert_equal 1, cr.attrs[:setpw]
   end
 
   test "attrs[:setpw] is set to 0 rather than nil if compute resource is Libvirt" do
+    skip_without_libvirt
     cr = compute_resources(:mycompute)
     assert cr.update(:set_console_password => nil)
     assert_equal 0, cr.attrs[:setpw]
   end
 
   test "libvirt vm_instance_defaults should contain the stored display type" do
+    skip_without_libvirt
     cr = compute_resources(:mycompute)
     cr.display_type = 'VNC'
     assert_equal 'vnc', cr.send(:vm_instance_defaults)['display']['type']
@@ -207,6 +211,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "description supports more than 255 characters" do
+    skip_without_libvirt
     description = "a" * 300
     assert (description.length > 255)
     cr = compute_resources(:mycompute)
@@ -272,6 +277,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     end
 
     test "returns vm attributes without id" do
+      skip_without_libvirt
       @vm.stubs(:volumes).returns([@cr.new_volume(name: 'disk1'), @cr.new_volume(name: 'disk2')])
 
       expected_attrs = {:cpus => 5,

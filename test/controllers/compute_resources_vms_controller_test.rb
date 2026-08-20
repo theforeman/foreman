@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ComputeResourcesVmsControllerTest < ActionController::TestCase
   setup do
+    skip_without_libvirt
     @compute_resource = compute_resources(:mycompute)
     @your_compute_resource = compute_resources(:yourcompute)
     get_test_vm

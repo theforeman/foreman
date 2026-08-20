@@ -143,6 +143,8 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   context "with libvirt" do
+    setup { skip_without_libvirt }
+
     let(:other_libvirt_compute_resource) do
       FactoryBot.create(:libvirt_cr, :locations => [taxonomies(:location2)])
     end
@@ -1277,6 +1279,7 @@ class HostsControllerTest < ActionController::TestCase
 
   context 'Fog.mock!' do
     setup do
+      skip_without_libvirt
       Fog.mock!
     end
 
