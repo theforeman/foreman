@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ComputeAttributeTest < ActiveSupport::TestCase
   setup do
+    skip_without_libvirt
     Fog.mock!
     User.current = users :admin
   end

@@ -1,3 +1,10 @@
+# Hosts on a compute resource default to libvirt, fall back to another provider
+# that also provides the MAC address so such hosts can still be built when libvirt
+# is unavailable. See libvirt_available? for the CI behaviour.
+def compute_resource_factory_name
+  libvirt_available? ? :libvirt_cr : :vmware_cr
+end
+
 FactoryBot.define do
   factory :compute_resource do
     sequence(:name) { |n| "compute_resource#{n}" }

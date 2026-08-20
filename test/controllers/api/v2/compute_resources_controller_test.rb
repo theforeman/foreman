@@ -34,6 +34,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update compute resource" do
+    skip_without_libvirt
     put :update, params: { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
     assert_equal "new_description",
       ComputeResource.unscoped.find_by_name('mycompute').description
@@ -65,6 +66,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update compute resource for owner" do
+    skip_without_libvirt
     setup_user 'edit', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
     put :update, params: { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
     assert_equal "new_description",
@@ -112,6 +114,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should get available virtual machines" do
+    skip_without_libvirt
     vm = Object.new
     vm.stubs(:name).returns('some_vm')
     vm.stubs(:id).returns('123456')
@@ -360,6 +363,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update boolean attribute set_console_password for Libvirt compute resource" do
+    skip_without_libvirt
     cr = compute_resources(:one)
     put :update, params: { :id => cr.id, :compute_resource => { :set_console_password => true } }
     assert_response :success
@@ -402,6 +406,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with valid name" do
+    skip_without_libvirt
     name = RFauxFactory.gen_alpha
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:name => name } }
     assert_response :success
@@ -409,6 +414,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with vnc display type" do
+    skip_without_libvirt
     display_type = "vnc"
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:display_type => display_type } }
     assert_response :success
@@ -416,6 +422,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with spice display type" do
+    skip_without_libvirt
     display_type = "spice"
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:display_type => display_type } }
     assert_response :success
@@ -423,6 +430,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with valid url" do
+    skip_without_libvirt
     new_url = "qemu+tcp://dummy.theforeman.org:16509/system"
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:url => new_url } }
     assert_response :success
@@ -430,6 +438,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with loc" do
+    skip_without_libvirt
     new_location = Location.second
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:location_ids => [new_location.id] } }
     assert_response :success
@@ -439,6 +448,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with org" do
+    skip_without_libvirt
     new_organization = Organization.second
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:organization_ids => [new_organization.id] } }
     assert_response :success
@@ -448,6 +458,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update libvirt compute resource with orgs" do
+    skip_without_libvirt
     new_organizations = [Organization.first, Organization.second, Organization.third]
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:organization_ids => new_organizations.map { |org| org.id } } }
     assert_response :success
@@ -465,12 +476,14 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should not update with already taken name" do
+    skip_without_libvirt
     compute_resource = FactoryBot.create(:libvirt_cr)
     put :update, params: { :id => compute_resource.id, :compute_resource => { :name => compute_resources(:mycompute).name } }
     assert_response :unprocessable_entity, "Can update libvirt compute resource with the name of already existing resource"
   end
 
   test "should not update with empty name" do
+    skip_without_libvirt
     url = ""
     compute_resource = FactoryBot.create(:libvirt_cr)
     put :update, params: { :id => compute_resource.id, :compute_resource => { :url => url } }
@@ -478,6 +491,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should not update with invalid name" do
+    skip_without_libvirt
     url = RFauxFactory.gen_alpha
     compute_resource = FactoryBot.create(:libvirt_cr)
     put :update, params: { :id => compute_resource.id, :compute_resource => { :url => url } }
@@ -486,6 +500,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
   context 'libvirt' do
     setup do
+      skip_without_libvirt
       @organization = Organization.first
       @location = Location.first
       @valid_libvirt_attrs = { :name => 'libvirt_compute', :provider => 'libvirt', :url => 'qemu+ssh://root@libvirt.example.com/system' }

@@ -2388,6 +2388,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "compute attributes are populated by hardware profile passed to host" do
+    skip_without_libvirt
     resource = FactoryBot.create(:libvirt_cr)
     profile = FactoryBot.create(:compute_profile)
     attribute = FactoryBot.create(:compute_attribute, :compute_resource => resource, :compute_profile => profile)
@@ -2989,6 +2990,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should take new hostgroup if hostgroup_id present' do
+      skip_without_libvirt
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       new_compute_resource = FactoryBot.create(:compute_resource, :libvirt)
       new_hostgroup = FactoryBot.create(:hostgroup, compute_resource: new_compute_resource)
@@ -3001,6 +3003,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should take new hostgroup if hostgroup_name present' do
+      skip_without_libvirt
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       new_compute_resource = FactoryBot.create(:compute_resource, :libvirt)
       new_hostgroup = FactoryBot.create(:hostgroup, compute_resource: new_compute_resource)
@@ -3013,6 +3016,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should take old hostgroup if hostgroup not updated' do
+      skip_without_libvirt
       hostgroup = FactoryBot.create(:hostgroup, :with_compute_resource)
       compute_resource = FactoryBot.create(:compute_resource, :libvirt)
       host = FactoryBot.build_stubbed(:host, :managed, hostgroup: hostgroup, compute_resource: compute_resource)
@@ -3046,6 +3050,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should inherit attribute value, if not set explicitly' do
+      skip_without_libvirt
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
       compute_resource = FactoryBot.create(:compute_resource, :libvirt)
       host.hostgroup.compute_resource = compute_resource

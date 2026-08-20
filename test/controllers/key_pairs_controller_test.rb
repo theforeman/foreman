@@ -11,6 +11,7 @@ class KeyPairsControllerTest < ActionController::TestCase
   end
 
   test "cr without key_pair should not get index" do
+    skip_without_libvirt
     compute_resource = FactoryBot.create(:libvirt_cr)
     get :index, params: { :compute_resource_id => compute_resource.to_param }, session: set_session_user
     assert_response :not_found

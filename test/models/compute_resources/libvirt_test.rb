@@ -4,6 +4,10 @@ require 'models/compute_resources/compute_resource_test_helpers'
 class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
 
+  setup do
+    skip_without_libvirt
+  end
+
   should validate_presence_of(:url)
   should allow_values(*valid_name_list).for(:name)
   should allow_values(*valid_name_list).for(:description)
