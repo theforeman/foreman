@@ -23,6 +23,10 @@
 }
 
 #foreman-page .pf-v5-c-masthead {
+  .stop-impersonation-icon {
+    padding: 0;
+  }
+
   .nav-item-iconic .blink-image {
     color: $color-pf-gold-200;
   }

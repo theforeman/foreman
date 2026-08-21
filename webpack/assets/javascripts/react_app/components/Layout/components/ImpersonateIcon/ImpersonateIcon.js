@@ -26,11 +26,17 @@ const ImpersonateIcon = props => {
         )}
         position={TooltipPosition.bottom}
       >
-        <span className="nav-item-iconic" onClick={toggleModal}>
+        <Button
+          ouiaId="stop-impersonation-icon"
+          variant="plain"
+          className="nav-item-iconic stop-impersonation-icon"
+          onClick={toggleModal}
+          aria-label={__('Stop impersonation')}
+        >
           <Icon className="blink-image">
             <EyeIcon />
           </Icon>
-        </span>
+        </Button>
       </Tooltip>
       <Modal
         ouiaId="impersonate-modal"
