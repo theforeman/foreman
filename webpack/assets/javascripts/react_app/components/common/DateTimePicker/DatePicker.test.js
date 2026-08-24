@@ -22,7 +22,7 @@ describe('DatePicker', () => {
   });
 
   test('prefils the value from prop', () => {
-    const testDate = new Date('2024-01-15');
+    const testDate = new Date('2024-01-15T12:00:00');
     const { container } = render(<DatePicker value={testDate} />);
     const dateInput = container.querySelector('input');
     
@@ -41,7 +41,7 @@ describe('DatePicker', () => {
   });
 
   test('clear button clears the value', async () => {
-    const testDate = new Date('2024-01-15');
+    const testDate = new Date('2024-01-15T12:00:00');
     const { container } = render(<DatePicker value={testDate} />);
     
     const dateInput = container.querySelector('input');

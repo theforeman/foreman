@@ -63,7 +63,8 @@ jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => {
     getHostsPageUrl: displayNewHostsPage =>
       displayNewHostsPage ? '/new/hosts' : '/hosts',
     useForemanSetContext: () => jest.fn(),
-    useForemanHostsPageUrl: () => '/hosts',
+    useForemanHostsPageUrl: () =>
+      metadata.UISettings.displayNewHostsPage ? '/new/hosts' : '/hosts',
     useForemanPermissions: () => metadata.permissions,
   };
 });
