@@ -1,77 +1,125 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import thunk from 'redux-thunk';
-import IntegrationTestHelper from '../../../../common/IntegrationTestHelper';
-import history from '../../../../history';
-import * as selectors from '../RegistrationCommandsPageSelectors';
+import { screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+
+import { rtlHelpers } from '../../../../common/rtlTestHelpers';
+import API from '../../../../redux/API/API';
 import RegistrationCommandsPage from '../index';
-import { APIMiddleware } from '../../../../redux/API';
-import apiReducer from '../../../../redux/API/APIReducer';
-import * as apiHelpers from '../../../../redux/API/APIHelpers';
-import { spySelector } from './fixtures';
-import ForemanContext from '../../../../Root/Context/ForemanContext';
+import { formData } from './fixtures';
 
-jest.mock('../../../../redux/API/API');
+const { renderWithStore } = rtlHelpers;
 
-jest.mock('../../../../components/common/Slot', () => () => <></>);
-jest
-  .spyOn(ForemanContext, 'useForemanOrganization')
-  .mockReturnValue({ id: 3, title: 'ACME' });
-jest
-  .spyOn(ForemanContext, 'useForemanLocation')
-  .mockReturnValue({ id: 4, title: 'munich' });
+const generatedCommand =
+  "curl -sS 'https://foreman.example.com/register' | bash";
 
-jest.spyOn(apiHelpers, 'getApiResponse').mockReturnValue({ data: {} });
+const renderPage = () =>
+  renderWithStore(
+    <MemoryRouter>
+      <RegistrationCommandsPage />
+    </MemoryRouter>
+  );
 
-spySelector(selectors);
+const getOrganizationSelect = () =>
+  screen.getByRole('combobox', { name: /Organization/i });
 
-const reducers = {
-  apiReducer,
+const getLocationSelect = () =>
+  screen.getByRole('combobox', { name: /Location/i });
+
+const currentOrganization = formData.organizations.find(
+  organization => organization.id === 1
+);
+const otherOrganization = formData.organizations.find(
+  organization => organization.id === 3
+);
+const currentLocation = formData.locations.find(location => location.id === 2);
+const otherLocation = formData.locations.find(location => location.id === 4);
+
+const waitForFormData = async () => {
+  const organizationSelect = getOrganizationSelect();
+
+  await within(organizationSelect).findByRole('option', {
+    name: currentOrganization.name,
+  });
 };
-describe('RegistrationCommandsPage integration', () => {
-  it('generate command', () => {
-    const integrationTestHelper = new IntegrationTestHelper(reducers, [
-      thunk,
-      APIMiddleware,
-    ]);
-    const component = integrationTestHelper.mount(
-      <Router history={history}>
-        <RegistrationCommandsPage />
-      </Router>
+
+describe('RegistrationCommandsPage', () => {
+  beforeEach(() => {
+    API.get.mockResolvedValue({
+      data: {
+        organizations: formData.organizations,
+        locations: formData.locations,
+      },
+    });
+    API.post.mockResolvedValue({
+      data: { command: generatedCommand },
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('shows only the current organization and location as options', async () => {
+    renderPage();
+    await waitForFormData();
+
+    expect(
+      within(getOrganizationSelect()).getByRole('option', {
+        name: 'Not specified',
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(getOrganizationSelect()).getByRole('option', {
+        name: currentOrganization.name,
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(getOrganizationSelect()).queryByRole('option', {
+        name: otherOrganization.name,
+      })
+    ).not.toBeInTheDocument();
+
+    expect(
+      within(getLocationSelect()).getByRole('option', { name: 'Not specified' })
+    ).toBeInTheDocument();
+    expect(
+      within(getLocationSelect()).getByRole('option', {
+        name: currentLocation.name,
+      })
+    ).toBeInTheDocument();
+    expect(
+      within(getLocationSelect()).queryByRole('option', {
+        name: otherLocation.name,
+      })
+    ).not.toBeInTheDocument();
+  });
+
+  it('generates a registration command', async () => {
+    renderPage();
+    await waitForFormData();
+
+    const generateButton = screen.getByRole('button', { name: 'Generate' });
+
+    expect(generateButton).toBeEnabled();
+    expect(screen.queryByText('Registration command')).not.toBeInTheDocument();
+    expect(screen.queryByText(generatedCommand)).not.toBeInTheDocument();
+
+    userEvent.click(generateButton);
+
+    expect(await screen.findByText('Registration command')).toBeInTheDocument();
+    expect(screen.getByText(generatedCommand)).toBeInTheDocument();
+    expect(API.post).toHaveBeenCalledWith(
+      '/hosts/register',
+      expect.objectContaining({
+        organizationId: currentOrganization.id,
+        locationId: currentLocation.id,
+        downloadUtility: 'curl',
+        insecure: false,
+        jwtExpiration: 4,
+      }),
+      expect.any(Object)
     );
-    integrationTestHelper.takeStoreAndLastActionSnapshot('rendered');
-
-    const submitBtn = component.find('#generate_btn').at(0);
-    const commandField = component.find(
-      '.pf-v5-c-clipboard-copy__expandable-content pre'
-    );
-
-    expect(submitBtn.hasClass('pf-m-disabled')).toBe(false);
-    expect(commandField.length).toBe(0);
-
-    // check that only current Org and Loc are selectable
-    const organizationSelectOptions = component
-      .find('#reg_organization')
-      .find('FormSelectOption');
-    expect(organizationSelectOptions.length).toBe(2);
-    expect(
-      organizationSelectOptions.findWhere(n => n.prop('value') === 1).length
-    ).toBe(0);
-    expect(
-      organizationSelectOptions.findWhere(n => n.prop('value') === 3).length
-    ).toBe(2);
-    const locationSelectOptions = component
-      .find('#reg_location')
-      .find('FormSelectOption');
-    expect(locationSelectOptions.length).toBe(2);
-    expect(
-      locationSelectOptions.findWhere(n => n.prop('value') === 2).length
-    ).toBe(0);
-    expect(
-      locationSelectOptions.findWhere(n => n.prop('value') === 4).length
-    ).toBe(2);
-
-    submitBtn.simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('generated command');
   });
 });
