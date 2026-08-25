@@ -366,6 +366,24 @@ module Foreman
       end
     end
 
+    # Spring preloads config/environment.rb with eager_load=true before rake can set
+    # config.eager_load = config.rake_eager_load (false). That loads controllers and
+    # GraphQL types which query the schema at class definition time. Skip eager load
+    # until migrations have run so bin/rake -T, db:create, and db:migrate can boot.
+    initializer(:skip_eager_load_without_schema, :before => :eager_load!) do |app|
+      next unless app.config.eager_load
+
+      schema_ready = begin
+        !Foreman.pending_migrations?
+      rescue ActiveRecord::ActiveRecordError
+        false
+      end
+      next if schema_ready
+
+      Rails.logger.warn("Database schema is not ready, skipping eager load")
+      app.config.eager_load = false
+    end
+
     config.after_initialize do
       require 'fog_extensions'
 
