@@ -5,6 +5,14 @@ class PermissionTest < ActiveSupport::TestCase
     Permission.resources.each { |r| assert_kind_of String, r }
   end
 
+  test ".resources does not query the database when the table is missing" do
+    Permission.reset_resources
+    Permission.stubs(:table_exists?).returns(false)
+    assert_empty Permission.resources
+  ensure
+    Permission.reset_resources
+  end
+
   test ".resources works even for undefined resource types" do
     FactoryBot.create :permission, :resource_type => 'SomethingNotExisting'
     Permission.resources.each { |r| assert_not_nil r }

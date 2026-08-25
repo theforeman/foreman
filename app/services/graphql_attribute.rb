@@ -11,6 +11,7 @@ class GraphqlAttribute
 
   def required?(attribute)
     return false unless resource_class
+    return false unless resource_class.respond_to?(:table_exists?) && resource_class.table_exists?
 
     return true if resource_class.columns_hash[attribute.to_s]&.null == false
 

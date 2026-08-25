@@ -12,5 +12,10 @@ class GraphqlAttributeTest < ActiveSupport::TestCase
     it 'detects than an attribute is optional' do
       assert_equal false, graphql_attribute.required?(:description)
     end
+
+    it 'does not load columns when the table is missing' do
+      resource_class.stubs(:table_exists?).returns(false)
+      assert_equal false, graphql_attribute.required?(:name)
+    end
   end
 end
