@@ -1,3 +1,10 @@
+2026-08-25	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 5.0.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2026-08-13	raman1236 <25852516+raman1236@users.noreply.github.com>
+	* Fixes #39381 - Optimize hosts controller query: use pluck instead of map for hostgroup_ids
+
 2026-08-12	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 5.0.0-rc1
 	* i18n - extracting new, pulling from tx
