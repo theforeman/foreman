@@ -1,5 +1,4 @@
-import { STATUS } from '../../../../constants';
-import { DownloadUtilities } from '../components/fields/DownloadUtility'
+import { DownloadUtilities } from '../components/fields/DownloadUtility';
 
 export const generalComponentProps = {
   organizationId: 0,
@@ -96,38 +95,6 @@ export const tokenLifeTimeProps = {
   onChange: () => {},
   handleInvalidField: () => {},
   isLoading: false,
-};
-
-/* Integration fixtures */
-
-export const spySelector = selectors => {
-  jest.spyOn(selectors, 'selectAPIStatusData');
-  jest.spyOn(selectors, 'selectOrganizations');
-  jest.spyOn(selectors, 'selectLocations');
-  jest.spyOn(selectors, 'selectHostGroups');
-  jest.spyOn(selectors, 'selectOperatingSystems');
-  jest.spyOn(selectors, 'selectOperatingSystemTemplate');
-  jest.spyOn(selectors, 'selectSmartProxies');
-  jest.spyOn(selectors, 'selectConfigParams');
-  jest.spyOn(selectors, 'selectPluginData');
-  jest.spyOn(selectors, 'selectAPIStatusCommand');
-  jest.spyOn(selectors, 'selectCommand');
-  jest.spyOn(selectors, 'selectApiDataResponseCode');
-
-  selectors.selectAPIStatusData.mockImplementation(() => STATUS.RESOLVED);
-  selectors.selectOrganizations.mockImplementation(
-    () => formData.organizations
-  );
-  selectors.selectLocations.mockImplementation(() => formData.locations);
-  selectors.selectHostGroups.mockImplementation(() => []);
-  selectors.selectOperatingSystems.mockImplementation(() => []);
-  selectors.selectOperatingSystemTemplate.mockImplementation(() => '');
-  selectors.selectSmartProxies.mockImplementation(() => []);
-  selectors.selectConfigParams.mockImplementation(() => ({}));
-  selectors.selectPluginData.mockImplementation(() => {});
-  selectors.selectAPIStatusCommand.mockImplementation(() => undefined);
-  selectors.selectCommand.mockImplementation(() => '');
-  selectors.selectApiDataResponseCode.mockImplementation(() => null);
 };
 
 export const formData = {
