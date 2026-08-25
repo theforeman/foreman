@@ -24,7 +24,7 @@ pkg update > /root/install/pkg_update.txt
 pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 
-pkg install -y puppet5
+pkg install -y puppet8
 
 cat > /usr/local/etc/puppet/puppet.conf << EOF
 [main]
