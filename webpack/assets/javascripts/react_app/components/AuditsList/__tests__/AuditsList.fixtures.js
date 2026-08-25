@@ -4,6 +4,7 @@ export const searchLinkProp = {
   textValue: 'testUser',
   url: '/audits?search=type+%3D+user+and+auditable_id+%3D+1',
   id: 123,
+  title: __('Filter audits for this resource only'),
 };
 
 export const actionsList = [
