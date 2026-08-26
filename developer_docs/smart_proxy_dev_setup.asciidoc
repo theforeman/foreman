@@ -123,6 +123,67 @@ grep ^:https_port config/settings.yml
 
 Then you can add Smart Proxy in Foreman UI as `https://localhost:8443`.
 
+[[compatibility-checks]]
+== Checking Smart Proxy compatibility
+
+Do not compare Foreman and Smart Proxy version numbers to decide whether a proxy can be used.
+`GET /version` is for display only (the Version field on the Smart Proxy page, the API, and About/status).
+A proxy plugin may report a backend version that is unrelated to Foreman, for example a Pulp Smart Proxy reporting Pulpcore `3.28.x` while Foreman is `3.x`.
+
+Compatibility is capability-based: ask whether the proxy advertises the feature or operation you need.
+
+=== Features vs capabilities
+
+* A *feature* is a running Smart Proxy module, such as TFTP, DHCP, BMC, or Pulp.
+* A *capability* is an optional operation inside a feature, advertised when Foreman refreshes the proxy from `GET /v2/features`.
+
+Features and capabilities are imported on create/refresh and stored on `SmartProxyFeature`.
+For how Smart Proxy advertises them on `GET /v2/features`, including the plugin `capability` DSL, see https://theforeman.org/2019/04/smart-proxy-capabilities-explained.html[Foreman Proxy Registration Protocol v2 explained].
+
+=== Checking for a feature
+
+Use this when the question is "can this proxy provide this service at all?":
+
+[source, ruby]
+----
+if proxy.has_feature?('TFTP')
+  # use the TFTP API
+end
+
+SmartProxy.with_features('TFTP')
+----
+
+=== Checking for a capability
+
+Use this when a feature exists, but you need to know whether a specific operation is supported:
+
+[source, ruby]
+----
+if proxy.has_capability?(:BMC, :power_action_v2)
+  # use the newer reboot/reset API
+else
+  # fall back for proxies that do not advertise the capability
+end
+----
+
+`has_capability?` stringifies the capability name, so `:power_action_v2` and `'power_action_v2'` are equivalent.
+
+If a Foreman plugin needs a new operation, the matching Smart Proxy plugin must advertise a new capability.
+Do not infer support from a version string.
+
+=== Examples in Foreman core
+
+BMC picks the power API from a capability, not from the proxy version (`PowerManager::BMC#power_action_v2`):
+
+[source, ruby]
+----
+smart_proxy = host.smart_proxies.with_features(:BMC).first
+return false unless smart_proxy
+smart_proxy.has_capability?(:BMC, :power_action_v2)
+----
+
+DHCP and TFTP do the same for `dhcp_filename_hostname` and `bootloader_universe` in `Orchestration::DHCP`.
+
 [[troubleshooting]]
 == Troubleshooting
 
