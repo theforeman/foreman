@@ -32,6 +32,30 @@
   </table>
 <% end %>
 
+<% unless method[:returns].blank? %>
+  <%= heading(t('apipie.returns'), h_level) %>
+  <% method[:returns].each do |item| %>
+    <%= heading("#{t('apipie.code')}: #{item[:code]}", h_level + 1) %>
+    <% if item[:description] %>
+      <%= heading("#{t('apipie.description')}:", h_level + 2) %>
+      <p><%= item[:description] %></p>
+    <% end %>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th><%= t('apipie.param_name') %></th>
+          <th><%= t('apipie.description') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render(:partial => "params", :locals => {:params => item[:returns_object]}) %>
+      </tbody>
+    </table>
+
+    <%= render(:partial => "headers", :locals => {:headers => item[:headers], :h_level => h_level + 2 }) %>
+  <% end %>
+<% end %>
+
 <% unless method[:metadata].blank? %>
   <%= render(:partial => "metadata", :locals => {:meta => method[:metadata], :h_level => h_level}) %>
 <% end %>
