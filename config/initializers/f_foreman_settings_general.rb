@@ -36,11 +36,10 @@ Foreman::SettingManager.define(:foreman) do
       default: N_("Version") + " $VERSION",
       full_name: N_('Login page footer text'))
     setting('http_proxy',
-      type: :string,
+      type: :http_url,
       description: N_('Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
       default: nil,
       full_name: N_('HTTP(S) proxy'))
-    validates(:http_proxy, { http_url: { allow_blank: true } })
     setting('http_proxy_except_list',
       type: :array,
       description: N_('Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.'),

@@ -59,7 +59,13 @@ class SettingPresenter
   end
 
   def encrypted?
-    !!encrypted
+    if settings_type == "http_url"
+      URI.parse(value.to_s).userinfo.present?
+    else
+      encrypted
+    end
+  rescue URI::InvalidURIError
+    false
   end
 
   def hidden_value?
@@ -75,7 +81,7 @@ class SettingPresenter
   end
 
   def settings_type
-    attribute(:settings_type) || Setting.setting_type_from_value(default)
+    @attributes&.[]('settings_type')&.value || Setting.setting_type_from_value(default)
   end
 
   def matches_search_query?(query)

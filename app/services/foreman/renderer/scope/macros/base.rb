@@ -32,16 +32,21 @@ module Foreman
 
           apipie :method, 'Returns the value of global setting' do
             settings = Foreman::Renderer.config.allowed_global_settings.sort.map { |s| "__#{s}__" }.join(', ')
-            desc "Not not all settings are exposed, only those which are allowed via safe mode: #{settings}"
+            desc "Only selected settings are exposed in safe mode: #{settings}. "\
+                   "Encrypted or sensitive settings are never exposed and will raise an exception."
             required :name, String, desc: 'the name of the setting which can be found by hovering the setting with mouse cursor in the UI, or via API/CLI'
             optional :blank_default, Object, desc: 'if the setting is not set to any value, this value will be returned instead', default: nil
-            raises error: FilteredGlobalSettingAccessed, desc: 'when user setting is not accessible in safe mode'
-            returns Object, desc: 'The value of global setting, e.g. String, Integer, Array, Provisioning Template etc'
+            raises error: FilteredGlobalSettingAccessed, desc: 'Raised when the setting is not allowed in safe mode or is encrypted/sensitive'
+            returns Object, desc: 'The setting value (String, Integer, Array, Template, etc.) when accessible'
             example "global_setting('outofsync_interval', 30) # => 30"
           end
           def global_setting(name, blank_default = nil)
             raise FilteredGlobalSettingAccessed.new(name: name) if Setting[:safemode_render] && !Foreman::Renderer.config.allowed_global_settings.include?(name.to_sym)
             setting = Foreman.settings.find(name)
+
+            # Raise exception for encrypted/sensitive settings
+            raise FilteredGlobalSettingAccessed.new(name: name) if setting.encrypted?
+
             (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
           end
 

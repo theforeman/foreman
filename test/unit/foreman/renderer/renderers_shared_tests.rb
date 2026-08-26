@@ -78,6 +78,26 @@ module RenderersSharedTests
       assert_equal 'PASS', renderer.render(source, @scope)
     end
 
+    test "global_setting returns actual value for allowed setting" do
+      source = OpenStruct.new(content: '<%= global_setting("default_pxe_item_global") %>')
+      Setting[:default_pxe_item_global] = "PASS"
+      assert_equal 'PASS', renderer.render(source, @scope)
+    end
+
+    test "global_setting returns actual value for url setting without credentials" do
+      Setting.find_or_create_by!(name: 'http_proxy', value: 'http://example.com')
+      source = OpenStruct.new(content: '<%= global_setting("http_proxy") %>')
+      assert_equal 'http://example.com', renderer.render(source, @scope)
+    end
+
+    test "global_setting raises error for url setting with credentials" do
+      Setting.find_or_create_by!(name: 'http_proxy', value: 'http://user:pass@example.com')
+      source = OpenStruct.new(content: '<%= global_setting("http_proxy") %>')
+      assert_raises(Foreman::Renderer::Errors::FilteredGlobalSettingAccessed) do
+        renderer.render(source, @scope)
+      end
+    end
+
     test "global_setting helper method with special case 'false'" do
       source = OpenStruct.new(content: '<%= global_setting("default_pxe_item_global") %>')
       Setting[:default_pxe_item_global] = false

@@ -101,7 +101,7 @@ module Foreman
       end
 
       def available_types
-        [:boolean, :integer, :float, :string, :text, :hash, :array]
+        [:boolean, :integer, :float, :string, :text, :hash, :array, :http_url]
       end
 
       # Adds setting definition
