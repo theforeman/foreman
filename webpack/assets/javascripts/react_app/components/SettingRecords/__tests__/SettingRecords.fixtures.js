@@ -257,6 +257,9 @@ export const arraySetting = settings.find(
 export const stringSetting = settings.find(
   item => item.name === 'email_reply_address'
 );
+export const integerSetting = settings.find(
+  item => item.name === 'bcrypt_cost'
+);
 export const timezoneSetting = settings.find(
   item => item.name === 'default_timezone'
 );

@@ -9,6 +9,7 @@ import {
   withHashSelection,
   boolSetting,
   arraySetting,
+  integerSetting,
   timezoneSetting,
   httpProxySetting,
 } from '../../SettingRecords/__tests__/SettingRecords.fixtures';
@@ -59,6 +60,18 @@ describe('SettingsTableHelpers', () => {
     it('should correctly format empty value', () =>
       expect(valueToString({ default: 'random', value: null })).toBe('Empty'));
 
+    it('should correctly format zero value', () =>
+      expect(valueToString({ ...integerSetting, value: 0 })).toBe(0));
+
+    it('should correctly format zero array selection value', () =>
+      expect(
+        valueToString({
+          ...integerSetting,
+          value: 0,
+          selectValues: [{ label: 'Disabled', value: 0 }],
+        })
+      ).toBe('Disabled'));
+
     it('should correctly format text value', () =>
       expect(valueToString({ default: 'random', value: 'value' })).toBe(
         'value'
@@ -83,6 +96,9 @@ describe('SettingsTableHelpers', () => {
       expect(defaultToString({ default: null, value: 'random' })).toBe(
         'Not set'
       ));
+
+    it('should correctly format zero value', () =>
+      expect(defaultToString({ ...integerSetting, default: 0 })).toBe(0));
 
     it('should correctly format text value', () =>
       expect(defaultToString({ default: 'random', value: 'value' })).toBe(
