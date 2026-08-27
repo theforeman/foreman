@@ -83,6 +83,10 @@ module Api
 
       private
 
+      def allowed_nested_id
+        %w(template_id)
+      end
+
       def normalize_options
         if params[:template_input][:options].is_a?(Array)
           params[:template_input][:options] = params[:template_input][:options].join("\n")

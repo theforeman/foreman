@@ -39,6 +39,12 @@ class Api::TestableController < Api::V2::BaseController
       super
     end
   end
+
+  private
+
+  def allowed_nested_id
+    %w(host_id domain_id subnet_id foo_id role_id)
+  end
 end
 
 class Testable < ApplicationRecord
@@ -246,6 +252,7 @@ class Api::TestableControllerTest < ActionController::TestCase
 
     context 'resouce scoping' do
       setup do
+        @controller.stubs(:allowed_nested_id).returns(['domain_id', 'foo_id'])
         @foo = Foo.create
         @testable = Testable.create(:foo => @foo)
       end
@@ -259,6 +266,7 @@ class Api::TestableControllerTest < ActionController::TestCase
 
     context 'nested resource permissions' do
       setup do
+        @controller.stubs(:allowed_nested_id).returns(['domain_id', 'host_id', 'subnet_id'])
         @child_associacion = mock('child_associacion')
         @testable_scope1 = mock('testable_scope1')
         @testable_scope2 = mock('testable_scope2')
