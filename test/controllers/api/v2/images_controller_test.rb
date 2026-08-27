@@ -47,4 +47,61 @@ class Api::V2::ImagesControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+
+  test "should create image with organization_id parameter" do
+    organization = FactoryBot.create(:organization)
+    compute_resource = images(:two).compute_resource
+
+    # Associate the compute resource with the organization
+    compute_resource.organizations << organization
+
+    assert_difference('Image.count') do
+      post :create, params: {
+        :compute_resource_id => compute_resource.id,
+        :organization_id => organization.id,
+        :image => valid_attrs,
+      }
+    end
+
+    assert_response :created
+  end
+
+  test "should create image with location_id parameter" do
+    location = FactoryBot.create(:location)
+    compute_resource = images(:two).compute_resource
+
+    # Associate the compute resource with the location
+    compute_resource.locations << location
+
+    assert_difference('Image.count') do
+      post :create, params: {
+        :compute_resource_id => compute_resource.id,
+        :location_id => location.id,
+        :image => valid_attrs,
+      }
+    end
+
+    assert_response :created
+  end
+
+  test "should create image with both organization_id and location_id parameters" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    compute_resource = images(:two).compute_resource
+
+    # Associate the compute resource with both
+    compute_resource.organizations << organization
+    compute_resource.locations << location
+
+    assert_difference('Image.count') do
+      post :create, params: {
+        :compute_resource_id => compute_resource.id,
+        :organization_id => organization.id,
+        :location_id => location.id,
+        :image => valid_attrs,
+      }
+    end
+
+    assert_response :created
+  end
 end

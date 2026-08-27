@@ -202,6 +202,10 @@ module Api
 
       private
 
+      def allowed_nested_id
+        %w(location_id organization_id)
+      end
+
       def action_permission
         case params[:action]
           when 'clone', 'import'

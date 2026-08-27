@@ -423,7 +423,7 @@ module Api
 
     def parent_resource_details
       parent_name, parent_class, parent_id = nil
-      params.select { |param| param.ends_with?('_id') }.each do |param, value|
+      params.select { |param| allowed_nested_id.include?(param.to_s) }.each do |param, value|
         parent_id = value
         parent_name = param.delete_suffix('_id')
         parent_class = resource_class_for(resource_name(parent_name))
