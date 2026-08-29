@@ -29,6 +29,30 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'lists users linked to an OpenID Connect authentication source' do
+    auth_source = FactoryBot.create(:auth_source_oidc)
+    linked_user = FactoryBot.create(:user)
+    FactoryBot.create(:oidc_identity, :auth_source => auth_source, :user => linked_user)
+
+    get :index, :params => { :auth_source_oidc_id => auth_source.id }
+
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_includes response['results'].map { |user| user['id'] }, linked_user.id
+  end
+
+  test 'shows OpenID Connect identities for administration' do
+    user = FactoryBot.create(:user)
+    identity = FactoryBot.create(:oidc_identity, :user => user)
+
+    get :show, :params => { :id => user.id }
+
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal identity.subject, response['oidc_identities'].first['subject']
+    assert_equal identity.auth_source.name, response['oidc_identities'].first['auth_source_name']
+  end
+
   test "should handle taxonomy with wrong id" do
     get :index, params: { :location_id => taxonomies(:location1).id, :organization_id => 'missing' }
     assert_response :not_found

@@ -13,6 +13,11 @@ child :auth_source do
   extends "api/v2/auth_source_ldaps/base"
 end
 
+child :oidc_identities do
+  attributes :id, :auth_source_id, :subject, :email, :email_verified, :last_login_on
+  node(:auth_source_name) { |identity| identity.auth_source.name }
+end
+
 child :mail_notifications do
   extends "api/v2/mail_notifications/base"
 end
