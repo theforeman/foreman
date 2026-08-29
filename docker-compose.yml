@@ -1,4 +1,3 @@
-version: '3.4'
 services:
   db:
     environment:
@@ -40,8 +39,8 @@ services:
       - redis-cache
       - redis-tasks
     ports:
-      - "${MY_DOCKER_IP:-127.0.0.1}:3000:3000"
-      - "${MY_DOCKER_IP:-127.0.0.1}:5910-5930:5910-5930"
+      - "3000:3000"
+      - "5910-5930:5910-5930"
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
