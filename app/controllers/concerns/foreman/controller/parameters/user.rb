@@ -28,6 +28,9 @@ module Foreman::Controller::Parameters::User
           if !ctx.editing_self? && (ctx.ui? || ctx.api?)
             ctx.permit :auth_source, :auth_source_id, :auth_source_name,
               :roles => [], :role_ids => [], :role_names => []
+            if ctx.has_edit_user_permissions?
+              ctx.permit :oidc_identities_attributes => [:id, :auth_source_id, :subject, :_destroy]
+            end
           end
         end
         add_taxonomix_params_filter(filter)

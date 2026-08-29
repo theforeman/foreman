@@ -220,6 +220,7 @@ class UsersController < ApplicationController
 
     TopbarSweeper.expire_cache
     sso_logout_path = get_sso_method.try(:logout_url)
+    oidc_logout_path = oidc_logout_url
     user_id = session[:user]
     logged_out_user = User.unscoped.find_by_id(user_id)
     logged_out_user_login = logged_out_user.try(:login) || user_id
@@ -232,13 +233,15 @@ class UsersController < ApplicationController
       :auditable_id => user_id
     )
     session[:user] = @user = User.current = nil
+    session.delete(:oidc_auth_source_id)
+    session.delete(:oidc_authentications)
     if flash[:success] || flash[:info] || flash[:error]
       flash.keep
     else
       session.clear
       inline_success _("Logged out - See you soon")
     end
-    redirect_to(sso_logout_path || login_users_path, allow_other_host: true)
+    redirect_to(oidc_logout_path || sso_logout_path || login_users_path, allow_other_host: true)
   end
 
   def extlogout
@@ -262,6 +265,12 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def oidc_logout_url
+    auth_source = AuthSourceOidc.enabled.find_by(:id => session[:oidc_auth_source_id])
+    redirect_uri = "#{Setting[:foreman_url].to_s.delete_suffix('/')}#{login_users_path}"
+    Oidc::LogoutURL.new(auth_source, redirect_uri).to_s if auth_source
+  end
 
   def find_resource(permission = :view_users)
     editing_self? ? User.find(User.current.id) : User.authorized(permission).except_hidden.find(params[:id])
