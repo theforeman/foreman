@@ -17,12 +17,14 @@ module Api
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
+      api :GET, "/auth_source_oidcs/:auth_source_oidc_id/users", N_("List all users for OpenID Connect authentication source")
       api :GET, "/auth_source_externals/:auth_source_external_id/users", N_("List all users for external authentication source")
       api :GET, "/usergroups/:usergroup_id/users", N_("List all users for user group")
       api :GET, "/roles/:role_id/users", N_("List all users for role")
       api :GET, "/locations/:location_id/users", N_("List all users for location")
       api :GET, "/organizations/:organization_id/users", N_("List all users for organization")
       param :auth_source_ldap_id, String, :desc => N_("ID of LDAP authentication source")
+      param :auth_source_oidc_id, String, :desc => N_("ID of OpenID Connect authentication source")
       param :usergroup_id, String, :desc => N_("ID of user group")
       param :role_id, String, :desc => N_("ID of role")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -64,6 +66,12 @@ module Api
         param :mail_enabled, :bool, :desc => N_("Enable user's email")
         param_group :taxonomies, ::Api::V2::BaseController
         param :ui_compact_mode, :bool, :desc => N_("Use compact UI")
+        param :oidc_identities_attributes, Array, :desc => N_("OpenID Connect identities (array or indexed hash)") do
+          param :id, Integer, :desc => N_("Identity ID when updating an existing identity")
+          param :auth_source_id, Integer, :required => true, :desc => N_("OpenID Connect authentication source ID")
+          param :subject, String, :required => true, :desc => N_("Stable sub claim from the provider")
+          param :_destroy, :bool, :desc => N_("Unlink the identity")
+        end
       end
 
       def_param_group :user do
@@ -134,7 +142,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(auth_source_ldap_id role_id location_id organization_id usergroup_id)
+        %w(auth_source_ldap_id auth_source_oidc_id role_id location_id organization_id usergroup_id)
       end
 
       def parameter_filter_context
