@@ -21,10 +21,10 @@ module Api
 
       def_param_group :model do
         param :model, Hash, :required => true, :action_aware => true do
-          param :name, String, :required => true
-          param :info, String, :required => false
-          param :vendor_class, String, :required => false
-          param :hardware_model, String, :required => false
+          param :name, String, :required => true, :desc => N_("Name of the hardware model")
+          param :info, String, :required => false, :desc => N_("General description of the hardware model")
+          param :vendor_class, String, :required => false, :desc => N_("Vendor class of the hardware model")
+          param :hardware_model, String, :required => false, :desc => N_("Hardware model name")
         end
       end
 
