@@ -544,7 +544,8 @@ registerColumns(hostsIndexColumnExtensions);
 Each column extension object must contain the following properties:
 
 * `columnName` - the name of the column, which must match the column name in the API response.
-* `title` - the title of the column to be displayed on screen in the <th> element. Should be translated.
+* `title` - the title of the column to be displayed on screen in the <th> element. Must be a translated string. If you need a custom header node, keep `title` as the string and render the node separately; HTML `data-label` cannot accept a React object.
+* `label` - optional accessible name. Defaults to `title` when `title` is a string.
 * `wrapper` - a function that returns the content (as JSX) to be displayed in the table cell. The function receives the host details as an argument.
 * `weight` - the weight of the column, which determines the order in which columns are displayed. Lower weights are displayed first.
 * `tableName` - the name of the table. Should match the `name` of the user's TablePreference.
