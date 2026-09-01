@@ -29,7 +29,7 @@ class Foreman::Provision::SshKey
   def self.generate(type: nil, comment: '', bits: nil)
     Dir.mktmpdir('foreman-ssh-key') do |dir|
       path = File.join(dir, 'key')
-      args = ['ssh-keygen', '-N', '', '-C', comment.to_s, '-f', path, '-q']
+      args = ['ssh-keygen', '-N', '', '-C', comment.to_s, '-f', path] + ssh_keygen_verbosity_args(:quiet => true)
       args += ['-t', type.to_s] if type
       args += ['-b', bits.to_s] if bits
       _stdout, stderr, status = Open3.capture3(*args)
@@ -64,6 +64,16 @@ class Foreman::Provision::SshKey
     false
   end
 
+  def self.ssh_keygen_verbosity_args(quiet: false)
+    if Rails.env.development?
+      ['-v']
+    elsif quiet
+      ['-q']
+    else
+      []
+    end
+  end
+
   private
 
   def info
@@ -73,7 +83,7 @@ class Foreman::Provision::SshKey
   # Runs `ssh-keygen -l` against the key (fed via stdin) and parses its output,
   # which looks like: "256 SHA256:<base64> comment (ED25519)".
   def parse
-    stdout, _stderr, status = Open3.capture3('ssh-keygen', '-l', '-f', '-', stdin_data: key.to_s)
+    stdout, _stderr, status = Open3.capture3(*(['ssh-keygen', '-l', '-f', '-'] + self.class.ssh_keygen_verbosity_args), :stdin_data => key.to_s)
     raise Error, 'not a valid public ssh key' unless status.success?
 
     bits, fingerprint, = stdout.split(' ', 3)
