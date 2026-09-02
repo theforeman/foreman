@@ -203,7 +203,7 @@ realm join --one-time-password='<%= @host.otp || "$HOST[OTP]" %>' <%= @host.real
 repo --name="Server-Mysql"
 <% end -%>
 
-bootloader --location=mbr --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
+bootloader --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
 
 <% if @dynamic -%>
 %include /tmp/diskpart.cfg
