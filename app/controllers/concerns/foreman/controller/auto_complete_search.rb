@@ -9,7 +9,7 @@ module Foreman::Controller::AutoCompleteSearch
   def auto_complete_search
     begin
       model = (controller_name == "hosts") ? Host::Managed : model_of_controller
-      @items = model.complete_for(params[:search], {:controller => controller_name})
+      @items = model.complete_for(params[:search], {:controller => controller_name, :enhanced_filter => {:has_column => "organization_id", :filter => {:organization_id => Organization.current.id}}})
       @items = @items.map do |item|
         category = ['and', 'or', 'not', 'has'].include?(item.to_s.sub(/^.*\s+/, '')) ? _('Operators') : ''
         part = item.to_s.sub(/^.*\b(and|or)\b/i) { |match| match.sub(/^.*\s+/, '') }
