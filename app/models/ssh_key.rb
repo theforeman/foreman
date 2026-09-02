@@ -87,9 +87,9 @@ class SshKey < ApplicationRecord
   def generate_fingerprint
     self.fingerprint = nil
     return unless key.present?
-    self.fingerprint = SSHKey.sha256_fingerprint(key)
+    self.fingerprint = Foreman::Provision::SshKey.new(key).fingerprint
     true
-  rescue SSHKey::PublicKeyError => exception
+  rescue Foreman::Provision::SshKey::Error => exception
     Foreman::Logging.exception("Could not calculate SSH key fingerprint", exception)
     nil
   end
@@ -97,9 +97,9 @@ class SshKey < ApplicationRecord
   def calculate_length
     self.length = nil
     return unless key.present?
-    self.length = SSHKey.ssh_public_key_bits(key)
+    self.length = Foreman::Provision::SshKey.new(key).length
     true
-  rescue SSHKey::PublicKeyError => exception
+  rescue Foreman::Provision::SshKey::Error => exception
     Foreman::Logging.exception("Could not calculate SSH key length", exception)
     nil
   end

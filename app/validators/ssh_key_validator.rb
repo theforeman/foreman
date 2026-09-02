@@ -8,8 +8,8 @@ class SshKeyValidator < ActiveModel::EachValidator
   private
 
   def valid_ssh_public_key?(key)
-    SSHKey.valid_ssh_public_key?(key)
-  rescue SSHKey::PublicKeyError => exception
+    Foreman::Provision::SshKey.new(key).valid?
+  rescue Foreman::Provision::SshKey::Error => exception
     Foreman::Logging.exception("Invalid SSH public key", exception)
     false
   end
