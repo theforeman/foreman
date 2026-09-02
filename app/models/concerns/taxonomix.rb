@@ -196,9 +196,20 @@ module Taxonomix
   def set_current_taxonomy
     if new_record? && errors.empty?
       # we need to use _ids methods so that DirtyAssociations is correctly saved
-      self.location_ids += [Location.current.id] if add_current_location?
-      self.organization_ids += [Organization.current.id] if add_current_organization?
+      self.location_ids |= [Location.current.id] if add_current_location?
+      self.organization_ids |= [Organization.current.id] if add_current_organization?
     end
+  end
+
+  # Defensive guard: never let a duplicate id reach the has_many :through
+  # ids_writer, or the second INSERT into taxable_taxonomies raises
+  # "Validation failed: Taxonomy has already been taken".
+  def organization_ids=(ids)
+    super(Array(ids).uniq)
+  end
+
+  def location_ids=(ids)
+    super(Array(ids).uniq)
   end
 
   def add_current_organization?
