@@ -1,5 +1,31 @@
 module HostStatus
   class ConfigurationStatus < Status
+    ALERTS_DISABLED = 0
+    NO_REPORTS = 1
+    OUT_OF_SYNC = 2
+    PENDING = 3
+    ERROR = 4
+    ACTIVE = 5
+    NO_CHANGES = 6
+
+    OK_STATUSES = [ALERTS_DISABLED, PENDING, ACTIVE, NO_CHANGES]
+    WARN_STATUSES = [OUT_OF_SYNC, NO_REPORTS]
+    ERROR_STATUSES = [ERROR]
+
+    LABELS = {
+      ALERTS_DISABLED => N_("Alerts disabled"),
+      NO_REPORTS => N_("No reports"),
+      OUT_OF_SYNC => N_("Out of sync"),
+      PENDING => N_("Pending"),
+      ERROR => N_("Error"),
+      ACTIVE => N_("Active"),
+      NO_CHANGES => N_("No changes"),
+    }.freeze
+
+    def self.presenter
+      ::ConfigurationStatusPresenter.new(self)
+    end
+
     delegate :error?, :changes?, :pending?, :to => :calculator
     delegate(*ConfigReport::METRIC, :to => :calculator)
 
@@ -63,22 +89,26 @@ module HostStatus
     end
 
     def to_label(options = {})
+      LABELS.fetch(get_status(options))
+    end
+
+    def get_status(options = {})
       handle_options(options)
 
       if host && !host.enabled
-        N_("Alerts disabled")
+        ALERTS_DISABLED
       elsif no_reports?
-        N_("No reports")
+        NO_REPORTS
       elsif error?
-        N_("Error")
+        ERROR
       elsif out_of_sync?
-        N_("Out of sync")
+        OUT_OF_SYNC
       elsif changes?
-        N_("Active")
+        ACTIVE
       elsif pending?
-        N_("Pending")
+        PENDING
       else
-        N_("No changes")
+        NO_CHANGES
       end
     end
 
