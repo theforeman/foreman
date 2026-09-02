@@ -1,7 +1,7 @@
 class AddTypeToToken < ActiveRecord::Migration[5.1]
   def up
     remove_foreign_key :tokens, :column => :host_id if foreign_key_exists?(:tokens, name: "tokens_host_id_fk")
-    remove_index :tokens, :host_id if index_exists? :tokens, :host_id # was unique
+    remove_index :tokens, :host_id, if_exists: true # was unique
     add_index :tokens, :host_id
     add_foreign_key :tokens, :hosts, :name => "tokens_host_id_fk" unless foreign_key_exists?(:tokens, name: "tokens_host_id_fk")
     add_column :tokens, :type, :string, default: 'Token::Build', null: false, index: true
@@ -12,7 +12,7 @@ class AddTypeToToken < ActiveRecord::Migration[5.1]
     change_column :tokens, :value, :string, limit: 255
     remove_column :tokens, :type
     remove_foreign_key :tokens, :column => :host_id if foreign_key_exists?(:tokens, name: "tokens_host_id_fk")
-    remove_index :tokens, :host_id if index_exists? :tokens, :host_id
+    remove_index :tokens, :host_id, if_exists: true
     add_index :tokens, :host_id, :unique => true
     add_foreign_key :tokens, :hosts, :name => "tokens_host_id_fk" unless foreign_key_exists?(:tokens, name: "tokens_host_id_fk")
   end
