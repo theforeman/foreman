@@ -934,6 +934,21 @@ class HostTest < ActiveSupport::TestCase
     assert h.errors[:root_pass].include?("should be 8 characters or more")
   end
 
+  test "should not allow short root passwords for managed host outside build mode" do
+    h = FactoryBot.create(:host, :managed)
+    h.build = false
+    h.root_pass = "2short"
+    h.valid?
+    assert h.errors[:root_pass].include?("should be 8 characters or more")
+  end
+
+  test "should allow blank root password for managed host outside build mode" do
+    h = FactoryBot.create(:host, :managed)
+    h.build = false
+    h.root_pass = ""
+    assert h.valid?
+  end
+
   test "should allow build mode for managed hosts" do
     h = FactoryBot.build(:host, :managed)
     assert h.valid?
