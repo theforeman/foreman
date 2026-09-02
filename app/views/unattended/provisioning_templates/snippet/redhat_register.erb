@@ -76,7 +76,7 @@ description: |
       subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
       subscription_manager_org = host_param('subscription_manager_org')
       activation_key = host_param('activation_key')
-      redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
+      redhat_install_host_tools = host_param_true?('redhat_install_host_tools', true)
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     end
   -%>
