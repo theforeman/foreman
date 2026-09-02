@@ -109,3 +109,4 @@ The following files and directories are exceptions:
 All rights reserved.
 
 The [LICENSE](LICENSE) file contains the full text of the GNU GPL v3 license, along with the text for all additional licenses referenced above.
+
