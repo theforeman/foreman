@@ -3,7 +3,13 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NotificationBadgeVariant as BadgeVariant } from '@patternfly/react-core';
 import { groupBy } from 'lodash';
-import { startNotificationsPolling } from '../../redux/actions/notifications';
+import { subscribeToNotifications } from '../../common/channels/notificationChannel';
+import {
+  fetchNotifications,
+  startNotificationsPolling,
+} from '../../redux/actions/notifications';
+import { NOTIFICATIONS } from '../../redux/consts';
+import { actionTypeGenerator } from '../../redux/API/APIActionTypeGenerator';
 import forceSingleton from '../../common/forceSingleton';
 
 export const NotificationsContext = forceSingleton('NotificationsContext', () =>
@@ -19,6 +25,7 @@ export const NotificationsContextWrapper = ({ children }) => {
 
   const notificationsState = useSelector(state => state.notifications);
   const notifications = groupBy(notificationsState.notifications, n => n.group);
+  const { SUCCESS } = actionTypeGenerator(NOTIFICATIONS);
 
   const [expandedNotifications, setExpandedNotifications] = useState([]);
   const [expandedKebab, setExpandedKebab] = useState('');
@@ -45,8 +52,35 @@ export const NotificationsContextWrapper = ({ children }) => {
   };
 
   useEffect(() => {
+    // Initial fetch of notifications
+    dispatch(fetchNotifications());
+
+    // Subscribe to real-time updates via Action Cable
+    const subscription = subscribeToNotifications({
+      received: data => {
+        try {
+          const payload = JSON.parse(data.payload);
+          dispatch({
+            type: SUCCESS,
+            response: payload,
+          });
+        } catch (error) {
+          console.error('Failed to parse notification payload:', error);
+        }
+      },
+    });
+
+    // Start polling as fallback (in case WebSocket connection fails)
+    // Action Cable handles real-time updates, polling runs every 5 minutes as a safety net
     dispatch(startNotificationsPolling());
-  }, [dispatch]);
+
+    // Cleanup: unsubscribe when component unmounts
+    return () => {
+      if (subscription && subscription.unsubscribe) {
+        subscription.unsubscribe();
+      }
+    };
+  }, [dispatch, SUCCESS]);
 
   const countUnreadMessages = useMemo(() => {
     if (notificationsState.notifications) {
