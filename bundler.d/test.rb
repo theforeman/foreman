@@ -1,4 +1,5 @@
 group :test do
+  gem 'bullet', '>= 6.1.0'
   gem 'mocha', '~> 2.1'
   gem 'minitest', '~> 5.1'
   gem 'minitest-reporters', '~> 1.4', :require => false
