@@ -10,7 +10,7 @@ attributes :subnet_id, :subnet_name, :operatingsystem_id, :operatingsystem_name,
   :architecture_id, :architecture_name, :realm_id, :realm_name, :created_at, :updated_at
 
 Hostgroup.nested_attribute_fields.each do |nested_field|
-  node(:"inherited_#{nested_field}") { |hostgroup| hostgroup.nested(nested_field) if hostgroup[nested_field].nil? }
+  node(:"inherited_#{nested_field}") { |hostgroup| hostgroup.inherited_nested_attribute(nested_field) if hostgroup[nested_field].nil? }
 end
 
 if @parameters

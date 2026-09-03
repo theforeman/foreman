@@ -13,10 +13,13 @@ class HostgroupsController < ApplicationController
     respond_to do |format|
       format.html do
         @hostgroups = resource_base_search_and_page
+        @hostgroup_read_context = HostgroupReadContext.load(@hostgroups, include_counts: true, include_inheritance: false, count_scope: Hostgroup)
         render :index
       end
       format.csv do
-        csv_response(resource_base_with_search)
+        hostgroups = resource_base_with_search
+        read_context = HostgroupReadContext.load(hostgroups, include_counts: true, include_inheritance: false, count_scope: Hostgroup)
+        csv_response(hostgroups, csv_columns(read_context))
       end
     end
   end
@@ -93,8 +96,14 @@ class HostgroupsController < ApplicationController
     render :partial => "form"
   end
 
-  def csv_columns
-    [:title, :hosts_count, :children_hosts_count]
+  def csv_columns(read_context = nil)
+    return [:title, :hosts_count, :children_hosts_count] if read_context.nil?
+
+    [
+      :title,
+      CsvExporter::ExportDefinition.new(:hosts_count, callback: ->(hostgroup) { read_context.direct_host_count_for(hostgroup) }),
+      CsvExporter::ExportDefinition.new(:children_hosts_count, callback: ->(hostgroup) { read_context.subtree_host_count_for(hostgroup) }),
+    ]
   end
 
   private
