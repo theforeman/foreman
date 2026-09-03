@@ -1,11 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import * as ReactRedux from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import '@testing-library/jest-dom';
 import HostsIndex, { getScheduleJobSearch } from './index';
+import { useForemanPermissions } from '../../Root/Context/ForemanContext';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -87,6 +88,9 @@ jest.mock('../../Root/Context/ForemanContext', () => ({
   useForemanContext: jest.fn(() => ({})),
   useForemanOrganization: jest.fn(() => undefined),
   useForemanLocation: jest.fn(() => undefined),
+  useForemanPermissions: jest.fn(
+    () => new Set(['edit_hosts', 'view_params'])
+  ),
 }));
 
 jest.mock('../common/Slot', () => ({
@@ -112,6 +116,14 @@ jest.mock('./BulkActions/bulkDelete', () => ({
   bulkDeleteHosts: jest.fn(),
 }));
 
+jest.mock('./ActionKebab', () => ({
+  ActionKebab: ({ items }) => (
+    <div data-testid="action-kebab">
+      {items.map(item => item)}
+    </div>
+  ),
+}));
+
 // Mock Table to capture the props it receives
 let capturedTableProps = null;
 jest.mock('../PF4/TableIndexPage/Table/Table', () => ({
@@ -123,7 +135,12 @@ jest.mock('../PF4/TableIndexPage/Table/Table', () => ({
 
 jest.mock('../PF4/TableIndexPage/TableIndexPage', () => ({
   __esModule: true,
-  default: ({ children }) => <div>{children}</div>,
+  default: ({ children, customToolbarItems }) => (
+    <div>
+      {customToolbarItems}
+      {children}
+    </div>
+  ),
 }));
 
 describe('HostsIndex', () => {
@@ -137,6 +154,9 @@ describe('HostsIndex', () => {
 
   beforeEach(() => {
     capturedTableProps = null;
+    useForemanPermissions.mockReturnValue(
+      new Set(['edit_hosts', 'view_params'])
+    );
   });
 
   test('merges API response page and perPage into params passed to Table', () => {
@@ -186,5 +206,27 @@ describe('HostsIndex', () => {
         selectedHostsSearch: '',
       })
     ).toBe('');
+  });
+
+  test('shows Set parameters when the user has edit_hosts and view_params', () => {
+    render(
+      <Provider store={store}>
+        <HostsIndex />
+      </Provider>
+    );
+
+    expect(screen.getByText('Set parameters')).toBeInTheDocument();
+  });
+
+  test('hides Set parameters when the user has edit_hosts but not view_params', () => {
+    useForemanPermissions.mockReturnValue(new Set(['edit_hosts']));
+
+    render(
+      <Provider store={store}>
+        <HostsIndex />
+      </Provider>
+    );
+
+    expect(screen.queryByText('Set parameters')).not.toBeInTheDocument();
   });
 });

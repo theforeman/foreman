@@ -48,6 +48,8 @@ import {
   useForemanOrganization,
   useForemanLocation,
 } from '../../Root/Context/ForemanContext';
+import { usePermissions } from '../../common/hooks/Permissions/permissionHooks';
+import { EDIT_HOSTS, VIEW_PARAMS } from '../../permissions';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import {
   BulkAssignOrganizationModalScene as BulkAssignOrganizationModal,
@@ -59,6 +61,7 @@ import BulkChangeOwnerModal from './BulkActions/changeOwner';
 import BulkDisassociateModal from './BulkActions/disassociate';
 import BulkPowerStateModal from './BulkActions/powerState/index';
 import BulkManageNotificationsModal from './BulkActions/manageNotifications';
+import BulkEditParametersModal from './BulkActions/editParameters';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -264,6 +267,8 @@ const HostsIndex = () => {
   const [disassociateModalOpen, setDisassociateModalOpen] = useState(false);
   const [powerStateModalOpen, setPowerStateModalOpen] = useState(false);
   const [notificationsModalOpen, setNotificationsModalOpen] = useState(false);
+  const [parametersModalOpen, setParametersModalOpen] = useState(false);
+  const canSetParameters = usePermissions([EDIT_HOSTS, VIEW_PARAMS]);
 
   const dropdownItems = [
     <MenuItem
@@ -298,6 +303,18 @@ const HostsIndex = () => {
     >
       {__('Manage notifications')}
     </MenuItem>,
+    ...(canSetParameters
+      ? [
+          <MenuItem
+            itemId="set-parameters-dropdown-item"
+            key="set-parameters-dropdown-item"
+            onClick={() => setParametersModalOpen(true)}
+            isDisabled={selectedCount === 0}
+          >
+            {__('Set parameters')}
+          </MenuItem>,
+        ]
+      : []),
     <MenuItem
       itemId="host-association-dropdown-item"
       key="host-association-dropdown-item"
@@ -639,6 +656,11 @@ const HostsIndex = () => {
             key="bulk-manage-notifications-modal"
             isOpen={notificationsModalOpen}
             closeModal={() => setNotificationsModalOpen(false)}
+          />
+          <BulkEditParametersModal
+            key="bulk-set-parameters-modal"
+            isOpen={parametersModalOpen}
+            closeModal={() => setParametersModalOpen(false)}
           />
           <Slot id="_all-hosts-modals" multi />
         </ForemanActionsBarContext.Provider>
