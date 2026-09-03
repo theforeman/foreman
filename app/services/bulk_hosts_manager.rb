@@ -67,6 +67,50 @@ class BulkHostsManager
     end
   end
 
+  def update_parameters(name:, value:)
+    updated_count = 0
+    failed_hosts = []
+    global = CommonParameter.find_by(:name => name)
+
+    @hosts.each do |host|
+      host_param = host.host_parameters.find_by(:name => name)
+      begin
+        success = if host_param
+                    host_param.update(:value => value)
+                  else
+                    attrs = { :name => name, :value => value }
+                    if global
+                      attrs[:key_type] = global.key_type
+                      attrs[:hidden_value] = global.hidden_value?
+                    end
+                    host_param = host.host_parameters.build(attrs)
+                    host_param.save
+                  end
+
+        if success
+          updated_count += 1
+        else
+          failed_hosts << {
+            :id => host.id,
+            :error => host_param.errors.full_messages.to_sentence,
+          }
+        end
+      rescue => error
+        Foreman::Logging.exception("Failed to update parameter #{name} for #{host}.", error)
+        failed_hosts << {
+          :id => host.id,
+          :error => error.message,
+        }
+      end
+    end
+
+    {
+      :updated_count => updated_count,
+      :failed_hosts => failed_hosts,
+      :failed_host_ids => failed_hosts.map { |host| host[:id] },
+    }
+  end
+
   def change_power_state(action)
     failed_hosts = []
     unsupported_hosts = []

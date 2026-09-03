@@ -258,6 +258,60 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
     end
   end
 
+  context "update_parameters" do
+    def setup
+      super
+      @host1.host_parameters.create!(:name => 'p1', :value => 'old')
+      @host2.host_parameters.create!(:name => 'p1', :value => 'old')
+      @host3.host_parameters.create!(:name => 'other', :value => 'keep')
+    end
+
+    test "should update a shared host parameter on selected hosts" do
+      put :update_parameters, params: valid_bulk_params([@host1.id, @host2.id]).merge(:name => 'p1', :value => 'hello')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Set parameter 'p1' on 2 hosts/, body['message'])
+      assert_equal 'hello', @host1.reload.host_parameters.find_by(:name => 'p1').value
+      assert_equal 'hello', @host2.reload.host_parameters.find_by(:name => 'p1').value
+    end
+
+    test "should create a host override when a selected host does not have the parameter" do
+      put :update_parameters, params: valid_bulk_params.merge(:name => 'p1', :value => 'hello')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Set parameter 'p1' on 3 hosts/, body['message'])
+      assert_equal 'hello', @host1.reload.host_parameters.find_by(:name => 'p1').value
+      assert_equal 'hello', @host3.reload.host_parameters.find_by(:name => 'p1').value
+      assert_equal 'keep', @host3.host_parameters.find_by(:name => 'other').value
+    end
+
+    test "should require parameter name" do
+      put :update_parameters, params: valid_bulk_params.merge(:value => 'hello')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'Parameter name is required', body['error']['message']
+    end
+
+    test "should require parameter value" do
+      put :update_parameters, params: valid_bulk_params.merge(:name => 'p1')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 'Parameter value is required', body['error']['message']
+    end
+
+    test "should handle singularization for a single host" do
+      put :update_parameters, params: valid_bulk_params([@host1.id]).merge(:name => 'p1', :value => 'hello')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Set parameter 'p1' on 1 host/, body['message'])
+    end
+  end
+
   private
 
   def set_session_user
