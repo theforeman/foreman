@@ -17,6 +17,12 @@ class Coreos < Operatingsystem
     'coreos'
   end
 
+  # The CoreOS PXELinux template fetches the provision URL with the host token
+  # (cloud-config-url via foreman_url), so the unattended endpoint can require it.
+  def token_enforced?
+    true
+  end
+
   def bootfile(medium_provider, type)
     super.sub('coreos_', "#{pxe_file_prefix}_")
   end

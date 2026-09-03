@@ -20,6 +20,13 @@ module Foreman
         host
       end
 
+      # The provisioning token supplied by the request, normalized for the ZTP
+      # .slax quirk (nil if none). Used by HostVerifier to confirm the request
+      # actually presented the host's token rather than relying on DB state.
+      def presented_token
+        token_from_params
+      end
+
       private
 
       def find_host_by_spoof

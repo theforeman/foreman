@@ -25,6 +25,12 @@ class Redhat < Operatingsystem
     "kickstart"
   end
 
+  # Anaconda receives the provisioning token on the kernel command line
+  # (inst.ks URL), so the unattended endpoint can require it for these hosts.
+  def token_enforced?
+    true
+  end
+
   def pxe_file_names(medium_provider)
     if medium_provider&.architecture_name&.match?(/^[Ss]390/)
       {

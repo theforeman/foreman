@@ -12,6 +12,12 @@ class UnattendedControllerTest < ActionController::TestCase
 
   context "redhat" do
     setup do
+      # Red Hat's OS enforces the provisioning token (token_enforced? == true),
+      # so with tokens enabled the unattended endpoint would require it. These
+      # legacy IP/MAC matching tests predate per-OS enforcement, so we disable
+      # tokens globally for them; the "per-OS token enforcement" sub-context
+      # re-enables them to cover the enforced path.
+      Setting[:token_duration] = 0
       ptable = FactoryBot.create(:ptable, :name => 'default',
                                   :operatingsystem_ids => [operatingsystems(:redhat).id])
       media(:one).organizations << @org
@@ -49,6 +55,41 @@ class UnattendedControllerTest < ActionController::TestCase
     test "should get a kickstart if MAC is provided" do
       get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
       assert_response :success
+    end
+
+    context "per-OS token enforcement" do
+      setup do
+        # Red Hat enforces tokens, so with tokens enabled a host in build mode
+        # must present its token; IP/MAC matching alone is not sufficient.
+        Setting[:token_duration] = 360
+        @rh_host.create_token(:value => "rh-provision-token", :expires => Time.now.utc + 1.hour)
+      end
+
+      test "refuses a tokenless MAC-matched request when the OS enforces tokens" do
+        get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
+        assert_response :unauthorized
+      end
+
+      test "renders the template when the host's valid token is provided" do
+        get :host_template, params: { :kind => 'provision', :token => @rh_host.token.value }
+        assert_response :success
+      end
+
+      test "refuses a request carrying an invalid token" do
+        get :host_template, params: { :kind => 'provision', :token => 'does-not-exist' }
+        assert_response :not_found
+      end
+
+      test "still allows an authenticated spoof preview of an in-build host without a token" do
+        get :host_template, params: { :kind => 'provision', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
+
+      test "is inert when installation tokens are disabled globally" do
+        Setting[:token_duration] = 0
+        get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
+        assert_response :success
+      end
     end
 
     test "should get a kickstart even if we are behind a loadbalancer" do
@@ -682,6 +723,9 @@ class UnattendedControllerTest < ActionController::TestCase
 
       setup do
         host.update(build: true)
+        # Host is matched by MAC without a token; disable tokens so per-OS
+        # enforcement doesn't intercept this iPXE build request.
+        Setting[:token_duration] = 0
       end
 
       test 'should render the associated ipxe template' do
@@ -729,6 +773,9 @@ class UnattendedControllerTest < ActionController::TestCase
 
     setup do
       Setting[:safemode_render] = false
+      # This test matches the Red Hat host by MAC without a token; disable
+      # tokens so per-OS enforcement doesn't intercept the request.
+      Setting[:token_duration] = 0
     end
 
     context 'with safemode parameter' do
