@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import '@testing-library/jest-dom';
 
 import RedirectCancelButton from './RedirectCancelButton';
 
@@ -10,9 +11,16 @@ jest.mock('../../../common/withReactRoutes', () => Component => props => (
   </div>
 ));
 
-const fixtures = {
-  'renders correctly': { cancelPath: '/hosts' },
-};
+describe('RedirectCancelButton', () => {
+  it('renders correctly', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <RedirectCancelButton cancelPath="/hosts" />
+      </MemoryRouter>
+    );
 
-describe('RedirectCancelButton', () =>
-  testComponentSnapshotsWithFixtures(RedirectCancelButton, fixtures));
+    // renders a Cancel button linking to the cancel path
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/hosts');
+  });
+});
