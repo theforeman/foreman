@@ -13,8 +13,13 @@ class FactParserTest < ActiveSupport::TestCase
     assert_match FactParser::BONDS, 'bond-foo'
     assert_match FactParser::BONDS, 'bond-foo-bar'
     assert_match FactParser::BONDS, 'lagg0'
+    assert_match FactParser::BONDS, 'lagg10'
     refute_match FactParser::BONDS, 'bond'
     refute_match FactParser::BONDS, 'bonding'
+    refute_match FactParser::BONDS, 'bond0.0'
+    refute_match FactParser::BONDS, 'bond0:0'
+    refute_match FactParser::BONDS, 'bond0.0:0'
+    refute_match FactParser::BONDS, 'bond0_0'
   end
 
   test "bridge regexp matches bridges" do

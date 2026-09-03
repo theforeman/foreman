@@ -404,6 +404,15 @@ class HostTest < ActiveSupport::TestCase
     refute host.primary_interface.managed?
   end
 
+  test "should identify a VLAN on a bond as a managed primary interface" do
+    host = FactoryBot.build(:host)
+    parser = mock('parser')
+    parser.expects(:parse_interfaces?).returns(true)
+    parser.expects(:suggested_primary_interface).with(host).returns(['bond0.601', {}])
+
+    assert_equal 'Nic::Managed', host.primary_interface_type(parser)
+  end
+
   test "should ignore link-local ipv6 addresses when importing from facts" do
     host = FactoryBot.create(:host, :mac => '00:00:11:22:11:22')
 
