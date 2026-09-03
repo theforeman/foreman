@@ -130,6 +130,16 @@ class Operatingsystem < ApplicationRecord
   end
   validate_inclusion_in_families :type
 
+  # Whether the unattended endpoint enforces the provisioning token for hosts of
+  # this OS. This is true only for operating systems whose boot chain carries the
+  # token to the installer (e.g. Anaconda picks it up from the kernel command
+  # line). When true, a host in build mode must present its valid token instead
+  # of being matched by IP/MAC alone. This is static per OS type, so it is
+  # expressed in the class hierarchy rather than stored.
+  def token_enforced?
+    false
+  end
+
   def self.families_as_collection
     families.map do |f|
       OpenStruct.new(:name => f.constantize.new.display_family, :value => f)

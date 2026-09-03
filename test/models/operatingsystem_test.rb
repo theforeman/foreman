@@ -270,6 +270,19 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert Solaris.new.available_loaders.include? "None"
   end
 
+  test "token is enforced only for OSes whose boot chain carries it" do
+    # Enforced: their shipped/Ignition boot chain fetches URLs with the host token
+    assert Redhat.new.token_enforced?
+    assert Coreos.new.token_enforced?
+    assert Fcos.new.token_enforced?
+    assert Rhcos.new.token_enforced?
+
+    # Not enforced: base default and OSes that match hosts by IP/MAC only
+    refute Operatingsystem.new.token_enforced?
+    refute Debian.new.token_enforced?
+    refute Suse.new.token_enforced?
+  end
+
   test "should not have preferred pxe loader for an OS without architecture associated" do
     assert_nil Operatingsystem.new.preferred_loader
   end
