@@ -13,6 +13,12 @@ class Fcos < Operatingsystem
     'fcos'
   end
 
+  # Fedora CoreOS provisions via Ignition, whose config URL carries the host
+  # token, so the unattended endpoint can require it for these hosts.
+  def token_enforced?
+    true
+  end
+
   def bootfile(medium_provider, type)
     medium_provider.interpolate_vars(super).to_s
   end
