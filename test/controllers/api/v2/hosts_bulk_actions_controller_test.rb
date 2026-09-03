@@ -303,6 +303,21 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       assert_equal 'Parameter value is required', body['error']['message']
     end
 
+    test "should include per-host errors when setting a parameter fails" do
+      HostParameter.any_instance.stubs(:update).returns(false)
+      errors = mock('errors')
+      errors.stubs(:full_messages).returns(['You do not have permission to edit this parameter'])
+      HostParameter.any_instance.stubs(:errors).returns(errors)
+
+      put :update_parameters, params: valid_bulk_params([@host1.id]).merge(:name => 'p1', :value => 'hello')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Failed to set parameter for 1 host/, body['error']['message'])
+      assert_equal [@host1.id], body['error']['failed_host_ids']
+      assert_equal 'You do not have permission to edit this parameter', body['error']['failed_hosts'].first['error']
+    end
+
     test "should handle singularization for a single host" do
       put :update_parameters, params: valid_bulk_params([@host1.id]).merge(:name => 'p1', :value => 'hello')
 

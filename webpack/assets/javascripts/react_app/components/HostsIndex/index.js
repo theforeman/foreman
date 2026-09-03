@@ -49,7 +49,7 @@ import {
   useForemanLocation,
 } from '../../Root/Context/ForemanContext';
 import { usePermissions } from '../../common/hooks/Permissions/permissionHooks';
-import { EDIT_HOSTS, VIEW_PARAMS } from '../../permissions';
+import { EDIT_HOSTS, VIEW_PARAMS, EDIT_PARAMS } from '../../permissions';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import {
   BulkAssignOrganizationModalScene as BulkAssignOrganizationModal,
@@ -268,7 +268,7 @@ const HostsIndex = () => {
   const [powerStateModalOpen, setPowerStateModalOpen] = useState(false);
   const [notificationsModalOpen, setNotificationsModalOpen] = useState(false);
   const [parametersModalOpen, setParametersModalOpen] = useState(false);
-  const canSetParameters = usePermissions([EDIT_HOSTS, VIEW_PARAMS]);
+  const canSetParameters = usePermissions([EDIT_HOSTS, VIEW_PARAMS, EDIT_PARAMS]);
 
   const dropdownItems = [
     <MenuItem

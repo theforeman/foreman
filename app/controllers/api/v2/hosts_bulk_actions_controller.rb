@@ -190,13 +190,15 @@ module Api
         result = BulkHostsManager.new(hosts: @hosts).update_parameters(name: name, value: params[:value])
         updated_count = result[:updated_count]
         failed_host_ids = result[:failed_host_ids]
+        failed_hosts = result[:failed_hosts]
 
         if failed_host_ids.any?
           render_error(:bulk_hosts_error, :status => :unprocessable_entity,
                        :locals => { :message => n_("Failed to set parameter for %s host",
                          "Failed to set parameter for %s hosts",
                          failed_host_ids.size) % failed_host_ids.size,
-                                    :failed_host_ids => failed_host_ids })
+                                    :failed_host_ids => failed_host_ids,
+                                    :failed_hosts => failed_hosts })
         else
           process_response(true, { :message => n_("Set parameter '%{name}' on %{count} host",
             "Set parameter '%{name}' on %{count} hosts",

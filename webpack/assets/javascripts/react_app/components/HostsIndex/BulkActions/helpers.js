@@ -57,7 +57,18 @@ export const bulkErrorToastParams = (error, key) => {
   const fallback = error?.message || __('Unexpected error occurred.');
   const apiError = error?.response?.data?.error;
   const isObject = apiError && typeof apiError === 'object';
-  const message = isObject ? apiError.message : apiError;
+  let message = isObject ? apiError.message : apiError;
+
+  if (isObject && Array.isArray(apiError.failed_hosts)) {
+    const reasons = [
+      ...new Set(
+        apiError.failed_hosts.map(host => host.error).filter(Boolean)
+      ),
+    ];
+    if (reasons.length > 0) {
+      message = [message, ...reasons].filter(Boolean).join(' ');
+    }
+  }
 
   return failedHostsToastParams({
     message: message || fallback,
