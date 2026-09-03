@@ -89,7 +89,7 @@ jest.mock('../../Root/Context/ForemanContext', () => ({
   useForemanOrganization: jest.fn(() => undefined),
   useForemanLocation: jest.fn(() => undefined),
   useForemanPermissions: jest.fn(
-    () => new Set(['edit_hosts', 'view_params'])
+    () => new Set(['edit_hosts', 'view_params', 'edit_params'])
   ),
 }));
 
@@ -155,7 +155,7 @@ describe('HostsIndex', () => {
   beforeEach(() => {
     capturedTableProps = null;
     useForemanPermissions.mockReturnValue(
-      new Set(['edit_hosts', 'view_params'])
+      new Set(['edit_hosts', 'view_params', 'edit_params'])
     );
   });
 
@@ -208,7 +208,7 @@ describe('HostsIndex', () => {
     ).toBe('');
   });
 
-  test('shows Set parameters when the user has edit_hosts and view_params', () => {
+  test('shows Set parameters when the user has edit_hosts, view_params, and edit_params', () => {
     render(
       <Provider store={store}>
         <HostsIndex />
@@ -219,7 +219,19 @@ describe('HostsIndex', () => {
   });
 
   test('hides Set parameters when the user has edit_hosts but not view_params', () => {
-    useForemanPermissions.mockReturnValue(new Set(['edit_hosts']));
+    useForemanPermissions.mockReturnValue(new Set(['edit_hosts', 'edit_params']));
+
+    render(
+      <Provider store={store}>
+        <HostsIndex />
+      </Provider>
+    );
+
+    expect(screen.queryByText('Set parameters')).not.toBeInTheDocument();
+  });
+
+  test('hides Set parameters when the user has edit_hosts and view_params but not edit_params', () => {
+    useForemanPermissions.mockReturnValue(new Set(['edit_hosts', 'view_params']));
 
     render(
       <Provider store={store}>
