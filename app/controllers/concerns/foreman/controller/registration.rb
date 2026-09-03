@@ -128,7 +128,7 @@ module Foreman::Controller::Registration
     names = ['host_registration_insights', 'host_registration_remote_execution',
              'host_packages', 'host_update_packages']
 
-    HostParameter.where(host: @host, name: names).destroy_all
+    @host.host_parameters.where(name: names).destroy_all
   end
 
   def setup_host_param(name, value, key_type = 'boolean')
@@ -140,7 +140,7 @@ module Foreman::Controller::Registration
                  value
                end
 
-    HostParameter.create(host: @host, name: name, value: hp_value, key_type: key_type)
+    @host.host_parameters.build(name: name, value: hp_value, key_type: key_type)
   end
 
   def api_authorization_token
