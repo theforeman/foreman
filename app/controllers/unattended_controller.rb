@@ -170,12 +170,18 @@ class UnattendedController < ApplicationController
     host_finder = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params)
     @host = host_finder.search
     @host_search_paths = host_finder.search_paths
+    @provided_token = host_finder.presented_token
   end
 
   def verify_found_host(needs_token = true)
+    # In preview/spoof mode the request is already authenticated (require_login
+    # plus view_provisioning_templates), so we don't demand a provisioning token
+    # from the operator previewing an in-build host's template.
     host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
                                                                              for_host_template: (action_name == 'host_template'),
-                                                                             search_paths: @host_search_paths)
+                                                                             search_paths: @host_search_paths,
+                                                                             token: @provided_token,
+                                                                             needs_token: needs_token && !preview?)
 
     if host_verifier.valid?
       logger.debug "Found #{@host}"
