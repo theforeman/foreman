@@ -31,7 +31,7 @@ else
 end
 
 if os_family == 'Freebsd'
-  freebsd_package = host_param_true?('enable-puppet6') ? 'puppet6' : 'puppet8'
+  freebsd_package = host_param_true?('enable-puppet8') ? 'puppet8' : 'openvox-agent8'
   etc_path = '/usr/local/etc/puppet'
   bin_path = '/usr/local/bin'
 elsif os_family == 'Windows'
@@ -119,7 +119,7 @@ puppet_unit=puppet
 <% end -%>
 <% end -%>
 <% if os_family == 'Freebsd' -%>
-echo 'puppet_enable="YES"' >>/etc/rc.conf
+sysrc puppet_enable=YES
 <% end -%>
 <% unless aio_enabled || aio_openvox_enabled -%>
 <% if os_family == 'Debian' -%>
