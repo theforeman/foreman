@@ -5,7 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state, :manage_notifications]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state, :manage_notifications, :update_parameters]
       before_action :validate_power_action, :only => [:change_power_state]
 
       def_param_group :bulk_host_ids do
@@ -172,6 +172,40 @@ module Api
         end
       end
 
+      api :PUT, "/hosts/bulk/update_parameters", N_("Set a host parameter override on multiple hosts")
+      param_group :bulk_host_ids
+      param :name, String, :required => true, :desc => N_("Name of the parameter to set on the selected hosts")
+      param :value, String, :required => true, :desc => N_("Value for the host parameter override")
+      def update_parameters
+        name = params[:name]
+        if name.blank?
+          render json: { :error => { :message => _("Parameter name is required") } }, status: :unprocessable_entity
+          return
+        end
+        if params[:value].nil?
+          render json: { :error => { :message => _("Parameter value is required") } }, status: :unprocessable_entity
+          return
+        end
+
+        result = BulkHostsManager.new(hosts: @hosts).update_parameters(name: name, value: params[:value])
+        updated_count = result[:updated_count]
+        failed_host_ids = result[:failed_host_ids]
+        failed_hosts = result[:failed_hosts]
+
+        if failed_host_ids.any?
+          render_error(:bulk_hosts_error, :status => :unprocessable_entity,
+                       :locals => { :message => n_("Failed to set parameter for %s host",
+                         "Failed to set parameter for %s hosts",
+                         failed_host_ids.size) % failed_host_ids.size,
+                                    :failed_host_ids => failed_host_ids,
+                                    :failed_hosts => failed_hosts })
+        else
+          process_response(true, { :message => n_("Set parameter '%{name}' on %{count} host",
+            "Set parameter '%{name}' on %{count} hosts",
+            updated_count) % { :name => name, :count => updated_count } })
+        end
+      end
+
       api :PUT, "/hosts/bulk/manage_notifications", N_("Manage notifications")
       param_group :bulk_host_ids
       param :enabled, :bool, :required => true, :desc => N_("Whether to enable or disable notification alerts for the selected hosts")
@@ -200,7 +234,7 @@ module Api
 
       def action_permission
         case params[:action]
-        when 'build', 'change_power_state', 'manage_notifications'
+        when 'build', 'change_power_state', 'manage_notifications', 'update_parameters'
           'edit'
         else
           super
