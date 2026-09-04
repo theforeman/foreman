@@ -36,6 +36,7 @@ module.exports = {
           'clearfix',
           'combinator',
           'combobox',
+          'commonjs',
           'comms',
           'Composable',
           'consts',

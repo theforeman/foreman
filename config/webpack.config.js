@@ -201,7 +201,7 @@ const commonConfig = function(buildName = 'core', tsConfig = 'tsconfig.json') {
           exclude: /node_modules(?!\/(@novnc|unidiff))/,
           loader: 'babel-loader',
           options: {
-            presets: [require.resolve('@theforeman/builder/babel')],
+            presets: [path.resolve(root, 'webpack/babel')],
           },
         },
         {
