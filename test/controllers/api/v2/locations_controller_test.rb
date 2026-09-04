@@ -44,6 +44,18 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should return existing location when create races on unique name" do
+    existing_location = FactoryBot.create(:location, :name => "Race Location")
+    Location.any_instance.stubs(:save).raises(ActiveRecord::RecordNotUnique)
+
+    assert_difference('Location.unscoped.count', 0) do
+      post :create, params: { :location => { :name => existing_location.name } }
+    end
+
+    assert_response :created
+    assert_equal existing_location.id, JSON.parse(response.body)['id']
+  end
+
   test "should create location with parent" do
     parent_id = Location.first.id
     post :create, params: { :location => { :name => "Test Location", :parent_id => parent_id } }

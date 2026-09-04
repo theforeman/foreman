@@ -63,7 +63,9 @@ module Api
 
       def create
         @subnet = Subnet.new_network_type(subnet_params)
-        process_response @subnet.save
+        process_create_with_record_not_unique(@subnet) do |subnet|
+          @subnet = Subnet.unscoped.find_by(name: subnet.name)
+        end
       end
 
       api :PUT, '/subnets/:id', N_("Update a subnet")
