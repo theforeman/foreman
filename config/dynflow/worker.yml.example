@@ -1,4 +1,10 @@
-:concurrency: 10
+<% concurrency = ENV['FOREMAN_DYNFLOW_CONCURRENCY'].to_s.strip %>
+:concurrency: <%= concurrency.empty? ? 10 : concurrency %>
 :queues:
-  - default
-  - remote_execution
+<% queues = ENV['FOREMAN_DYNFLOW_QUEUES'].to_s.strip %>
+<% queues = 'default,remote_execution' if queues.empty? %>
+<% queues.split(',').map(&:strip).reject(&:empty?).each do |queue_str| %>
+<% queue, priority = queue_str.split('@') %>
+  - - <%= queue.strip %>
+    - <%= [priority.to_i, 1].max %>
+<% end %>
