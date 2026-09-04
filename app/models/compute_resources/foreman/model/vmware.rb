@@ -432,7 +432,7 @@ module Foreman::Model
     end
 
     def scsi_controller_default_type
-      "VirtualLsiLogicController"
+      "ParaVirtualSCSIController"
     end
 
     # vSphere guest H/W versions
