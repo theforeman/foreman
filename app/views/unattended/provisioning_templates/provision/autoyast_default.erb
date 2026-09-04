@@ -9,13 +9,18 @@ description: |
 -%>
 <%
   # safemode renderer does not support unary negation
-  aio_enabled = host_param_true?('enable-puppetlabs-repo') || %w[official-puppet8 official-puppet7].any? { |repo| host_param_true?("enable-#{repo}-repo") }
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || %w[official-puppet8 official-puppet7].any? { |repo| host_param_true?("enable-#{repo}-repo") }
+  voxpupuli_repo_enabled = [9, 8].any? { |version| host_param_true?("enable-openvox#{version}-repo") }
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
+
+  if puppetlabs_repo_enabled && voxpupuli_repo_enabled
+    raise "Both Puppet and OpenVox repositories are enabled"
+  end
 -%>
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE profile>
@@ -174,8 +179,10 @@ description: |
     </patterns>
     <packages config:type="list">
 <% if puppet_enabled -%>
-<% if aio_enabled -%>
+<% if puppetlabs_repo_enabled -%>
       <package>puppet-agent</package>
+<% elsif voxpupuli_repo_enabled -%>
+      <package>openvox-agent</package>
 <% else -%>
       <package>rubygem-puppet</package>
 <% end -%>
@@ -282,7 +289,7 @@ rm /etc/resolv.conf
   </timezone>
   <add-on>
     <add_on_others config:type="list">
-<% if puppet_enabled && aio_enabled -%>
+<% if puppet_enabled && puppetlabs_repo_enabled -%>
 <%
   puppet_repo_url_base = 'https://yum.puppet.com'
   if host_param_true?('enable-official-puppet8-repo')
@@ -303,6 +310,37 @@ rm /etc/resolv.conf
         <signature-handling>
           <import_gpg_key>
             <all config:type="boolean">true</all>
+          </import_gpg_key>
+        </signature-handling>
+      </listentry>
+<% end -%>
+<% if puppet_enabled && voxpupuli_repo_enabled -%>
+<%
+  voxpupuli_repo_url_base = 'https://yum.voxpupuli.org'
+  if host_param_true?('enable-openvox9-repo')
+    voxpupuli_repo_url = "#{voxpupuli_repo_url_base}/openvox9/sles/#{os_major}/#{@host.architecture}/"
+    voxpupuli_repo_alias = 'openvox9-release'
+  elsif host_param_true?('enable-openvox8-repo')
+    voxpupuli_repo_url = "#{voxpupuli_repo_url_base}/openvox8/sles/#{os_major}/#{@host.architecture}/"
+    voxpupuli_repo_alias = 'openvox8-release'
+  end
+-%>
+      <listentry>
+        <media_url><![CDATA[<%= voxpupuli_repo_url %>]]></media_url>
+        <alias><%= voxpupuli_repo_alias %></alias>
+        <name>VoxPupuli AutoYaST repository</name>
+        <signature-handling>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>5FB999C2D62FF3D9</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>5FB999C2D62FF3D9</keyid>
+            </keys>
           </import_gpg_key>
         </signature-handling>
       </listentry>
