@@ -18,7 +18,17 @@ class MailNotification < ApplicationRecord
   validates :subscription_type, :inclusion => { :in => SUBSCRIPTION_TYPES }, :allow_blank => true
   validates :mailer, :presence => true
   validates :method, :presence => true
-  alias_attribute :mailer_method, :method
+  # Defined explicitly (rather than via alias_attribute) because `method` is a
+  # real Ruby method every object has (Kernel#method), and Rails 7.2 stops
+  # alias_attribute from delegating to non-generated (manually overridden)
+  # methods like that.
+  def mailer_method
+    self[:method]
+  end
+
+  def mailer_method=(value)
+    self[:method] = value
+  end
 
   default_scope -> { order("mail_notifications.name") }
 

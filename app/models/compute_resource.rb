@@ -10,7 +10,7 @@ class ComputeResource < ApplicationRecord
 
   validates_lengths_from_database
 
-  serialize :attrs, Hash
+  serialize :attrs, type: Hash
   belongs_to :http_proxy
 
   before_destroy EnsureNotUsedBy.new(:hosts)

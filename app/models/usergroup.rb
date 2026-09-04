@@ -31,7 +31,12 @@ class Usergroup < ApplicationRecord
   validates :name, :uniqueness => true, :presence => true
 
   # The text item to see in a select dropdown menu
-  alias_attribute :select_title, :to_s
+  # Defined explicitly (rather than via alias_attribute) because to_s isn't a
+  # real attribute, and Rails 7.2 stops alias_attribute from supporting
+  # non-attribute targets.
+  def select_title
+    to_s
+  end
   default_scope -> { order('usergroups.name') }
   scope :visible, -> {}
   scope :except_current, ->(current) { where.not(:id => current.id) }
