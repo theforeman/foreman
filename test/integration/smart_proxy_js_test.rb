@@ -46,6 +46,29 @@ class SmartProxyJSTest < IntegrationTestWithJavascript
     assert page.has_content? "Version"
   end
 
+  test "dismisses popovers when switching tabs" do
+    proxy = smart_proxies(:one)
+    visit smart_proxy_path(proxy)
+    click_link "Services"
+    assert page.has_selector?('h3', :text => "DHCP")
+
+    page.execute_script(<<~JS)
+      var trigger = document.createElement('a');
+      trigger.setAttribute('rel', 'popover');
+      trigger.setAttribute('href', '#');
+      trigger.setAttribute('data-content', 'Spool error help');
+      trigger.setAttribute('data-container', 'body');
+      trigger.setAttribute('data-trigger', 'focus');
+      trigger.textContent = 'info';
+      document.getElementById('services').appendChild(trigger);
+      $(trigger).popover('show');
+    JS
+
+    assert page.has_selector?('.popover', visible: true)
+    within('#proxy-tab') { click_link 'Overview' }
+    assert page.has_no_selector?('.popover', visible: true)
+  end
+
   describe 'pagelets on show page' do
     include PageletsIsolation
 
