@@ -362,5 +362,41 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         assert hostgroups(:common).operatingsystem_id, host.operatingsystem_id
       end
     end
+
+    context 'session markers' do
+      test 'logs session_complete with action=created for a new host' do
+        reg_logger = mock('registration_logger')
+        reg_logger.expects(:info).with { |msg| msg.include?('session_complete') && msg.include?('action=created') }
+        Foreman::Logging.stubs(:logger).returns(stub_everything('null_logger'))
+        Foreman::Logging.stubs(:logger).with('registration').returns(reg_logger)
+
+        post :host, params: host_params, session: set_session_user
+        assert_response :success
+      end
+
+      test 'logs session_complete with action=updated for an existing host' do
+        Host.create(host_params[:host])
+
+        reg_logger = mock('registration_logger')
+        reg_logger.expects(:info).with { |msg| msg.include?('session_complete') && msg.include?('action=updated') }
+        Foreman::Logging.stubs(:logger).returns(stub_everything('null_logger'))
+        Foreman::Logging.stubs(:logger).with('registration').returns(reg_logger)
+
+        post :host, params: host_params, session: set_session_user
+        assert_response :success
+      end
+    end
+  end
+
+  describe 'registration logger' do
+    test 'logs session_start on global registration' do
+      reg_logger = mock('registration_logger')
+      reg_logger.expects(:info).with { |msg| msg.include?('session_start') }
+      Foreman::Logging.stubs(:logger).returns(stub_everything('null_logger'))
+      Foreman::Logging.stubs(:logger).with('registration').returns(reg_logger)
+
+      get :global
+      assert_response :success
+    end
   end
 end

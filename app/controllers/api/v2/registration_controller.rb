@@ -47,6 +47,10 @@ module Api
           return
         end
 
+        Foreman::Logging.logger('registration').info(
+          "session_start org=#{params[:organization_id]} loc=#{params[:location_id]} hostgroup=#{params[:hostgroup_id]}"
+        )
+
         render plain: @provisioning_template.render(variables: @global_registration_vars).html_safe
       end
 
@@ -87,9 +91,13 @@ module Api
       param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
       def host
+        started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        host_action = nil
+
         begin
           ActiveRecord::Base.transaction do
             find_host
+            host_action = @host.new_record? ? 'created' : 'updated'
             prepare_host
             setup_host_params
             host_setup_extension
@@ -105,6 +113,11 @@ module Api
           not_found N_("Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first") % { host: @host.name, os: @host.operatingsystem }
           return
         end
+
+        duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).to_i
+        Foreman::Logging.logger('registration').info(
+          "session_complete host=#{@host.name} action=#{host_action} duration_ms=#{duration_ms}"
+        )
 
         # Do not rebuild managed hosts
         # Hosts registered with subscription-manager are created
