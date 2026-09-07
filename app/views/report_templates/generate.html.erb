@@ -4,11 +4,12 @@
 
 <%= form_for @composer, as: :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
 
+  <% generate_text = content_tag(:p, _('This will generate a report %s. Based on its definition, it can take a long time to process.') % @template.name)
+     generate_text += content_tag(:div, simple_format(@template.description), class: 'report-template-description') if @template.description.present?
+  %>
   <%= alert(:class => 'alert-info',
             :header => _('Generating a report'),
-            :text => ('<p>' +
-                (_('This will generate a report %s. Based on its definition, it can take a long time to process.') % h(@template.name)) +
-                '</p>').html_safe) %>
+            :text => generate_text) %>
 
   <%= datetime_local_f f, :generate_at,
       label: _('Generate at'),

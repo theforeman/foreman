@@ -13,6 +13,13 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test 'index shows report template description' do
+    @report_template.update!(description: 'Lists hosts that have not checked in recently')
+    get :index, session: set_session_user
+    assert_response :success
+    assert_includes @response.body, 'Lists hosts that have not checked in recently'
+  end
+
   test 'new' do
     get :new, session: set_session_user
     assert_template 'new'
@@ -139,6 +146,14 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   test "generate" do
     get :generate, params: { :id => @report_template.to_param }, session: set_session_user
     assert_response :success
+  end
+
+  test "generate shows report template description" do
+    @report_template.update!(description: "Lists inactive hosts.\nCheck-in is based on subscription manager.")
+    get :generate, params: { :id => @report_template.to_param }, session: set_session_user
+    assert_response :success
+    assert_select '.report-template-description', /Lists inactive hosts/
+    assert_includes @response.body, 'Check-in is based on subscription manager.'
   end
 
   describe '#schedule_report' do

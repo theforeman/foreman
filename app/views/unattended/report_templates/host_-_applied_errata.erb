@@ -1,5 +1,10 @@
 <%#
 name: Host - Applied Errata
+description: |
+  Lists errata that were applied to hosts through this Foreman instance,
+  for example via remote execution. Errata applied outside of Foreman are
+  not included, so the report can be empty even when hosts were patched
+  by other means.
 snippet: false
 template_inputs:
 - name: Filter Errata Type

@@ -22,4 +22,11 @@ class ReportTemplateTest < ActiveSupport::TestCase
     EOT
     assert report_with_macro.supports_format_selection?
   end
+
+  test 'shipped report templates include a description' do
+    Dir[Rails.root.join('app/views/unattended/report_templates/*.erb')].each do |path|
+      metadata = Template.parse_metadata(File.read(path))
+      assert metadata['description'].present?, "#{File.basename(path)} is missing a description"
+    end
+  end
 end

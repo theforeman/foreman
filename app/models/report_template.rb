@@ -20,6 +20,7 @@ class ReportTemplate < Template
   include Taxonomix
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name,    :complete_value => true, :default_order => true
+  scoped_search :on => :description, :complete_value => false
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
   scoped_search :on => :template

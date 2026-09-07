@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("ReportTemplate|Name") %></th>
+      <th class="col-md-5"><%= sort :description, :as => s_("ReportTemplate|Description") %></th>
       <th class="col-md-1"><%= sort :snippet, :as => s_("ReportTemplate|Snippet") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("ReportTemplate|Locked"), :default => "DESC" %></th>
       <th class="col-md-1"><%= _('Actions') %></th>
@@ -21,6 +22,7 @@
                                          merge(:auth_object => report_template, :authorizer => authorizer,
                                          :permission => 'edit_report_templates') %>
         </td>
+        <td class="ellipsis"><%= trunc_with_tooltip(report_template.description.to_s.squish, 80) if report_template.description.present? %></td>
         <td align='center'><%= checked_icon report_template.snippet %></td>
         <td align='center'><%= locked_icon report_template.locked?, _("This template is locked for editing.") %>
         </td>
