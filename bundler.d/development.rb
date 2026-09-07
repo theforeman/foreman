@@ -23,6 +23,5 @@ group :development do
   gem 'spring', '4.2.1'
   gem 'benchmark-ips', '>= 2.8.2'
   gem 'foreman'
-  gem('bootsnap', :require => false)
   gem 'graphiql-rails', '~> 1.7'
 end
