@@ -1,7 +1,6 @@
 import { snakeCase, camelCase, debounce } from 'lodash';
 import URI from 'urijs';
 import { translate as __ } from './I18n';
-import { deprecate } from './DeprecationService';
 
 /**
  * Our API returns non-ISO8601 dates
@@ -32,20 +31,6 @@ export const debounceMethods = (context, time, methods) => {
     const methodTime = method.time || time;
     // eslint-disable-next-line no-param-reassign
     context[methodName] = debounce(context[methodName], methodTime);
-  });
-};
-
-/**
- * @deprecated Use Function.prototype.bind() directly. Will be removed in Foreman 3.20.
- * Bind your methods to run in a specific context.
- * @param {Object} context - the context where your method should run.
- * @param {Array} methods - Array that contains the methods to run on.
- */
-export const bindMethods = (context, methods) => {
-  deprecate('bindMethods', 'Function.prototype.bind()', '3.20');
-  methods.forEach(method => {
-    // eslint-disable-next-line no-param-reassign
-    context[method] = context[method].bind(context);
   });
 };
 
@@ -216,7 +201,6 @@ export const reloadPage = () => {
 };
 export default {
   isoCompatibleDate,
-  bindMethods,
   noop,
   debounceMethods,
   clearSpaces,
