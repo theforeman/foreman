@@ -1,3 +1,10 @@
+2026-09-08	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 5.0.0
+	* i18n - extracting new, pulling from tx
+
+2026-09-07	Peter Ondrejka <pondrejk@redhat.com>
+	* Fixes #39591 - preserve except options for audits
+
 2026-08-25	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 5.0.0-rc2
 	* i18n - extracting new, pulling from tx
