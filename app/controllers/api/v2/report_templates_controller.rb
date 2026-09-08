@@ -194,7 +194,6 @@ module Api
             filename += '.gz' unless filename.end_with?('.gz')
             send_data data, type: 'application/gzip', filename: filename
           else
-            data = data.to_json if @composer.mime_type == 'application/json'
             send_data data, type: @composer.mime_type, filename: @composer.report_filename
           end
         end
