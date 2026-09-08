@@ -325,6 +325,38 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       body = ActiveSupport::JSON.decode(@response.body)
       assert_match(/Set parameter 'p1' on 1 host/, body['message'])
     end
+
+    test "should mention skipped hosts when some overrides cannot be created" do
+      BulkHostsManager.any_instance.stubs(:update_parameters).returns(
+        :updated_count => 1,
+        :skipped_count => 2,
+        :failed_hosts => [],
+        :failed_host_ids => []
+      )
+
+      put :update_parameters, params: valid_bulk_params.merge(:name => 'p1', :value => 'hello')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Set parameter 'p1' on 1 host/, body['message'])
+      assert_match(/skipped/, body['message'])
+    end
+
+    test "should report when every host is skipped" do
+      BulkHostsManager.any_instance.stubs(:update_parameters).returns(
+        :updated_count => 0,
+        :skipped_count => 3,
+        :failed_hosts => [],
+        :failed_host_ids => []
+      )
+
+      put :update_parameters, params: valid_bulk_params.merge(:name => 'p1', :value => 'hello')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/No hosts were updated/, body['message'])
+      assert_match(/skipped/, body['message'])
+    end
   end
 
   private

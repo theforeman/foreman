@@ -61,9 +61,7 @@ export const bulkErrorToastParams = (error, key) => {
 
   if (isObject && Array.isArray(apiError.failed_hosts)) {
     const reasons = [
-      ...new Set(
-        apiError.failed_hosts.map(host => host.error).filter(Boolean)
-      ),
+      ...new Set(apiError.failed_hosts.map(host => host.error).filter(Boolean)),
     ];
     if (reasons.length > 0) {
       message = [message, ...reasons].filter(Boolean).join(' ');

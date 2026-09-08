@@ -7,8 +7,13 @@ import { rtlHelpers } from '../../../../common/rtlTestHelpers';
 import { STATUS } from '../../../../constants';
 import BulkEditParametersModal from './BulkEditParametersModal';
 import { bulkUpdateParameters } from './actions';
+import { usePermissions } from '../../../../common/hooks/Permissions/permissionHooks';
 
 jest.mock('../../../../common/I18n');
+
+jest.mock('../../../../common/hooks/Permissions/permissionHooks', () => ({
+  usePermissions: jest.fn(() => true),
+}));
 
 jest.mock('./actions', () => ({
   bulkUpdateParameters: jest.fn(() => ({
@@ -79,6 +84,7 @@ const renderModal = (props = {}, initialState = resolvedApiState) =>
 describe('BulkEditParametersModal', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    usePermissions.mockReturnValue(true);
   });
 
   it('renders modal with title and fields', () => {
@@ -92,18 +98,14 @@ describe('BulkEditParametersModal', () => {
     renderModal();
     expect(
       screen.getByText(/Set a host parameter override on/)
-    ).toHaveTextContent(
-      'Set a host parameter override on 5 selected hosts.'
-    );
+    ).toHaveTextContent('Set a host parameter override on 5 selected hosts.');
   });
 
   it('uses singular form for a single host', () => {
     renderModal({ selectedCount: 1 });
     expect(
       screen.getByText(/Set a host parameter override on/)
-    ).toHaveTextContent(
-      'Set a host parameter override on 1 selected host.'
-    );
+    ).toHaveTextContent('Set a host parameter override on 1 selected host.');
   });
 
   it('has Confirm disabled until a parameter and value are set', async () => {
@@ -147,5 +149,33 @@ describe('BulkEditParametersModal', () => {
   it('does not render when isOpen is false', () => {
     renderModal({ isOpen: false });
     expect(screen.queryByText('Set parameters')).not.toBeInTheDocument();
+  });
+
+  it('explains that missing overrides will be created when the user can create params', () => {
+    renderModal();
+    expect(
+      screen.getByText(/Hosts that already have this parameter will be updated/)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /You can only update parameters that already exist on the selected hosts/
+      )
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows an edit-only alert when the user cannot create params', () => {
+    usePermissions.mockReturnValue(false);
+    renderModal();
+
+    expect(
+      screen.getByText(
+        /You can only update parameters that already exist on the selected hosts/
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /Hosts that already have this parameter will be updated/
+      )
+    ).not.toBeInTheDocument();
   });
 });

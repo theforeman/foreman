@@ -189,6 +189,7 @@ module Api
 
         result = BulkHostsManager.new(hosts: @hosts).update_parameters(name: name, value: params[:value])
         updated_count = result[:updated_count]
+        skipped_count = result[:skipped_count].to_i
         failed_host_ids = result[:failed_host_ids]
         failed_hosts = result[:failed_hosts]
 
@@ -200,9 +201,7 @@ module Api
                                     :failed_host_ids => failed_host_ids,
                                     :failed_hosts => failed_hosts })
         else
-          process_response(true, { :message => n_("Set parameter '%{name}' on %{count} host",
-            "Set parameter '%{name}' on %{count} hosts",
-            updated_count) % { :name => name, :count => updated_count } })
+          process_response(true, { :message => update_parameters_success_message(name, updated_count, skipped_count) })
         end
       end
 
@@ -242,6 +241,20 @@ module Api
       end
 
       private
+
+      def update_parameters_success_message(name, updated_count, skipped_count)
+        if skipped_count > 0 && updated_count.zero?
+          _("No hosts were updated. Hosts that did not already have this parameter were skipped.")
+        elsif skipped_count > 0
+          n_("Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped.",
+            "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped.",
+            updated_count) % { :name => name, :count => updated_count }
+        else
+          n_("Set parameter '%{name}' on %{count} host",
+            "Set parameter '%{name}' on %{count} hosts",
+            updated_count) % { :name => name, :count => updated_count }
+        end
+      end
 
       def find_deletable_hosts
         find_bulk_hosts(:destroy_hosts, included: params)

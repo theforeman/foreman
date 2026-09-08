@@ -118,9 +118,7 @@ jest.mock('./BulkActions/bulkDelete', () => ({
 
 jest.mock('./ActionKebab', () => ({
   ActionKebab: ({ items }) => (
-    <div data-testid="action-kebab">
-      {items.map(item => item)}
-    </div>
+    <div data-testid="action-kebab">{items.map(item => item)}</div>
   ),
 }));
 
@@ -208,7 +206,7 @@ describe('HostsIndex', () => {
     ).toBe('');
   });
 
-  test('shows Set parameters when the user has edit_hosts, view_params, and edit_params', () => {
+  test('shows Set parameters when the user has edit_params but not create_params', () => {
     render(
       <Provider store={store}>
         <HostsIndex />
@@ -219,7 +217,9 @@ describe('HostsIndex', () => {
   });
 
   test('hides Set parameters when the user has edit_hosts but not view_params', () => {
-    useForemanPermissions.mockReturnValue(new Set(['edit_hosts', 'edit_params']));
+    useForemanPermissions.mockReturnValue(
+      new Set(['edit_hosts', 'edit_params'])
+    );
 
     render(
       <Provider store={store}>
@@ -231,7 +231,9 @@ describe('HostsIndex', () => {
   });
 
   test('hides Set parameters when the user has edit_hosts and view_params but not edit_params', () => {
-    useForemanPermissions.mockReturnValue(new Set(['edit_hosts', 'view_params']));
+    useForemanPermissions.mockReturnValue(
+      new Set(['edit_hosts', 'view_params'])
+    );
 
     render(
       <Provider store={store}>

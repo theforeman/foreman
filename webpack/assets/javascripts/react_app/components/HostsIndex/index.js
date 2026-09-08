@@ -268,7 +268,11 @@ const HostsIndex = () => {
   const [powerStateModalOpen, setPowerStateModalOpen] = useState(false);
   const [notificationsModalOpen, setNotificationsModalOpen] = useState(false);
   const [parametersModalOpen, setParametersModalOpen] = useState(false);
-  const canSetParameters = usePermissions([EDIT_HOSTS, VIEW_PARAMS, EDIT_PARAMS]);
+  const canSetParameters = usePermissions([
+    EDIT_HOSTS,
+    VIEW_PARAMS,
+    EDIT_PARAMS,
+  ]);
 
   const dropdownItems = [
     <MenuItem

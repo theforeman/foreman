@@ -69,23 +69,28 @@ class BulkHostsManager
 
   def update_parameters(name:, value:)
     updated_count = 0
+    skipped_count = 0
     failed_hosts = []
     global = CommonParameter.find_by(:name => name)
+    can_create = can_create_params?
 
     @hosts.each do |host|
       host_param = host.host_parameters.find_by(:name => name)
       begin
-        success = if host_param
-                    host_param.update(:value => value)
-                  else
-                    attrs = { :name => name, :value => value }
-                    if global
-                      attrs[:key_type] = global.key_type
-                      attrs[:hidden_value] = global.hidden_value?
-                    end
-                    host_param = host.host_parameters.build(attrs)
-                    host_param.save
-                  end
+        if host_param
+          success = host_param.update(:value => value)
+        elsif can_create
+          attrs = { :name => name, :value => value }
+          if global
+            attrs[:key_type] = global.key_type
+            attrs[:hidden_value] = global.hidden_value?
+          end
+          host_param = host.host_parameters.build(attrs)
+          success = host_param.save
+        else
+          skipped_count += 1
+          next
+        end
 
         if success
           updated_count += 1
@@ -106,6 +111,7 @@ class BulkHostsManager
 
     {
       :updated_count => updated_count,
+      :skipped_count => skipped_count,
       :failed_hosts => failed_hosts,
       :failed_host_ids => failed_hosts.map { |host| host[:id] },
     }
@@ -141,5 +147,11 @@ class BulkHostsManager
       unsupported_hosts: unsupported_hosts,
       unsupported_host_ids: unsupported_hosts.map { |h| h[:id] },
     }
+  end
+
+  private
+
+  def can_create_params?
+    User.current.nil? || User.current.can?(:create_params)
   end
 end

@@ -11,10 +11,13 @@ import {
   TextInput,
   TextContent,
   Text,
+  Alert,
 } from '@patternfly/react-core';
 import { TypeaheadSelect } from '@patternfly/react-templates';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __, sprintf } from '../../../../common/I18n';
+import { usePermissions } from '../../../../common/hooks/Permissions/permissionHooks';
+import { CREATE_PARAMS } from '../../../../permissions';
 import { STATUS } from '../../../../constants';
 import {
   selectAPIStatus,
@@ -37,6 +40,7 @@ const BulkEditParametersModal = ({
   const dispatch = useDispatch();
   const [parameterName, setParameterName] = useState('');
   const [parameterValue, setParameterValue] = useState('');
+  const canCreateParameters = usePermissions([CREATE_PARAMS]);
 
   const commonParameters = useSelector(state =>
     selectAPIResponse(state, COMMON_PARAMETERS_KEY)
@@ -145,16 +149,29 @@ const BulkEditParametersModal = ({
             }}
           />
         </Text>
-        <Text
-          component="small"
-          className="pf-v5-u-color-200"
-          ouiaId="bulk-set-parameters-explanation"
-        >
-          {__(
-            'Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override.'
-          )}
-        </Text>
+        {canCreateParameters && (
+          <Text
+            component="small"
+            className="pf-v5-u-color-200"
+            ouiaId="bulk-set-parameters-explanation"
+          >
+            {__(
+              'Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override.'
+            )}
+          </Text>
+        )}
       </TextContent>
+      {!canCreateParameters && (
+        <Alert
+          variant="info"
+          isInline
+          className="pf-v5-u-mb-md"
+          title={__(
+            'You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped.'
+          )}
+          ouiaId="bulk-set-parameters-edit-only-alert"
+        />
+      )}
       <SkeletonLoader status={parametersStatus} skeletonProps={{ count: 2 }}>
         <Form>
           <FormGroup

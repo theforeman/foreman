@@ -14,9 +14,30 @@ class BulkHostsManagerTest < ActiveSupport::TestCase
     result = BulkHostsManager.new(hosts: [@host1, @host2]).update_parameters(name: 'p1', value: 'hello')
 
     assert_equal 2, result[:updated_count]
+    assert_equal 0, result[:skipped_count]
     assert_empty result[:failed_host_ids]
     assert_equal 'hello', @host1.reload.host_parameters.find_by(:name => 'p1').value
     assert_equal 'hello', @host2.reload.host_parameters.find_by(:name => 'p1').value
+    assert_equal 'keep', @host2.host_parameters.find_by(:name => 'other').value
+  end
+
+  test "update_parameters skips missing overrides when the user cannot create params" do
+    role = FactoryBot.create(:role)
+    FactoryBot.create(:filter,
+      :role => role,
+      :permissions => Permission.where(:name => ['edit_params', 'view_params']))
+    user = FactoryBot.create(:user, :with_mail)
+    user.roles << role
+
+    result = as_user(user) do
+      BulkHostsManager.new(hosts: [@host1, @host2]).update_parameters(name: 'p1', value: 'hello')
+    end
+
+    assert_equal 1, result[:updated_count]
+    assert_equal 1, result[:skipped_count]
+    assert_empty result[:failed_host_ids]
+    assert_equal 'hello', @host1.reload.host_parameters.find_by(:name => 'p1').value
+    assert_nil @host2.reload.host_parameters.find_by(:name => 'p1')
     assert_equal 'keep', @host2.host_parameters.find_by(:name => 'other').value
   end
 
