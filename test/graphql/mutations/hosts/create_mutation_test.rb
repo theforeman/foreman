@@ -72,7 +72,8 @@ module Mutations
               $ownerId: ID,
               $ptableId: ID!,
               $rootPass: String,
-              $subnetId: ID
+              $subnetId: ID,
+              $hostParametersAttributes: [HostParameterAttributesInput!]
             ) {
             createHost(input: {
               architectureId: $architectureId,
@@ -93,6 +94,7 @@ module Mutations
               ptableId: $ptableId,
               rootPass: $rootPass,
               subnetId: $subnetId,
+              hostParametersAttributes: $hostParametersAttributes,
             }) {
               host {
                 id,
@@ -279,8 +281,46 @@ module Mutations
             end
           end
         end
-      end
 
+        context 'with host parameters' do
+          let(:variables) do
+            base_variables.merge(
+              mac: mac,
+              hostParametersAttributes: [
+                {
+                  name: 'my_param',
+                  value: 'my_value',
+                  parameterType: 'string',
+                },
+                {
+                  name: 'hidden_param',
+                  value: 'secret',
+                  hiddenValue: true,
+                },
+              ]
+            )
+          end
+
+          it 'creates a host with parameters' do
+            assert_difference(-> { Host.count }, +1) do
+              assert_empty result['errors']
+              assert_empty result['data']['createHost']['errors']
+              assert_not_nil data
+            end
+            host = Host.find_by(name: "my-graphql-host.#{domain.name}")
+            assert_not_nil host
+            assert_equal 2, host.host_parameters.count
+            param = host.host_parameters.find_by(name: 'my_param')
+            assert_not_nil param
+            assert_equal 'my_value', param.value
+            assert_equal 'string', param.key_type
+            hidden = host.host_parameters.find_by(name: 'hidden_param')
+            assert_not_nil hidden
+            assert_equal 'secret', hidden.value
+            assert hidden.hidden_value?
+          end
+        end
+      end
       context 'with create permission' do
         let(:context_user) do
           setup_user('create', 'hosts') do |user|
