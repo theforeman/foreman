@@ -4,6 +4,8 @@ module Foreman
   module Provision
     # Simple SSH client implemented via OpenSSH ssh and sshpass commands.
     class Ssh
+      SSH_FINISH_KEY = '/var/lib/foreman/ssh_finish_key'
+
       def initialize(address, username = "root", options = {})
         @username = username
         @address  = address
@@ -82,14 +84,27 @@ module Foreman
           -oBatchMode=yes
         ]
 
+        finish_key = ssh_finish_key?
         opts.push("-oIdentityFile=#{key_file.path}") if key_file
+        opts.push("-oIdentityFile=#{SSH_FINISH_KEY}") if finish_key
 
         methods = []
-        methods << "publickey" if @options[:key_data].present?
+        methods << "publickey" if @options[:key_data].present? || finish_key
         methods << "password" if @options[:password].present?
         opts.push("-oPreferredAuthentications=#{methods.join(',')}")
 
         opts
+      end
+
+      def ssh_finish_key?
+        return false unless File.file?(SSH_FINISH_KEY)
+
+        return true if (File.stat(SSH_FINISH_KEY).mode & 0o777) == 0o600
+
+        logger.warn "Ignoring #{SSH_FINISH_KEY} with incorrect permissions"
+        false
+      rescue Errno::ENOENT, Errno::EACCES
+        false
       end
 
       def command_prefix

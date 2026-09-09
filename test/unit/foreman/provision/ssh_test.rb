@@ -136,6 +136,34 @@ class SshProvisionServiceTest < ActiveSupport::TestCase
       end.returns(["", "", success_status])
       ssh.ping
     end
+
+    test "includes the SSH finish key when it has 0600 permissions" do
+      File.stubs(:file?).with(Foreman::Provision::Ssh::SSH_FINISH_KEY).returns(true)
+      File.stubs(:stat).with(Foreman::Provision::Ssh::SSH_FINISH_KEY).returns(stub(mode: 0o100600))
+      ssh = new_ssh
+
+      Open3.expects(:capture3).with do |*args|
+        cmd_args = args.last.is_a?(Hash) ? args[0..-2] : args
+        assert_includes cmd_args, "-oIdentityFile=#{Foreman::Provision::Ssh::SSH_FINISH_KEY}"
+        assert_includes cmd_args, "-oPreferredAuthentications=publickey"
+        true
+      end.returns(["", "", success_status])
+      ssh.ping
+    end
+
+    test "does not include the SSH finish key without 0600 permissions" do
+      File.stubs(:file?).with(Foreman::Provision::Ssh::SSH_FINISH_KEY).returns(true)
+      File.stubs(:stat).with(Foreman::Provision::Ssh::SSH_FINISH_KEY).returns(stub(mode: 0o100644))
+      Rails.logger.expects(:warn).with("Ignoring /var/lib/foreman/ssh_finish_key with incorrect permissions")
+      ssh = new_ssh
+
+      Open3.expects(:capture3).with do |*args|
+        cmd_args = args.last.is_a?(Hash) ? args[0..-2] : args
+        refute_includes cmd_args, "-oIdentityFile=#{Foreman::Provision::Ssh::SSH_FINISH_KEY}"
+        true
+      end.returns(["", "", success_status])
+      ssh.ping
+    end
   end
 
   describe 'command building' do
