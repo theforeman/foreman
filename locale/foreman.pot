@@ -5029,7 +5029,6 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:204
 #: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:198
 #: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:55
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:29
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:60
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:197
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:169
@@ -5056,7 +5055,6 @@ msgstr ""
 
 #: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:197
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:33
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:28
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:171
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelForm.js:112
@@ -5649,7 +5647,6 @@ msgstr ""
 
 #: ../app/helpers/layout_helper.rb:222
 #: ../app/views/hosts/_interfaces.html.erb:58
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/ForemanModalFooter.js:17
 msgid "Close"
 msgstr ""
 
@@ -15701,11 +15698,6 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:32
 msgid "Click to log in again"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitOrCancelActions.js:30
-msgid "Failed to submit the request."
 msgstr ""
 
 #:
