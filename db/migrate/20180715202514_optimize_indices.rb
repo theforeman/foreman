@@ -28,7 +28,7 @@ class OptimizeIndices < ActiveRecord::Migration[5.1]
     remove_index :hosts, :type
 
     # may be a leftover from when priority was changed to match
-    remove_index :lookup_values, name: "index_lookup_values_on_priority" if index_name_exists?(:lookup_values, "index_lookup_values_on_priority")
+    remove_index :lookup_values, name: "index_lookup_values_on_priority", if_exists: true
 
     # covered by [:type, :id]
     remove_index :nics, name: "index_by_type"
@@ -37,11 +37,11 @@ class OptimizeIndices < ActiveRecord::Migration[5.1]
     remove_index :notification_recipients, :user_id
 
     # These may be leftover from an old migration (20100525094200_simplify_parameters.rb)
-    remove_index :parameters, name: "index_parameters_on_domain_id_and_type" if index_name_exists?(:parameters, "index_parameters_on_domain_id_and_type")
-    remove_index :parameters, name: "index_parameters_on_hostgroup_id_and_type" if index_name_exists?(:parameters, "index_parameters_on_hostgroup_id_and_type")
-    remove_index :parameters, name: "index_parameters_on_host_id_and_type" if index_name_exists?(:parameters, "index_parameters_on_host_id_and_type")
+    remove_index :parameters, name: "index_parameters_on_domain_id_and_type", if_exists: true
+    remove_index :parameters, name: "index_parameters_on_hostgroup_id_and_type", if_exists: true
+    remove_index :parameters, name: "index_parameters_on_host_id_and_type", if_exists: true
     # Useless index, covered by [:type, :reference_id, :name] (no sense looking for reference_id with no type)
-    remove_index :parameters, [:reference_id, :type] if index_exists?(:parameters, [:reference_id, :type])
+    remove_index :parameters, [:reference_id, :type], if_exists: true
     # covered by [:type, :reference_id, :name]
     remove_index :parameters, :type
 
