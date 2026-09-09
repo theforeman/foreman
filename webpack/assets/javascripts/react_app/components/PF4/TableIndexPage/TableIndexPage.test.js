@@ -22,9 +22,6 @@ const store = mockStore({
   autocomplete: {
     'searchBar-testController': { url: '/test/', searchQuery: 'name=test' },
   },
-  foremanModals: {
-    modal2: { isOpen: false },
-  },
   breadcrumbBar: { resourceSwitcherItems: [{ name: 'a', id: '1' }] },
 });
 

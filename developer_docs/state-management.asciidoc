@@ -70,9 +70,7 @@ Other than the `tfm` object, it is not advisable to store anything on the global
 
 ## Other React Contexts
 
-Consider the `ForemanModal` component, which is a composite React component which needs to pass data down to its subcomponents.  However, this data is not used or needed by anything other than ForemanModal internals.  For these specific use cases, it makes sense to use a React Context instance that is not connected to `ForemanContext`.
-
-React Router also uses React Context under the hood.
+React Router uses React Context under the hood.
 
 ## localStorage and sessionStorage
 

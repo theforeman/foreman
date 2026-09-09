@@ -13,7 +13,6 @@ import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
 import { reducers as bookmarksPF4Reducers } from '../../components/PF4/Bookmarks';
-import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
 import { reducers as settingRecordsReducers } from '../../components/SettingRecords';
 import { reducers as personalAccessTokensReducers } from '../../components/users/PersonalAccessTokens';
@@ -41,7 +40,6 @@ export function combineReducersAsync(asyncReducers) {
     // Pages
     ...fillReducers,
     ...auditsPageReducers,
-    ...modalReducers,
 
     // Middlewares
     ...intervalReducers,

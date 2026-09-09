@@ -113,7 +113,6 @@ export const initMockStore = {
       itemCount: 0,
     },
   },
-  foremanModals: {},
   intervals: {},
   API: {},
 };

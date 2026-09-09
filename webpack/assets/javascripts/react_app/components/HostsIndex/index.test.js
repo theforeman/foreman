@@ -128,7 +128,6 @@ jest.mock('../PF4/TableIndexPage/TableIndexPage', () => ({
 
 describe('HostsIndex', () => {
   const store = mockStore({
-    foremanModals: {},
     API: {
       HOSTGROUP_KEY: { status: 'RESOLVED', response: { results: [] } },
       BULK_REASSIGN_HOSTGROUP_KEY: { status: undefined },
