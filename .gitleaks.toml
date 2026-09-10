@@ -1,0 +1,6 @@
+[allowlist]
+description = "SSH key fixtures used by tests"
+paths = [
+	'''test/static_fixtures/ssh_keys/.*''',
+	'''test/static_fixtures/certificates/example\.com\.key''',
+]
