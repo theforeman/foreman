@@ -1,13 +1,18 @@
 class TopbarSweeper
-  include Singleton
-  attr_accessor :controller
-
-  def expire_cache(user = User.current)
-    controller.expire_fragment(self.class.fragment_name(user.id)) if controller.present? && user.present?
-  end
+  THREAD_KEY = :topbar_sweeper_controller
 
   class << self
-    delegate :expire_cache, to: :instance
+    def controller
+      Thread.current[THREAD_KEY]
+    end
+
+    def controller=(ctrl)
+      Thread.current[THREAD_KEY] = ctrl
+    end
+
+    def expire_cache(user = User.current)
+      controller&.expire_fragment(fragment_name(user.id)) if user.present?
+    end
 
     def fragment_name(id = User.current.id)
       "tabs_and_title_records-#{id}"
