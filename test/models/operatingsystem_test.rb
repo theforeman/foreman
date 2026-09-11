@@ -469,5 +469,16 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert_empty os.os_default_templates
       refute os.has_default_template?(@kind)
     end
+
+    test "find_by_attributes should not raise when name and major are nil" do
+      assert_nothing_raised do
+        result = Operatingsystem.find_by_attributes(name: nil, major: nil, minor: nil, description: nil)
+        assert_empty result
+      end
+    end
+    test "find_by_attributes should return none when all attributes are nil" do
+      result = Operatingsystem.find_by_attributes(name: nil, major: nil)
+      assert_equal Operatingsystem.none.to_a, result.to_a
+    end
   end
 end
