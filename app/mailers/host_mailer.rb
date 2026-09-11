@@ -20,6 +20,10 @@ class HostMailer < ApplicationMailer
     @out_of_sync = hosts.out_of_sync.sort
     @disabled = hosts.alerts_disabled.sort
 
+    # out of sync and alert disabled hosts are listed independently of the
+    # metrics, so all three have to be empty for the mail to have nothing in it
+    return if @out_of_sync.empty? && @disabled.empty? && skip_empty?(total, options)
+
     set_locale_for(user) do
       subject = _("Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
         :failed => total_metrics["failed"],

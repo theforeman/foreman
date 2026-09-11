@@ -8,6 +8,7 @@ module Foreman::Controller::Parameters::UserMailNotification
           :mail_notification_id,
           :mail_query,
           :user_id,
+          :skip_if_empty,
           :nested => true
 
         filter.permit_by_context :id,

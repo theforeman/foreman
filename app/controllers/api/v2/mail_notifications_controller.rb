@@ -16,6 +16,7 @@ module Api
         param :interval, String, :desc => N_("Mail notification interval option, e.g. Daily, Weekly or Monthly. Required for summary notification")
         param :subscription, String, :desc => N_("Mail notification subscription option, e.g. Subscribe, Subscribe to my hosts or Subscribe to all hosts. Required for host built and config error state")
         param :mail_query, String, :required => false, :desc => N_("Relevant only for audit summary notification")
+        param :skip_if_empty, :bool, :required => false, :desc => N_("Do not send the notification when there is nothing to report. Relevant only for summary notifications")
       end
 
       def index
@@ -43,6 +44,7 @@ module Api
                                        'mail_notification_id' => params[:mail_notification_id],
                                        'user_id' => params[:user_id],
                                        'mail_query' => params[:mail_query]}
+          mail_notifications_params['skip_if_empty'] = params[:skip_if_empty] unless params[:skip_if_empty].nil?
           user_mail_notification = UserMailNotification.new(mail_notifications_params)
         else
           raise ::Foreman::Exception.new(N_("User mail notification already exists. Use the update action"))
@@ -63,6 +65,7 @@ module Api
         else
           user_mail_notification[:interval] = params[:interval].nil? ? params[:subscription].capitalize : params[:interval].capitalize
           user_mail_notification[:mail_query] = params[:mail_query]
+          user_mail_notification[:skip_if_empty] = params[:skip_if_empty] unless params[:skip_if_empty].nil?
         end
         @user.user_mail_notifications << user_mail_notification
         user_mail_notification
@@ -107,6 +110,7 @@ module Api
         raise ::Foreman::Exception.new(N_("Interval option is not valid")) unless params[:interval].nil? || interval_options.include?(params[:interval].capitalize)
         raise ::Foreman::Exception.new(N_("Subscription option is not valid")) unless params[:subscription].nil? || subscription_options.include?(params[:subscription].capitalize)
         raise ::Foreman::Exception.new(N_("Mail query is not valid")) unless params[:mail_query].nil? || mail_notification.queryable?
+        raise ::Foreman::Exception.new(N_("This notification cannot be skipped when empty")) unless params[:skip_if_empty].nil? || mail_notification.skippable?
       end
     end
   end

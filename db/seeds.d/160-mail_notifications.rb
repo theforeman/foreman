@@ -2,6 +2,9 @@
 # and method, and need to define the corresponding ActionMailer and method.
 # For system notifications, set subscriptable to false.  For recurring reports,
 # set subscription_type to 'report', and for ad hoc mails, use 'alert'
+#
+# Set skippable to true if the mailer can produce an empty report and honours
+# the :skip_if_empty option, i.e. it calls #skip_empty? before building the mail.
 
 # The names below are shown as humanized labels in the UI, so these should be
 # localized
@@ -19,6 +22,7 @@ notifications = [
     :mailer            => 'HostMailer',
     :method            => 'summary',
     :subscription_type => 'report',
+    :skippable         => true,
   },
 
   {
@@ -36,6 +40,7 @@ notifications = [
     :method             => 'summary',
     :subscription_type  => 'report',
     :queryable          => true,
+    :skippable          => true,
   },
 
   {
