@@ -27,6 +27,20 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'non-admin can auto-complete fact values' do
+    setup_user('view', 'facts') do |user|
+      user.organizations = [host.organization]
+      user.locations = [host.location]
+    end
+
+    get :auto_complete_search,
+      params: { :search => "facts.#{fact_name.name} =" },
+      session: set_session_user(@one)
+
+    assert_response :success
+    assert_includes response.body, fact_value.value
+  end
+
   test 'when host-id is presented in params, it should be added to search with "and" operator' do
     get :index, params: {host_id: host.id, search: 'location = a'}, session: set_session_user
     assert_response :success
