@@ -30,7 +30,12 @@ class Hostgroup < ApplicationRecord
   include ParameterSearch
   include PxeLoaderValidator
   include PxeLoaderSuggestion
-  alias_attribute :hostgroup_parameters, :group_parameters
+  # Defined explicitly (rather than via alias_attribute) because group_parameters
+  # is an association, not a real attribute, and Rails 7.2 stops alias_attribute
+  # from supporting non-attribute targets.
+  def hostgroup_parameters
+    group_parameters
+  end
   has_many_hosts
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
@@ -39,8 +44,24 @@ class Hostgroup < ApplicationRecord
   belongs_to :subnet
   belongs_to :subnet6, :class_name => "Subnet"
 
-  alias_attribute :arch, :architecture
-  alias_attribute :os, :operatingsystem
+  # Defined explicitly (rather than via alias_attribute) because architecture and
+  # operatingsystem are associations, not real attributes, and Rails 7.2 stops
+  # alias_attribute from supporting non-attribute targets.
+  def arch
+    architecture
+  end
+
+  def arch=(value)
+    self.architecture = value
+  end
+
+  def os
+    operatingsystem
+  end
+
+  def os=(value)
+    self.operatingsystem = value
+  end
 
   nested_attribute_for :compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader

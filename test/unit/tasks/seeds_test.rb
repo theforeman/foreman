@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'seed_helper'
-require 'database_cleaner'
+require 'database_cleaner/active_record'
 
 class SeedsTest < ActiveSupport::TestCase
   # Disable AR transactional tests as we use DatabaseCleaner's truncation
