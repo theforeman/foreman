@@ -1,0 +1,20 @@
+<%#
+kind: vendor_data
+name: VendorData default
+model: ProvisioningTemplate
+oses:
+- AlmaLinux
+- CentOS
+- CentOS_Stream
+- Fedora
+- Rocky
+- Debian
+- Ubuntu
+description: |
+  This template is served as vendor-data during image based provisioning alongside the user-data
+  template. vendor-data can define Foreman-specific cloud-init defaults that are applied in
+  addition to the user-specific user-data.
+-%>
+#cloud-config
+runcmd:
+ - [ sh, -c, "echo $(date) ': hello cloud init foreman world!'" ]
