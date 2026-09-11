@@ -81,7 +81,8 @@ describe('SearchBar', () => {
       });
     });
     await waitFor(() => screen.getByText('hardware_model = test'));
-    expect(screen.queryAllByText('hardware_model =')).toHaveLength(1);
+    // Should appear in autocomplete menu and as a chip
+    expect(screen.queryAllByText('hardware_model =')).toHaveLength(2);
     await act(async () => {
       fireEvent.click(screen.getByLabelText('bookmarks dropdown toggle'));
     });
