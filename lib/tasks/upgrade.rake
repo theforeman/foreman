@@ -31,7 +31,7 @@ namespace :upgrade do
   def run_task(task)
     Rake::Task[task.task_name].execute
   rescue => e
-    puts "Failed upgrade task: #{task.name}, see logs for more information."
+    puts "Failed upgrade task: #{task.name}, see '/var/log/foreman/production.log' for more information."
 
     if task.skip_failure?
       Foreman::Logging.exception("Failed upgrade task: #{task.name}", e)
