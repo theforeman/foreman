@@ -31,6 +31,33 @@ class ReportComposerTest < ActiveSupport::TestCase
     assert_includes invalid.errors.full_messages, "Input #{@template_input.name}: Value can't be blank"
   end
 
+  test 'option list inputs use defaults when no value is submitted' do
+    FactoryBot.create(:template_input,
+      :template => @report_template,
+      :name => 'Filter Errata Type',
+      :required => true,
+      :options => "all\r\nsecurity\r\nbugfix",
+      :default => 'all')
+    FactoryBot.create(:template_input,
+      :template => @report_template,
+      :name => 'Include Last Reboot',
+      :required => true,
+      :options => "yes\r\nno",
+      :default => 'no')
+    FactoryBot.create(:template_input,
+      :template => @report_template,
+      :name => 'Status',
+      :required => true,
+      :options => "all\r\nsuccess\r\nerror",
+      :default => 'all')
+
+    composer = ReportComposer.new(:template_id => @report_template.id, :input_values => {})
+    assert composer.valid?, composer.errors.full_messages.to_s
+    assert_equal 'all', composer.template_input_values['Filter Errata Type']
+    assert_equal 'no', composer.template_input_values['Include Last Reboot']
+    assert_equal 'all', composer.template_input_values['Status']
+  end
+
   test 'can be created from UI params' do
     params = { :id => @report_template.id, :report_template_report => { :input_values => { @template_input.id.to_s => { 'value' => 'hello' } } } }
     params.expects(:permit!).returns(params)
