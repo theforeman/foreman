@@ -1,3 +1,3 @@
 module.exports = {
-  presets: [require.resolve('@theforeman/builder/babel')],
+  presets: [require.resolve('./webpack/babel')],
 };
