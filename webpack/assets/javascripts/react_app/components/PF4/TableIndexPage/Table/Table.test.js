@@ -130,7 +130,9 @@ describe('Table', () => {
       </Provider>
     );
     fireEvent.click(screen.getByLabelText('Kebab toggle'));
-    expect(screen.getByRole('none', {description: 'Delete'})).toHaveClass('pf-m-aria-disabled');
+    expect(screen.getByRole('none', { description: 'Delete' })).toHaveClass(
+      'pf-m-aria-disabled'
+    );
     await act(async () => {
       jest.advanceTimersByTime(1000); // to handle pf4 table actions popover
     });
@@ -244,8 +246,18 @@ describe('Table', () => {
 
   test('uses idColumn prop for React key when provided', () => {
     const customResults = [
-      { custom_id: 'abc-123', name: 'John Doe', email: 'johndoe@example.com', role: 'Admin' },
-      { custom_id: 'xyz-456', name: 'Jane Smith', email: 'janesmith@example.com', role: 'User' },
+      {
+        custom_id: 'abc-123',
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        role: 'Admin',
+      },
+      {
+        custom_id: 'xyz-456',
+        name: 'Jane Smith',
+        email: 'janesmith@example.com',
+        role: 'User',
+      },
     ];
 
     const { container } = render(
@@ -267,13 +279,24 @@ describe('Table', () => {
     expect(rows).toHaveLength(2);
 
     // Verify rows use custom_id as key
-    expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-abc-123');
-    expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-xyz-456');
+    expect(rows[0]).toHaveAttribute(
+      'data-ouia-component-id',
+      'table-row-abc-123'
+    );
+    expect(rows[1]).toHaveAttribute(
+      'data-ouia-component-id',
+      'table-row-xyz-456'
+    );
   });
 
   test('keys remain stable when results are reordered', () => {
     const sortedResults = [
-      { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', role: 'User' },
+      {
+        id: 2,
+        name: 'Jane Smith',
+        email: 'janesmith@example.com',
+        role: 'User',
+      },
       { id: 1, name: 'John Doe', email: 'johndoe@example.com', role: 'Admin' },
     ];
 
@@ -315,5 +338,35 @@ describe('Table', () => {
     rows = container.querySelectorAll('tbody tr');
     expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-2');
     expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-1');
+  });
+
+  test('uses a string data-label when column title is a React node', () => {
+    const columnsWithReactTitle = {
+      type: {
+        title: <span title="Image mode / package mode">Type</span>,
+      },
+    };
+    const typeResults = [{ id: 1, type: 'Image mode' }];
+
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={columnsWithReactTitle}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={typeResults}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+
+    const typeCell = container.querySelector('td[data-label]');
+    expect(typeCell).toHaveAttribute('data-label', 'Type');
+    expect(typeCell.getAttribute('data-label')).not.toBe('[object Object]');
+    expect(
+      screen.getByRole('columnheader', { name: 'Type' })
+    ).toBeInTheDocument();
   });
 });
