@@ -52,12 +52,16 @@ class User < ApplicationRecord
   has_many :widgets, :dependent => :destroy
   has_many :ssh_keys, :dependent => :destroy
   has_many :personal_access_tokens, :dependent => :destroy
+  has_many :oidc_identities, :dependent => :destroy, :inverse_of => :user
+  has_many :oidc_auth_sources, :through => :oidc_identities, :source => :auth_source
   has_many :table_preferences, :dependent => :destroy, :inverse_of => :user
   has_many :user_mail_notifications, :dependent => :destroy, :inverse_of => :user
   has_many :mail_notifications, :through => :user_mail_notifications
   has_many :notification_recipients, :dependent => :delete_all
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
+  accepts_nested_attributes_for :oidc_identities, :allow_destroy => true,
+    :reject_if => proc { |attributes| attributes['subject'].blank? }
 
   attr_name :login
 
@@ -133,6 +137,11 @@ class User < ApplicationRecord
   scoped_search :relation => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
   scoped_search :relation => :auth_source, :on => :type, :rename => :auth_source_type, :complete_value => true
   scoped_search :relation => :auth_source, :on => :name, :rename => :auth_source, :complete_value => true
+  scoped_search :relation => :oidc_auth_sources, :on => :name, :rename => :oidc_auth_source, :complete_value => true
+  scoped_search :relation => :oidc_auth_sources, :on => :id, :rename => :oidc_auth_source_id,
+    :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+  scoped_search :on => :has_oidc_identity, :ext_method => :search_by_oidc_identity,
+    :complete_value => { :true => true, :false => false }, :operators => ['= '], :only_explicit => true
 
   default_scope lambda {
     with_taxonomy_scope do
@@ -200,6 +209,12 @@ class User < ApplicationRecord
       :include    => :cached_usergroups,
       :conditions => sanitize_sql_for_conditions([conditions, value, value]),
     }
+  end
+
+  def self.search_by_oidc_identity(_key, _operator, value)
+    condition = arel_table[:id].in(OidcIdentity.select(:user_id).arel)
+    condition = Arel::Nodes::Not.new(condition) unless value == 'true'
+    { :conditions => condition.to_sql }
   end
 
   # NOTE: that if you assign user new usergroups which change the admin flag you must save

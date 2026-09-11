@@ -1147,6 +1147,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [user], User.search_for("usergroup = #{user.usergroups.first.name}")
   end
 
+  test 'can search users with OpenID Connect identities without duplicates' do
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:oidc_identity, :user => user)
+    FactoryBot.create(:oidc_identity, :user => user)
+
+    assert_equal [user], User.unscoped.search_for('has_oidc_identity = true').to_a
+    refute_includes User.unscoped.search_for('has_oidc_identity = false'), user
+  end
+
   test 'can set valid timezone' do
     timezone = "Fiji"
     user = users(:one)

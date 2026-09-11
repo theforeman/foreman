@@ -1,0 +1,256 @@
+= Native OpenID Connect authentication
+
+Foreman can act as an OpenID Connect Relying Party for browser login. Providers
+are stored as authentication sources and are loaded dynamically, so adding or
+changing a provider does not require a Foreman restart. The existing bearer-token
+validation settings remain independent and continue to serve API and reverse-proxy
+authentication.
+
+== Supported flow and security properties
+
+The browser integration uses the Authorization Code flow. PKCE with S256 is
+enabled by default for confidential and public clients. Each request uses a
+random state and nonce, expires after ten minutes, and is bound to the Foreman
+session that started it. ID tokens are checked for:
+
+* a signature made by a configured, allowlisted algorithm and a key from the
+  provider JWKS;
+* exact issuer and client audience;
+* authorized party (`azp`) when required;
+* expiry, issued-at time, optional not-before time, and nonce;
+* optional access-token hash (`at_hash`).
+
+When UserInfo is available, its `sub` must match the ID token. HTTP requests use
+TLS certificate verification, the Foreman HTTP proxy settings and bounded
+timeouts. Redirects from provider endpoints are not followed. Access tokens,
+refresh tokens and ID tokens are never persisted.
+
+The implementation uses Foreman's existing `rest-client` and `jwt` dependencies.
+It does not add an OIDC client gem or change Faraday constraints, keeping the
+shared Foreman and Katello Bundler dependency graph compatible.
+
+== Common provider settings
+
+The examples in this document use `https://foreman.example.test` as the external
+Foreman URL. Replace it with the value configured in the `Foreman URL` setting.
+Register exact URLs instead of wildcard redirect patterns whenever the provider
+supports them.
+
+All providers need the following callback URL:
+
+----
+https://foreman.example.test/users/oidc/callback
+----
+
+Providers that validate the post-logout destination also need the Foreman login
+URL registered as an allowed sign-out or redirect URL:
+
+----
+https://foreman.example.test/users/login
+----
+
+In Foreman, navigate to *Administer > Authentication Sources*, create an OpenID
+Connect source and enter the issuer, client ID and client secret. Keep discovery
+and PKCE enabled unless the provider requires otherwise. The usual scopes are
+`openid profile email`; add a provider-specific groups scope when required.
+
+The default claim mappings are `preferred_username`, `email`, `given_name`,
+`family_name` and `groups`. Foreman merges claims from the ID token and UserInfo.
+Change the mappings when the provider uses different names. The groups claim must
+be either one string or an array of strings. Map those exact values to Foreman user
+groups through the existing external user group interface.
+
+The *Test Connection* action validates discovery and signing keys. Complete a real
+login before enabling automatic account linking or relying on group synchronization.
+
+== Configure Keycloak
+
+. In the intended realm, create a client with *OpenID Connect* as the client type.
+. Enable the *Standard flow*. Enable client authentication for a confidential
+  client, or use a public client with PKCE and select `none` as the token endpoint
+  authentication method in Foreman.
+. Add the Foreman callback as an exact *Valid Redirect URI* and the Foreman login
+  URL as a *Valid Post Logout Redirect URI*.
+. Ensure the `profile` and `email` scopes expose `preferred_username`, `given_name`,
+  `family_name`, `email`, and `email_verified`.
+. To synchronize groups, add a Group Membership mapper that emits a JSON array in
+  the `groups` claim. Limit the mapper to groups that are relevant to Foreman.
+
+Use the realm-specific issuer in Foreman:
+
+----
+https://keycloak.example.test/realms/example
+----
+
+For a confidential client, use `client_secret_basic` token endpoint authentication.
+Discovery fills the authorization, token, UserInfo, JWKS and end-session endpoints.
+A custom CA bundle can be supplied for an internal Keycloak deployment.
+
+For API bearer authentication, add an audience mapper that places the dedicated
+Foreman API audience in access tokens. Do not reuse the browser client ID as the
+API audience.
+
+See the
+https://www.keycloak.org/docs/latest/server_admin/#_oidc_clients[Keycloak Server
+Administration Guide] for current client, mapper and logout options.
+
+== Configure Microsoft Entra ID
+
+. In *Microsoft Entra ID > App registrations*, register a web application. A
+  single-tenant registration is recommended unless the Foreman deployment is
+  intentionally shared by several tenants.
+. Add both Foreman URLs from the common provider settings above as Web redirect URIs.
+  The login URL is required because Entra validates `post_logout_redirect_uri`
+  against the application's registered redirect URIs.
+. Create a client secret under *Certificates & secrets*.
+. Use a tenant-specific v2 issuer in Foreman:
++
+----
+https://login.microsoftonline.com/TENANT_ID/v2.0
+----
++
+Do not use `common` or `organizations`: Foreman validates the returned issuer
+exactly, while those authorities can issue a tenant-specific `iss` value.
+. Select `client_secret_post` token endpoint authentication and use
+  `openid profile email` scopes.
+
+Entra can omit the `email` claim for some account types. Add `email` as an optional
+ID-token claim when it is available, or map Foreman's email claim to
+`preferred_username` after verifying that it is a valid email address for every
+allowed user. Do not enable verified-email account linking unless the provider
+actually emits `email_verified` as the boolean value `true`.
+
+The Entra `groups` claim contains group object IDs by default. These IDs can be
+used directly as Foreman external group names. Alternatively, expose application
+roles and set Foreman's groups claim mapping to `roles`. Foreman does not follow
+Microsoft Graph group-overage references, so restrict emitted groups to those
+assigned to the application or prefer application roles for users with many group
+memberships.
+
+See the
+https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc[Microsoft
+identity platform OIDC reference] and
+https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/how-to-connect-fed-group-claims[Entra
+group claims guide].
+
+== Configure Okta
+
+. Create an *OIDC - OpenID Connect* application integration and select *Web
+  Application*.
+. Enable the Authorization Code grant and assign the users or groups that may log
+  in to Foreman.
+. Add the Foreman callback as a *Sign-in redirect URI* and the Foreman login URL
+  as a *Sign-out redirect URI*.
+. Copy the client ID and client secret to Foreman and select
+  `client_secret_basic` token endpoint authentication.
+. Use one issuer consistently. The organization authorization server uses:
++
+----
+https://example.okta.com
+----
++
+A custom authorization server uses an issuer such as:
++
+----
+https://example.okta.com/oauth2/default
+----
+. Use `openid profile email` scopes. If the groups claim is scope-dependent, add
+  `groups` to the Foreman scopes as well.
+
+To synchronize groups with the organization authorization server, configure the
+application's ID-token groups claim on the *Sign On* tab. Prefer a filter that
+only returns Foreman-related groups instead of `.*`. With a custom authorization
+server, create a groups claim that is always included in the ID token or returned
+by UserInfo. In both cases, keep the Foreman groups mapping set to the configured
+claim name.
+
+Use a custom authorization server with a dedicated audience when enabling API
+bearer authentication. Organization authorization-server access tokens are meant
+for Okta and must not be treated as Foreman API tokens.
+
+See the
+https://developer.okta.com/docs/guides/build-sso-integration/openidconnect/main/[Okta
+OIDC application guide] and
+https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main/[Okta
+groups claim guide].
+
+== Configure Authentik
+
+. Create an OAuth2/OpenID Connect provider and associate it with a Foreman
+  application.
+. Use a confidential client and the Authorization Code flow. A public client is
+  also supported when PKCE is enabled and Foreman's token endpoint authentication
+  is set to `none`.
+. Configure the exact Foreman callback URI. Do not leave the redirect URI empty
+  and rely on first-use registration.
+. Keep Authentik's default per-provider issuer mode and use this issuer in Foreman:
++
+----
+https://authentik.example.test/application/o/foreman/
+----
+. For a confidential client, select `client_secret_basic` in Foreman and request
+  `openid profile email`. The default `profile` mapping includes the username and
+  group membership.
+
+Inspect the resulting claims before keeping the default first-name and last-name
+mappings. If the Authentik profile mapping does not emit `given_name` and
+`family_name`, create a scope mapping for those claims or update the Foreman claim
+names to match the custom mapping.
+
+Authentik 2025.10 and later correctly default `email_verified` to `false`. Only
+replace the email scope mapping with one that returns `true` when the underlying
+identity source genuinely verifies email addresses. Otherwise, leave Foreman's
+verified-email account linking disabled.
+
+RP-initiated logout ends the application's Authentik session. To end the main
+Authentik session and log out from other applications too, add a User Logout stage
+to Authentik's `default-provider-invalidation-flow` after assessing the effect on
+the other applications.
+
+See the
+https://docs.goauthentik.io/add-secure-apps/providers/oauth2/[Authentik OAuth2/OIDC
+provider guide] and
+https://docs.goauthentik.io/add-secure-apps/providers/single-logout/[Authentik
+single logout guide].
+
+== Accounts and identities
+
+Provider identity is keyed by the pair of authentication source and stable `sub`
+claim. It is stored separately from the user, allowing one Foreman user to link
+more than one provider without changing the user's primary authentication source.
+
+Accounts can be created on first login. Linking to an existing account by email is
+disabled by default and only succeeds when the provider explicitly marks that
+email as verified and exactly one Foreman account uses it. A signed-in user can
+link another configured provider by completing a fresh authentication request.
+Administrators can also manage provider and subject mappings on the user form.
+
+Mapped external user groups are reconciled on every login. Memberships managed by
+the current provider are added and removed to match the current claim. Memberships
+in local groups that are not mapped from the current provider are preserved.
+
+To migrate from Apache-based OpenID Connect, configure the native provider while
+the existing SSO method is still active. Existing signed-in users can link the new
+provider from their account page, or administrators can create the mappings. The
+Apache integration can be disabled after the required users have linked identities;
+the two authentication paths remain independent during the transition.
+
+== API
+
+OpenID Connect sources are available through `/api/v2/auth_source_oidcs`. The API
+supports list, show, create, update, delete and connection-test operations, plus
+the standard location, organization, user and external-user-group nested routes.
+User detail responses include linked identity IDs and subjects so administrators
+can update or unlink them. Client secrets are accepted on create and update but
+are never returned.
+
+An administrator can opt a provider into API bearer authentication and configure
+one or more accepted access-token audiences. Only identities that have already
+been linked through browser login or administration can authenticate this way;
+an API token never provisions or links a user. The older global OIDC bearer-token
+settings continue to work for deployments that use them.
+
+For Keycloak API access, add an audience mapper so the access token contains the
+dedicated Foreman API audience configured in the authentication source. Using an
+audience that is absent from browser ID tokens prevents those tokens from being
+accepted by the Foreman API.

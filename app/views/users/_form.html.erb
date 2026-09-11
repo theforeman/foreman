@@ -21,6 +21,9 @@
     <% if @editing_self %>
       <li><a href='#jwt_tokens' data-toggle='tab'><%= _('Registration Tokens') %></a></li>
     <% end %>
+    <% if @user.persisted? && (@editing_self || User.current.can?(:edit_users)) %>
+      <li><a href='#oidc_identities' data-toggle='tab'><%= _('OpenID Connect Identities') %></a></li>
+    <% end %>
     <li><a href='#ui_preferences' data-toggle='tab'><%= _('UI Preferences') %></a></li>
     <%= render_tab_header_for(:main_tabs, :subject => @user, :form => f) %>
   </ul>
@@ -103,6 +106,41 @@
 
     <% if @editing_self %>
       <%= render 'jwt_tokens/jwt_tokens_tab', :f => f, :user => @user %>
+    <% end %>
+
+    <% if @user.persisted? && (@editing_self || User.current.can?(:edit_users)) %>
+      <div class='tab-pane' id='oidc_identities'>
+        <%= alert :class => 'alert-info', :header => '',
+          :text => _('An identity is unique within one provider. The subject is the stable sub claim supplied by that provider.'),
+          :close => false %>
+        <% if @editing_self %>
+          <table class="<%= table_css_classes('table-hover') %>">
+            <thead><tr><th><%= _('Provider') %></th><th><%= _('Subject') %></th><th><%= _('Last login') %></th></tr></thead>
+            <tbody>
+              <% @user.oidc_identities.includes(:auth_source).each do |identity| %>
+                <tr><td><%= identity.auth_source.name %></td><td><%= identity.subject %></td><td><%= date_time_unless_empty(identity.last_login_on) %></td></tr>
+              <% end %>
+            </tbody>
+          </table>
+          <% linked_source_ids = @user.oidc_identities.map(&:auth_source_id) %>
+          <% AuthSourceOidc.enabled.where.not(:id => linked_source_ids).order(:name).each do |auth_source| %>
+            <%= link_to _('Link %s') % auth_source.name, link_oidc_identity_path(:id => auth_source),
+              :method => :post, :class => 'btn btn-default' %>
+          <% end %>
+        <% else %>
+          <% identities = @user.oidc_identities.to_a + [@user.oidc_identities.build] %>
+          <%= f.fields_for :oidc_identities, identities do |identity_form| %>
+            <%= field_set_tag _('OpenID Connect identity') do %>
+              <%= select_f identity_form, :auth_source_id, AuthSourceOidc.with_taxonomy_scope.order(:name), :id, :name,
+                { :include_blank => true }, { :label => _('Provider') } %>
+              <%= text_f identity_form, :subject, :label => _('Subject') %>
+              <% if identity_form.object.persisted? %>
+                <%= checkbox_f identity_form, :_destroy, :label => _('Unlink identity') %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
 
     <div class='tab-pane' id='roles'>

@@ -1,0 +1,9 @@
+<%= breadcrumbs(
+  :items => [
+    { :caption => _('Authentication Sources'), :url => auth_sources_path },
+    { :caption => _('Create OpenID Connect Auth Source') },
+  ],
+  :switchable => false
+) %>
+<% title _('Create OpenID Connect Auth Source') %>
+<%= render :partial => 'form' %>

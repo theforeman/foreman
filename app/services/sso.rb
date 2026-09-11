@@ -1,5 +1,5 @@
 module SSO
-  METHODS = [Apache, Basic, Jwt, Oauth, OpenidConnect]
+  METHODS = [Apache, Basic, Jwt, Oauth, ConfiguredOpenidConnect, OpenidConnect]
 
   def self.get_available(controller)
     all_methods = all.map { |method| method.new(controller) }
