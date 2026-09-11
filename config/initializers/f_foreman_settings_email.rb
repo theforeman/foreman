@@ -1,7 +1,5 @@
 Foreman::SettingManager.define(:foreman) do
   category(:email, N_('Email')) do
-    SENDMAIL_LOCATIONS = %w(/usr/sbin/sendmail /usr/bin/sendmail /usr/local/sbin/sendmail /usr/local/bin/sendmail)
-
     setting('email_reply_address',
       type: :string,
       description: N_("Email reply address for emails that Foreman is sending"),
@@ -18,12 +16,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Send a welcome email including username and URL to new users"),
       default: false,
       full_name: N_('Send welcome email'))
-    setting('delivery_method',
-      type: :string,
-      description: N_("Method used to deliver email"),
-      default: 'sendmail',
-      full_name: N_('Delivery method'),
-      collection: proc { {:sendmail => _("Sendmail"), :smtp => _("SMTP")} })
     setting('smtp_enable_starttls_auto',
       type: :boolean,
       description: N_("SMTP automatic STARTTLS"),
@@ -38,7 +30,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('smtp_address',
       type: :string,
       description: N_("SMTP address to connect to"),
-      default: '',
+      default: 'localhost',
       full_name: N_('SMTP address'))
     setting('smtp_port',
       type: :integer,
@@ -67,19 +59,7 @@ Foreman::SettingManager.define(:foreman) do
       default: '',
       full_name: N_('SMTP authentication'),
       collection: proc { {:plain => "plain", :login => "login", :cram_md5 => "cram_md5", '' => _("none")} })
-    setting('sendmail_arguments',
-      type: :string,
-      description: N_("Specify additional options to sendmail. Only used when the delivery method is set to sendmail."),
-      default: '-i',
-      full_name: N_('Sendmail arguments'))
-    setting('sendmail_location',
-      type: :string,
-      description: N_("The location of the sendmail executable. Only used when the delivery method is set to sendmail."),
-      default: "/usr/sbin/sendmail",
-      full_name: N_('Sendmail location'),
-      collection: proc { SENDMAIL_LOCATIONS.zip(SENDMAIL_LOCATIONS).to_h })
 
     validates('email_subject_prefix', { length: { maximum: 255 } })
-    validates('sendmail_location', ->(value) { value.blank? || SENDMAIL_LOCATIONS.include?(value) }, message: N_("Invalid sendmail location, use settings.yaml for arbitrary location"))
   end
 end
