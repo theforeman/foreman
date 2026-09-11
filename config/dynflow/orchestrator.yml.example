@@ -1,3 +1,15 @@
-:concurrency: 1
+<%
+  concurrency = ENV['FOREMAN_DYNFLOW_CONCURRENCY'].to_s.strip
+  queues = ENV['FOREMAN_DYNFLOW_QUEUES'].to_s.strip
+  queues = 'dynflow_orchestrator' if queues.empty?
+  parsed_queues = queues.split(',').map(&:strip).reject(&:empty?).map do |queue_str|
+    queue, priority = queue_str.split('@')
+    [queue.strip, [priority.to_i, 1].max]
+  end
+%>
+:concurrency: <%= concurrency.empty? ? 1 : concurrency %>
 :queues:
-  - dynflow_orchestrator
+<% parsed_queues.each do |queue, priority| %>
+  - - <%= queue %>
+    - <%= priority %>
+<% end %>
