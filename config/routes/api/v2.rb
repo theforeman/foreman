@@ -12,6 +12,7 @@ Foreman::Application.routes.draw do
       put 'hosts/bulk/disassociate', :to => 'hosts_bulk_actions#disassociate'
       match 'hosts/bulk/reassign_hostgroup', :to => 'hosts_bulk_actions#reassign_hostgroup', :via => [:put]
       put 'hosts/bulk/manage_notifications', :to => 'hosts_bulk_actions#manage_notifications'
+      put 'hosts/bulk/update_parameters', :to => 'hosts_bulk_actions#update_parameters'
 
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do
