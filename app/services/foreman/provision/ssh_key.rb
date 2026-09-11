@@ -9,11 +9,9 @@ require 'tmpdir'
 class Foreman::Provision::SshKey
   # Raised when the key cannot be processed (e.g. malformed public key).
   class Error < StandardError; end
+  GeneratedKeyPair = Struct.new(:private_key, :public_key, keyword_init: true)
 
-  # Generates a brand new SSH key pair with ssh-keygen and returns its public
-  # key as an OpenSSH format string, i.e. the value that would be stored on an
-  # SshKey record. The key pair is created in a temporary directory and the
-  # private key is discarded; only the public key is returned.
+  # Generates a brand new SSH key pair with ssh-keygen and returns both keys.
   #
   # This is meant to be used by tests and plugins that need a valid, unique
   # public key without shipping a static fixture.
@@ -25,7 +23,7 @@ class Foreman::Provision::SshKey
   #   bits:    optional key size passed to `ssh-keygen -b`. Ignored by key
   #            types with a fixed size such as ed25519.
   #
-  # Returns the public key String. Raises Error when ssh-keygen fails.
+  # Returns a GeneratedKeyPair. Raises Error when ssh-keygen fails.
   def self.generate(type: nil, comment: '', bits: nil)
     Dir.mktmpdir('foreman-ssh-key') do |dir|
       path = File.join(dir, 'key')
@@ -35,7 +33,7 @@ class Foreman::Provision::SshKey
       _stdout, stderr, status = Open3.capture3(*args)
       raise Error, "unable to generate SSH key: #{stderr}" unless status.success?
 
-      File.read("#{path}.pub").strip
+      GeneratedKeyPair.new(private_key: File.read(path), public_key: File.read("#{path}.pub").strip)
     end
   end
 

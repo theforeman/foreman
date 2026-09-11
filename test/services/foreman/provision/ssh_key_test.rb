@@ -71,25 +71,33 @@ class Foreman::Provision::SshKeyTest < ActiveSupport::TestCase
   end
 
   context '.generate' do
+    test 'generates a key pair with private and public keys' do
+      pair = Foreman::Provision::SshKey.generate
+
+      assert pair.private_key.start_with?('-----BEGIN')
+      assert pair.public_key.start_with?('ssh-')
+      assert Foreman::Provision::SshKey.new(pair.public_key).valid?
+    end
+
     test 'generates a valid public key' do
-      key = Foreman::Provision::SshKey.generate
-      assert Foreman::Provision::SshKey.new(key).valid?
+      pair = Foreman::Provision::SshKey.generate
+      assert Foreman::Provision::SshKey.new(pair.public_key).valid?
     end
 
     %w[rsa ecdsa ed25519].each do |type|
       test "generates a valid #{type} key" do
-        key = Foreman::Provision::SshKey.generate(:type => type)
-        assert Foreman::Provision::SshKey.new(key).valid?
+        pair = Foreman::Provision::SshKey.generate(:type => type)
+        assert Foreman::Provision::SshKey.new(pair.public_key).valid?
       end
     end
 
     test 'generates a unique key on every call' do
-      refute_equal Foreman::Provision::SshKey.generate, Foreman::Provision::SshKey.generate
+      refute_equal Foreman::Provision::SshKey.generate.public_key, Foreman::Provision::SshKey.generate.public_key
     end
 
     test 'appends the given comment' do
       key = Foreman::Provision::SshKey.generate(:comment => 'foreman@example.com')
-      assert_equal 'foreman@example.com', key.split(' ').last
+      assert_equal 'foreman@example.com', key.public_key.split(' ').last
     end
 
     test 'raises Error on an unknown key type' do
