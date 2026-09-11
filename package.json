@@ -97,7 +97,7 @@
     "redux": "^4.0.4",
     "regenerator-runtime": "0.14.1",
     "reselect": "^3.0.1",
-    "sanitize-html": "2.3.2",
+    "sanitize-html": "2.17.7",
     "seamless-immutable": "^7.1.2",
     "select2": "4.0.12",
     "unidiff": "^1.0.0",
