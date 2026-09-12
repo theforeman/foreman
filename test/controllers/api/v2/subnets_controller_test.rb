@@ -26,6 +26,18 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should return existing subnet when create races on unique name" do
+    existing_subnet = FactoryBot.create(:subnet_ipv4, :name => valid_v4_attrs[:name])
+    Subnet::Ipv4.any_instance.stubs(:save).raises(ActiveRecord::RecordNotUnique)
+
+    assert_difference('Subnet.unscoped.count', 0) do
+      post :create, params: { :subnet => valid_v4_attrs }
+    end
+
+    assert_response :created
+    assert_equal existing_subnet.id, JSON.parse(response.body)['id']
+  end
+
   test "should create IPv4 subnet if type is not defined" do
     assert_difference('Subnet.unscoped.count') do
       post :create, params: { :subnet => valid_v4_attrs.reject { |k, v| k == :network_type } }

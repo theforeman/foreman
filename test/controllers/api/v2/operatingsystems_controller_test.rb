@@ -36,6 +36,18 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:operatingsystem)
   end
 
+  test "should return existing os when create races on unique version" do
+    existing_os = FactoryBot.create(:operatingsystem, :name => 'RaceOS', :major => '9', :minor => '1')
+    Operatingsystem.any_instance.stubs(:save).raises(ActiveRecord::RecordNotUnique)
+
+    assert_difference('Operatingsystem.count', 0) do
+      post :create, params: { :operatingsystem => { :name => existing_os.name, :major => existing_os.major, :minor => existing_os.minor } }
+    end
+
+    assert_response :created
+    assert_equal existing_os.id, JSON.parse(response.body)['id']
+  end
+
   test "should create os with name and major version only" do
     os_params = minimum_required_os_params
     assert_difference('Operatingsystem.count') do

@@ -73,7 +73,14 @@ module Api::V2::TaxonomiesController
   def create
     @taxonomy = taxonomy_class.new(resource_params)
     instance_variable_set("@#{taxonomy_single}", @taxonomy)
-    process_response @taxonomy.save
+    process_create_with_record_not_unique(@taxonomy) do |taxonomy|
+      @taxonomy = taxonomy_class.unscoped
+        .where(type: taxonomy.type, ancestry: taxonomy.ancestry)
+        .where('LOWER(name) = ?', taxonomy.name.to_s.downcase)
+        .first
+      instance_variable_set("@#{taxonomy_single}", @taxonomy)
+      @taxonomy
+    end
   end
 
   api :PUT, '/:resource_id/:id', N_('Update :a_resource')

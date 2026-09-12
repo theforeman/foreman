@@ -191,6 +191,15 @@ module Api
       end
     end
 
+    def process_create_with_record_not_unique(resource)
+      process_response resource.save
+    rescue ActiveRecord::RecordNotUnique
+      recovered_resource = yield(resource)
+      raise unless recovered_resource
+
+      process_success recovered_resource
+    end
+
     def render_message(msg, render_options = {})
       render_options[:json] = { :message => msg }
       render render_options
