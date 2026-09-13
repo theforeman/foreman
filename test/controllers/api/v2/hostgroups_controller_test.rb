@@ -23,6 +23,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:hostgroups)
+    assert_not_nil assigns(:hostgroup_read_context)
     hostgroups = ActiveSupport::JSON.decode(@response.body)
     assert !hostgroups.empty?
     assert_empty hostgroups['results'].select { |h| h.has_key?('parameters') }
@@ -38,6 +39,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   test "should show individual record" do
     get :show, params: { :id => hostgroups(:common).to_param }
     assert_response :success
+    assert_not_nil assigns(:hostgroup_read_context)
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     assert show_response.has_key?('parameters')
@@ -298,7 +300,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     Hostgroup.any_instance.expects(:recreate_hosts_config).returns({'foo.example.com' => { "TFTP" => true, "DNS" => false, "DHCP" => true }})
     hostgroup = FactoryBot.create(:hostgroup)
     post :rebuild_config, params: { :id => hostgroup.to_param }, session: set_session_user
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "should successfully recreate TFTP configs" do

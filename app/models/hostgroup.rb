@@ -1,4 +1,14 @@
 class Hostgroup < ApplicationRecord
+  API_PRELOAD_ASSOCIATIONS = [
+    :architecture, :compute_profile, :compute_resource, :domain, :medium,
+    :operatingsystem, :ptable, :puppet_ca_proxy, :puppet_proxy,
+    :realm, :subnet, :subnet6
+  ].freeze
+
+  # Set by HostgroupReadContext during index rendering to reuse request-scoped
+  # ancestor, inheritance, and count lookups across hostgroup rows.
+  attr_accessor :hostgroup_read_context
+
   audited
   include Authorizable
   extend FriendlyId
@@ -41,6 +51,33 @@ class Hostgroup < ApplicationRecord
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
+
+  # Override NestedAncestryCommon.nested_attribute_for for Hostgroup so inherited
+  # reads go through HostgroupInheritanceResolver / HostgroupReadContext instead
+  # of repeating ancestry walks and association lookups per call.
+  class << self
+    attr_reader :nested_attribute_fields
+
+    def nested_attribute_for(*fields)
+      @nested_attribute_fields = fields
+      @nested_attribute_fields.each do |field|
+        define_method "inherited_#{field}" do
+          inherited_nested_attribute(field)
+        end
+
+        next unless (md = field.to_s.match(/(\w+)_id$/))
+
+        define_method md[1] do
+          if ancestry.present?
+            effective_association(md[1].to_sym, field)
+          else
+            # () is required. Otherwise, get RuntimeError: implicit argument passing of super from method defined by define_method() is not supported. Specify all arguments explicitly.
+            super()
+          end
+        end
+      end
+    end
+  end
 
   nested_attribute_for :compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
@@ -137,8 +174,8 @@ class Hostgroup < ApplicationRecord
 
   def inherited_lookup_value(key)
     if key.path_elements.flatten.include?("hostgroup") && Setting["matchers_inheritance"]
-      ancestors.reverse_each do |hg|
-        if (v = LookupValue.find_by(:lookup_key_id => key.id, :id => hg.lookup_values))
+      ancestor_chain(:lookup_values).reverse_each do |hg|
+        if (v = hg.lookup_values.detect { |lookup_value| lookup_value.lookup_key_id == key.id })
           return v.value, hg.to_label
         end
       end
@@ -148,11 +185,7 @@ class Hostgroup < ApplicationRecord
 
   def parent_params(include_source = false)
     hash = {}
-    ids = ancestor_ids
-    # need to pull out the hostgroups to ensure they are sorted first,
-    # otherwise we might be overwriting the hash in the wrong order.
-    groups = Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ids))
-    groups.each do |hg|
+    ancestor_chain(:group_parameters).each do |hg|
       params_arr = hg.group_parameters.authorized(:view_params)
       params_arr.each do |p|
         hash[p.name] = include_source ? p.hash_for_include_source(p.associated_type, hg.title) : p.value
@@ -171,7 +204,7 @@ class Hostgroup < ApplicationRecord
   end
 
   def global_parameters
-    Hostgroup.sort_by_ancestry(Hostgroup.includes(:group_parameters).find(ancestor_ids + id)).map(&:group_parameters).uniq
+    ancestor_chain(:group_parameters, include_self: true).map(&:group_parameters).uniq
   end
 
   def params
@@ -183,6 +216,10 @@ class Hostgroup < ApplicationRecord
     # read group parameters only if a host belongs to a group
     parameters.update self.parameters if hostgroup
     parameters
+  end
+
+  def inherited_attributes_for(attributes)
+    inheritance_resolver.attributes_for(attributes)
   end
 
   # no need to store anything in the db if the password is our default
@@ -217,12 +254,38 @@ class Hostgroup < ApplicationRecord
   end
 
   def hosts_count
+    return hostgroup_read_context.direct_host_count_for(self) if hostgroup_read_context.present?
+
     HostCounter.new(:hostgroup)[self]
   end
 
   def children_hosts_count
-    counter = HostCounter.new(:hostgroup)
-    subtree_ids.map { |child_id| counter.fetch(child_id, 0) }.sum
+    return hostgroup_read_context.subtree_host_count_for(self) if hostgroup_read_context.present?
+
+    HostgroupSubtreeCounts.new(self.class.unscoped, target_hostgroups: [self]).totals.fetch(id, 0)
+  end
+
+  def parent_name
+    effective_parent&.title
+  end
+
+  def inherited_nested_attribute(attr)
+    attr = attr.to_sym
+    return self[attr] unless ancestry.present?
+
+    inheritance_resolver.inherited_attribute(attr)
+  end
+
+  def nested_attribute_source(attr)
+    return unless ancestry.present?
+
+    inheritance_resolver.source_for(attr)
+  end
+
+  def nested(attr)
+    return unless ancestry.present?
+
+    inheritance_resolver.nested_attribute(attr)
   end
 
   # rebuilds orchestration configuration for hostgroup's hosts
@@ -257,13 +320,44 @@ class Hostgroup < ApplicationRecord
 
   private
 
-  def nested_root_pw
-    if ancestry.present?
-      Hostgroup.sort_by_ancestry(ancestors).reverse_each do |a|
-        return a.root_pass if a.root_pass.present?
-      end
+  def effective_association(association_name, field)
+    if self[field].present?
+      association(association_name).reader
+    else
+      nested_attribute_source(field)&.public_send(association_name)
     end
+  end
+
+  def effective_parent
+    return hostgroup_read_context.parent_for(self) if hostgroup_read_context.present? && ancestry.present?
+
+    parent
+  end
+
+  def inheritance_resolver
+    return hostgroup_read_context.resolver_for(self) if hostgroup_read_context.present?
+
+    @inheritance_resolver ||= HostgroupInheritanceResolver.new(self, ancestors: ancestor_chain)
+  end
+
+  def nested_root_pw
+    ancestor_chain.reverse_each { |a| return a.root_pass if a.root_pass.present? }
     nil
+  end
+
+  def ancestor_chain(*associations, include_self: false)
+    ids = ancestor_ids
+    return include_self ? [self] : [] if ids.empty? && include_self
+    return [] if ids.empty?
+
+    loaded_ancestors = if hostgroup_read_context.present?
+                         hostgroup_read_context.ancestors_for(self)
+                       else
+                         scope = self.class.where(id: ids)
+                         scope = scope.includes(*associations.flatten) if associations.present?
+                         self.class.sort_by_ancestry(scope.to_a)
+                       end
+    include_self ? loaded_ancestors + [self] : loaded_ancestors
   end
 
   # overwrite method in taxonomix, since hostgroup has ancestry
