@@ -23,13 +23,6 @@ const barChartEnums = {
   WIDTH: { ...enums.width },
 };
 
-const lineChartEnums = {
-  SIZE: {
-    REGULAR: { width: 1000, height: 350 },
-  },
-  WIDTH: { ...enums.width },
-};
-
 export const chartConfig = {
   data: {
     columns: [],
@@ -119,32 +112,6 @@ export const mediumBarChartConfig = {
 export const smallBarChartConfig = {
   ...barChartConfig,
   size: barChartEnums.SIZE.SMALL,
-};
-
-export const lineChartConfig = {
-  ...chartConfig,
-  legend: { show: true },
-  size: lineChartEnums.SIZE.REGULAR,
-  padding: null,
-};
-
-export const timeseriesLineChartConfig = {
-  ...lineChartConfig,
-  axis: {
-    x: {
-      type: 'timeseries',
-      tick: {
-        format: date => new Intl.DateTimeFormat(intl.locale).format(date),
-        rotate: -40,
-      },
-    },
-  },
-  padding: {
-    top: 10,
-    bottom: 70,
-    left: 30,
-    right: 20,
-  },
 };
 
 export const areaChartConfig = {

@@ -49,7 +49,7 @@ If your plugin uses Webpack, you can import and the core functionality from `for
 import { noop } from 'foremanReact/common/helpers';
 
 // import components from foremanReact:
-import { MessageBox } from 'foremanReact/components/common/MessageBox';
+import { ClipboardCopy } from 'foremanReact/components/common/ClipboardCopy';
 ```
 
 ## Using Webpack in plugins
