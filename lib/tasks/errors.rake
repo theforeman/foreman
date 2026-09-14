@@ -14,7 +14,7 @@ namespace :errors do
   END_DESC
 
   task :fetch_log => :environment do
-    request_id = ENV['request_id']
+    request_id = ENV['request_id']&.shellescape
     unless request_id
       puts "Can't find log without request_id"
       exit(1)
