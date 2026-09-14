@@ -58,9 +58,10 @@ describe('InputFactory', () => {
       expect(screen.getByLabelText('Search input')).toBeInTheDocument();
     });
 
-    it('should render Select for type="select"', () => {
-      render(<InputFactory {...selectProps} />);
+    it('should render FormSelect for type="select"', () => {
+      render(<InputFactory {...selectProps} onChange={jest.fn()} />);
       expect(screen.getByText('Grouped select')).toBeInTheDocument();
+      expect(screen.getByRole('option', { name: 'Ungrouped false' })).toBeInTheDocument();
     });
 
     it('should render DateTimePicker for type="dateTime"', () => {
