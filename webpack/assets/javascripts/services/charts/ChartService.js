@@ -7,8 +7,6 @@ import {
   barChartConfig,
   mediumBarChartConfig,
   smallBarChartConfig,
-  lineChartConfig,
-  timeseriesLineChartConfig,
   timeseriesAreaChartConfig,
 } from './ChartService.consts';
 import { PERCENT_MULTIPLIER } from '../../react_app/constants';
@@ -26,10 +24,6 @@ const chartsSizeConfig = {
     regular: donutChartConfig,
     medium: donutMediumChartConfig,
     large: donutLargeChartConfig,
-  },
-  line: {
-    regular: lineChartConfig,
-    timeseries: timeseriesLineChartConfig,
   },
 };
 
