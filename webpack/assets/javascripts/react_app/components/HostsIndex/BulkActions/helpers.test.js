@@ -70,6 +70,35 @@ describe('BulkActions helpers', () => {
       expect(toast.link).toBeUndefined();
     });
 
+    it('appends unique per-host errors from failed_hosts', () => {
+      const toast = bulkErrorToastParams(
+        {
+          response: {
+            data: {
+              error: {
+                message: 'Failed to set parameter for 1 host',
+                failed_host_ids: [1],
+                failed_hosts: [
+                  {
+                    id: 1,
+                    error: 'You do not have permission to edit this parameter',
+                  },
+                ],
+              },
+            },
+          },
+        },
+        'BULK_ACTION_KEY'
+      );
+
+      expect(toast).toMatchObject({
+        type: 'danger',
+        message:
+          'Failed to set parameter for 1 host You do not have permission to edit this parameter',
+      });
+      expect(toast.link.children).toBe('Failed hosts');
+    });
+
     it('keeps failed hosts link when response error has no message', () => {
       const toast = bulkErrorToastParams(
         {
