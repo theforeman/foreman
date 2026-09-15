@@ -4525,7 +4525,6 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:411
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:58
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:101
-#: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:18
 msgid "Delete"
 msgstr ""
 
@@ -4540,12 +4539,10 @@ msgstr ""
 #: ../app/helpers/provisioning_templates_helper.rb:13
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:491
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:204
-#: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:33
 msgid "Export"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:148
-#: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:32
 msgid "Export to CSV"
 msgstr ""
 
@@ -5040,7 +5037,6 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:202
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:57
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:66
-#: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:21
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:37
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:204
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:178
