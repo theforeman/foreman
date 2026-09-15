@@ -25,7 +25,6 @@ const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => {
           {isGenerating ? __('Generating ...') : __('Generate')}
         </Button>
 
-        {/* Can't use <RedirectCancelButton> due to infinitive loop */}
         <Link to={foremanUrl(hostsPageUrl)}>
           <Button ouiaId="registration-cancel-button" variant="link">
             {__('Cancel')}

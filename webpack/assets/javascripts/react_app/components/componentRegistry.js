@@ -34,7 +34,6 @@ import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
 import DatePicker from './common/DateTimePicker/DatePicker';
-import RedirectCancelButton from './common/RedirectCancelButton';
 import SettingRecords from './SettingRecords';
 import SettingsTable from './SettingsTable';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
@@ -138,7 +137,6 @@ const coreComponents = [
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
   { name: 'DatePicker', type: DatePicker },
-  { name: 'RedirectCancelButton', type: RedirectCancelButton },
   { name: 'SettingRecords', type: SettingRecords },
   { name: 'SettingsTable', type: SettingsTable },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
