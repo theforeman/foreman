@@ -41,7 +41,7 @@ else
     Bundler.ui = Bundler::UI::Silent.new if Rails.env.production?
 
     Bundler.require(*Rails.groups)
-    optional_bundler_groups = %w[assets ec2 fog libvirt openstack vmware redis]
+    optional_bundler_groups = %w[assets ec2 fog libvirt openstack profiling vmware redis]
     optional_bundler_groups.each do |group|
       Bundler.require(group)
     rescue LoadError
