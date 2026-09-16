@@ -35,6 +35,11 @@ module Api
       render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
     end
 
+    rescue_from ActiveRecord::RecordNotUnique do |error|
+      logger.info "#{error.message} (#{error.class})"
+      render_error 'custom_error', :status => :conflict, :locals => { :message => error.message }
+    end
+
     rescue_from ActiveRecord::RecordNotFound do |error|
       logger.info "#{error.message} (#{error.class})"
       if error.model == resource_class.model_name.name || error.model.nil?
