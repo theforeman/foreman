@@ -41,7 +41,7 @@ export const getColumnLabel = (column, fallbackKey) => {
   return fallbackKey;
 };
 
-const HEADER_MODIFIERS = [
+const TABLE_MODIFIERS = [
   'wrap',
   'truncate',
   'nowrap',
@@ -65,7 +65,7 @@ export const countHeaderWords = label => {
  * @returns {'wrap'|'truncate'|'nowrap'|'breakWord'|'fitContent'}
  */
 export const getHeaderModifier = (column, fallbackKey) => {
-  if (HEADER_MODIFIERS.includes(column?.headerModifier)) {
+  if (TABLE_MODIFIERS.includes(column?.headerModifier)) {
     return column.headerModifier;
   }
   const words = countHeaderWords(getColumnLabel(column, fallbackKey));
@@ -88,6 +88,21 @@ export const getHeaderStyle = (column, modifier) => {
   if (modifier === 'wrap') return { maxWidth: HEADER_WRAP_MAX_WIDTH };
   if (modifier === 'truncate') return { maxWidth: HEADER_TRUNCATE_MAX_WIDTH };
   return undefined;
+};
+
+/**
+ * PatternFly Td modifier. Override with column.cellModifier.
+ * Defaults to wrap so overflowing strings fold instead of spilling.
+ * Use truncate (with PF tooltip) for long free-text, breakWord for
+ * unbreakable values such as FQDNs and IPv6.
+ * @param {Object} column
+ * @returns {'wrap'|'truncate'|'nowrap'|'breakWord'|'fitContent'}
+ */
+export const getCellModifier = column => {
+  if (TABLE_MODIFIERS.includes(column?.cellModifier)) {
+    return column.cellModifier;
+  }
+  return 'wrap';
 };
 
 /**

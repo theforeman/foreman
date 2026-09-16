@@ -403,4 +403,38 @@ describe('Table', () => {
     expect(hgTh).toHaveStyle({ maxWidth: '12ch' });
     expect(cveTh).toHaveStyle({ maxWidth: '16ch' });
   });
+
+  test('applies wrap and truncate cell modifiers from the column definition', () => {
+    const mixedColumns = {
+      name: { title: 'Name', cellModifier: 'breakWord' },
+      comment: { title: 'Comment', cellModifier: 'truncate' },
+      role: { title: 'Role' },
+    };
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={mixedColumns}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={[
+            {
+              id: 1,
+              name: 'a.very.long.example.com',
+              comment: 'a long comment',
+              role: 'Admin',
+            },
+          ]}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+    const nameTd = container.querySelector('td[data-label="Name"]');
+    const commentTd = container.querySelector('td[data-label="Comment"]');
+    const roleTd = container.querySelector('td[data-label="Role"]');
+    expect(nameTd).toHaveClass('pf-m-break-word');
+    expect(commentTd).toHaveClass('pf-m-truncate');
+    expect(roleTd).toHaveClass('pf-m-wrap');
+  });
 });

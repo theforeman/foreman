@@ -20,6 +20,7 @@ import {
   getColumnHelpers,
   getHeaderModifier,
   getHeaderStyle,
+  getCellModifier,
 } from './helpers';
 import { RowSelectTd as DefaultRowSelectTd } from '../RowSelectTd';
 
@@ -220,17 +221,24 @@ export const Table = ({
                         idColumnName={idColumn}
                       />
                     )}
-                    {columnNamesKeys.map(k => (
-                      <Td
-                        key={k}
-                        dataLabel={keysToColumnNames[k]}
-                        textCenter={columns[k]?.textCenter}
-                      >
-                        {columns[k].wrapper
-                          ? columns[k].wrapper(result)
-                          : result[k]}
-                      </Td>
-                    ))}
+                    {columnNamesKeys.map(k => {
+                      const cellModifier = getCellModifier(columns[k]);
+                      return (
+                        <Td
+                          key={k}
+                          dataLabel={keysToColumnNames[k]}
+                          textCenter={columns[k]?.textCenter}
+                          modifier={cellModifier}
+                          tooltip={
+                            cellModifier === 'truncate' ? undefined : null
+                          }
+                        >
+                          {columns[k].wrapper
+                            ? columns[k].wrapper(result)
+                            : result[k]}
+                        </Td>
+                      );
+                    })}
                     <Td isActionCell>
                       {rowActions.length ? (
                         <ActionsColumn items={rowActions} />

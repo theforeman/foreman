@@ -1,5 +1,5 @@
 import React from 'react';
-import { getColumnLabel, getColumnHelpers, getHeaderModifier, getHeaderStyle } from './helpers';
+import { getColumnLabel, getColumnHelpers, getHeaderModifier, getHeaderStyle, getCellModifier } from './helpers';
 
 describe('getColumnLabel', () => {
   test('uses a string title', () => {
@@ -97,5 +97,22 @@ describe('getHeaderStyle', () => {
     expect(getHeaderStyle({ headerMaxWidth: '20ch' }, 'wrap')).toEqual({
       maxWidth: '20ch',
     });
+  });
+});
+
+describe('getCellModifier', () => {
+  test('defaults to wrap so overflowing strings fold', () => {
+    expect(getCellModifier({ title: 'Name' })).toBe('wrap');
+    expect(getCellModifier(undefined)).toBe('wrap');
+  });
+
+  test('uses an explicit cellModifier', () => {
+    expect(getCellModifier({ cellModifier: 'truncate' })).toBe('truncate');
+    expect(getCellModifier({ cellModifier: 'breakWord' })).toBe('breakWord');
+    expect(getCellModifier({ cellModifier: 'nowrap' })).toBe('nowrap');
+  });
+
+  test('ignores unknown cellModifier values', () => {
+    expect(getCellModifier({ cellModifier: 'clip' })).toBe('wrap');
   });
 });

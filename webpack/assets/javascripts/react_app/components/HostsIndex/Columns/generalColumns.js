@@ -39,6 +39,7 @@ const generalColumns = [
     title: __('Power'),
     wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
     isSorted: false,
+    cellModifier: 'nowrap',
     weight: 0,
   },
   {
@@ -82,6 +83,7 @@ const generalColumns = [
       </IconText>
     ),
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 50,
     isRequired: true,
   },
@@ -106,13 +108,14 @@ const generalColumns = [
       const fullTitle = hostDetails?.hostgroup_title;
       const name = hostDetails?.hostgroup_name;
       return (
-        <span>
+        <TableText wrapModifier="breakWord">
           {fullTitle?.substring(0, fullTitle?.lastIndexOf(name))}
           <a href={`/hostgroups/${hostDetails?.hostgroup_id}/edit`}>{name}</a>
-        </span>
+        </TableText>
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 100,
   },
   {
@@ -131,6 +134,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 200,
   },
   {
@@ -155,6 +159,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 300,
   },
   {
@@ -192,6 +197,7 @@ const generalColumns = [
       </TableText>
     ),
     isSorted: true,
+    cellModifier: 'truncate',
     weight: 600,
   },
 ];
