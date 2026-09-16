@@ -8,6 +8,7 @@ import {
   Tbody,
   Td,
   ActionsColumn,
+  InnerScrollContainer,
 } from '@patternfly/react-table';
 import { noop } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
@@ -15,7 +16,11 @@ import { useTableSort } from '../../Helpers/useTableSort';
 import Pagination from '../../../Pagination';
 import { DeleteModal } from './DeleteModal';
 import EmptyPage from '../../../../routes/common/EmptyPage';
-import { getColumnHelpers } from './helpers';
+import {
+  getColumnHelpers,
+  getHeaderModifier,
+  getHeaderStyle,
+} from './helpers';
 import { RowSelectTd as DefaultRowSelectTd } from '../RowSelectTd';
 
 export const Table = ({
@@ -46,6 +51,7 @@ export const Table = ({
   onExpandAll,
   areAllRowsExpanded,
   ouiaId,
+  hasInnerScroll,
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -109,15 +115,7 @@ export const Table = ({
     ].filter(Boolean);
   };
   const RowSelectTd = rowSelectTd === noop ? DefaultRowSelectTd : rowSelectTd;
-  return (
-    <>
-      <DeleteModal
-        isModalOpen={deleteModalOpen}
-        setIsModalOpen={setDeleteModalOpen}
-        selectedItem={selectedItem}
-        url={url}
-        refreshData={refreshData}
-      />
+  const table = (
       <PFTable
         variant="compact"
         ouiaId={ouiaId}
@@ -141,20 +139,28 @@ export const Table = ({
             {showCheckboxes && (
               <Th aria-label="checkbox-header" key="checkbox-th" />
             )}
-            {columnNamesKeys.map(k => (
-              <Th
-                key={k}
-                modifier="wrap"
-                textCenter={columns[k]?.textCenter}
-                sort={
-                  Object.values(columnsToSortParams).includes(k) &&
-                  pfSortParams(keysToColumnNames[k])
-                }
-                aria-label={keysToColumnNames[k]}
-              >
-                {columns[k].title}
-              </Th>
-            ))}
+            {columnNamesKeys.map(k => {
+              const headerModifier = getHeaderModifier(columns[k], k);
+              const headerLabel = keysToColumnNames[k];
+              return (
+                <Th
+                  key={k}
+                  modifier={headerModifier}
+                  style={getHeaderStyle(columns[k], headerModifier)}
+                  tooltip={
+                    headerModifier === 'truncate' ? headerLabel : undefined
+                  }
+                  textCenter={columns[k]?.textCenter}
+                  sort={
+                    Object.values(columnsToSortParams).includes(k) &&
+                    pfSortParams(headerLabel)
+                  }
+                  aria-label={headerLabel}
+                >
+                  {columns[k].title}
+                </Th>
+              );
+            })}
           </Tr>
         </Thead>
         {childrenOutsideTbody ? children : null}
@@ -235,6 +241,21 @@ export const Table = ({
               }))}
         </Tbody>
       </PFTable>
+  );
+  return (
+    <>
+      <DeleteModal
+        isModalOpen={deleteModalOpen}
+        setIsModalOpen={setDeleteModalOpen}
+        selectedItem={selectedItem}
+        url={url}
+        refreshData={refreshData}
+      />
+      {hasInnerScroll ? (
+        <InnerScrollContainer>{table}</InnerScrollContainer>
+      ) : (
+        table
+      )}
       {results.length > 0 && !errorMessage && bottomPagination}
     </>
   );
@@ -272,6 +293,7 @@ Table.propTypes = {
   onExpandAll: PropTypes.func,
   areAllRowsExpanded: PropTypes.bool,
   ouiaId: PropTypes.string,
+  hasInnerScroll: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -296,4 +318,5 @@ Table.defaultProps = {
   onExpandAll: null,
   areAllRowsExpanded: false,
   ouiaId: 'table',
+  hasInnerScroll: false,
 };
