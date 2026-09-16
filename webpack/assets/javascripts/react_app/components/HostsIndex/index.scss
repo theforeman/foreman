@@ -37,8 +37,19 @@
     --pf-v5-global--spacer--sm
   );
 
-  tbody td,
+  tbody td {
+    vertical-align: top;
+  }
+
+  // Compact last-child reapplies first-last PaddingRight (24px at xl) on the
+  // kebab cell; .pf-v5-c-table__action does not override PaddingRight.
+  // Drop that extra gutter. Keep MenuToggle plain padding as the hit target.
+  // Remove this override when upgrading to PF6; PF6 drops the extra 24px
+  // last-cell gutter inside the row.
   .pf-v5-c-table__action {
+    --pf-v5-c-table--m-compact--cell--first-last-child--PaddingRight: 0;
+    --pf-v5-c-table--cell--first-last-child--PaddingRight: 0;
+    --pf-v5-c-table--cell--PaddingRight: 0;
     vertical-align: top;
   }
 }
