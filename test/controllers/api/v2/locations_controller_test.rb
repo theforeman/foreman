@@ -44,6 +44,18 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should return conflict when create races on unique name" do
+    FactoryBot.create(:location, :name => "Race Location")
+    Location.any_instance.stubs(:save).raises(ActiveRecord::RecordNotUnique, 'duplicate key value violates unique constraint')
+
+    assert_difference('Location.unscoped.count', 0) do
+      post :create, params: { :location => { :name => "Race Location" } }
+    end
+
+    assert_response :conflict
+    assert_includes JSON.parse(response.body).dig('error', 'message'), 'duplicate key value'
+  end
+
   test "should create location with parent" do
     parent_id = Location.first.id
     post :create, params: { :location => { :name => "Test Location", :parent_id => parent_id } }

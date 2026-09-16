@@ -20,6 +20,10 @@ FactoryBot.define do
   factory :location do
     sequence(:name) { |n| "loc#{n}" }
 
+    trait :with_parent do
+      association :parent, :factory => :location
+    end
+
     trait :with_parameter do
       after(:create) do |location, evaluator|
         FactoryBot.create(:location_parameter, :location => location)

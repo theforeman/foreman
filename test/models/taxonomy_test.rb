@@ -4,6 +4,19 @@ class TaxonomyTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name).scoped_to(:ancestry, :type).case_insensitive
 
+  test 'raises ActiveRecord::RecordNotUnique at the DB level when validations are bypassed' do
+    # The validation above is app-level only and can't stop two concurrent
+    # requests from both passing it before either commits; this proves the
+    # DB-level unique index backs it up too, including for top-level (nil
+    # ancestry) records, where a naive index would not.
+    location = FactoryBot.create(:location, :name => 'Race Location DB Test')
+    duplicate = Location.new(:name => location.name)
+
+    assert_raises(ActiveRecord::RecordNotUnique) do
+      duplicate.save(:validate => false)
+    end
+  end
+
   test 'expand return [] for admin if no taxonomy set' do
     as_admin do
       assert_empty Taxonomy.expand(nil)
