@@ -64,4 +64,16 @@ class PuppetConfSnippetTest < ActiveSupport::TestCase
     assert_match(/^serverport\s+= 4443$/, result)
     assert_no_match(/^ca_port\s+=/, result)
   end
+
+  test 'does not emit legacy Puppet directory settings on FreeBSD' do
+    os = FactoryBot.create(:freebsd, :with_provision, :with_associations)
+    host = FactoryBot.create(:host, :managed, :build => true, :operatingsystem => os)
+
+    result = render_template(host)
+
+    assert_no_match(/^vardir =/, result)
+    assert_no_match(/^logdir =/, result)
+    assert_no_match(/^rundir =/, result)
+    assert_no_match(/^ssldir =/, result)
+  end
 end
