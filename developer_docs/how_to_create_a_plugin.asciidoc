@@ -552,6 +552,8 @@ Each column extension object must contain the following properties:
 * `categoryName` - the name of the category to which the column belongs. Displayed on screen in the ColumnSelector. Should be translated.
 * `categoryKey` - the key of the category to which the column belongs. Used to group columns in the ColumnSelector. Should not be translated.
 * `isSorted` - whether the column is sortable. Sortable columns must have a `columnName` that matches a sortable column in the API response.
+* `headerModifier` - optional PatternFly `<Th>` modifier (`wrap`, `truncate`, `nowrap`). When omitted, 1-word titles stay on one line, 2-word titles wrap, and 3+ word titles truncate with a tooltip. Set `truncate` for long titles such as Content view environments.
+* `headerMaxWidth` - optional CSS max-width (for example `12ch`) so wrap/truncate can take effect. Defaults to `12ch` for wrap and `16ch` for truncate.
 
 [[new-structure-for-assets]]
 ===== New structure for assets.
