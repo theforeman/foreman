@@ -20,3 +20,39 @@
   max-height: 400px;
   overflow: auto;
 }
+
+// PF5 Table has no inset or verticalAlign props. These tokens are the only
+// way to undo extra first/last padding (16px, 24px at xl) and kebab middle align.
+[data-ouia-component-id='hosts-index-table'].pf-v5-c-table {
+  --pf-v5-c-table--m-compact--cell--first-last-child--PaddingLeft: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--PaddingRight: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--xl--PaddingLeft: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--xl--PaddingRight: var(
+    --pf-v5-global--spacer--sm
+  );
+
+  tbody td,
+  .pf-v5-c-table__action {
+    vertical-align: top;
+  }
+}
+
+// compact-ui forces 2px vertical padding on PF table cells globally.
+// Keep this table on PatternFly compact (8px), including when that setting is on.
+.compact-ui [data-ouia-component-id='hosts-index-table'] {
+  td.pf-v5-c-table__td:not(.pf-v5-c-table__action) {
+    padding-top: var(--pf-v5-global--spacer--sm);
+    padding-bottom: var(--pf-v5-global--spacer--sm);
+  }
+
+  td.pf-v5-c-table__action {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

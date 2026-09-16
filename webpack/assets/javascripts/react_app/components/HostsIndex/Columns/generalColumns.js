@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
 import {
   Button,
+  Flex,
+  FlexItem,
   Icon,
   Popover,
   TextContent,
@@ -16,7 +18,20 @@ import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
 import GlobalStatusIcon from '../../HostStatuses/Status/GlobalStatusIcon';
-import './core.scss';
+
+const IconText = ({ spaceItems = 'spaceItemsXs', icon, children }) => (
+  <Flex
+    alignItems={{ default: 'alignItemsFlexStart' }}
+    spaceItems={{ default: spaceItems }}
+    flexWrap={{ default: 'nowrap' }}
+    style={{ minWidth: 0 }}
+  >
+    {icon && <FlexItem flex={{ default: 'flexNone' }}>{icon}</FlexItem>}
+    <FlexItem flex={{ default: 'flex_1' }} style={{ minWidth: 0 }}>
+      {children}
+    </FlexItem>
+  </Flex>
+);
 
 const generalColumns = [
   {
@@ -25,7 +40,6 @@ const generalColumns = [
     wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
     isSorted: false,
     weight: 0,
-    textCenter: true,
   },
   {
     columnName: 'name',
@@ -36,31 +50,36 @@ const generalColumns = [
       global_status: globalStatus,
       global_status_fulltext: statuses,
     }) => (
-      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-        <Popover
-          id="host-index-global-status-tooltip"
-          bodyContent={
-            <TextContent>
-              <TextList isPlain>
-                {statuses.map((status, index) => (
-                  <TextListItem key={`status-list-${index}`}>
-                    {status}
-                  </TextListItem>
-                ))}
-              </TextList>
-            </TextContent>
-          }
-        >
-          <Button
-            variant="plain"
-            ouiaId="plain-button-popover"
-            style={{ padding: 0 }}
+      <IconText
+        icon={
+          <Popover
+            id="host-index-global-status-tooltip"
+            bodyContent={
+              <TextContent>
+                <TextList isPlain>
+                  {statuses.map((status, index) => (
+                    <TextListItem key={`status-list-${index}`}>
+                      {status}
+                    </TextListItem>
+                  ))}
+                </TextList>
+              </TextContent>
+            }
           >
-            <GlobalStatusIcon status={globalStatus} />
-          </Button>
-        </Popover>
-        <Link to={`hosts/${name}`}>{displayName}</Link>
-      </span>
+            <Button
+              variant="plain"
+              className="pf-m-no-padding"
+              ouiaId="plain-button-popover"
+            >
+              <GlobalStatusIcon status={globalStatus} isInline />
+            </Button>
+          </Popover>
+        }
+      >
+        <TableText wrapModifier="breakWord">
+          <Link to={`hosts/${name}`}>{displayName}</Link>
+        </TableText>
+      </IconText>
     ),
     isSorted: true,
     weight: 50,
@@ -103,10 +122,12 @@ const generalColumns = [
       const osIcon = hostDetails?.operatingsystem_icon;
       const osName = hostDetails?.operatingsystem_name;
       return (
-        <span className="os-title-wrapper">
-          {osIcon && <img src={osIcon} alt={`${osName} icon`} />}
-          <span>{osName}</span>
-        </span>
+        <IconText
+          spaceItems="spaceItemsSm"
+          icon={osIcon && <img src={osIcon} alt={`${osName} icon`} />}
+        >
+          <TableText wrapModifier="breakWord">{osName}</TableText>
+        </IconText>
       );
     },
     isSorted: true,
@@ -120,12 +141,17 @@ const generalColumns = [
       const OwnerIcon =
         hostDetails?.owner_type !== 'User' ? UsersIcon : UserIcon;
       return (
-        <TableText>
-          <Icon style={{ color: '#2B9AF3', marginRight: '5px' }}>
-            <OwnerIcon />
-          </Icon>
-          {hostDetails?.owner_name}
-        </TableText>
+        <IconText
+          icon={
+            <Icon status="info" isInline>
+              <OwnerIcon />
+            </Icon>
+          }
+        >
+          <TableText wrapModifier="breakWord">
+            {hostDetails.owner_name}
+          </TableText>
+        </IconText>
       );
     },
     isSorted: true,
