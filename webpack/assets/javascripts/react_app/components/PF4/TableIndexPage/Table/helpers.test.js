@@ -1,5 +1,5 @@
 import React from 'react';
-import { getColumnLabel, getColumnHelpers } from './helpers';
+import { getColumnLabel, getColumnHelpers, getHeaderModifier, getHeaderStyle } from './helpers';
 
 describe('getColumnLabel', () => {
   test('uses a string title', () => {
@@ -47,5 +47,55 @@ describe('getColumnHelpers', () => {
     expect(labels.bootc_booted_image).toBe('Type');
     expect(labels.name).toBe('Name');
     expect(typeof labels.bootc_booted_image).toBe('string');
+  });
+});
+
+describe('getHeaderModifier', () => {
+  test('keeps 1-word titles on one line', () => {
+    expect(getHeaderModifier({ title: 'Name' }, 'name')).toBe('nowrap');
+  });
+
+  test('wraps 2-word titles', () => {
+    expect(getHeaderModifier({ title: 'Host group' }, 'hostgroup')).toBe(
+      'wrap'
+    );
+  });
+
+  test('truncates 3+ word titles', () => {
+    expect(
+      getHeaderModifier(
+        { title: 'Content view environments' },
+        'content_view_environments'
+      )
+    ).toBe('truncate');
+  });
+
+  test('uses an explicit headerModifier over word count', () => {
+    expect(
+      getHeaderModifier(
+        { title: 'Name', headerModifier: 'truncate' },
+        'name'
+      )
+    ).toBe('truncate');
+  });
+
+  test('counts words from a React title node via getColumnLabel', () => {
+    expect(
+      getHeaderModifier({ title: <span>Type</span> }, 'bootc_booted_image')
+    ).toBe('nowrap');
+  });
+});
+
+describe('getHeaderStyle', () => {
+  test('uses 12ch for wrap and 16ch for truncate', () => {
+    expect(getHeaderStyle({}, 'wrap')).toEqual({ maxWidth: '12ch' });
+    expect(getHeaderStyle({}, 'truncate')).toEqual({ maxWidth: '16ch' });
+    expect(getHeaderStyle({}, 'nowrap')).toBeUndefined();
+  });
+
+  test('uses column.headerMaxWidth when set', () => {
+    expect(getHeaderStyle({ headerMaxWidth: '20ch' }, 'wrap')).toEqual({
+      maxWidth: '20ch',
+    });
   });
 });

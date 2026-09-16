@@ -41,6 +41,55 @@ export const getColumnLabel = (column, fallbackKey) => {
   return fallbackKey;
 };
 
+const HEADER_MODIFIERS = [
+  'wrap',
+  'truncate',
+  'nowrap',
+  'breakWord',
+  'fitContent',
+];
+const HEADER_WRAP_MAX_WIDTH = '12ch';
+const HEADER_TRUNCATE_MAX_WIDTH = '16ch';
+
+export const countHeaderWords = label => {
+  if (typeof label !== 'string' || !label.trim()) return 0;
+  return label.trim().split(/\s+/).length;
+};
+
+/**
+ * PatternFly Th modifier for a column header.
+ * 1 word → nowrap, 2 words → wrap, 3+ words → truncate.
+ * Override with column.headerModifier.
+ * @param {Object} column
+ * @param {string} fallbackKey
+ * @returns {'wrap'|'truncate'|'nowrap'|'breakWord'|'fitContent'}
+ */
+export const getHeaderModifier = (column, fallbackKey) => {
+  if (HEADER_MODIFIERS.includes(column?.headerModifier)) {
+    return column.headerModifier;
+  }
+  const words = countHeaderWords(getColumnLabel(column, fallbackKey));
+  if (words >= 3) return 'truncate';
+  if (words === 2) return 'wrap';
+  return 'nowrap';
+};
+
+/**
+ * Inline style so wrap/truncate headers can shrink in an auto-layout table.
+ * Override with column.headerMaxWidth (CSS length, e.g. '12ch').
+ * @param {Object} column
+ * @param {string} modifier
+ * @returns {Object|undefined}
+ */
+export const getHeaderStyle = (column, modifier) => {
+  if (column?.headerMaxWidth) {
+    return { maxWidth: column.headerMaxWidth };
+  }
+  if (modifier === 'wrap') return { maxWidth: HEADER_WRAP_MAX_WIDTH };
+  if (modifier === 'truncate') return { maxWidth: HEADER_TRUNCATE_MAX_WIDTH };
+  return undefined;
+};
+
 /**
  * Assembles column data into various forms needed
  * @param {Object} columns - Object with column sort params as keys and column objects as values. Column objects must have a title key

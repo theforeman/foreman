@@ -369,4 +369,38 @@ describe('Table', () => {
       screen.getByRole('columnheader', { name: 'Type' })
     ).toBeInTheDocument();
   });
+
+  test('applies wrap and truncate header modifiers from the column title', () => {
+    const mixedColumns = {
+      name: { title: 'Name' },
+      hostgroup: { title: 'Host group' },
+      cve: { title: 'Content view environments' },
+    };
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={mixedColumns}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={[{ id: 1, name: 'a', hostgroup: 'b', cve: 'c' }]}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+    const headers = container.querySelectorAll('thead th');
+    const nameTh = [...headers].find(th => th.getAttribute('aria-label') === 'Name');
+    const hgTh = [...headers].find(
+      th => th.getAttribute('aria-label') === 'Host group'
+    );
+    const cveTh = [...headers].find(
+      th => th.getAttribute('aria-label') === 'Content view environments'
+    );
+    expect(nameTh).toHaveClass('pf-m-nowrap');
+    expect(hgTh).toHaveClass('pf-m-wrap');
+    expect(cveTh).toHaveClass('pf-m-truncate');
+    expect(hgTh).toHaveStyle({ maxWidth: '12ch' });
+    expect(cveTh).toHaveStyle({ maxWidth: '16ch' });
+  });
 });
