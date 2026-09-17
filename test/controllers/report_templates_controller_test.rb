@@ -141,6 +141,16 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "report_data passes auto gzip threshold to TemplateGenerator" do
+    Setting[:report_auto_gzip_threshold] = 128
+    get :report_data, params: { :id => @report_template.to_param, :job_id => 'JOB-ID' }, session: set_session_user
+    assert_response :success
+    assert_includes @response.body, 'foreman-react-component'
+    assert_includes @response.body, 'name="TemplateGenerator"'
+    # data-props are HTML-escaped in the mount tag
+    assert_includes @response.body, '&quot;reportAutoGzipThreshold&quot;:128'
+  end
+
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
     def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil, format: nil)
