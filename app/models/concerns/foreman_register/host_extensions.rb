@@ -6,6 +6,8 @@ module ForemanRegister
 
     def registration_facet!
       registration_facet || create_registration_facet!
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+      reload_registration_facet || raise
     end
 
     def registration_token
