@@ -4,8 +4,7 @@ import { Alert, Button } from '@patternfly/react-core';
 
 import { sprintf, translate as __ } from '../../common/I18n';
 
-const pollingMsg = `
-  Report %s is now being generated, the download will start once it's done.
+const pollingMsgTail = `
   You can come to this page later to get the results. The result is available for 24 hours.
 `;
 const doneMsg = `
@@ -13,6 +12,30 @@ const doneMsg = `
   Download should start automatically.
   In case it does not, please use the download button below.
 `;
+
+const pollingMessage = (templateName, threshold) => {
+  let intro = sprintf(
+    __(
+      "Report %s is now being generated, the download will start once it's done."
+    ),
+    templateName
+  );
+
+  if (threshold != null && threshold !== '') {
+    if (Number(threshold) === 0) {
+      intro += ` ${__('Your report will be automatically compressed.')}`;
+    } else {
+      intro += ` ${sprintf(
+        __(
+          'Your report will be automatically compressed if it exceeds %s MiB.'
+        ),
+        threshold
+      )}`;
+    }
+  }
+
+  return `${intro}${pollingMsgTail}`;
+};
 
 const AlertBlock = ({ variant, message, links }) => (
   <Alert
@@ -28,7 +51,7 @@ const AlertBlock = ({ variant, message, links }) => (
 );
 
 const TemplateGenerator = ({
-  data: { templateName },
+  data: { templateName, reportAutoGzipThreshold },
   polling,
   dataUrl,
   generatingError,
@@ -47,7 +70,10 @@ const TemplateGenerator = ({
 
   if (polling) {
     return (
-      <AlertBlock variant="info" message={sprintf(pollingMsg, templateName)} />
+      <AlertBlock
+        variant="info"
+        message={pollingMessage(templateName, reportAutoGzipThreshold)}
+      />
     );
   } else if (errors) {
     return <AlertBlock variant="danger" message={errors} />;
@@ -89,6 +115,7 @@ AlertBlock.defaultProps = {
 TemplateGenerator.propTypes = {
   data: PropTypes.shape({
     templateName: PropTypes.string.isRequired,
+    reportAutoGzipThreshold: PropTypes.number,
   }).isRequired,
   polling: PropTypes.bool,
   dataUrl: PropTypes.string,

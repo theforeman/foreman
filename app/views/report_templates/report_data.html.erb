@@ -1,5 +1,5 @@
 <% title _("Download generated report") %>
-<%= react_component('TemplateGenerator', data: { templateName: @template.name }) %>
+<%= react_component('TemplateGenerator', data: { templateName: @template.name, reportAutoGzipThreshold: Setting[:report_auto_gzip_threshold] }) %>
 <% content_for(:javascripts) do -%>
   <script type="text/javascript">
     tfm.templateInputs.pollReportData('<%= @data_url %>');
