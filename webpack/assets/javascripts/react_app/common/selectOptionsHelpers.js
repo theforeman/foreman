@@ -1,35 +1,35 @@
 import React from 'react';
-import { deprecate } from '../../../common/DeprecationService';
+import {
+  FormSelectOption,
+  FormSelectOptionGroup,
+} from '@patternfly/react-core';
 
 const renderOption = (val, text, key = null) => {
   const optValue = val === null || val === undefined ? '' : val;
 
-  return (
-    <option value={optValue} key={key || val}>
-      {text}
-    </option>
-  );
+  return <FormSelectOption value={optValue} key={key || val} label={text} />;
 };
 
 const renderOptGroup = group => (
-  <optgroup label={group.groupLabel} key={group.groupLabel}>
-    {renderOptions(group.children)}
-  </optgroup>
+  <FormSelectOptionGroup label={group.groupLabel} key={group.groupLabel}>
+    {renderPF5Options(group.children)}
+  </FormSelectOptionGroup>
 );
 
-export const renderOptions = opts => {
-  deprecate(
-    'forms/SelectHelpers',
-    'Select from @patternfly/react-core',
-    '3.21'
-  );
+/**
+ * @param opts
+ * @returns {*|*[]} PatternFly FormSelect option elements
+ */
+export const renderPF5Options = opts => {
   if (Array.isArray(opts)) {
     return opts.map((opt, index) => {
       if (opt.children) {
         return renderOptGroup(opt);
       }
+
       return renderOption(opt.value, opt.label, index);
     });
   }
+
   return Object.entries(opts).map(([val, text]) => renderOption(val, text));
 };
