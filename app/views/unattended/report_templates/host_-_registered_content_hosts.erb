@@ -28,7 +28,7 @@ require:
 <%- else -%>
     <%- report_headers 'Name', 'Ip', 'Operating System', 'Installable Errata', 'Owner', 'Kernel', 'Latest kernel available' -%>
 <%- end -%>
-<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :interfaces, :applicable_errata], preload: [:kernel_release, :owner]).each_record do |host| -%>
+<%- load_hosts(search: input('Hosts filter'), preload: [:operatingsystem, :interfaces, :kernel_release, :owner]).each_record do |host| -%>
 <%-   report_row(
         'Name': host.name,
         'Ip': host.ip,
