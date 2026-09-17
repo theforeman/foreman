@@ -69,6 +69,42 @@ describe('TemplateGenerator', () => {
 
     // No download button while polling
     expect(screen.queryByRole('button', { name: /download/i })).not.toBeInTheDocument();
+
+    // No compression notice when threshold is not provided
+    expect(
+      screen.queryByText(/automatically compressed/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it('renders compression notice when polling and threshold is set', () => {
+    rtlHelpers.renderWithStore(
+      <TemplateGenerator
+        data={{ templateName: 'template', reportAutoGzipThreshold: 256 }}
+        polling
+        dataUrl="/data/IDENTIFIER.json"
+      />
+    );
+
+    expect(
+      screen.getByText(
+        /Report template is now being generated.*Your report will be automatically compressed if it exceeds 256 MiB\./i
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('renders always-compress notice when polling and threshold is 0', () => {
+    rtlHelpers.renderWithStore(
+      <TemplateGenerator
+        data={{ templateName: 'template', reportAutoGzipThreshold: 0 }}
+        polling
+        dataUrl="/data/IDENTIFIER.json"
+      />
+    );
+
+    expect(
+      screen.getByText(/Your report will be automatically compressed\./)
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/if it exceeds/i)).not.toBeInTheDocument();
   });
 
   it('renders combined errors when present and hides the button', () => {
