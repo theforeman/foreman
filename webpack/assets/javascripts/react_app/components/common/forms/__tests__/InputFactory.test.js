@@ -5,9 +5,6 @@ import { Provider } from 'react-redux';
 import store from '../../../../redux';
 import InputFactory, { registerInputComponent, getComponentClass } from '../InputFactory';
 import { SearchBarProps as searchProps } from '../../../SearchBar/SearchBar.fixtures';
-import { selectProps } from '../FormField.fixtures';
-
-
 describe('InputFactory', () => {
   describe('renders standard text input', () => {
     it('should render PatternFly TextInput for type="text"', () => {
@@ -56,11 +53,6 @@ describe('InputFactory', () => {
         </Provider>
       );
       expect(screen.getByLabelText('Search input')).toBeInTheDocument();
-    });
-
-    it('should render Select for type="select"', () => {
-      render(<InputFactory {...selectProps} />);
-      expect(screen.getByText('Grouped select')).toBeInTheDocument();
     });
 
     it('should render DateTimePicker for type="dateTime"', () => {

@@ -1,13 +1,12 @@
 import React from 'react';
 
-import {
-  Tooltip,
-  FormSelectOption,
-  FormSelectOptionGroup,
-} from '@patternfly/react-core';
+import { Tooltip } from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 
 import { deepPropsToCamelCase } from '../../common/helpers';
+import { renderPF5Options } from '../../common/selectOptionsHelpers';
+
+export { renderPF5Options };
 
 /**
  *
@@ -178,36 +177,6 @@ export const hasDefault = setting => {
       return !!setting.default;
     }
   }
-};
-
-const renderOption = (val, text, key = null) => {
-  const optValue = val === null || val === undefined ? '' : val;
-
-  return <FormSelectOption value={optValue} key={key || val} label={text} />;
-};
-
-const renderOptGroup = group => (
-  <FormSelectOptionGroup label={group.groupLabel} key={group.groupLabel}>
-    {renderPF5Options(group.children)}
-  </FormSelectOptionGroup>
-);
-
-/**
- *
- * @param opts
- * @returns {*|*[]} PF5 select options elements
- * @description Renders PF5 select options elements
- */
-export const renderPF5Options = opts => {
-  if (Array.isArray(opts)) {
-    return opts.map((opt, index) => {
-      if (opt.children) {
-        return renderOptGroup(opt);
-      }
-      return renderOption(opt.value, opt.label, index);
-    });
-  }
-  return Object.entries(opts).map(([val, text]) => renderOption(val, text));
 };
 
 export const formatEncryptedValue = setting =>
