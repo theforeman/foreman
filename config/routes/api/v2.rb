@@ -46,6 +46,13 @@ Foreman::Application.routes.draw do
         resources :external_usergroups, :except => [:new, :edit]
       end
 
+      resources :auth_source_oidcs, :except => [:new, :edit] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        resources :users, :except => [:new, :edit]
+        resources :external_usergroups, :except => [:new, :edit]
+      end
+
       resources :bookmarks, :except => [:new, :edit]
 
       resources :common_parameters, :except => [:new, :edit]
@@ -350,6 +357,7 @@ Foreman::Application.routes.draw do
         # scoped by location
         resources :auth_sources, :only => [:index, :show]
         resources :auth_source_ldaps, :only => [:index, :show]
+        resources :auth_source_oidcs, :only => [:index, :show]
         resources :auth_source_externals, :only => [:index, :show]
         resources :domains, :only => [:index, :show]
         resources :realms, :only => [:index, :show]
@@ -374,6 +382,7 @@ Foreman::Application.routes.draw do
         resources :organizations, :except => [:new, :edit] do
           resources :auth_sources, :only => [:index, :show]
           resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_oidcs, :only => [:index, :show]
           resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
@@ -395,6 +404,7 @@ Foreman::Application.routes.draw do
         # scoped by organization
         resources :auth_sources, :only => [:index, :show]
         resources :auth_source_ldaps, :only => [:index, :show]
+        resources :auth_source_oidcs, :only => [:index, :show]
         resources :auth_source_externals, :only => [:index, :show]
         resources :domains, :only => [:index, :show]
         resources :realms, :only => [:index, :show]
@@ -419,6 +429,7 @@ Foreman::Application.routes.draw do
         resources :locations, :except => [:new, :edit] do
           resources :auth_sources, :only => [:index, :show]
           resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_oidcs, :only => [:index, :show]
           resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
@@ -442,6 +453,7 @@ Foreman::Application.routes.draw do
       get 'ping', :to => 'ping#ping'
       get 'statuses', :to => 'ping#statuses'
       put 'auth_source_ldaps/(:id)/test', :to => 'auth_source_ldaps#test'
+      put 'auth_source_oidcs/(:id)/test', :to => 'auth_source_oidcs#test'
       post 'registration_commands', to: 'registration_commands#create'
       get 'host_statuses', :to => 'host_statuses#index'
     end

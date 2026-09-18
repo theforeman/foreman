@@ -12,6 +12,7 @@ module Api
 
       api :GET, '/usergroups/:usergroup_id/external_usergroups', N_('List all external user groups for user group')
       api :GET, '/auth_source_ldaps/:auth_source_ldap_id/external_usergroups', N_('List all external user groups for LDAP authentication source')
+      api :GET, '/auth_source_oidcs/:auth_source_oidc_id/external_usergroups', N_('List all external user groups for OpenID Connect authentication source')
       param :usergroup_id, String, :required => true, :desc => N_('ID or name of user group')
 
       def index
@@ -20,6 +21,7 @@ module Api
 
       api :GET, '/usergroups/:usergroup_id/external_usergroups/:id', N_('Show an external user group for user group')
       api :GET, '/auth_source_ldaps/:auth_source_ldap_id/external_usergroups/:id', N_('Show an external user group for LDAP authentication source')
+      api :GET, '/auth_source_oidcs/:auth_source_oidc_id/external_usergroups/:id', N_('Show an external user group for OpenID Connect authentication source')
       param :usergroup_id, String, :required => true, :desc => N_('ID or name of user group')
       param :id, String, :required => true, :desc => N_('ID or name of external user group')
 
@@ -79,7 +81,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(usergroup_id auth_source_ldap_id)
+        %w(usergroup_id auth_source_ldap_id auth_source_oidc_id)
       end
 
       def refresh_external_usergroup
