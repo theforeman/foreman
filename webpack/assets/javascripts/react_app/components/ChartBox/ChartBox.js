@@ -12,11 +12,13 @@ import {
   Spinner,
   Icon,
 } from '@patternfly/react-core';
-import { ErrorCircleOIcon } from '@patternfly/react-icons';
+import {
+  ErrorCircleOIcon,
+  ExclamationCircleIcon,
+} from '@patternfly/react-icons';
 import classNames from 'classnames';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';
-import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
 import EmptyState from '../common/EmptyState';
 import { translate as __ } from '../../common/I18n';
@@ -45,9 +47,14 @@ const ChartBoxContent = ({ status, panelChart, error }) => {
     return error;
   }
 
-  return <MessageBox icontype="error-circle-o" msg="Invalid Status" />;
+  return (
+    <EmptyState
+      header={__('Invalid Status')}
+      variant="sm"
+      icon={ExclamationCircleIcon}
+    />
+  );
 };
-
 ChartBoxContent.propTypes = {
   status: PropTypes.string.isRequired,
   panelChart: PropTypes.node.isRequired,
