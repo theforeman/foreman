@@ -73,8 +73,21 @@ module Katello
           os_attributes[:name] = "CentOS"
         end
 
-        os = ::Operatingsystem.find_by_attributes(**os_attributes.slice(:name, :major, :minor, :description)).first
-        os.presence || ::Operatingsystem.create_or_find_by(os_attributes)
+        lookup_attrs = os_attributes.slice(:name, :major, :minor, :description)
+        find_existing_os = -> { ::Operatingsystem.find_by_attributes(**lookup_attrs).first }
+
+        os = find_existing_os.call
+        if os.nil?
+          begin
+            os = ::Operatingsystem.create!(os_attributes)
+          rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+            # Concurrent registrations can lose the create race after the initial lookup.
+            # Re-read the canonical OS record and only suppress the exception if it now exists.
+            os = find_existing_os.call
+            raise e if os.nil?
+          end
+        end
+        os
       end
     end
 

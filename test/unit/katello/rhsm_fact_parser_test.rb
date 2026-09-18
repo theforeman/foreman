@@ -246,18 +246,51 @@ module Katello
       assert_nil bios[:release_date]
     end
 
-    def test_operatingsystem_race_condition_handling
-      existing_os = ::Operatingsystem.create(name: 'RedHat', major: '9', minor: '')
-      # Simulate the race: initial lookup returns nothing, then create_or_find_by
-      # handles the uniqueness conflict atomically and returns the existing record.
-      ::Operatingsystem.expects(:find_by_attributes).once.returns([])
+    def test_operatingsystem_returns_existing_os_after_record_not_unique
+      existing_os = ::Operatingsystem.create!(name: 'RedHat', major: '9', minor: '')
+      # DB-level race: initial lookup misses, create! hits the unique index,
+      # rescue retries the find.
+      find_seq = sequence('find')
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns([])
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordNotUnique)
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns([existing_os])
       @facts['distribution.name'] = 'Red Hat Enterprise Linux'
       @facts['distribution.version'] = '9'
-      @facts['distribution.id'] = 'Nine'
 
-      assert_nothing_raised do
+      os = parser.operatingsystem
+      assert os.persisted?, "Expected a persisted OS"
+      assert_equal existing_os.id, os.id
+    end
+
+    def test_operatingsystem_returns_existing_os_after_uniqueness_validation_conflict
+      existing_os = ::Operatingsystem.create!(name: 'RedHat', major: '9', minor: '')
+      # TOCTOU race: initial lookup misses (OS not yet committed by another
+      # thread), create! hits the model-level uniqueness validation (OS now
+      # committed), rescue retries the find.
+      find_seq = sequence('find')
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns([])
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordInvalid.new(existing_os))
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns([existing_os])
+      @facts['distribution.name'] = 'Red Hat Enterprise Linux'
+      @facts['distribution.version'] = '9'
+
+      os = parser.operatingsystem
+      assert os.persisted?, "Expected a persisted OS, got id=#{os&.id}"
+      assert_equal existing_os.id, os.id
+    end
+
+    def test_operatingsystem_raises_non_race_validation_failure
+      # Non-race validation failure: create! fails and the retry find also
+      # returns nil, so the original exception must propagate.
+      ::Operatingsystem.expects(:find_by_attributes).twice.returns([])
+      invalid_os = ::Operatingsystem.new
+      invalid_os.errors.add(:name, :blank)
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordInvalid.new(invalid_os))
+      @facts['distribution.name'] = 'Red Hat Enterprise Linux'
+      @facts['distribution.version'] = '9'
+
+      assert_raises(ActiveRecord::RecordInvalid) do
         parser.operatingsystem
-        existing_os.destroy
       end
     end
   end
