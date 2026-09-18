@@ -64,7 +64,32 @@ module UsersHelper
     (user.id == session[:impersonated_by]) ? "" : link
   end
 
+  # Per-subscription settings rendered underneath the interval select, each one
+  # as a direct child of the container. A row is joined to the tree connector in
+  # users.scss by carrying the mail_notification_option class; query builders
+  # that draw their own connector, as some plugins' do, just leave it off.
+  def mail_notification_options(mail_notification, f)
+    options = safe_join(
+      [
+        mail_notification_query_builder(mail_notification, f),
+        mail_notification_skip_if_empty(mail_notification, f),
+      ].compact
+    )
+
+    return if options.blank?
+
+    content_tag(:div, options, class: 'mail_notification_options')
+  end
+
   def mail_notification_query_builder(mail_notification, f)
     render :partial => "#{mail_notification}_query_builder", :locals => {:f => f, :mailer => mail_notification.name } if mail_notification.queryable?
+  end
+
+  def mail_notification_skip_if_empty(mail_notification, f)
+    return unless mail_notification.skippable?
+
+    content_tag(:label, class: 'checkbox-inline mail_notification_option') do
+      f.check_box(:skip_if_empty) + " #{_('Do not send if there is nothing to report')} "
+    end
   end
 end

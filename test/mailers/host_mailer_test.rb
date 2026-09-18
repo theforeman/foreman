@@ -41,6 +41,55 @@ class HostMailerTest < ActionMailer::TestCase
     assert HostMailer.summary(@options).deliver_now.body.include?(@host.name)
   end
 
+  test "skips configuration summary with an empty body when the user opts out" do
+    nothing_to_report
+    @options[:skip_if_empty] = true
+
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      HostMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "delivers configuration summary with an empty body when the user opts in" do
+    nothing_to_report
+    @options[:skip_if_empty] = false
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      HostMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "delivers configuration summary with eventful reports when the user opts out of empty ones" do
+    nothing_to_report
+    # status 1 is a single 'applied' resource, which makes the host eventful
+    FactoryBot.create(:config_report, host: @host, status: 1)
+    @options[:skip_if_empty] = true
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      HostMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "delivers configuration summary with out of sync hosts when the user opts out of empty ones" do
+    nothing_to_report
+    as_admin { @host.update_columns(last_report: Time.at(0).utc) }
+    @options[:skip_if_empty] = true
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      HostMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "delivers configuration summary with alert disabled hosts when the user opts out of empty ones" do
+    nothing_to_report
+    as_admin { @host.update_columns(enabled: false) }
+    @options[:skip_if_empty] = true
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      HostMailer.summary(@options).deliver_now
+    end
+  end
+
   test 'error_state sends mail with correct headers' do
     report = FactoryBot.create(:report)
     user = FactoryBot.create(:user, :with_mail)
@@ -49,5 +98,16 @@ class HostMailerTest < ActionMailer::TestCase
     assert_includes mail.to, user.mail
     assert_includes mail.subject, report.host.name
     assert mail.body.present?
+  end
+
+  private
+
+  # leaves the summary with no eventful, out of sync or alert disabled hosts,
+  # i.e. with an empty body
+  def nothing_to_report
+    as_admin do
+      Report.unscoped.delete_all
+      Host::Managed.unscoped.update_all(last_report: Time.now.utc, enabled: true)
+    end
   end
 end

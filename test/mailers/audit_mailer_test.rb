@@ -52,4 +52,31 @@ class AuditMailerTest < ActionMailer::TestCase
     query_should_be = CGI.escape(@options[:query])
     assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, query_should_be)
   end
+
+  test "skips empty audit summary when the user opts out with a string flag" do
+    @options[:skip_if_empty] = 'true'
+    @options[:query] = 'id = 0'
+
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      AuditMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "skips empty audit summary when the user opts out" do
+    @options[:skip_if_empty] = true
+    @options[:query] = 'id = 0'
+
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      AuditMailer.summary(@options).deliver_now
+    end
+  end
+
+  test "delivers empty audit summary when the user opts in" do
+    @options[:skip_if_empty] = false
+    @options[:query] = 'id = 0'
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      AuditMailer.summary(@options).deliver_now
+    end
+  end
 end
