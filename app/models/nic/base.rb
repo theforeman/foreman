@@ -75,10 +75,10 @@ module Nic
     scoped_search :on => :domain_id, :complete_value => true, :only_explicit => true
 
     # keep extra attributes needed for sub classes.
-    serialize :attrs, Hash
+    serialize :attrs, type: Hash
 
     # provider specific attributes
-    serialize :compute_attributes, Hash
+    serialize :compute_attributes, type: Hash
 
     apipie :class, 'A class representing Network Interface Controller object' do
       name 'NIC'

@@ -215,14 +215,6 @@ class Host::Managed < Host::Base
     with_status('HostStatus::ConfigurationStatus')
   }
 
-  # search for a metric - e.g.:
-  # Host::Managed.with("failed") --> all reports which have a failed counter > 0
-  # Host::Managed.with("failed",20) --> all reports which have a failed counter > 20
-  scope :with, lambda { |*arg|
-    cond = "(host_status.status >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}"
-    with_config_status.where(sanitize_sql(cond))
-  }
-
   scope :with_error, lambda {
     cond = "(host_status.status > 0) and (
       #{HostStatus::ConfigurationStatus.is('failed')} or
@@ -288,7 +280,16 @@ class Host::Managed < Host::Base
   scope :with_build_errors, -> { where.not(build_errors: nil) }
 
   # some shortcuts
-  alias_attribute :arch, :architecture
+  # Defined explicitly (rather than via alias_attribute) because architecture is
+  # an association, not a real attribute, and Rails 7.2 stops alias_attribute
+  # from supporting non-attribute targets.
+  def arch
+    architecture
+  end
+
+  def arch=(value)
+    self.architecture = value
+  end
 
   validates :organization_id, :presence => true, :if => proc { |host| host.managed? }
   validates :location_id,     :presence => true, :if => proc { |host| host.managed? }
