@@ -8,6 +8,7 @@ class HostgroupsControllerTest < ActionController::TestCase
   def test_index
     get :index, session: set_session_user
     assert_template 'index'
+    assert_not_nil assigns(:hostgroup_read_context)
   end
 
   def test_new
