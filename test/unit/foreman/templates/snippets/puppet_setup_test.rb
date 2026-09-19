@@ -184,4 +184,14 @@ class PuppetSetupTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'does not install the legacy Linux Puppet package' do
+    os = FactoryBot.create(:rhel9, :with_provision, :with_associations)
+    host = FactoryBot.create(:host, :managed, build: true, operatingsystem: os)
+
+    output = render_template(host)
+
+    assert_no_match(/install .* puppet(?:\n|$)/, output)
+    assert_no_match(%r{/etc/puppet/puppet.conf}, output)
+  end
 end
