@@ -503,28 +503,26 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     subject { get_parser(get_facterdb_facts(facterversion, os_name, os_major)) }
     after(:suite) { FacterDB.cleanup }
 
-    describe 'CentOS 7' do
+    describe 'CentOS 9' do
       let(:os_name) { 'CentOS' }
-      let(:os_major) { '7' }
+      let(:os_major) { '9' }
 
-      ['1.7', '2.1', '2.2', '3.0', '3.14'].each do |facterversion|
+      ['4.2', '4.10', '4.11'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
           test "#sockets" do
-            # Facter 2.[0-3] reports the legacy fact as a string but the
-            # structured fact as an integer
-            expected = facterversion == '2.1' ? String : Integer
+            expected = Integer
             assert_kind_of expected, subject.sockets
           end
 
           test "#cores" do
-            expected = facterversion.to_f >= 2.2 ? Integer : String
+            expected = Integer
             assert_kind_of expected, subject.cores
           end
 
           test "#ram" do
-            expected = facterversion.to_f >= 3 ? Integer : String
+            expected = Integer
             assert_kind_of expected, subject.ram
           end
 
@@ -539,19 +537,15 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#disks_total" do
-            if facterversion.to_i >= 3
-              assert_kind_of Integer, subject.disks_total
-            else
-              assert_nil subject.disks_total
-            end
+            assert_kind_of Integer, subject.disks_total
           end
 
           test "#os_name" do
-            assert_equal 'CentOS', subject.send(:os_name)
+            assert_equal 'CentOS_Stream', subject.send(:os_name)
           end
 
           test "#os_release" do
-            assert_match(/^7\.\d+\.\d+$/, subject.send(:os_release))
+            assert_equal '9', subject.send(:os_release)
           end
 
           test "#architecture" do
@@ -561,8 +555,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#distro_id" do
-            # lsb-release wasn't installed on the fact sets
-            assert_nil subject.send(:distro_id)
+            assert_equal 'CentOSStream', subject.send(:distro_id)
           end
 
           test "#distro_codename" do
@@ -571,8 +564,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#distro_description" do
-            # lsb-release wasn't installed on the fact sets
-            assert_nil subject.send(:distro_description)
+            assert_equal 'CentOS Stream release 9', subject.send(:distro_description)
           end
 
           test "#dmi_product_name" do
@@ -594,11 +586,11 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       end
     end
 
-    describe 'Debian 9' do
+    describe 'Debian 11' do
       let(:os_name) { 'Debian' }
-      let(:os_major) { '9' }
+      let(:os_major) { '11' }
 
-      ['1.7', '2.1', '2.2', '3.14'].each do |facterversion|
+      ['4.0', '4.11'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
@@ -607,7 +599,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#os_release" do
-            assert_match(/^9\.\d+$/, subject.send(:os_release))
+            assert_match(/^11\.\d+$/, subject.send(:os_release))
           end
 
           test "#architecture" do
@@ -621,11 +613,11 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#distro_codename" do
-            assert_equal 'stretch', subject.send(:distro_codename)
+            assert_equal 'bullseye', subject.send(:distro_codename)
           end
 
           test "#distro_description" do
-            assert_match(/Debian GNU\/Linux 9\.\d+ \(stretch\)/, subject.send(:distro_description))
+            assert_match(/Debian GNU\/Linux 11 \(bullseye\)/, subject.send(:distro_description))
           end
 
           test "#dmi_product_name" do
@@ -647,11 +639,11 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       end
     end
 
-    describe 'FreeBSD 11' do
+    describe 'FreeBSD 13' do
       let(:os_name) { 'FreeBSD' }
-      let(:os_major) { '11' }
+      let(:os_major) { '13' }
 
-      ['2.2', '3.14'].each do |facterversion|
+      ['4.0', '4.10'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
@@ -665,16 +657,12 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#ram" do
-            expected = facterversion.to_f >= 3 ? Integer : String
+            expected = Integer
             assert_kind_of expected, subject.ram
           end
 
           test "#disks_total" do
-            if facterversion.to_i >= 3
-              assert_kind_of Integer, subject.disks_total
-            else
-              assert_nil subject.disks_total
-            end
+            assert_kind_of Integer, subject.disks_total
           end
 
           test "#os_name" do
@@ -682,7 +670,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#os_release" do
-            assert_match(/^11\.\d+$/, subject.send(:os_release))
+            assert_match(/^13\.\d+-RELEASE$/, subject.send(:os_release))
           end
 
           test "#architecture" do
@@ -707,11 +695,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#dmi_product_name" do
-            if facterversion.to_i >= 3
-              assert_kind_of String, subject.send(:dmi_product_name)
-            else
-              assert_nil subject.send(:dmi_product_name)
-            end
+            assert_kind_of String, subject.send(:dmi_product_name)
           end
 
           test "#dmi_board_product" do
@@ -734,7 +718,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       let(:os_name) { 'Solaris' }
       let(:os_major) { '11' }
 
-      ['2.1', '2.2', '3.14'].each do |facterversion|
+      ['4.0'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
@@ -772,11 +756,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#dmi_board_product" do
-            if facterversion.to_f == '3.0'
-              assert_kind_of String, subject.send(:dmi_board_product)
-            else
-              assert_nil subject.send(:dmi_board_product)
-            end
+            assert_nil subject.send(:dmi_board_product)
           end
 
           test "#architecture_fact" do
@@ -790,17 +770,17 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       end
     end
 
-    describe 'Ubuntu 18.04' do
+    describe 'Ubuntu 20.04' do
       let(:os_name) { 'Ubuntu' }
-      let(:os_major) { '18.04' }
+      let(:os_major) { '20.04' }
 
-      ['2.5', '4.1'].each do |facterversion|
+      ['4.0', '4.11'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
-          test "should correctly identify Ubuntu 18.04" do
+          test "should correctly identify Ubuntu 20.04" do
             assert_equal 'Ubuntu', subject.send(:os_name)
-            assert_equal '18.04', subject.send(:os_major_version)
+            assert_equal '20.04', subject.send(:os_major_version)
             assert_nil subject.send(:os_minor_version)
           end
         end
@@ -811,7 +791,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       let(:os_name) { 'windows' }
       let(:os_major) { '2012' }
 
-      ['2.2', '3.0', '3.14'].each do |facterversion|
+      ['4.2', '4.4'].each do |facterversion|
         describe "Facter #{facterversion}" do
           let(:facterversion) { facterversion }
 
@@ -845,11 +825,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
           end
 
           test "#dmi_product_name" do
-            if facterversion.to_f >= 2.2
-              assert_kind_of String, subject.send(:dmi_product_name)
-            else
-              assert_nil subject.send(:dmi_product_name)
-            end
+            assert_kind_of String, subject.send(:dmi_product_name)
           end
 
           test "#dmi_board_product" do
@@ -873,8 +849,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def get_facterdb_facts(facterversion, os_name, os_major)
     require 'facterdb'
-    # This uses the legacy facts since it's always present
-    filter = "facterversion=/^#{Regexp.escape(facterversion)}\./ and operatingsystem=#{os_name} and operatingsystemmajrelease=#{os_major}"
+    filter = "facterversion=/^#{Regexp.escape(facterversion)}\./ and os.name=#{os_name} and os.release.major=#{os_major}"
 
     # patch the facterdb_fact_files to return only the facts for the given OS and Facter version
     # This prevents the facterDB from loading other files, that may contain incorrect JSON
