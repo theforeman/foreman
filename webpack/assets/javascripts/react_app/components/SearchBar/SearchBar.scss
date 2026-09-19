@@ -19,7 +19,12 @@
     width: unset;
   }
 
-  .pf-v5-c-dropdown { 
+  .pf-v5-c-dropdown {
     width: unset; // just in case Katello overrides it
   }
+}
+
+.search-chips-container {
+  width: 100%;
+  margin-top: var(--pf-v5-global--spacer--sm);
 }
