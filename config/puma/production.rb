@@ -53,7 +53,7 @@ rescue IPAddr::Error
   bind ENV.fetch('FOREMAN_BIND', 'tcp://127.0.0.1:3000')
 end
 
-on_worker_boot do
+before_worker_boot do
   dynflow = ::Rails.application.dynflow
   dynflow.initialize! unless dynflow.config.lazy_initialization
 end
