@@ -119,6 +119,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s 月前"
 
+msgid "%s of %s items selected"
+msgstr "%s 中的 %s 个项目被选择"
+
 msgid "%s saved"
 msgstr "%s 保存"
 
@@ -130,13 +133,13 @@ msgid_plural "%s warning messages"
 msgstr[0] "%s 警告信息"
 
 msgid "%s was successfully created."
-msgstr ""
+msgstr "成功创建 %s。"
 
 msgid "%s was successfully deleted"
 msgstr "%s 被成功删除"
 
 msgid "%s was successfully updated."
-msgstr ""
+msgstr "成功更新 %s。"
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -405,7 +408,7 @@ msgid "A mismatch happens if there is a resource associated with a host, such as
 msgstr "如果有与主机关联的资源（如域或子网），且与您要为其分配主机的 {taxonomy} 没有关联，则会发生不匹配的情况。不匹配时修复（Fix on mismatch）的选项会在 {taxonomy} 中添加此类资源，因此是推荐的选择。"
 
 msgid "A model with this name already exists. Please choose a different name."
-msgstr ""
+msgstr "具有此名称的型号已存在。请选择不同的名称。"
 
 msgid "A notification when a host finishes building"
 msgstr "当主机完成构建时的通知"
@@ -476,6 +479,9 @@ msgstr "拒绝访问"
 msgid "Access unattended without build"
 msgstr "无人值守访问且不构建"
 
+msgid "Accessing this page requires the following permissions:"
+msgstr "访问此页面需要以下权限："
+
 msgid "Account"
 msgstr "帐号"
 
@@ -505,9 +511,6 @@ msgstr "添加 Autosign 条目"
 
 msgid "Add Combination"
 msgstr "添加组合"
-
-msgid "Add Controller"
-msgstr "添加控制器"
 
 msgid "Add Input"
 msgstr "添加输入"
@@ -542,11 +545,17 @@ msgstr "添加 CD-ROM 驱动器到虚拟机。"
 msgid "Add a template combination"
 msgstr "添加模板组合"
 
+msgid "Add all"
+msgstr "添加所有"
+
 msgid "Add an SSH key for a user"
 msgstr "为用户添加 SSH 密钥"
 
 msgid "Add an email notification for a user"
 msgstr "为用户添加电子邮件通知"
+
+msgid "Add another volume"
+msgstr "添加另一个卷"
 
 msgid "Add external user group"
 msgstr "添加外部用户组"
@@ -562,6 +571,9 @@ msgstr "为注册添加软件仓库(%s 设置)"
 
 msgid "Add repository"
 msgstr "添加软件仓库"
+
+msgid "Add selected"
+msgstr "添加选择的"
 
 msgid "Add tag"
 msgstr "添加标签"
@@ -662,9 +674,6 @@ msgstr "所有环境"
 msgid "All host groups"
 msgstr "所有主机组"
 
-msgid "All hosts"
-msgstr "所有主机"
-
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "该位置和机构下所有配置的主机。"
 
@@ -719,6 +728,9 @@ msgstr "所有用户"
 msgid "Allocated"
 msgstr "已分配的"
 
+msgid "Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access."
+msgstr "在写入数据时，根据需要分配磁盘空间，而非预先预留全部空间。这可以节省存储空间，但在首次写入时写入性能可能会略有降低。"
+
 msgid "Allocation (GB)"
 msgstr "分配（GB）"
 
@@ -748,6 +760,9 @@ msgstr "电子邮件地址为必填，请更新您的帐户详情"
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "尝试连接至 LDAP 时出错，请验证认证源主机可以从您的 Foreman 访问并在线。"
+
+msgid "An error occurred loading the data."
+msgstr "加载数据时出错。"
 
 msgid "An error occurred while testing the connection: "
 msgstr "测试连接时出现错误： "
@@ -841,6 +856,9 @@ msgstr "确定要注销吗？"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "您确定要开启 %{act} %{vm}?"
+
+msgid "Are you sure you would like to revert all changes?"
+msgstr "您确认要撤销所有修改吗？"
 
 msgid "Are you sure you would like to revert the Template?"
 msgstr "您确定要还原模板吗？"
@@ -1238,8 +1256,11 @@ msgstr "BMC 密码使用情况"
 msgid "Back"
 msgstr "返回"
 
+msgid "Back to all hosts"
+msgstr "返回到所有主机"
+
 msgid "Back to hardware models"
-msgstr ""
+msgstr "返回硬件型号"
 
 msgid "Back to host"
 msgstr "转到主机"
@@ -1254,7 +1275,7 @@ msgid "Backtrace"
 msgstr "回溯"
 
 msgid "Bar chart"
-msgstr ""
+msgstr "条形图"
 
 msgid "Bare Metal"
 msgstr "裸机"
@@ -1468,7 +1489,7 @@ msgid "Cancel build request for this host"
 msgstr "取消创建主机的操作"
 
 msgid "Cancel the current build."
-msgstr ""
+msgstr "取消当前的构建。"
 
 msgid "Canceled pending build for %s"
 msgstr "取消对 %s 的待处理构建"
@@ -1476,11 +1497,17 @@ msgstr "取消对 %s 的待处理构建"
 msgid "Cannot add audit comment to a locked template."
 msgstr "无法将审核注释添加到锁定的模板。"
 
+msgid "Cannot add controllers to an existing VM"
+msgstr "无法将控制器添加到现有虚拟机中"
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr "无法添加有键 %s 但没有挂载点的 pagelet"
 
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr "无法添加有键 %s 但没有 partial 的 pagelet"
+
+msgid "Cannot add volumes to an existing VM"
+msgstr "无法将卷添加到现有虚拟机中"
 
 msgid "Cannot be in the past"
 msgstr "不能为过去"
@@ -1908,6 +1935,9 @@ msgstr "要在找到第一个匹配项后继续查找吗（仅阵列/散列/json
 msgid "Continue?"
 msgstr "要继续操作码？"
 
+msgid "Controller"
+msgstr "控制器"
+
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
 msgstr "控制在 LDAP 中用于查找用户的组成员资格的机制。"
 
@@ -2179,7 +2209,10 @@ msgid "Create a nested parameter for an organization"
 msgstr "为机构创建嵌入的参数"
 
 msgid "Create a new hardware model"
-msgstr ""
+msgstr "创建新的硬件型号"
+
+msgid "Create a new host"
+msgstr "创建新主机"
 
 msgid "Create a partition table"
 msgstr "创建分区表"
@@ -2234,6 +2267,9 @@ msgstr "在主机中创建接口"
 
 msgid "Create an operating system"
 msgstr "创建操作系统"
+
+msgid "Create another controller"
+msgstr "创建另一个控制器"
 
 msgid "Create autosign entry"
 msgstr "创建自动签名条目"
@@ -2499,9 +2535,6 @@ msgstr "刪除 %s?"
 msgid "Delete :a_resource"
 msgstr "删除 :a_resource"
 
-msgid "Delete Controller"
-msgstr "删除控制器"
-
 msgid "Delete Hosts"
 msgstr "删除主机"
 
@@ -2734,7 +2767,10 @@ msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "设备标识符，例如：eth0 或者 eth1.1"
 
 msgid "Disable"
-msgstr ""
+msgstr "禁用"
+
+msgid "Disable %s?"
+msgstr "禁用 %s?"
 
 msgid "Disable Notifications"
 msgstr "停用通知"
@@ -2787,9 +2823,6 @@ msgstr "磁盘"
 msgid "Disk '%s'"
 msgstr "磁盘 '%s'"
 
-msgid "Disk Mode"
-msgstr "磁盘模式"
-
 msgid "Disk allocation"
 msgstr "磁盘分配"
 
@@ -2799,8 +2832,8 @@ msgstr "磁盘容量"
 msgid "Disk label"
 msgstr "磁盘标签"
 
-msgid "Disk name"
-msgstr "磁盘名称"
+msgid "Disk mode"
+msgstr "磁盘模式"
 
 msgid "Disk path"
 msgstr "磁盘路径"
@@ -2987,7 +3020,10 @@ msgid "Empty"
 msgstr "空"
 
 msgid "Enable"
-msgstr ""
+msgstr "启用"
+
+msgid "Enable %s?"
+msgstr "启用 %s?"
 
 msgid "Enable Caching"
 msgstr "启用缓存"
@@ -3032,7 +3068,7 @@ msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "启用 %s 用于在下一次引导时重新构建，但对主机加电时出错"
 
 msgid "Enablement state of the selected hosts may vary."
-msgstr ""
+msgstr "所选主机的启用状态可能有所不同。"
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr "包含注释，它会在模板呈现期间被忽略："
@@ -3360,6 +3396,9 @@ msgstr ""
 "创建计算 %{compute_resource} 实例 %{name} 失败： %{message}\n"
 " "
 
+msgid "Failed to delete: "
+msgstr "删除失败："
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "部署虚拟机 %{name} 失败，错误：%{e}"
 
@@ -3456,9 +3495,6 @@ msgstr "为 %s 设定电源状态失败。"
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
 msgstr "停止计算 %{compute_resource} 实例 %{name} 失败： %{e}"
 
-msgid "Failed to submit the request."
-msgstr "提交请求失败。"
-
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr "撤销更新计算 %{compute_resource} 实例 %{name} 失败： %{e}"
 
@@ -3467,8 +3503,7 @@ msgstr "更新计算 %{compute_resource} 实例 %{name} 失败： %{e}"
 
 msgid "Failed to update notifications for %s host"
 msgid_plural "Failed to update notifications for %s hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "更新 %s 主机通知失败"
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "验证 %{host} 失败：%{error}"
@@ -3517,6 +3552,9 @@ msgstr "为 %s 获取 TFTP 引导文件"
 
 msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
 msgstr "获取主机电源是否打开的状态。支持的主机是 VM 和具有BMC 的物理主机。"
+
+msgid "Field is required"
+msgstr "字段是必需的"
 
 msgid "Field name"
 msgstr "项名称"
@@ -4070,9 +4108,6 @@ msgstr "HTTPS 引导需要具有 httpboot 功能和 https_port 公开设置的�
 msgid "HTTPS endpoint"
 msgstr "HTTPS 端点"
 
-msgid "Hard disk"
-msgstr "硬盘"
-
 msgid "Harddisk"
 msgstr "硬盘"
 
@@ -4506,6 +4541,9 @@ msgstr "主机明确排除在操作之外。除非还传递了包含的参数，
 msgid "Hosts to include in the action"
 msgstr "操作中要包含的主机"
 
+msgid "Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."
+msgstr "主机在该分类中使用 Smart Proxy，但 Smart Proxy 尚未分配给它。"
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "禁用 Foreman 报告功能的主机"
 
@@ -4699,9 +4737,6 @@ msgstr "主机组的 ID。请注意：更改主机组将重新应用从新主机
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "将主机重新分配到的主机组的 ID"
-
-msgid "ID of the organization"
-msgstr "机构 ID"
 
 msgid "ID of the owner to reassign the hosts to"
 msgstr "将主机重新分配到的所有者 ID"
@@ -5215,6 +5250,9 @@ msgstr "无效的 sendmail 位置，使用 settings.yaml 作为任意位置"
 
 msgid "Invalid smart-proxy id"
 msgstr "无效的智能代理服务器 ID"
+
+msgid "Invalid status"
+msgstr "无效的状态"
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "无效的标签必须是带有键和值属性的一组映射"
@@ -5850,7 +5888,7 @@ msgid "Loading filters ..."
 msgstr "正在加载过滤器......"
 
 msgid "Loading form"
-msgstr ""
+msgstr "加载表单"
 
 msgid "Loading host information ..."
 msgstr "正在加载主机信息 ..."
@@ -6146,7 +6184,7 @@ msgid "Manage host statuses"
 msgstr "管理主机状态"
 
 msgid "Manage notifications"
-msgstr ""
+msgstr "管理通知"
 
 msgid "Managed"
 msgstr "管理"
@@ -6189,6 +6227,9 @@ msgstr "最大"
 
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "结构化子树中的最大密钥数，统计信息存储在 foreman::dropped_subtree_facts 中"
+
+msgid "Maximum number of disks (%s) has been reached"
+msgstr "已达到最大磁盘数(%s)"
 
 msgid "Maximum structured facts"
 msgstr "最大结构化 fact"
@@ -6677,9 +6718,6 @@ msgstr "没有发现历史信息"
 msgid "No host could be found for rendering the template"
 msgstr "未找到呈现该模板的主机"
 
-msgid "No host found"
-msgstr "没有找到主机"
-
 msgid "No host found to associate this VM with"
 msgstr "没有找到与这个 VM 关联的主机"
 
@@ -6750,10 +6788,10 @@ msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr "没有为所选主机分配任何参数，不能批量分配"
 
 msgid "No permission to cancel the build."
-msgstr ""
+msgstr "没有取消构建的权限。"
 
 msgid "No permission to start build for this host."
-msgstr ""
+msgstr "没有为这个主机启动构建的权限。"
 
 msgid "No plugins found"
 msgstr "未找到插件"
@@ -6909,7 +6947,7 @@ msgid "Notification recipient"
 msgstr "通知接收者"
 
 msgid "Notification state"
-msgstr ""
+msgstr "通知状态"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
@@ -6944,17 +6982,16 @@ msgstr "通知"
 
 msgid "Notifications %{action} for %{count} host"
 msgid_plural "Notifications %{action} for %{count} hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{count} 主机的 %{action} 通知"
 
 msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
-msgstr ""
+msgstr "当主机通过 Puppet、Ansible 或其他配置管理工具报告配置错误时，会发送通知。"
 
 msgid "Notifications can't be assigned to this user."
 msgstr "通知无法分配给此用户。"
 
 msgid "Notifications enabled"
-msgstr ""
+msgstr "已启用通知"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -7733,6 +7770,9 @@ msgstr "启动计算实例 %s"
 msgid "Power%s"
 msgstr "开启 %s"
 
+msgid "Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately."
+msgstr "在创建时预先分配和归零所有磁盘块。这提供了最佳写入性能，但需要更长的时间来创建，且会立即占用全部磁盘空间。"
+
 msgid "Prefix length can't be blank"
 msgstr "前缀长度不能为空"
 
@@ -8158,14 +8198,26 @@ msgstr "删除匹配器"
 msgid "Remove Parameter"
 msgstr "删除参数"
 
+msgid "Remove all"
+msgstr "删除所有"
+
 msgid "Remove an email notification for a user"
 msgstr "删除用户的电子邮件通知"
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "为 %{host} 删除冲突 %{type}"
 
+msgid "Remove controller"
+msgstr "删除控制器"
+
+msgid "Remove selected"
+msgstr "删除选择的"
+
 msgid "Remove tag"
 msgstr "删除标签"
+
+msgid "Remove volume"
+msgstr "删除卷"
 
 msgid "Remove widget"
 msgstr "删除小插件"
@@ -8391,7 +8443,7 @@ msgid "Return to the last page"
 msgstr "返回到最后一个页面"
 
 msgid "Return to the previous page"
-msgstr ""
+msgstr "返回至前一页"
 
 msgid "Returns string representing a host status of a given type"
 msgstr "返回代表一个给定类型的主机状态的字符串"
@@ -8659,7 +8711,7 @@ msgid "Search"
 msgstr "搜索"
 
 msgid "Search (Ctrl+Shift+F)"
-msgstr ""
+msgstr "搜索(Ctrl+Shift+F)"
 
 msgid "Search error"
 msgstr "搜索错误"
@@ -8843,7 +8895,7 @@ msgid "Send a welcome email including username and URL to new users"
 msgstr "向新用户发送附带用户名及URL 的欢迎使用电子邮件"
 
 msgid "Send email notifications when configuration errors are reported"
-msgstr ""
+msgstr "报告配置错误时发送电子邮件通知"
 
 msgid "Send report via e-mail"
 msgstr "通过电子邮件发送报告"
@@ -8868,6 +8920,9 @@ msgstr "服务器组"
 
 msgid "Server hint data"
 msgstr "服务器提示数据"
+
+msgid "Server returned: "
+msgstr "返回的服务器："
 
 msgid "Server type"
 msgstr "服务器类型"
@@ -9346,17 +9401,11 @@ msgstr "值"
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr "使用空格分隔的选项，例如：miimon=100。仅用于捆绑接口。"
 
-msgid "Specified value is higher than maximum value"
-msgstr "指定了比最大值更大的值"
+msgid "Specified value is higher than maximum value %s%s"
+msgstr "指定了比最大值 %s%s 更大的值 "
 
-msgid "Specified value is higher than maximum value %s"
-msgstr "指定的值比最大值 %s 大"
-
-msgid "Specified value is higher than recommended maximum"
-msgstr "指定的值大于建议的最大值"
-
-msgid "Specified value is higher than recommended maximum %s"
-msgstr "指定的值比推荐的最大值 %s 大"
+msgid "Specified value is higher than recommended maximum %s%s"
+msgstr "指定的值比推荐的最大值 %s%s 更大的值 "
 
 msgid "Specify Matchers"
 msgstr "指定匹配器"
@@ -9394,7 +9443,7 @@ msgid "Start"
 msgstr "开始"
 
 msgid "Start build for this host."
-msgstr ""
+msgstr "为此主机启动构建。"
 
 msgid "Start typing to search"
 msgstr "开始输入来进行搜素"
@@ -9947,6 +9996,18 @@ msgstr "用作 OS 磁盘布局选项的文本（或 ERB 模板）。如果要使
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "在登录页的页脚中显示的文本。关键字 $VERSION 替换为当前版本。"
 
+msgid "The %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr "无法找到 %s。它可能已被删除，或在您当前所属的机构或位置范围内不可用。"
+
+msgid "The %s could not be loaded."
+msgstr "%s 无法被加载。"
+
+msgid "The %s with id %s could not be found. It may have been deleted or may not be available in your current organization or location scope."
+msgstr "无法找到带有 ID %s 的 %s。它可能已被删除，或在您当前所属的机构或位置范围内不可用。"
+
+msgid "The %s with id %s could not be loaded."
+msgstr "ID 为 %s 的 %s 无法被加载。"
+
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "无法为主机 %{host_names} 设置 %{proxy_type} 代理服务器。"
@@ -10056,6 +10117,9 @@ msgstr "以下错误可能使构建失败："
 msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
 msgstr "下面的示例演示如何使用它来删除 FQDN 和 IP 地址之间的不必要的换行符："
 
+msgid "The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions."
+msgstr "以下的功能由此 Smart Proxy 报告，但不被 Foreman 识别。这通常是因为未安装对应的 Foreman 插件，但可能还会因为版本不匹配或自定义代理扩展而发生。"
+
 msgid "The following fields would need reviewing"
 msgstr "需要检查以下字段"
 
@@ -10086,14 +10150,8 @@ msgstr "完整 DNS 域名"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "已找到您添加作为外部用户组的群组。但是，未从中找到与您的认证源库 DN 和过滤器匹配的用户。请验证该外部用户组是否从属于验证源过滤器"
 
-msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
-msgstr ""
-
-msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
-msgstr "主机 %s 不存在，或需要访问权限。如果问题一直存在，请联系您的管理员。"
-
 msgid "The host must be powered off to build."
-msgstr ""
+msgstr "必须关闭主机电源才能进行构建。"
 
 msgid "The hostname of the LDAP server"
 msgstr "LDAP 服务器的主机名"
@@ -10253,6 +10311,9 @@ msgstr "这<b>将删除</b>连接的虚拟机以及它们的磁盘，且此操�
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "此 IP 地址已在外部 IPAM 中保留"
+
+msgid "This Smart Proxy has features not recognized by Foreman: %s"
+msgstr "此 Smart Proxy 包含 Foreman 无法识别的功能：%s"
 
 msgid "This action will delete this host and all its data (i.e facts, report)"
 msgstr "此操作将删除此主机及其所有数据（例如 fact，报告）"
@@ -10570,7 +10631,7 @@ msgid "UUID"
 msgstr "UUID"
 
 msgid "UUID of a VM to import from a compute resource"
-msgstr ""
+msgstr "从计算资源导入的虚拟机的 UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "用于跟踪编配任务状态的 UUID，GET /api/orchestration/:UUID/tasks"
@@ -10686,8 +10747,8 @@ msgstr "无法获取安装的 BMC 供应商"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "无法初始化 ProxyAPI 类 %s"
 
-msgid "Unable to load hardware model"
-msgstr ""
+msgid "Unable to load %s"
+msgstr "无法加载 %s"
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr "无法从外部 IPAM 获取子网 %{subnet} 的 IP 地址。"
@@ -10859,6 +10920,9 @@ msgstr "取消管理主机"
 
 msgid "Unnamed"
 msgstr "未命名"
+
+msgid "Unrecognized features"
+msgstr "未识别的功能"
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s 不支持的 IPAM 模式"
@@ -11573,7 +11637,7 @@ msgid "Whether the class parameter value is managed by Foreman."
 msgstr "分类参数值是否由 Foreman 管理。"
 
 msgid "Whether to enable or disable notification alerts for the selected hosts"
-msgstr ""
+msgstr "是否为所选主机启用或禁用通知警报"
 
 msgid "Whether to pull RSS notifications or not"
 msgstr "是否获取 RSS 通知"
@@ -11738,6 +11802,12 @@ msgstr "您没有权限删除其他用户的邮件通知"
 
 msgid "You do not have permission to edit the login"
 msgstr "您没有编辑此登录名的权限"
+
+msgid "You do not have permission to view the %s with id %s."
+msgstr "您没有查看 ID 为 %s 的 %s 的权限。"
+
+msgid "You do not have permission to view this %s."
+msgstr "您没有查看这个 %s 的权限。"
 
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "您没有任何可见主机。可使用 Forman 添加和预配主机，或将其配置为向 Foreman 提交报告。"
@@ -12003,6 +12073,9 @@ msgstr "与所选子网不匹配"
 msgid "domain"
 msgstr "域"
 
+msgid "domain name can contain only letters, numbers, dashes and dots according to RFC 1035 and RFC 2181"
+msgstr "根据RFC 1035 和 RFC 2181，域名只能包含小写字母、数字、短横线和点。"
+
 msgid "duration (ms)"
 msgstr "持续时间 (ms)"
 
@@ -12096,6 +12169,9 @@ msgstr "全局设置"
 msgid "groups base DN"
 msgstr "组基础 DN"
 
+msgid "hardware model"
+msgstr "硬件型号"
+
 msgid "has already been taken"
 msgstr "已被使用"
 
@@ -12127,7 +12203,7 @@ msgid "hostgroup"
 msgstr "主机组"
 
 msgid "hostname can contain only lowercase letters, numbers, dashes and dots according to RFC921, RFC952 and RFC1123"
-msgstr "根据 RFC921、RFC952 和 RFC1123，主机名只能包含小写字母、数字、下划线和点"
+msgstr "根据 RFC921, RFC952 和 RFC1123，主机名只能包含小写字母、数字、短横线和点。"
 
 msgid "hostname of the host"
 msgstr "主机的主机名"
