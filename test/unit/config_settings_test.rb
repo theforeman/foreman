@@ -29,6 +29,28 @@ class ConfigSettingsTest < ActiveSupport::TestCase
     assert_equal 'from_settings_d', SETTINGS[:settings_loader_precedence_test]
   end
 
+  test 'does not expand ERB in configuration files' do
+    FileUtils.mkdir_p(settings_plugins_d_file.dirname)
+    File.write(settings_plugins_d_file, <<~YAML)
+      :erb_test: "<%= `id -un`.strip %>"
+    YAML
+
+    reload_settings
+
+    assert_equal "<%= `id -un`.strip %>", SETTINGS[:erb_test]
+  end
+
+  test 'raises exception when trying to load malicious ruby objects' do
+    FileUtils.mkdir_p(settings_plugins_d_file.dirname)
+    File.write(settings_plugins_d_file, <<~YAML)
+      :foo: !ruby/object:Object {}
+    YAML
+
+    assert_raises(Psych::DisallowedClass) do
+      reload_settings
+    end
+  end
+
   private
 
   def reload_settings
