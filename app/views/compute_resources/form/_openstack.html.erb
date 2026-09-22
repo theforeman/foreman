@@ -1,6 +1,29 @@
 <%= text_f f, :url, :label => _("URL"), :size => "col-md-8", :help_block => _("Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"), :help_inline => documentation_button('5.2.6OpenStackNotes') %>
-<%= text_f f, :user %>
-<%= password_f f, :password, :unset => unset_password? %>
+
+<%= selectable_f f, :authentication_type,
+  [[_("Username and password"), Foreman::Model::Openstack::PASSWORD_AUTHENTICATION], [_("Application credentials"), Foreman::Model::Openstack::APPLICATION_CREDENTIAL_AUTHENTICATION]], {},
+  :label => _("Authentication type"),
+  :onchange => 'tfm.computeResource.openstack.authenticationTypeSelected(this);',
+  :'data-original-value' => f.object.authentication_type,
+  :'data-persisted' => f.object.persisted?,
+  :'data-password-label' => _("Password"),
+  :'data-application-credential-label' => _("Application Credential Secret") %>
+
+<div id="openstack_password_credentials" class="<%= 'hide' if f.object.application_credentials? %>">
+  <%= text_f f, :user, :disabled => f.object.application_credentials? %>
+</div>
+
+<div id="openstack_application_credentials" class="<%= 'hide' unless f.object.application_credentials? %>">
+  <%= text_f f, :application_credential_id, :label => _("Application Credential ID"),
+    :disabled => !f.object.application_credentials?,
+    :help_block => _("Application Credentials require Keystone v3 authentication.") %>
+</div>
+
+<div id="openstack_credential_secret">
+  <%= password_f f, :password,
+    :label => f.object.application_credentials? ? _("Application Credential Secret") : _("Password"),
+    :unset => unset_password? %>
+</div>
 
 <%= text_f f, :tenant, :label => _("Project (Tenant) name"), :help_block => _("Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file.") %>
 

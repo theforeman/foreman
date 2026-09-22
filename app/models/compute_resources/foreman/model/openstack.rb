@@ -3,12 +3,21 @@ module Foreman::Model
     include KeyPairComputeResource
     attr_accessor :scheduler_hint_value
 
+    PASSWORD_AUTHENTICATION = 'password'.freeze
+    APPLICATION_CREDENTIAL_AUTHENTICATION = 'application_credentials'.freeze
+    AUTHENTICATION_TYPES = [PASSWORD_AUTHENTICATION, APPLICATION_CREDENTIAL_AUTHENTICATION].freeze
+
     delegate :flavors, :to => :client
     delegate :security_groups, :to => :client
 
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validate :url_contains_version
-    validates :user, :password, :presence => true
+    validates :authentication_type, :inclusion => { :in => AUTHENTICATION_TYPES }
+    validates :user, :presence => true, :if => :password_authentication?
+    validates :application_credential_id, :presence => true, :if => :application_credentials?
+    validates :password, :presence => true
+    validate :application_credentials_require_v3
+    validate :credential_changed_with_authentication_type, :on => :update
     validates :allow_external_network, inclusion: { in: [true, false] }
     validates :domain, :format => { :with => /\A\S+\z/ }, :allow_blank => true
 
@@ -44,6 +53,38 @@ module Foreman::Model
       attrs[:tenant] = name
     end
 
+    def authentication_type
+      attrs[:authentication_type].presence || PASSWORD_AUTHENTICATION
+    end
+
+    def authentication_type=(authentication_type)
+      attrs[:authentication_type] = authentication_type
+    end
+
+    def application_credential_id
+      attrs[:application_credential_id]
+    end
+
+    def application_credential_id=(credential_id)
+      attrs[:application_credential_id] = credential_id
+    end
+
+    def application_credential_secret
+      password
+    end
+
+    def application_credential_secret=(credential_secret)
+      self.password = credential_secret
+    end
+
+    def application_credentials?
+      authentication_type == APPLICATION_CREDENTIAL_AUTHENTICATION
+    end
+
+    def password_authentication?
+      authentication_type == PASSWORD_AUTHENTICATION
+    end
+
     def project_domain_id
       attrs[:project_domain_id]
     end
@@ -61,7 +102,10 @@ module Foreman::Model
     end
 
     def tenants
-      if identity_version == 3
+      if application_credentials?
+        project = identity_client.current_tenant
+        project ? [identity_client.projects.new(project)] : []
+      elsif identity_version == 3
         user_id = identity_client.current_user_id
         identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::OpenStack::Identity::V3::Project.new(p) }
       else
@@ -79,6 +123,12 @@ module Foreman::Model
       errors.add(:url, _("must end with /v2 or /v3")) if identity_version == 0
     end
 
+    def application_credentials_require_v3
+      if application_credentials? && identity_version != 3
+        errors.add(:authentication_type, _("requires a Keystone v3 URL"))
+      end
+    end
+
     def allow_external_network
       Foreman::Cast.to_bool(attrs[:allow_external_network])
     end
@@ -88,10 +138,10 @@ module Foreman::Model
     end
 
     def test_connection(options = {})
-      super
-      errors[:user].empty? && errors[:password] && tenants
+      super && tenants
     rescue => e
       errors.add(:base, e.message)
+      false
     end
 
     def available_images
@@ -274,12 +324,17 @@ module Foreman::Model
 
     def fog_credentials
       { :provider           => :openstack,
-        :openstack_api_key  => password,
-        :openstack_username => user,
         :openstack_auth_url => url_for_fog,
         :openstack_identity_endpoint => url_for_fog,
         :openstack_endpoint_type => 'publicURL',
       }.tap do |h|
+        if application_credentials?
+          h[:openstack_application_credential_id] = application_credential_id
+          h[:openstack_application_credential_secret] = password
+        else
+          h[:openstack_api_key] = password
+          h[:openstack_username] = user
+        end
         if tenant.present?
           if identity_version == 2
             h[:openstack_tenant] = tenant
@@ -291,9 +346,24 @@ module Foreman::Model
         h[:openstack_domain_id] = project_domain_id if project_domain_id.present?
         h[:openstack_domain_name] = project_domain_name if project_domain_name.present?
         h[:openstack_identity_api_version] = 'v2.0' if identity_version == 2
-        logger.debug { "OpenStack fog credentials: " + h.dup.delete_if { |key, value| key == :openstack_api_key }.to_s }
+        logger.debug do
+          hidden = [:openstack_api_key, :openstack_application_credential_secret]
+          "OpenStack fog credentials: " + h.except(*hidden).to_s
+        end
         h
       end
+    end
+
+    def credential_changed_with_authentication_type
+      return unless authentication_type != authentication_type_in_database
+      return if password_changed?
+
+      errors.add(:password, _("must be changed when the authentication type changes"))
+    end
+
+    def authentication_type_in_database
+      stored_attrs = attribute_in_database(:attrs) || {}
+      stored_attrs[:authentication_type].presence || PASSWORD_AUTHENTICATION
     end
 
     def identity_client
