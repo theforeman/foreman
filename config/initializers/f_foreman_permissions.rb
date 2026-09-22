@@ -632,7 +632,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :create_personal_access_tokens,
       :"api/v2/personal_access_tokens" => [:create]
     map.permission :revoke_personal_access_tokens,
-      :"api/v2/personal_access_tokens" => [:destroy]
+      :"api/v2/personal_access_tokens" => [:destroy, :purge]
   end
 
   permission_set.security_block :settings do |map|
