@@ -4,6 +4,7 @@ module Api
     include ApplicationShared
     include Foreman::Controller::ApiCsrfProtection
     include Foreman::Controller::BruteforceProtection
+    include Foreman::Controller::SmartProxyAuth
 
     before_action :load_settings
     before_action :set_default_response_format, :authorize, :set_taxonomy
@@ -12,6 +13,8 @@ module Api
     before_action :add_info_headers, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
+
+    add_registered_smart_proxy_filters
 
     respond_to :json
 

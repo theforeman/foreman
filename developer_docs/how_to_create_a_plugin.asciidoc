@@ -933,21 +933,31 @@ smart_proxy_for Subnet, :discovery,
 [[authenticating-a-smart-proxy]]
 === Authenticating a Smart Proxy
 
-If you have controller actions that SSL-authenticated Smart Proxies
-should be able to access, add this to your controller:
+Declare Smart Proxy features in the plugin registration block. The declaration
+creates the feature during database seeding and can list controller actions that
+SSL-authenticated Smart Proxies providing the feature may access. Controller
+names use the value returned by `controller_path`:
 
 [source, ruby]
 ----
-class MyController < ApplicationController
-  include Foreman::Controller::SmartProxyAuth
-
-  add_smart_proxy_filters :my_method, :features => 'My Feature'
-
-  def my_method
-    # do stuff
-  end
+Foreman::Plugin.register :my_plugin do
+  smart_proxy_feature 'My Feature',
+    'my_plugin/api/v2/resources' => [:index, :create],
+    'my_plugin/api/v2/status' => :show
 end
 ----
+
+If the feature does not require access to a Foreman controller, omit the actions:
+
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  smart_proxy_feature 'My Feature'
+end
+----
+
+The controller-level `add_smart_proxy_filters` API remains available for
+backwards compatibility, but new plugins should prefer the declaration above.
 [[extend-foreman-model-add-instance-or-class-methods]]
 === Extend Foreman Model (Add instance or class methods)
 
