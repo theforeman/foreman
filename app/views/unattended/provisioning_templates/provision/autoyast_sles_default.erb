@@ -11,7 +11,6 @@ description: |
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
-  puppetlabs_repo_enabled = host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8')
   voxpupuli_repo_enabled = [9, 8].any? { |version| host_param_true?("enable-openvox#{version}-repo") }
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
@@ -19,10 +18,6 @@ description: |
 
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
-
-  if puppetlabs_repo_enabled && voxpupuli_repo_enabled
-    raise "Both Puppet and OpenVox repositories are enabled"
-  end
 -%>
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE profile>
@@ -187,13 +182,7 @@ description: |
     <packages config:type="list">
       <package>openssh</package>
 <% if puppet_enabled -%>
-<% if puppetlabs_repo_enabled -%>
-      <package>puppet-agent</package>
-<% elsif voxpupuli_repo_enabled -%>
       <package>openvox-agent</package>
-<% else -%>
-      <package>rubygem-puppet</package>
-<% end -%>
 <% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
@@ -308,84 +297,6 @@ rm /etc/resolv.conf
         <product>sle-module-python2</product>
       </listentry>
   <% end -%>
-<% end -%>
-<% if puppet_enabled && puppetlabs_repo_enabled -%>
-<% if host_param_true?('enable-official-puppet8-repo') -%>
-<%
-  puppet_repo_url_base = 'http://yum.puppet.com'
-  puppet_repo_url = "#{puppet_repo_url_base}/puppet8/sles/#{os_major}/#{@host.architecture}/"
-%>
-    <listentry>
-        <media_url><![CDATA[<%= puppet_repo_url %>]]></media_url>
-        <name>puppet</name>
-        <product>puppet</product>
-        <product_dir>/</product_dir>
-        <signature-handling>
-          <accept_non_trusted_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>7F438280EF8D349F</keyid>
-            </keys>
-          </accept_non_trusted_gpg_key>
-          <import_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>7F438280EF8D349F</keyid>
-            </keys>
-          </import_gpg_key>
-        </signature-handling>
-      </listentry>
-<% else -%>
-      <listentry>
-        <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
-        <name>systemsmanagement_puppet</name>
-        <product>systemsmanagement_puppet</product>
-        <product_dir>/</product_dir>
-        <signature-handling>
-          <accept_non_trusted_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>2ABFA143A0E46E11</keyid>
-            </keys>
-          </accept_non_trusted_gpg_key>
-          <import_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>2ABFA143A0E46E11</keyid>
-            </keys>
-          </import_gpg_key>
-        </signature-handling>
-      </listentry>
-<% if os_major < 12 -%>
-      <listentry>
-        <media_url><![CDATA[http://download.opensuse.org/repositories/devel:languages:ruby:backports/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
-        <name>devel_languages_ruby_backports</name>
-        <product>devel_languages_ruby_backports</product>
-        <product_dir>/</product_dir>
-        <signature-handling>
-          <accept_non_trusted_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>9AF0C9A20E9AF123</keyid>
-            </keys>
-          </accept_non_trusted_gpg_key>
-          <import_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>9AF0C9A20E9AF123</keyid>
-            </keys>
-          </import_gpg_key>
-        </signature-handling>
-      </listentry>
-      <listentry>
-<!-- you have to update the next line with the actual URL of your SDK -->
-        <media_url>http://<your_server_here>/iso/suse/SDK/<%= os_major %>.<%= os_minor %>/<%= @host.architecture %>/</media_url>
-        <product>SuSE-Linux-SDK</product>
-        <product_dir>/</product_dir>
-        <name>SuSE-Linux-SDK</name>
-      </listentry>
-<% end -%>
-<% end -%>
 <% end -%>
 <% if puppet_enabled && voxpupuli_repo_enabled -%>
 <%
