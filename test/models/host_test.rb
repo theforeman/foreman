@@ -2070,6 +2070,27 @@ class HostTest < ActiveSupport::TestCase
   end
 
   context "search hosts by parameter" do
+    test "can search hosts by global parameter name" do
+      hosts = FactoryBot.create_list(:host, 2)
+      parameter = FactoryBot.create(:common_parameter)
+
+      results = Host.search_for(%{params_name = "#{parameter.name}"})
+
+      hosts.each { |host| assert_includes results, host }
+    end
+
+    test "can search hosts by inherited parameter name" do
+      hostgroup = FactoryBot.create(:hostgroup)
+      host = FactoryBot.create(:host, :hostgroup => hostgroup)
+      other_host = FactoryBot.create(:host, :hostgroup => nil)
+      parameter = FactoryBot.create(:hostgroup_parameter, :hostgroup => hostgroup)
+
+      results = Host.search_for(%{params_name = "#{parameter.name}"})
+
+      assert_includes results, host
+      refute_includes results, other_host
+    end
+
     test "can search hosts by params" do
       host = FactoryBot.create(:host, :with_parameter)
       parameter = host.parameters.first
@@ -2185,9 +2206,9 @@ class HostTest < ActiveSupport::TestCase
   test "Correctly find hosts with overridden parameter values" do
     host1 = FactoryBot.create(:host)
     host2 = FactoryBot.create(:host)
-    parameter1 = FactoryBot.create(:parameter)
+    parameter_name = FactoryBot.build(:parameter).name
 
-    host1_param = FactoryBot.create(:host_parameter, name: parameter1.name, value: "different", host: host1)
+    host1_param = FactoryBot.create(:host_parameter, name: parameter_name, value: "different", host: host1)
     host2_param = FactoryBot.create(:host_parameter, name: 'test_param2', value: "xxx", host: host2)
 
     results = Host.search_for(%{params_name = "#{host1_param.name}"})
