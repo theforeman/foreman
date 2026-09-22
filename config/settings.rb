@@ -4,7 +4,7 @@ require_relative '../app/services/foreman/env_settings_loader'
 settings_file = File.join(__dir__, Rails.env.test? ? 'settings.yaml.test' : 'settings.yaml')
 
 SETTINGS = {}
-SETTINGS.merge! YAML.load(ERB.new(File.read(settings_file)).result) if File.exist?(settings_file)
+SETTINGS.merge! YAML.safe_load_file(settings_file, permitted_classes: [Symbol], aliases: true) if File.exist?(settings_file)
 SETTINGS[:version] = Foreman::Version.new
 
 # Load settings from env variables
@@ -38,6 +38,6 @@ SETTINGS[:trusted_redirect_domains] ||= ['theforeman.org', 'redhat.com', 'orchar
 # Load local and plugin config overrides, if any
 ["#{__dir__}/settings.plugins.d/*.yaml", "#{__dir__}/settings.d/*.yaml"].each do |pattern|
   Dir[pattern].sort.each do |f|
-    SETTINGS.merge! YAML.load(ERB.new(File.read(f)).result)
+    SETTINGS.merge! YAML.safe_load_file(f, permitted_classes: [Symbol], aliases: true)
   end
 end
