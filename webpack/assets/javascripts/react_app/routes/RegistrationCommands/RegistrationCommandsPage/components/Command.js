@@ -8,6 +8,7 @@ import {
   ClipboardCopyVariant,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
+import { copyToClipboard } from '../../../../common/clipboard';
 import { STATUS } from '../../../../constants';
 
 const Command = ({ apiStatus, command }) => {
@@ -31,6 +32,7 @@ const Command = ({ apiStatus, command }) => {
             isCode
             isExpanded
             ouiaId="clipboard-copy-registration-command"
+            onCopy={copyToClipboard}
           >
             {command}
           </ClipboardCopy>
