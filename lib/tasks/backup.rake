@@ -49,12 +49,13 @@ namespace :db do
   end
 
   def postgres_dump(name, config, tables = [])
-    cmd = "pg_dump -Fc #{config['database']} -U #{config['username']} "
-    cmd += " -h #{config['host']} "    if config['host'].present?
-    cmd += " -p #{config['port']} "    if config['port'].present?
-    cmd += " " + (tables.map { |t| "-t #{t}" }).join(" ") + " " if tables.present?
-    cmd += " > #{name}"
-    system({'PGPASSWORD' => config['password']}, cmd)
+    cmd = ["pg_dump", "-Fc", config['database'], "-U", config['username']]
+    cmd.concat(["-h", config['host']]) if config['host'].present?
+    cmd.concat(["-p", config['port'].to_s]) if config['port'].present?
+    tables.each { |t| cmd.concat(["-t", t]) } if tables.present?
+    cmd.concat(["-f", name])
+
+    system({'PGPASSWORD' => config['password']}, *cmd)
   end
 
   def get_matched_tables(input_table_names)
@@ -106,11 +107,11 @@ namespace :db do
   end
 
   def postgres_import(file, config)
-    cmd = "pg_restore -d #{config['database']} -U #{config['username']} --clean"
-    cmd += " -h #{config['host']} " if config['host'].present?
-    cmd += " -p #{config['port']} " if config['port'].present?
-    cmd += " #{file}"
-    system({'PGPASSWORD' => config['password']}, cmd)
-    system(cmd)
+    cmd = ["pg_restore", "-d", config['database'], "-U", config['username'], "--clean"]
+    cmd.concat(["-h", config['host']]) if config['host'].present?
+    cmd.concat(["-p", config['port'].to_s]) if config['port'].present?
+    cmd << file
+
+    system({'PGPASSWORD' => config['password']}, *cmd)
   end
 end
