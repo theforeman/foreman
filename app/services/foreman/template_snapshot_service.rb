@@ -101,6 +101,13 @@ module Foreman
       define_host_params(host)
     end
 
+    def debian4static
+      host = FactoryBot.build(:host_for_snapshots, :with_deb10,
+        name: 'snapshot-ipv4-static-deb10',
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_static)])
+      define_host_params(host)
+    end
+
     def ubuntu4dhcp
       host = FactoryBot.build(:host_for_snapshots, :with_ubuntu18,
         name: 'snapshot-ipv4-dhcp-ubuntu18',
