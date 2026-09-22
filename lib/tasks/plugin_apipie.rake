@@ -10,7 +10,8 @@ task 'plugin:apipie:cache', :engine do |t, args|
     @engine_root = @engine.root
 
     Apipie.configuration.ignored = plugin.apipie_ignored_controllers || []
-    api_controllers = plugin.apipie_documented_controllers || ["#{@engine_root}/app/controllers/#{path_name}/api/*.rb"]
+    default_controllers = ["#{@engine_root}/app/controllers/#{@engine.engine_name}/api/*.rb"]
+    api_controllers = plugin.apipie_documented_controllers || default_controllers
     Apipie.configuration.api_controllers_matcher = api_controllers
 
     Rake::Task['apipie:cache'].execute
