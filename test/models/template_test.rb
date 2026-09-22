@@ -71,6 +71,18 @@ below"
       without = @template.template_without_metadata
       refute_includes without, 'name: basic'
     end
+
+    test "erb comments do not consume template content containing name" do
+      @template.template = <<~ERB
+        <%#
+        %>
+        content before the expression
+        <%= name %>
+        content after the expression
+      ERB
+
+      assert_equal @template.template, @template.template_without_metadata
+    end
   end
 
   describe "#filename" do
@@ -174,6 +186,10 @@ data"
         assert_nothing_raised do
           assert_empty(Template.parse_metadata("<%#\n: %>"))
         end
+      end
+
+      test 'it ignores comments without metadata' do
+        assert_empty Template.parse_metadata("<%#\n%>")
       end
     end
 
