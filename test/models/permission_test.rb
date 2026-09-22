@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class PermissionTest < ActiveSupport::TestCase
+  test 'rejects duplicate names at the database level' do
+    permission = FactoryBot.create(:permission, :name => 'view_database_unique_test')
+    duplicate = Permission.new(:name => permission.name, :resource_type => permission.resource_type)
+
+    assert_raises(ActiveRecord::RecordNotUnique) do
+      duplicate.save(:validate => false)
+    end
+  end
+
   test ".resources" do
     Permission.resources.each { |r| assert_kind_of String, r }
   end
