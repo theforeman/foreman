@@ -20,11 +20,13 @@ const defaultProps = {
   closeModal: jest.fn(),
 };
 
+const bumpRefresh = jest.fn();
+
 const renderModal = (props = {}) => {
   const store = mockStore({ API: {} });
   render(
     <Provider store={store}>
-      <HostsPowerRefreshContext.Provider value={{ bumpRefresh: jest.fn() }}>
+      <HostsPowerRefreshContext.Provider value={{ bumpRefresh }}>
         <BulkPowerStateModal {...defaultProps} {...props} />
       </HostsPowerRefreshContext.Provider>
     </Provider>
@@ -33,12 +35,14 @@ const renderModal = (props = {}) => {
 };
 
 describe('BulkPowerStateModal', () => {
+  let capturedHandleSuccess;
   let capturedHandleError;
 
   beforeEach(() => {
     jest.clearAllMocks();
     bulkChangePowerState.mockImplementation(
-      (_payload, _handleSuccess, handleError) => {
+      (_payload, handleSuccess, handleError) => {
+        capturedHandleSuccess = handleSuccess;
         capturedHandleError = handleError;
         return { type: 'MOCK_ACTION' };
       }
@@ -82,6 +86,17 @@ describe('BulkPowerStateModal', () => {
       fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
     });
     expect(closeModal).toHaveBeenCalled();
+  });
+
+  it('refreshes power status once after a successful change', async () => {
+    renderModal();
+    await selectAndSubmit();
+
+    await act(async () => {
+      capturedHandleSuccess({ data: { message: 'Power state changed' } });
+    });
+
+    expect(bumpRefresh).toHaveBeenCalledTimes(1);
   });
 
   describe('handleError', () => {
