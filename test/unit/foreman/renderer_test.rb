@@ -41,6 +41,20 @@ class RendererTest < ActiveSupport::TestCase
     end
   end
 
+  test 'temporary template rendering preserves the template name' do
+    template = FactoryBot.build_stubbed(
+      :provisioning_template,
+      name: 'Named finish template',
+      template: '<%= template_name %>'
+    )
+
+    tempfile = Foreman::Renderer.render_template_to_tempfile(template: template, prefix: 'renderer-test')
+
+    assert_equal template.name, File.read(tempfile.path)
+  ensure
+    tempfile&.close!
+  end
+
   private
 
   def assert_template(template)
