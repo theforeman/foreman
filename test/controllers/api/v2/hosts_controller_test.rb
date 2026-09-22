@@ -629,7 +629,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should show hosts vm attributes" do
-    host = FactoryBot.create(:host, :compute_resource => compute_resources(:one))
+    host = FactoryBot.create(:host, :compute_resource => compute_resources(:one), :uuid => Foreman.uuid)
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns(:cpus => 4)
     get :vm_compute_attributes, params: { :id => host.to_param }
     assert_response :success

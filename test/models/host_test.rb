@@ -179,6 +179,14 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host.vm_compute_attributes
   end
 
+  test "fetches nil vm compute attributes when uuid is missing" do
+    host = FactoryBot.create(:host, :on_compute_resource)
+    host.uuid = nil
+    ComputeResource.any_instance.expects(:vm_compute_attributes_for).never
+
+    assert_nil host.vm_compute_attributes
+  end
+
   test "can authorize Host::Managed as non-admin user" do
     h = FactoryBot.create(:host, :managed)
     setup_user('view', 'hosts', 'name ~ *')
@@ -2678,6 +2686,14 @@ class HostTest < ActiveSupport::TestCase
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
     copy = host.clone
     assert_nil copy.compute_attributes
+  end
+
+  test 'clone should not fetch compute attributes when uuid is missing' do
+    host = FactoryBot.create(:host, :on_compute_resource)
+    host.uuid = nil
+    ComputeResource.any_instance.expects(:vm_compute_attributes_for).never
+
+    assert_empty host.clone.compute_attributes
   end
 
   test 'facts are deleted when build set to true' do
