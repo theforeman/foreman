@@ -520,10 +520,10 @@ class User < ApplicationRecord
     delay = Rails.env.test? ? 0 : 2.minutes
     Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
       klass = taxonomies.to_s.classify.constantize
-      top_level = send(taxonomies) + klass.unscoped.ignoring(User)
+      top_level = send(taxonomies) + inherited_taxonomies(klass) + klass.unscoped.ignoring(User)
       next [] if top_level.empty?
 
-      Taxonomy.batch_subtree_ids(top_level)
+      Taxonomy.batch_subtree_ids(top_level.uniq)
     end
   end
 
@@ -614,6 +614,16 @@ class User < ApplicationRecord
   end
 
   private
+
+  def inherited_taxonomies(taxonomy_class)
+    taxonomy_class.unscoped.
+      joins(:taxable_taxonomies).
+      where(:taxable_taxonomies => {
+        :taxable_type => 'Usergroup',
+        :taxable_id => CachedUsergroupMember.where(:user_id => id).select(:usergroup_id),
+      }).
+      distinct
+  end
 
   def can_escalate_excluding_roles?(usergroup, role_ids)
     return true if admin?

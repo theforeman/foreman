@@ -6,10 +6,12 @@ class Usergroup < ApplicationRecord
   include Parameterizable::ByIdName
   include TopbarCacheExpiry
   include UserUsergroupCommon
+  include Taxonomix
 
   validates_lengths_from_database
   validates_associated :external_usergroups
   before_destroy EnsureNotUsedBy.new(:hosts), :ensure_last_admin_group_is_not_deleted
+  before_save :invalidate_members_taxonomy_cache, :if => -> { organization_ids_changed? || location_ids_changed? }
 
   has_many :user_roles, :dependent => :destroy, :as => :owner
   has_many :roles, :through => :user_roles, :dependent => :destroy
@@ -35,6 +37,13 @@ class Usergroup < ApplicationRecord
   default_scope -> { order('usergroups.name') }
   scope :visible, -> {}
   scope :except_current, ->(current) { where.not(:id => current.id) }
+
+  # Organizations and locations on a user group are inherited by its members.
+  # They do not scope access to the user group record itself.
+  def self.allows_taxonomy_filtering?(_taxonomy)
+    false
+  end
+
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
@@ -74,7 +83,7 @@ class Usergroup < ApplicationRecord
   end
 
   def expire_topbar_cache
-    users.each { |u| u.expire_topbar_cache }
+    all_cached_users.each(&:expire_topbar_cache)
   end
 
   def to_export
@@ -89,7 +98,26 @@ class Usergroup < ApplicationRecord
     all_users.map(&:id)
   end
 
+  def taxonomy_foreign_conditions
+    { :owner_id => id, :owner_type => 'Usergroup' }
+  end
+
   protected
+
+  def allow_empty_taxonomy_selection?
+    true
+  end
+
+  def invalidate_members_taxonomy_cache
+    all_cached_users.each(&:invalidate_cache)
+  end
+
+  def all_cached_users
+    User.unscoped.
+      joins(:cached_usergroup_members).
+      where(:cached_usergroup_members => { :usergroup_id => id }).
+      distinct
+  end
 
   # Recurses down the tree of usergroups and finds the users
   # [+group_list+]: Array of Usergroups that have already been processed
