@@ -316,6 +316,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to '/users/extlogout'
   end
 
+  test "logout clears the selected hosts cookie" do
+    cookies['_ForemanSelectedhosts'] = '[1,2]'
+    post :logout, session: set_session_user(users(:admin))
+    assert_redirected_to login_users_path
+    expired = Array(response.headers['Set-Cookie']).select { |c| c.start_with?('_ForemanSelected') }
+    assert_not_empty expired, 'expected a Set-Cookie expiring _ForemanSelectedhosts'
+    assert_match(/expires=Thu, 01 Jan 1970/, expired.first)
+  end
+
   test "should redirect disabled external user to login page" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
