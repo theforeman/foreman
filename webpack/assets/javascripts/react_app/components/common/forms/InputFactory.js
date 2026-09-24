@@ -10,11 +10,9 @@ import OrderableDualList from './OrderableDualList/OrderableDualList';
 import MemoryAllocationInput from '../../MemoryAllocationInput';
 import CounterInput from './CounterInput';
 import TimePicker from '../DateTimePicker/TimePicker';
-import Select from './Select';
 
 const inputComponents = {
   autocomplete: SearchBar,
-  select: Select,
   date: DatePicker,
   dateTime: DateTimePicker,
   orderableSelect: OrderableDualList,

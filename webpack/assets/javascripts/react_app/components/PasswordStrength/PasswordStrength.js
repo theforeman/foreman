@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPasswordStrength from 'react-password-strength';
 import { translate as __ } from '../../../react_app/common/I18n';
-import CommonForm from '../common/forms/CommonForm';
 import { noop } from '../../common/helpers';
 
+import HorizontalFormField from './HorizontalFormField';
 import './PasswordStrength.scss';
 
 const PasswordStrength = ({
@@ -19,13 +19,24 @@ const PasswordStrength = ({
       ? userInputIds.map(input => document.getElementById(input).value)
       : [];
 
+  const passwordError = !passwordPresent && error;
+  let verifyError = null;
+
+  if (verify) {
+    if (doesPasswordsMatch) {
+      verifyError = verify.error;
+    } else {
+      verifyError = __('Passwords do not match');
+    }
+  }
+
   return (
     <div>
-      <CommonForm
+      <HorizontalFormField
         label={__('Password')}
-        touched
-        error={!passwordPresent && error}
         required={required}
+        touched
+        error={passwordError}
       >
         <ReactPasswordStrength
           changeCallback={({ password }) => updatePassword(password)}
@@ -42,15 +53,13 @@ const PasswordStrength = ({
           ]}
           inputProps={{ name, id, className, autoComplete: 'new-password' }}
         />
-      </CommonForm>
+      </HorizontalFormField>
       {verify && (
-        <CommonForm
+        <HorizontalFormField
           label={__('Verify')}
-          touched
           required={required}
-          error={
-            doesPasswordsMatch ? verify.error : __('Passwords do not match')
-          }
+          touched
+          error={verifyError || undefined}
         >
           <input
             id="password_confirmation"
@@ -59,7 +68,7 @@ const PasswordStrength = ({
             onChange={({ target }) => updatePasswordConfirmation(target.value)}
             className="form-control"
           />
-        </CommonForm>
+        </HorizontalFormField>
       )}
     </div>
   );
