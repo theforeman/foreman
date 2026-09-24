@@ -61,21 +61,21 @@ export const Table = ({
         updateParamsByUrl={!isEmbedded}
       />
     );
+  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const columnsToSortParams = {};
-  Object.keys(columns).forEach(key => {
+  columnNamesKeys.forEach(key => {
     if (columns[key].isSorted) {
-      columnsToSortParams[columns[key].title] = key;
+      columnsToSortParams[keysToColumnNames[key]] = key;
     }
   });
-  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const onSort = (_event, index, direction) => {
     setParams({
       ...params,
-      order: `${Object.keys(columns)[index]} ${direction}`,
+      order: `${columnNamesKeys[index]} ${direction}`,
     });
   };
   const { pfSortParams } = useTableSort({
-    allColumns: Object.keys(columns).map(k => columns[k].title),
+    allColumns: columnNamesKeys.map(k => keysToColumnNames[k]),
     columnsToSortParams,
     onSort,
   });
@@ -152,7 +152,7 @@ export const Table = ({
                 }
                 aria-label={keysToColumnNames[k]}
               >
-                {keysToColumnNames[k]}
+                {columns[k].title}
               </Th>
             ))}
           </Tr>
