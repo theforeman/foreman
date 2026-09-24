@@ -42,7 +42,8 @@ A page component that displays a table with data fetched from the API. It provid
 @param {Object} {breadcrumbOptions} - props to send to the breadcrumb bar
 @param {React.ReactNode} {children} - optional children to be rendered inside the page instead of the table
 @param {Object}{columns} - Not needed when passing children. An object of objects representing the columns to be displayed in the table, keys should be the same as in the api response
-@param {string} columns[].title - the title of the column, translated
+@param {string} columns[].title - the title of the column, translated. Must be a string (or set columns[].label) so data-label/aria-label do not become "[object Object]".
+@param {string} columns[].label - optional accessible name when title is not a string (for example a custom header node).
 @param {function} columns[].wrapper - a function that returns a React component to be rendered in the column
 @param {boolean} columns[].isSorted - whether or not the column is sortable by its columnName. Only works if ORDER BY <columnName> will work.
 @param {function} columns[].isRelevant - optional function that takes in ForemanContext and returns a boolean. The column will be hidden from the column selector if isRelevant returns false. If the isRelevant key is omitted, columns are always relevant.
