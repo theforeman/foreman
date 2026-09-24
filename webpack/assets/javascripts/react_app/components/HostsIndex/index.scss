@@ -20,3 +20,57 @@
   max-height: 400px;
   overflow: auto;
 }
+
+// PF5 Table has no inset or verticalAlign props. These tokens are the only
+// way to undo extra first/last padding (16px, 24px at xl) and kebab middle align.
+[data-ouia-component-id='hosts-index-table'].pf-v5-c-table {
+  --pf-v5-c-table--m-compact--cell--first-last-child--PaddingLeft: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--PaddingRight: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--xl--PaddingLeft: var(
+    --pf-v5-global--spacer--sm
+  );
+  --pf-v5-c-table--m-compact--cell--first-last-child--xl--PaddingRight: var(
+    --pf-v5-global--spacer--sm
+  );
+
+  tbody td {
+    vertical-align: top;
+  }
+
+  // PF5 sets vertical-align: bottom on thead, but that does not apply to
+  // th cells. One-line titles then sit at the top of a row stretched by
+  // wrapping headers such as Host group.
+  thead th {
+    vertical-align: bottom;
+  }
+
+  // Compact last-child reapplies first-last PaddingRight (24px at xl) on the
+  // kebab cell; .pf-v5-c-table__action does not override PaddingRight.
+  // Drop that extra gutter. Keep MenuToggle plain padding as the hit target.
+  // Remove this override when upgrading to PF6; PF6 drops the extra 24px
+  // last-cell gutter inside the row.
+  .pf-v5-c-table__action {
+    --pf-v5-c-table--m-compact--cell--first-last-child--PaddingRight: 0;
+    --pf-v5-c-table--cell--first-last-child--PaddingRight: 0;
+    --pf-v5-c-table--cell--PaddingRight: 0;
+    vertical-align: top;
+  }
+}
+
+// compact-ui forces 2px vertical padding on PF table cells globally.
+// Keep this table on PatternFly compact (8px), including when that setting is on.
+.compact-ui [data-ouia-component-id='hosts-index-table'] {
+  td.pf-v5-c-table__td:not(.pf-v5-c-table__action) {
+    padding-top: var(--pf-v5-global--spacer--sm);
+    padding-bottom: var(--pf-v5-global--spacer--sm);
+  }
+
+  td.pf-v5-c-table__action {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

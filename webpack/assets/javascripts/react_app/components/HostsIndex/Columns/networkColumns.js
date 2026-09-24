@@ -4,6 +4,7 @@ const networkColumns = [
     title: 'IPv4',
     wrapper: hostDetails => hostDetails?.ip,
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 700,
   },
   {
@@ -11,6 +12,7 @@ const networkColumns = [
     title: 'IPv6',
     wrapper: hostDetails => hostDetails?.ip6,
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 800,
   },
   {
@@ -18,6 +20,7 @@ const networkColumns = [
     title: 'MAC',
     wrapper: hostDetails => hostDetails?.mac,
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 900,
   },
 ];

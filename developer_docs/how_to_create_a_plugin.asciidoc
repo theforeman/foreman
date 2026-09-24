@@ -544,13 +544,17 @@ registerColumns(hostsIndexColumnExtensions);
 Each column extension object must contain the following properties:
 
 * `columnName` - the name of the column, which must match the column name in the API response.
-* `title` - the title of the column to be displayed on screen in the <th> element. Should be translated.
+* `title` - the title of the column to be displayed on screen in the <th> element. Must be a translated string. If you need a custom header node, keep `title` as the string and render the node separately; HTML `data-label` cannot accept a React object.
+* `label` - optional accessible name. Defaults to `title` when `title` is a string.
 * `wrapper` - a function that returns the content (as JSX) to be displayed in the table cell. The function receives the host details as an argument.
 * `weight` - the weight of the column, which determines the order in which columns are displayed. Lower weights are displayed first.
 * `tableName` - the name of the table. Should match the `name` of the user's TablePreference.
 * `categoryName` - the name of the category to which the column belongs. Displayed on screen in the ColumnSelector. Should be translated.
 * `categoryKey` - the key of the category to which the column belongs. Used to group columns in the ColumnSelector. Should not be translated.
 * `isSorted` - whether the column is sortable. Sortable columns must have a `columnName` that matches a sortable column in the API response.
+* `headerModifier` - optional PatternFly `<Th>` modifier (`wrap`, `truncate`, `nowrap`). When omitted, 1-word titles stay on one line, 2-word titles wrap, and 3+ word titles truncate with a tooltip. Set `truncate` for long titles such as Content view environments.
+* `headerMaxWidth` - optional CSS max-width (for example `12ch`) so wrap/truncate can take effect. Defaults to `12ch` for wrap and `16ch` for truncate.
+* `cellModifier` - optional PatternFly `<Td>` modifier (`wrap`, `truncate`, `nowrap`, `breakWord`). Defaults to `wrap`. Use `truncate` for long free-text and `breakWord` for values that have no spaces (FQDN, IPv6). Prefer CSS truncation with a PatternFly tooltip over character-count helpers such as `truncate(label, 35)`.
 
 [[new-structure-for-assets]]
 ===== New structure for assets.
