@@ -21,6 +21,27 @@ export const getPageStats = ({ total, page, perPage }) => {
 };
 
 /**
+ * Accessible string label for a column. Never returns a React node — HTML
+ * attributes like data-label stringify objects as "[object Object]".
+ * @param {Object} column
+ * @param {string} fallbackKey
+ * @returns {string}
+ */
+export const getColumnLabel = (column, fallbackKey) => {
+  if (typeof column?.label === 'string' && column.label.length) {
+    return column.label;
+  }
+  if (typeof column?.title === 'string') {
+    return column.title;
+  }
+  const titleChildren = column?.title?.props?.children;
+  if (typeof titleChildren === 'string') {
+    return titleChildren;
+  }
+  return fallbackKey;
+};
+
+/**
  * Assembles column data into various forms needed
  * @param {Object} columns - Object with column sort params as keys and column objects as values. Column objects must have a title key
  * @returns {Array} - an array of column sort params, sorted by weight, and a map of keys to column names
@@ -29,7 +50,7 @@ export const getColumnHelpers = columns => {
   const columnNamesKeys = Object.keys(columns);
   const keysToColumnNames = {};
   columnNamesKeys.forEach(key => {
-    keysToColumnNames[key] = columns[key].title;
+    keysToColumnNames[key] = getColumnLabel(columns[key], key);
   });
   columnNamesKeys.sort((a, b) => {
     const columnBWeight = columns[b]?.weight;
