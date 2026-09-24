@@ -1,4 +1,7 @@
-import { DEFAULT_USER_COLUMNS } from '../PF4/TableIndexPage/Table/helpers';
+import {
+  DEFAULT_USER_COLUMNS,
+  getColumnLabel,
+} from '../PF4/TableIndexPage/Table/helpers';
 
 const getCheckedStateForCategory = (category = { children: [] }) => {
   // return true if all children are checked
@@ -71,7 +74,6 @@ export const categoriesFromFrontendColumnData = ({
       categoryKey,
       tableName,
       columnName,
-      title,
       isRequired,
       isRelevant,
     } = registeredColumns[column];
@@ -93,7 +95,7 @@ export const categoriesFromFrontendColumnData = ({
 
     if (shouldShowColumn) {
       categories[categoryIndex].children.push({
-        name: title,
+        name: getColumnLabel(registeredColumns[column], columnName),
         key: columnName,
         checkProps: {
           checked: isRequired || userColumns.includes(columnName),
