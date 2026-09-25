@@ -1961,6 +1961,22 @@ class HostTest < ActiveSupport::TestCase
     assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
   end
 
+  test "can search hosts by a list of fact values" do
+    matching_hosts = [FactoryBot.create(:host), FactoryBot.create(:host)]
+    other_host = FactoryBot.create(:host)
+    fact_name = FactoryBot.create(:fact_name, :name => 'list_search_fact')
+
+    [matching_hosts[0], matching_hosts[1], other_host].zip(%w[alpha beta gamma]).each do |host, value|
+      FactoryBot.create(:fact_value, :fact_name => fact_name, :host => host, :value => value)
+    end
+
+    results = Host::Managed.search_for('facts.list_search_fact ^ (alpha, beta)')
+    assert_same_elements matching_hosts, results
+
+    results = Host::Managed.search_for('facts.list_search_fact !^ (alpha, beta)')
+    assert_equal [other_host], results
+  end
+
   test "search by fact name is not vulnerable to SQL injection in name" do
     host = FactoryBot.create(:host, :with_facts, :fact_count => 1)
     query = "facts.a'b = c or facts.#{host.facts.keys.first} = #{host.facts.values.first}"
@@ -2172,6 +2188,21 @@ class HostTest < ActiveSupport::TestCase
       assert_same_elements results, [host2]
       results = Host.search_for("params.#{parameter.name} = f")
       assert_same_elements results, [host2]
+    end
+
+    test "can search hosts by a list of parameter values" do
+      matching_hosts = [FactoryBot.create(:host), FactoryBot.create(:host)]
+      other_host = FactoryBot.create(:host)
+
+      [matching_hosts[0], matching_hosts[1], other_host].zip(%w[alpha beta gamma]).each do |host, value|
+        FactoryBot.create(:host_parameter, :host => host, :name => 'list_search_param', :value => value)
+      end
+
+      results = Host.search_for('params.list_search_param ^ (alpha, beta)')
+      assert_same_elements matching_hosts, results
+
+      results = Host.search_for('params.list_search_param !^ (alpha, beta)')
+      assert_equal [other_host], results
     end
   end
 
