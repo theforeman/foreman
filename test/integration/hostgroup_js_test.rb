@@ -9,9 +9,10 @@ class HostgroupJSTest < IntegrationTestWithJavascript
 
   test 'creates a hostgroup with provisioning data' do
     os = FactoryBot.create(:ubuntu14_10, :with_associations)
+    hostgroup_name = "myhostgroup-#{SecureRandom.hex(4)}"
     visit new_hostgroup_path
 
-    fill_in 'hostgroup_name', :with => 'myhostgroup1'
+    fill_in 'hostgroup_name', :with => hostgroup_name
     click_link 'Operating System'
     wait_for_ajax
     select2 os.architectures.first.name, :from => 'hostgroup_architecture_id'
@@ -24,12 +25,10 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     wait_for_ajax
     fill_in 'hostgroup_root_pass', :with => '12345678'
     click_button 'Submit'
-    hostgroup = wait_for do
-      Hostgroup.where(:name => "myhostgroup1").first
-    end
-    refute_nil hostgroup
+    assert_current_path hostgroups_path, :wait => 15
+    hostgroup = Hostgroup.find_by!(:name => hostgroup_name)
+
     assert_equal os.id, hostgroup.operatingsystem_id
-    assert page.has_current_path? hostgroups_path
   end
 
   describe 'with parent hostgroup' do
