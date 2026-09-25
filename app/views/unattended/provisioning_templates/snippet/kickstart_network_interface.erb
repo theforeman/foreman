@@ -14,6 +14,10 @@ description: |
 <%
 network_options = []
 nameservers = []
+
+# Leave an already-working installer NIC alone (e.g. LACP bond from boot options).
+# https://projects.theforeman.org/issues/39499
+network_options.push("--no-activate") if host_param_true?('kickstart-network-no-activate')
 subnet4 = @iface.subnet
 subnet6 = @iface.subnet6
 
