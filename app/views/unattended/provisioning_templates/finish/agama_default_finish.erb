@@ -9,7 +9,6 @@ oses:
 <%
   pm_set = @host.puppet_server.present?
   puppet_enabled = pm_set || host_param_true?('force-puppet')
-  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo')
   voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
 -%>
@@ -33,9 +32,6 @@ chmod +x /root/remote_execution_pull_setup.sh
 <%= snippet "blacklist_kernel_modules" -%>
 
 <% if puppet_enabled -%>
-<% if puppetlabs_repo_enabled -%>
-<%= snippet 'puppetlabs_repo' %>
-<% end -%>
 <% if voxpupuli_repo_enabled -%>
 <%= snippet 'voxpupuli_repo' %>
 <% end -%>
