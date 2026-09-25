@@ -101,6 +101,7 @@ module.exports = {
           'lsi',
           'matcher',
           'menuitem',
+          'MiB',
           'monokai',
           'mousedown',
           'mouseup',
