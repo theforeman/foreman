@@ -53,6 +53,12 @@ Foreman::Application.configure do
       Bullet.add_footer = true
       Bullet.counter_cache_enable = false
     end
+
+    Bullet.add_safelist(
+      type: :unused_eager_loading,
+      class_name: 'Katello::ContentViewHistory',
+      association: :environment,
+    )
   end
 
   config.hosts += SETTINGS[:hosts]
