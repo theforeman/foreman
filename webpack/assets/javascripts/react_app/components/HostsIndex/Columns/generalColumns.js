@@ -67,6 +67,13 @@ const generalColumns = [
     isRequired: true,
   },
   {
+    columnName: 'id',
+    title: __('Host ID'),
+    wrapper: hostDetails => hostDetails?.id ?? '—',
+    isSorted: true,
+    weight: 55,
+  },
+  {
     columnName: 'organization',
     title: __('Organization'),
     wrapper: hostDetails => hostDetails?.organization_name,
