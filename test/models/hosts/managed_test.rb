@@ -107,7 +107,7 @@ module Host
       end
 
       it 'has an install_path' do
-        assert_equal '/vol/solgi_5.10/sol8__sparc', host.install_path
+        assert_equal '/vol/solgi_5.10/sol4__sparc', host.install_path
       end
 
       it 'has a jumpstart_path' do
@@ -115,11 +115,11 @@ module Host
       end
 
       it 'has a multiboot' do
-        assert_equal 'boot/Solaris-10.8-multiboot', host.multiboot
+        assert_equal 'boot/Solaris-11.4-multiboot', host.multiboot
       end
 
       it 'has a miniroot' do
-        assert_equal 'boot/Solaris-10.8-x86.miniroot', host.miniroot
+        assert_equal 'boot/Solaris-11.4-x86.miniroot', host.miniroot
       end
     end
 

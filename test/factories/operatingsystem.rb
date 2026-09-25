@@ -63,6 +63,15 @@ FactoryBot.define do
       end
     end
 
+    factory :altlinux, class: Altlinux do
+      sequence(:name) { 'Altlinux' }
+      major { '8' }
+      minor { '2' }
+      type { 'Altlinux' }
+      title { 'Altlinux 8.2' }
+    end
+
+    # Legacy release retained to cover the Container Linux implementation.
     factory :coreos, class: Coreos do
       sequence(:name) { 'CoreOS' }
       major { '494' }
@@ -72,60 +81,7 @@ FactoryBot.define do
       title { 'CoreOS 494.5.0' }
     end
 
-    factory :flatcar, class: Coreos do
-      sequence(:name) { 'Flatcar' }
-      major { '2345' }
-      minor { '3.0' }
-      type { 'Coreos' }
-      release_name { 'stable' }
-      title { 'Flatcar 2345.3.0' }
-    end
-
-    factory :fcos, class: Fcos do
-      sequence(:name) { 'FedoraCoreOS' }
-      major { '32' }
-      minor { '20200907.3.0' }
-      type { 'Fcos' }
-      release_name { 'stable' }
-      title { 'FedoraCoreOS 32.20200907.3.0' }
-    end
-
-    factory :rhcos, class: Rhcos do
-      sequence(:name) { 'RedHatCoreOS' }
-      major { '4' }
-      minor { '5' }
-      release_name { '6' }
-      type { 'Rhcos' }
-      title { 'RedHatCoreOS 4.5.6' }
-    end
-
-    factory :ubuntu14_10, class: Debian do
-      sequence(:name) { 'Ubuntu' }
-      major { '14.10' }
-      minor { '' }
-      type { 'Debian' }
-      release_name { 'utopic' }
-      title { 'Ubuntu Utopic' }
-    end
-
-    factory :ubuntu22_04, class: Debian do
-      sequence(:name) { 'Ubuntu' }
-      major { '22.04' }
-      minor { '' }
-      type { 'Debian' }
-      release_name { 'jammy' }
-      title { 'Ubuntu Jammy' }
-    end
-
-    factory :ubuntu22_04_3, class: Debian do
-      sequence(:name) { 'Ubuntu' }
-      major { '22.04' }
-      minor { '3' }
-      type { 'Debian' }
-      release_name { 'jammy' }
-      title { 'Ubuntu Jammy' }
-    end
-
+    # Legacy releases retained for version-specific Debian behavior.
     factory :debian7_0, class: Debian do
       sequence(:name) { 'Debian' }
       major { '7' }
@@ -153,50 +109,22 @@ FactoryBot.define do
       title { 'Debian Trixie' }
     end
 
-    factory :suse, class: Suse do
-      sequence(:name) { 'OpenSuse' }
-      major { '11' }
-      minor { '4' }
-      type { 'Suse' }
-      title { 'OpenSuse 11.4' }
+    factory :fcos, class: Fcos do
+      sequence(:name) { 'FedoraCoreOS' }
+      major { '32' }
+      minor { '20200907.3.0' }
+      type { 'Fcos' }
+      release_name { 'stable' }
+      title { 'FedoraCoreOS 32.20200907.3.0' }
     end
 
-    factory :opensuse_16_0, class: Suse do
-      sequence(:name) { 'OpenSuse' }
-      major { '16' }
-      minor { '0' }
-      type { 'Suse' }
-      title { 'openSUSE Leap 16.0' }
-    end
-
-    factory :rhel7_5, class: Redhat do
-      sequence(:name) { |n| "RedHat#{n}" }
-      major { '7' }
-      minor { '5' }
-      type { 'Redhat' }
-      title { 'Red Hat Enterprise Linux 7.5' }
-    end
-
-    factory :rhel9, class: Redhat do
-      name { 'RHEL' }
-      major { '9' }
-      minor { '0' }
-      type { 'Redhat' }
-      title { 'Red Hat Enterprise Linux 9.0' }
-      architectures { [FactoryBot.build(:architecture, :x64)] }
-      media { [FactoryBot.build(:rhel_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
-    end
-
-    factory :rhel10, class: Redhat do
-      name { 'RHEL' }
-      major { '10' }
-      minor { '0' }
-      type { 'Redhat' }
-      title { 'Red Hat Enterprise Linux 10.0' }
-      architectures { [FactoryBot.build(:architecture, :x64)] }
-      media { [FactoryBot.build(:rhel_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    factory :flatcar, class: Coreos do
+      sequence(:name) { 'Flatcar' }
+      major { '2345' }
+      minor { '3.0' }
+      type { 'Coreos' }
+      release_name { 'stable' }
+      title { 'Flatcar 2345.3.0' }
     end
 
     factory :for_snapshots_centos_7_0, class: Redhat do
@@ -222,30 +150,15 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, :debian, name: 'ptable')] }
     end
 
-    # pre-netinstall release
-    factory :for_snapshots_ubuntu_18, class: Debian do
-      name { 'Ubuntu' }
-      major { '18' }
-      minor { '04' }
-      type { 'Debian' }
-      release_name { 'bionic' }
-      title { 'Ubuntu Bionic' }
+    factory :for_snapshots_freebsd, class: Freebsd do
+      name { 'FreeBSD' }
+      major { '14' }
+      minor { '3' }
+      type { 'Freebsd' }
+      title { 'FreeBSD 14.3' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
-      media { [FactoryBot.build(:ubuntu_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, :debian, name: 'ptable')] }
-    end
-
-    # post-netinstall release
-    factory :for_snapshots_ubuntu_20, class: Debian do
-      name { 'Ubuntu' }
-      major { '20' }
-      minor { '04' }
-      type { 'Debian' }
-      release_name { 'focal' }
-      title { 'Ubuntu Focal' }
-      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
-      media { [FactoryBot.build(:ubuntu_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, :ubuntu_autoinstall, name: 'ptable')] }
+      media { [FactoryBot.build(:medium, :freebsd)] }
+      ptables { [FactoryBot.build(:ptable, :freebsd, name: 'ptable')] }
     end
 
     factory :for_snapshots_rhel9, class: Redhat do
@@ -303,15 +216,30 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
-    factory :for_snapshots_freebsd, class: Freebsd do
-      name { 'FreeBSD' }
-      major { '11' }
-      minor { '2' }
-      type { 'Freebsd' }
-      title { 'FreeBSD 11.2' }
+    # pre-netinstall release
+    factory :for_snapshots_ubuntu_18, class: Debian do
+      name { 'Ubuntu' }
+      major { '18' }
+      minor { '04' }
+      type { 'Debian' }
+      release_name { 'bionic' }
+      title { 'Ubuntu Bionic' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
-      media { [FactoryBot.build(:medium, :freebsd)] }
-      ptables { [FactoryBot.build(:ptable, :freebsd, name: 'ptable')] }
+      media { [FactoryBot.build(:ubuntu_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, :debian, name: 'ptable')] }
+    end
+
+    # post-netinstall release
+    factory :for_snapshots_ubuntu_20, class: Debian do
+      name { 'Ubuntu' }
+      major { '20' }
+      minor { '04' }
+      type { 'Debian' }
+      release_name { 'focal' }
+      title { 'Ubuntu Focal' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:ubuntu_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, :ubuntu_autoinstall, name: 'ptable')] }
     end
 
     factory :for_snapshots_windows10, class: Windows do
@@ -325,22 +253,23 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, :windows)] }
     end
 
-    factory :altlinux, class: Altlinux do
-      sequence(:name) { 'Altlinux' }
-      major { '8' }
-      minor { '2' }
-      type { 'Altlinux' }
-      title { 'Altlinux 8.2' }
+    factory :freebsd, class: Freebsd do
+      sequence(:name) { 'FreeBSD' }
+      major { '14' }
+      minor { '3' }
+      type { 'Freebsd' }
+      title { 'FreeBSD 14.3' }
     end
 
-    factory :solaris, class: Solaris do
-      sequence(:name) { 'Solaris' }
-      major { '10' }
-      minor { '8' }
-      type { 'Solaris' }
-      title { 'Solaris 10.8' }
+    factory :opensuse_16_0, class: Suse do
+      sequence(:name) { 'OpenSuse' }
+      major { '16' }
+      minor { '0' }
+      type { 'Suse' }
+      title { 'openSUSE Leap 16.0' }
     end
 
+    # Legacy release retained to cover the RancherOS implementation.
     factory :rancheros, class: Rancheros do
       sequence(:name) { 'Rancheros' }
       major { '1' }
@@ -349,12 +278,97 @@ FactoryBot.define do
       title { 'Rancheros 1.4.3' }
     end
 
-    factory :freebsd, class: Freebsd do
-      sequence(:name) { 'FreeBSD' }
+    factory :rhcos, class: Rhcos do
+      sequence(:name) { 'RedHatCoreOS' }
+      major { '4' }
+      minor { '5' }
+      release_name { '6' }
+      type { 'Rhcos' }
+      title { 'RedHatCoreOS 4.5.6' }
+    end
+
+    # Legacy release retained for version-specific RHEL behavior.
+    factory :rhel7_5, class: Redhat do
+      sequence(:name) { |n| "RedHat#{n}" }
+      major { '7' }
+      minor { '5' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 7.5' }
+    end
+
+    factory :rhel9, class: Redhat do
+      name { 'RHEL' }
+      major { '9' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 9.0' }
+      architectures { [FactoryBot.build(:architecture, :x64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
+    factory :rhel10, class: Redhat do
+      name { 'RHEL' }
+      major { '10' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 10.0' }
+      architectures { [FactoryBot.build(:architecture, :x64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
+    factory :solaris, class: Solaris do
+      sequence(:name) { 'Solaris' }
       major { '11' }
-      minor { '2' }
-      type { 'Freebsd' }
-      title { 'FreeBSD 11.2' }
+      minor { '4' }
+      type { 'Solaris' }
+      title { 'Solaris 11.4' }
+    end
+
+    factory :suse, class: Suse do
+      sequence(:name) { 'OpenSuse' }
+      major { '15' }
+      minor { '6' }
+      type { 'Suse' }
+      title { 'openSUSE Leap 15.6' }
+    end
+
+    # Legacy release retained for version-specific Ubuntu behavior.
+    factory :ubuntu14_10, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '14.10' }
+      minor { '' }
+      type { 'Debian' }
+      release_name { 'utopic' }
+      title { 'Ubuntu Utopic' }
+    end
+
+    factory :ubuntu22_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '22.04' }
+      minor { '' }
+      type { 'Debian' }
+      release_name { 'jammy' }
+      title { 'Ubuntu Jammy' }
+    end
+
+    factory :ubuntu22_04_3, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '22.04' }
+      minor { '3' }
+      type { 'Debian' }
+      release_name { 'jammy' }
+      title { 'Ubuntu Jammy' }
+    end
+
+    factory :ubuntu24_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '24.04' }
+      minor { '' }
+      type { 'Debian' }
+      release_name { 'noble' }
+      title { 'Ubuntu Noble' }
     end
   end
 end

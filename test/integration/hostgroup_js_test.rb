@@ -8,7 +8,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
   end
 
   test 'creates a hostgroup with provisioning data' do
-    os = FactoryBot.create(:ubuntu14_10, :with_associations)
+    os = FactoryBot.create(:ubuntu24_04, :with_associations)
     visit new_hostgroup_path
 
     fill_in 'hostgroup_name', :with => 'myhostgroup1'
