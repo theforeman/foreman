@@ -55,6 +55,21 @@ module Foreman
           :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
       end
 
+      test "create_vm omits a blank availability zone" do
+        Fog.mock!
+        @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
+        args = {
+          :availability_zone => '',
+          :nics => [""],
+          :flavor_ref => 'foo_flavor',
+          :image_ref => 'foo_image',
+        }
+
+        @compute_resource.create_vm(args)
+
+        refute_includes args, :availability_zone
+      end
+
       test "process_fixed_ips adds fixed IP when interface has IP specified" do
         args = {
           :nics => [{ 'net_id' => 'network-123' }],
