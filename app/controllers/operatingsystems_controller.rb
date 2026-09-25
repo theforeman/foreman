@@ -23,9 +23,12 @@ class OperatingsystemsController < ApplicationController
 
   def edit
     # Generates default OS template entries
-    @operatingsystem.provisioning_templates.map(&:template_kind_id).uniq.each do |kind|
+    @operatingsystem.provisioning_templates.group_by(&:template_kind_id).each do |kind, templates|
       if @operatingsystem.os_default_templates.where(:template_kind_id => kind).blank?
-        @operatingsystem.os_default_templates.build(:template_kind_id => kind)
+        @operatingsystem.os_default_templates.build(
+          :template_kind_id => kind,
+          :provisioning_template => (templates.first if templates.one?)
+        )
       end
     end
   end
