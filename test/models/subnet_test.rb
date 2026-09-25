@@ -78,7 +78,15 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "the name should be unique in the domain scope" do
     first = FactoryBot.create(:subnet_ipv6, :with_domains)
-    subnet = FactoryBot.build_stubbed(:subnet_ipv6, :name => first.name, :domains => first.domains)
+    # Rails >= 7.1 skips the uniqueness query for a persisted record whose
+    # validated attribute is unchanged and already covered by a DB-level
+    # unique index (name has index_subnets_on_name), trusting that the DB
+    # already enforced it on insert: rails/rails#45149. build_stubbed fakes
+    # persisted? without ever inserting a row, so that trust is misplaced
+    # and the check gets skipped; use build instead, which correctly
+    # reports persisted? as false. Same issue, same fix upstream in
+    # thoughtbot/factory_bot#1634.
+    subnet = FactoryBot.build(:subnet_ipv6, :name => first.name, :domains => first.domains)
     refute subnet.valid?
   end
 

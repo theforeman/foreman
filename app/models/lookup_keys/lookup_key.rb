@@ -56,9 +56,35 @@ class LookupKey < ApplicationRecord
   alias_attribute :parameter, :key
   alias_attribute :variable, :key
   alias_attribute :variable_type, :key_type
-  alias_attribute :override_value_order, :path
-  alias_attribute :override_values, :lookup_values
-  alias_attribute :override_value_ids, :lookup_value_ids
+  # Defined explicitly (rather than via alias_attribute) because both `path`
+  # and `path=` are manually overridden below, and Rails 7.2 stops
+  # alias_attribute from delegating to non-generated (manually overridden)
+  # methods like that.
+  def override_value_order
+    path
+  end
+
+  def override_value_order=(value)
+    self.path = value
+  end
+  # Defined explicitly (rather than via alias_attribute) because lookup_values
+  # and lookup_value_ids are association accessors, not real attributes, and
+  # Rails 7.2 stops alias_attribute from supporting non-attribute targets.
+  def override_values
+    lookup_values
+  end
+
+  def override_values=(value)
+    self.lookup_values = value
+  end
+
+  def override_value_ids
+    lookup_value_ids
+  end
+
+  def override_value_ids=(value)
+    self.lookup_value_ids = value
+  end
 
   # to prevent errors caused by find_resource from override_values controller
   def self.find_by_name(str)
@@ -110,6 +136,14 @@ class LookupKey < ApplicationRecord
   def default_value_before_type_cast
     return self[:default_value] if errors[:default_value].present?
     LookupKey.format_value_before_type_cast(default_value, key_type)
+  end
+
+  # alias_attribute :value, :default_value (above) generates every standard
+  # attribute method for `value`, but can't do so for `value_before_type_cast`
+  # since `default_value_before_type_cast` is manually overridden above rather
+  # than generated. Defined explicitly so Rails 7.2 doesn't drop it.
+  def value_before_type_cast
+    default_value_before_type_cast
   end
 
   def path_elements

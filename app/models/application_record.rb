@@ -47,8 +47,16 @@ class ApplicationRecord < ActiveRecord::Base
   def id_and_type
     "#{id}-#{self.class.table_name.humanize}"
   end
-  alias_attribute :to_label, :name_method
-  alias_attribute :to_s, :to_label
+  # Defined explicitly (rather than via alias_attribute) because name_method and
+  # to_label aren't real attributes, and Rails 7.2 stops alias_attribute from
+  # delegating to non-attribute methods.
+  def to_label
+    name_method
+  end
+
+  def to_s
+    to_label
+  end
 
   def self.virtual_column_scope(name, proc)
     name = name.to_sym
