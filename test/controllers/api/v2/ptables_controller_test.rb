@@ -35,6 +35,16 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_equal response['layout'], valid_attrs[:layout]
   end
 
+  test "should create snippet ptable" do
+    assert_difference('Ptable.unscoped.count') do
+      post :create, params: { :ptable => valid_attrs.merge(:snippet => true) }
+    end
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert_equal true, response['snippet']
+    assert_predicate Ptable.unscoped.find(response['id']), :snippet?
+  end
+
   test_attributes :pid => '7a07d70c-6130-4357-81c3-4f1254e519d2'
   test "create with layout length" do
     # :BZ: 1270181
@@ -105,6 +115,14 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     response = JSON.parse(@response.body)
     assert response.key?('layout')
     assert_equal response['layout'], new_layout
+  end
+
+  test "should update snippet" do
+    put :update, params: { :id => @ptable.id, :ptable => { :snippet => true, :os_family => nil } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal true, response['snippet']
+    assert_predicate @ptable.reload, :snippet?
   end
 
   test_attributes :pid => 'bf03d80c-3527-4b0a-b6c7-4629a8eaefb2'

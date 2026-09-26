@@ -2,7 +2,7 @@ object @ptable
 
 extends "api/v2/ptables/main"
 
-attributes :layout, :locked
+attributes :layout, :locked, :snippet
 
 child :operatingsystems do
   extends "api/v2/operatingsystems/base"
