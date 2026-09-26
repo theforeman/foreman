@@ -61,8 +61,15 @@ class Template < ApplicationRecord
   end
 
   def template_without_metadata
-    # Regexp like /.../m includes \n in .
-    template.sub(/^<%#\n.*?name.*?%>$\n?/m, '')
+    metadata_removed = false
+    template.gsub(/<%#[\t a-z0-9=:]*(.*?)-?%>\n?/m) do |comment|
+      if !metadata_removed && self.class.parse_metadata(comment).key?('name')
+        metadata_removed = true
+        ''
+      else
+        comment
+      end
+    end
   end
 
   def filename
@@ -112,9 +119,10 @@ class Template < ApplicationRecord
 
   # Pull out the first erb comment only - /m is for a multiline regex
   def self.parse_metadata(text)
-    extracted = text.match(/<%\#[\t a-z0-9=:]*(.+?).-?%>/m)
-    extracted.nil? ? {} : YAML.safe_load(extracted[1]).with_indifferent_access
-  rescue RuntimeError => e
+    extracted = text.match(/<%\#[\t a-z0-9=:]*(.*?)-?%>/m)
+    metadata = YAML.safe_load(extracted[1]) unless extracted.nil?
+    metadata.is_a?(Hash) ? metadata.with_indifferent_access : {}
+  rescue Psych::Exception => e
     Foreman::Logging.exception('invalid metadata', e)
     {}
   end
