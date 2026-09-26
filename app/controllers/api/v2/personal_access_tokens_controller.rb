@@ -4,7 +4,7 @@ module Api
       include Foreman::Controller::Parameters::PersonalAccessToken
       include Foreman::Controller::UserAware
 
-      before_action :find_resource, :only => %w{show destroy}
+      before_action :find_resource, :only => %w{show destroy purge}
 
       api :GET, "/users/:user_id/personal_access_tokens", N_("List all Personal Access Tokens for a user")
       param :user_id, String, :desc => N_("ID of the user"), :required => true
@@ -47,11 +47,24 @@ module Api
         process_response @personal_access_token.revoke!
       end
 
+      api :DELETE, "/users/:user_id/personal_access_tokens/:id/purge", N_("Permanently delete an inactive Personal Access Token for a user")
+      param :id, String, :required => true
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
+
+      def purge
+        if @personal_access_token.active?
+          render_error :custom_error, :status => :unprocessable_entity,
+            :locals => { :message => _("Active Personal Access Tokens must be revoked before they can be deleted.") }
+        else
+          process_response @personal_access_token.destroy
+        end
+      end
+
       private
 
       def action_permission
         case params[:action]
-        when 'destroy'
+        when 'destroy', 'purge'
           'revoke'
         else
           super

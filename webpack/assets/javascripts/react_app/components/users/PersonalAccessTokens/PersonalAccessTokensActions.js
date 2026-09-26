@@ -46,6 +46,28 @@ export const revokePersonalAccessToken = ({ url, id }) => async dispatch => {
   }
 };
 
+export const deletePersonalAccessToken = ({ url, id }) => async dispatch => {
+  try {
+    await API.delete(`${url}/${id}/purge`);
+    dispatch(getPersonalAccessTokens({ url }));
+    dispatch(
+      addToast({
+        type: 'success',
+        message: __('Token was successfully deleted.'),
+      })
+    );
+  } catch (error) {
+    /* eslint-disable no-console */
+    console.log(error);
+    dispatch(
+      addToast({
+        type: 'error',
+        message: __('Could not delete Token: ') + error,
+      })
+    );
+  }
+};
+
 export const clearNewPersonalAccessToken = () => dispatch =>
   dispatch({
     type: PERSONAL_ACCESS_TOKEN_CLEAR,
