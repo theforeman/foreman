@@ -1,7 +1,13 @@
 /* eslint-disable max-lines */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+import {
+  Spinner,
+  Tab,
+  Tabs,
+  TabTitleText,
+  Tooltip,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import AutocompleteInput from '../../common/AutocompleteInput/AutocompleteInput';
 import EditorOptions from './EditorOptions';
@@ -130,7 +136,17 @@ const EditorNavbar = ({
           />
           <Tab
             eventKey="diff"
-            title={<TabTitleText>{__('Changes')}</TabTitleText>}
+            title={
+              isDiff ? (
+                <TabTitleText>{__('Changes')}</TabTitleText>
+              ) : (
+                <Tooltip content={__('No changes to display')}>
+                  <span>
+                    <TabTitleText>{__('Changes')}</TabTitleText>
+                  </span>
+                </Tooltip>
+              )
+            }
             isDisabled={!isDiff}
             id="diff-navitem"
             ouiaId="diff-navitem"
