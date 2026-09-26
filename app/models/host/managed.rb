@@ -682,7 +682,7 @@ autopart"', desc: 'to render the content of host partition table'
     host = selective_clone
 
     host.interfaces = interfaces.map(&:clone)
-    if compute_resource
+    if compute_resource && uuid
       host.compute_attributes = host.compute_resource.vm_compute_attributes_for(uuid)
     end
     host.refresh_global_status
@@ -719,7 +719,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def vm_compute_attributes
-    compute_resource ? compute_resource.vm_compute_attributes_for(uuid) : nil
+    compute_resource && uuid ? compute_resource.vm_compute_attributes_for(uuid) : nil
   end
 
   def bmc_proxy
