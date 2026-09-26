@@ -18,7 +18,7 @@ module Foreman
       def render_template_to_tempfile(template:, prefix:, host: nil, params: {}, variables: {}, options: {})
         file = ''
         source = get_source(template: template, host: host)
-        scope = get_scope(host: host, params: params, variables: variables)
+        scope = get_scope(source: source, host: host, params: params, variables: variables)
         Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
           f.print render(source, scope)
           f.flush
