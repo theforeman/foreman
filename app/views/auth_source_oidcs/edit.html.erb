@@ -1,0 +1,9 @@
+<%= breadcrumbs(
+  :items => [
+    { :caption => _('Authentication Sources'), :url => auth_sources_path },
+    { :caption => _('Edit %s') % @auth_source_oidc.to_label },
+  ],
+  :switchable => false
+) %>
+<% title _('Edit %s') % @auth_source_oidc.to_label %>
+<%= render :partial => 'form' %>
