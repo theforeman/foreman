@@ -47,7 +47,8 @@ class UsergroupMember < ApplicationRecord
   end
 
   def add_new_cache
-    find_all_affected_users.each do |user|
+    users = find_all_affected_users
+    users.each do |user|
       find_all_user_roles.each do |user_role|
         CachedUserRole.create!(:user => user, :role => user_role.role,
           :user_role => user_role)
@@ -57,6 +58,7 @@ class UsergroupMember < ApplicationRecord
         CachedUsergroupMember.create!(:user => user, :usergroup => group)
       end
     end
+    invalidate_taxonomy_cache(users)
   end
 
   def remove_old_cache_for_old_record
@@ -82,6 +84,7 @@ class UsergroupMember < ApplicationRecord
              end
 
     drop_group_cache(users, groups)
+    invalidate_taxonomy_cache(users)
   end
 
   def remove_old_cache
@@ -92,6 +95,7 @@ class UsergroupMember < ApplicationRecord
     # we need to recache records that may got deleted unintentionally
     # we can't detect exact records to delete since we'd have to distinguish by whole path
     recache_memberships
+    invalidate_taxonomy_cache(users)
   end
 
   def recache_memberships
@@ -106,6 +110,10 @@ class UsergroupMember < ApplicationRecord
 
   def drop_group_cache(users, groups)
     CachedUsergroupMember.where(:user_id => users.map(&:id), :usergroup_id => groups.map(&:id)).destroy_all
+  end
+
+  def invalidate_taxonomy_cache(users)
+    users.each(&:invalidate_cache)
   end
 
   def find_all_affected_users

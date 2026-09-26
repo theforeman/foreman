@@ -29,6 +29,7 @@ module Api
           param :user_ids, Array, :require => false
           param :usergroup_ids, Array, :require => false
           param :role_ids, Array, :require => false
+          param_group :taxonomies, ::Api::V2::BaseController
         end
       end
 

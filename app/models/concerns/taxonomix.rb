@@ -259,17 +259,21 @@ module Taxonomix
       assoc = assoc_base.pluralize
       key = assoc_base + '_ids'
 
-      next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !send("#{key}_changed?"))
+      next if (User.current.nil? || User.current.send("my_#{assoc}").empty?) || (!new_record? && !send("#{key}_changed?"))
       allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(send("#{key}_was"))
       tried = send(key).to_set
 
-      if tried.empty? || !tried.subset?(allowed)
+      if (!allow_empty_taxonomy_selection? && tried.empty?) || !tried.subset?(allowed)
         errors.add key, _("Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission.") % { :assoc => _(assoc), :perm => "assign_#{assoc}" }
       end
     end
   end
 
   protected
+
+  def allow_empty_taxonomy_selection?
+    false
+  end
 
   def taxonomy_foreign_key_conditions
     if respond_to?(:taxonomy_foreign_conditions)

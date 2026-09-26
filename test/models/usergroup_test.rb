@@ -26,6 +26,52 @@ class UsergroupTest < ActiveSupport::TestCase
   should allow_value(*valid_name_list).for(:name)
   should have_many(:cached_users)
   should have_many(:cached_usergroups)
+  should have_many(:organizations)
+  should have_many(:locations)
+
+  test "users inherit organizations and locations from nested user groups" do
+    user = FactoryBot.create(:user, :organizations => [], :locations => [])
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    child = FactoryBot.create(:usergroup, :locations => [location], :users => [user])
+    parent = FactoryBot.create(:usergroup, :organizations => [organization], :usergroups => [child])
+
+    assert_includes user.reload.my_organizations, organization
+    assert_includes user.my_locations, location
+
+    parent.usergroups = []
+
+    refute_includes user.reload.my_organizations, organization
+    assert_includes user.my_locations, location
+  end
+
+  test "users can use an inherited taxonomy as their default" do
+    user = FactoryBot.create(:user, :organizations => [], :locations => [])
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    FactoryBot.create(:usergroup, :organizations => [organization], :locations => [location], :users => [user])
+
+    user.default_organization = organization
+    user.default_location = location
+
+    assert_valid user
+  end
+
+  test "users cannot assign taxonomies outside those inherited from user groups" do
+    organization = FactoryBot.create(:organization)
+    other_organization = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [], :locations => [])
+    FactoryBot.create(:usergroup, :organizations => [organization], :users => [user])
+    target = FactoryBot.create(:usergroup, :organizations => [organization])
+    Organization.expects(:authorized).
+      with('assign_organizations', Organization).
+      returns(Organization.where(:id => organization.id))
+
+    as_user user do
+      target.organization_ids = [other_organization.id]
+      refute_valid target, :organization_ids
+    end
+  end
 
   test 'should not update with multiple invalid names' do
     usergroup = FactoryBot.create(:usergroup)
