@@ -462,6 +462,41 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal({:foo => {:feature => 'Foo'}}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(Awesome))
   end
 
+  def test_register_smart_proxy_feature
+    plugin = Foreman::Plugin.register :test_smart_proxy_feature do
+      smart_proxy_feature 'Test Feature',
+        'api/v2/test_resources' => [:index, :create],
+        'TestResourcesController' => :show
+    end
+
+    assert_equal({
+      'Test Feature' => {
+        'api/v2/test_resources' => ['index', 'create'],
+        'test_resources' => ['show'],
+      },
+    }, plugin.smart_proxy_features)
+    assert_equal ['Test Feature'], Foreman::Plugin.registered_smart_proxy_features
+    assert_equal ['Test Feature'], Foreman::Plugin.smart_proxy_features_for('api/v2/test_resources', :create)
+    assert_equal ['Test Feature'], Foreman::Plugin.smart_proxy_features_for('TestResourcesController', :show)
+    assert_empty Foreman::Plugin.smart_proxy_features_for('api/v2/test_resources', :destroy)
+  end
+
+  def test_register_smart_proxy_feature_without_actions
+    plugin = Foreman::Plugin.register :test_smart_proxy_feature do
+      smart_proxy_feature 'Test Feature'
+    end
+
+    assert_equal({'Test Feature' => {}}, plugin.smart_proxy_features)
+    assert_equal ['Test Feature'], Foreman::Plugin.registered_smart_proxy_features
+  end
+
+  def test_smart_proxy_feature_changes_seed_hash
+    original_hash = ForemanSeeder.new.hash
+    Foreman::Plugin.register(:test_smart_proxy_feature) { smart_proxy_feature 'Test Feature' }
+
+    refute_equal original_hash, ForemanSeeder.new.hash
+  end
+
   def test_hosts_controller_action_scope
     mock_scope = ->(scope) { scope }
     Foreman::Plugin.register :test_hosts_controller_action_scope do
