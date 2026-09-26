@@ -10,7 +10,6 @@ module Foreman
         dependent(:destroy)
 
       should validate_presence_of(:url)
-      should validate_presence_of(:user)
       should validate_presence_of(:password)
 
       setup do
@@ -19,6 +18,116 @@ module Foreman
 
       teardown do
         Fog.unmock!
+      end
+
+      test "defaults to username and password authentication" do
+        assert_equal Openstack::PASSWORD_AUTHENTICATION, @compute_resource.authentication_type
+        assert @compute_resource.password_authentication?
+        assert_not @compute_resource.application_credentials?
+      end
+
+      test "requires a username for password authentication" do
+        @compute_resource.user = nil
+
+        assert_not @compute_resource.valid?
+        assert_includes @compute_resource.errors[:user], "can't be blank"
+      end
+
+      test "accepts application credentials without a username" do
+        use_application_credentials(@compute_resource)
+        @compute_resource.user = nil
+
+        assert @compute_resource.valid?
+      end
+
+      test "requires an Application Credential ID" do
+        use_application_credentials(@compute_resource)
+        @compute_resource.application_credential_id = nil
+
+        assert_not @compute_resource.valid?
+        assert_includes @compute_resource.errors[:application_credential_id], "can't be blank"
+      end
+
+      test "requires Keystone v3 for application credentials" do
+        use_application_credentials(@compute_resource)
+        @compute_resource.url = 'http://openstack.example.com/v2.0'
+
+        assert_not @compute_resource.valid?
+        assert_includes @compute_resource.errors[:authentication_type], "requires a Keystone v3 URL"
+      end
+
+      test "requires a new secret when changing authentication type" do
+        compute_resource = FactoryBot.create(:openstack_cr)
+        compute_resource.url = 'http://openstack.example.com/v3/auth/tokens'
+        compute_resource.authentication_type = Openstack::APPLICATION_CREDENTIAL_AUTHENTICATION
+        compute_resource.application_credential_id = 'credential-id'
+
+        assert_not compute_resource.valid?
+        assert_includes compute_resource.errors[:password], "must be changed when the authentication type changes"
+
+        compute_resource.application_credential_secret = 'application-secret'
+        assert compute_resource.valid?
+      end
+
+      test "uses username credentials for fog by default" do
+        credentials = @compute_resource.send(:fog_credentials)
+
+        assert_equal 'osuser', credentials[:openstack_username]
+        assert_equal 'ospassword', credentials[:openstack_api_key]
+        assert_not credentials.key?(:openstack_application_credential_id)
+        assert_not credentials.key?(:openstack_application_credential_secret)
+      end
+
+      test "uses Application Credentials for fog without username credentials" do
+        use_application_credentials(@compute_resource)
+
+        credentials = @compute_resource.send(:fog_credentials)
+
+        assert_equal 'credential-id', credentials[:openstack_application_credential_id]
+        assert_equal 'application-secret', credentials[:openstack_application_credential_secret]
+        assert_not credentials.key?(:openstack_username)
+        assert_not credentials.key?(:openstack_api_key)
+      end
+
+      test "does not log the Application Credential secret" do
+        use_application_credentials(@compute_resource)
+        output = StringIO.new
+        @compute_resource.stubs(:logger).returns(ActiveSupport::Logger.new(output))
+
+        @compute_resource.send(:fog_credentials)
+
+        assert_includes output.string, 'credential-id'
+        assert_not_includes output.string, 'application-secret'
+      end
+
+      test "stores the Application Credential secret encrypted" do
+        compute_resource = FactoryBot.build(:openstack_cr)
+        compute_resource.stubs(:encryption_key).returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+        use_application_credentials(compute_resource)
+
+        compute_resource.save!
+
+        assert_equal 'application-secret', compute_resource.reload.password
+        assert_not_equal 'application-secret', compute_resource.password_in_db
+      end
+
+      test "uses the project scoped by Application Credentials without listing user projects" do
+        use_application_credentials(@compute_resource)
+        project = { 'id' => 'project-id', 'name' => 'project-name' }
+        identity_client = mock
+        identity_client.expects(:current_tenant).returns(project)
+        identity_client.expects(:list_user_projects).never
+        projects_collection = mock
+        projects_collection.expects(:new).with(project).returns(
+          OpenStruct.new(:id => 'project-id', :name => 'project-name')
+        )
+        identity_client.expects(:projects).returns(projects_collection)
+        @compute_resource.stubs(:identity_client).returns(identity_client)
+
+        projects = @compute_resource.tenants
+
+        assert_equal ['project-id'], projects.map(&:id)
+        assert_equal ['project-name'], projects.map(&:name)
       end
 
       describe "url_for_fog" do
@@ -513,6 +622,13 @@ module Foreman
       end
 
       private
+
+      def use_application_credentials(compute_resource)
+        compute_resource.url = 'http://openstack.example.com/v3/auth/tokens'
+        compute_resource.authentication_type = Openstack::APPLICATION_CREDENTIAL_AUTHENTICATION
+        compute_resource.application_credential_id = 'credential-id'
+        compute_resource.application_credential_secret = 'application-secret'
+      end
 
       def mocked_key_pair
         key_pair = mock
