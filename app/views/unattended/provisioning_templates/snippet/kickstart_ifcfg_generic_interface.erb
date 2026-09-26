@@ -43,13 +43,10 @@ PEERDNS=<%= primary %>
 PEERROUTES=<%= primary %>
 DEFROUTE=<%= primary %>
 <%- if @interface.primary -%>
-<%-   if !@dhcp && @subnet -%>
-<%-     @subnet.dns_servers.each_index do |index| -%>
-<%=       "DNS#{index +1}=\"#{@subnet.dns_servers[index]}\"" %>
-<%-     end -%>
-<%-   elsif !@dhcp && @subnet6 -%>
-<%-     @subnet6.dns_servers.each_index do |index| -%>
-<%=       "DNS#{index +1}=\"#{@subnet6.dns_servers[index]}\"" %>
+<%-   unless @dhcp -%>
+<%-     dns_servers = (@subnet ? @subnet.dns_servers : []) + (@subnet6 ? @subnet6.dns_servers : []) -%>
+<%-     dns_servers.uniq.each_index do |index| -%>
+<%=       "DNS#{index +1}=\"#{dns_servers[index]}\"" %>
 <%-     end -%>
 <%-   end -%>
 <%- end -%>
