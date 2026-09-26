@@ -23,6 +23,21 @@ class CertificateExtractTest < ActiveSupport::TestCase
     end
   end
 
+  context 'URL-escaped PEM certificate' do
+    def setup
+      cert_raw = File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+      @certificate = CertificateExtract.new(cert_raw.gsub(' ', '%20').gsub("\n", '%0A'))
+    end
+
+    test "it extracts the certificate's subject" do
+      assert_equal 'example.com', @certificate.subject
+    end
+
+    test "it extracts the certificate's subject alternative names" do
+      assert_includes @certificate.subject_alternative_names, 'www.example.com'
+    end
+  end
+
   context 'single joined line from apache as a reverse proxy' do
     def setup
       cert_raw = File.read(Rails.root.join('test/static_fixtures/certificates/apache-reverse-proxy'))

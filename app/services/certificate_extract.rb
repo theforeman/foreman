@@ -1,6 +1,9 @@
 require 'openssl'
+require 'uri'
 
 class CertificateExtract
+  ESCAPED_PEM_PREFIX = '-----BEGIN%20CERTIFICATE-----'.freeze
+
   def initialize(cert)
     cert_raw = Base64.decode64(strip_cert(cert))
     @certificate = OpenSSL::X509::Certificate.new(cert_raw)
@@ -35,6 +38,8 @@ class CertificateExtract
   private
 
   def strip_cert(cert)
-    cert.to_s.gsub("-----BEGIN CERTIFICATE-----", "").gsub("-----END CERTIFICATE-----", "").gsub(/\s+/, '')
+    cert = cert.to_s
+    cert = URI::DEFAULT_PARSER.unescape(cert) if cert.start_with?(ESCAPED_PEM_PREFIX)
+    cert.gsub("-----BEGIN CERTIFICATE-----", "").gsub("-----END CERTIFICATE-----", "").gsub(/\s+/, '')
   end
 end
