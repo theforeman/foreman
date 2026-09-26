@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { isEqual } from 'lodash';
-import uuid from 'uuid/v1';
+import { v7 as uuid } from 'uuid';
 import {
   selectAPIResponse,
   selectAPIStatus,
