@@ -1,4 +1,7 @@
 require "sidekiq/sd_notify"
+require File.expand_path('../lib/foreman/dynflow_readiness', __dir__)
+
+Foreman::DynflowReadiness.install!(sidekiq: Sidekiq, path: ENV['DYNFLOW_READINESS_FILE'])
 
 rails_root = Dir.pwd
 
