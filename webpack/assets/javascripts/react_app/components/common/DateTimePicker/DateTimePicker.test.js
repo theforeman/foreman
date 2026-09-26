@@ -145,6 +145,15 @@ describe('DateTimePicker', () => {
   });
 
   describe('isFutureOnly validation', () => {
+    beforeEach(() => {
+      jest.useFakeTimers('modern');
+      jest.setSystemTime(new Date('2026-01-15T12:00:00'));
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     test('shows error when past date is entered with isFutureOnly', () => {
       const pastDate = new Date();
       pastDate.setFullYear(pastDate.getFullYear() - 1);
