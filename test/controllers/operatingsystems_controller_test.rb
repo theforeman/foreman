@@ -135,6 +135,30 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       assert_redirected_to operatingsystems_url
     end
 
+    test 'edit selects the only template for a template kind' do
+      operatingsystem = FactoryBot.create(:operatingsystem, :provisioning_templates => [@provisioning_template])
+
+      get :edit, params: { :id => operatingsystem.id }, session: set_session_user
+
+      default = assigns(:operatingsystem).os_default_templates.detect do |template|
+        template.template_kind_id == @template_kind.id
+      end
+      assert_equal @provisioning_template, default.provisioning_template
+    end
+
+    test 'edit leaves the default blank when a template kind has multiple templates' do
+      another_template = FactoryBot.create(:provisioning_template, :template_kind => @template_kind)
+      operatingsystem = FactoryBot.create(:operatingsystem,
+        :provisioning_templates => [@provisioning_template, another_template])
+
+      get :edit, params: { :id => operatingsystem.id }, session: set_session_user
+
+      default = assigns(:operatingsystem).os_default_templates.detect do |template|
+        template.template_kind_id == @template_kind.id
+      end
+      assert_nil default.provisioning_template
+    end
+
     test 'invalid os_default_template should be rejected' do
       operatingsystem = Operatingsystem.create({ :name => "PalmOS", :major => 1, :minor => 2 })
       put :update, params: { :id => operatingsystem.id,
