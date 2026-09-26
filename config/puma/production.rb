@@ -1,8 +1,12 @@
-run_dir = Rails.root.join('tmp')
+control_app_enabled = ENV.fetch('FOREMAN_PUMA_CONTROL_APP', 'true') == 'true'
 
-# Store server info state.
-state_path File.join(run_dir, 'puma.state')
-state_permission 0o0640
+if control_app_enabled
+  run_dir = Rails.root.join('tmp')
+
+  # Store server info state.
+  state_path File.join(run_dir, 'puma.state')
+  state_permission 0o0640
+end
 
 # Configure "min" to be the minimum number of threads to use to answer
 # requests and "max" the maximum.
@@ -59,7 +63,7 @@ before_worker_boot do
 end
 
 # === Puma control rack application ===
-activate_control_app "unix://#{run_dir}/sockets/pumactl.sock"
+activate_control_app "unix://#{run_dir}/sockets/pumactl.sock" if control_app_enabled
 
 # Loading and initializing of all gettext languages takes about 100ms per language
 # in development environment and little less on production. Let's eager load languages
