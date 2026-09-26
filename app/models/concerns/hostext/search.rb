@@ -74,7 +74,7 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
-      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
+      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :ext_method => :search_by_param_name, :only_explicit => true
       scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
 
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time', :only_explicit => true
@@ -241,6 +241,21 @@ module Hostext
         end
 
         {:joins => :primary_interface, :conditions => conditions}
+      end
+
+      def search_by_param_name(_key, operator, value)
+        condition = sanitize_sql_for_conditions(["name #{operator} ?", value_to_sql(operator, value)])
+        parameters = Parameter.where(condition).to_a
+        conditions = param_conditions(parameters)
+
+        return {:conditions => '1 = 0'} if conditions.blank?
+
+        result = {:conditions => conditions}
+        interface_parameter = parameters.any? do |parameter|
+          parameter.is_a?(DomainParameter) || parameter.is_a?(SubnetParameter)
+        end
+        result[:joins] = :primary_interface if interface_parameter
+        result
       end
 
       def search_by_proxy(key, operator, value)
