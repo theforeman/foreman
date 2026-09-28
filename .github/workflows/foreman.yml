@@ -150,6 +150,7 @@ jobs:
     with:
       plugin: katello
       plugin_repository: Katello/katello
+      plugin_version: KATELLO-5.0
       foreman_version: ${{ github.ref }}
 
   result:
