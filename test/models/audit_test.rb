@@ -236,6 +236,56 @@ class AuditTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'sensitive attribute redaction (#23024)' do
+    test 'redacts user password_hash on password change' do
+      user = User.find_by_id(FactoryBot.create(:user))
+      as_admin do
+        user.password = 'newpassword'
+        user.save!
+      end
+      audit = user.audits.where(:action => 'update').last
+      assert_includes audit.audited_changes, 'password_hash'
+      assert_equal [AuditExtensions::REDACTED, AuditExtensions::REDACTED],
+        audit.audited_changes['password_hash']
+    end
+
+    test 'redacts user password_hash and password_salt on create' do
+      user = as_admin { FactoryBot.create(:user, :with_auditing) }
+      audit = user.audits.where(:action => 'create').last
+      assert_includes audit.audited_changes, 'password_hash'
+      assert_equal AuditExtensions::REDACTED, audit.audited_changes['password_hash']
+      assert_includes audit.audited_changes, 'password_salt'
+      assert_equal AuditExtensions::REDACTED, audit.audited_changes['password_salt']
+    end
+
+    test 'redacts personal access token on create' do
+      token = as_admin { FactoryBot.create(:personal_access_token, :with_auditing) }
+      audit = token.audits.where(:action => 'create').last
+      assert_includes audit.audited_changes, 'token'
+      assert_equal AuditExtensions::REDACTED, audit.audited_changes['token']
+    end
+
+    # EC2 compute resource availability depends on fog-aws being installed
+    # (optional bundler group), stub the check so the test runs everywhere.
+    setup do
+      Foreman::Model::EC2.stubs(:available?).returns(true)
+    end
+
+    test 'redacts key pair secret on create' do
+      key_pair = as_admin { FactoryBot.create(:key_pair, :with_auditing) }
+      audit = key_pair.audits.where(:action => 'create').last
+      assert_includes audit.audited_changes, 'secret'
+      assert_equal AuditExtensions::REDACTED, audit.audited_changes['secret']
+    end
+
+    test 'redacts compute resource password on create' do
+      compute_resource = as_admin { FactoryBot.create(:ec2_cr, :with_auditing) }
+      audit = compute_resource.audits.where(:action => 'create').last
+      assert_includes audit.audited_changes, 'password'
+      assert_equal AuditExtensions::REDACTED, audit.audited_changes['password']
+    end
+  end
+
   describe 'search' do
     test 'can be found by provisioning template name' do
       template = FactoryBot.create(:provisioning_template)
