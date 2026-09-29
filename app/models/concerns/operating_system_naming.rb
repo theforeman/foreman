@@ -2,7 +2,19 @@ module OperatingSystemNaming
   extend ActiveSupport::Concern
 
   module ClassMethods
-    # Find all operatingsystems that are duplicates of the given operating system according to all unique constraints
+    # Race-safe find-or-create. Retries the lookup on uniqueness conflicts;
+    # re-raises if the retry also finds nothing (genuine validation failure).
+    def find_or_create_by_attributes(attributes)
+      lookup_attributes = attributes.slice(:name, :major, :minor, :description)
+
+      find_by_attributes(**lookup_attributes).first || yield
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+      find_by_attributes(**lookup_attributes).first || raise
+    end
+
+    # Find all operatingsystems that are duplicates of the given operating system according to all unique constraints.
+    # NOTE: The description OR branch has no DB index (only a model-level uniqueness validation).
+    # A unique index on description would close the TOCTOU gap and allow index-only scans.
     def find_by_attributes(name: nil, major: nil, minor: nil, description: nil)
       where_attributes = {
         name: name,
