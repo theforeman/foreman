@@ -1980,9 +1980,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr ""
-
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
@@ -2814,6 +2811,9 @@ msgstr "Wyłączone"
 msgid "Disabled alerts"
 msgstr ""
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr ""
 
@@ -3056,6 +3056,9 @@ msgid "Enable %s?"
 msgstr ""
 
 msgid "Enable Caching"
+msgstr ""
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
 msgstr ""
 
 msgid "Enable Notifications"
@@ -7274,6 +7277,12 @@ msgstr "Operatory"
 msgid "Optional Input Validator"
 msgstr ""
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr "Opcjonalna tablica haszy logów"
 
@@ -7389,6 +7398,9 @@ msgid "PBKDF2 SHA1"
 msgstr ""
 
 msgid "PBKDF2 password cost"
+msgstr ""
+
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
 msgstr ""
 
 msgid "POAP PXE template"
@@ -8641,9 +8653,6 @@ msgid "SSH keys for: %s"
 msgstr ""
 
 msgid "SSH timeout"
-msgstr ""
-
-msgid "SSL CA Certificate to use if authentication is required."
 msgstr ""
 
 msgid "SSL CA file"
@@ -12326,6 +12335,9 @@ msgstr "jest nieprawidłowy: %s"
 msgid "is locked for user modifications."
 msgstr ""
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "nie jest poprawnym adresem MAC"
 
@@ -12387,8 +12399,7 @@ msgstr "Link zewnętrzny grupy użytkowników z tej grupy użytkowników"
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -12459,6 +12470,9 @@ msgid "must contain valid hostnames"
 msgstr ""
 
 msgid "must end with /v2 or /v3"
+msgstr ""
+
+msgid "must not include a CIDR prefix"
 msgstr ""
 
 msgid "must not include periods"
