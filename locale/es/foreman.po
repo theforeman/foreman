@@ -2015,9 +2015,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr "Copiar al portapapeles"
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr "Las versiones del núcleo y del proxy no coinciden. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-
 msgid "CoreOS Transpiler Command"
 msgstr "Comando del transpilador de CoreOS"
 
@@ -2849,6 +2846,9 @@ msgstr "Deshabilitado"
 msgid "Disabled alerts"
 msgstr "Alertas desactivadas"
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr "Desactivar el modo seguro"
 
@@ -3091,6 +3091,9 @@ msgstr ""
 
 msgid "Enable Caching"
 msgstr "Habilitar el caché"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr ""
 
 msgid "Enable Notifications"
 msgstr "Habilitar notificaciones"
@@ -7324,6 +7327,12 @@ msgstr "Operadores"
 msgid "Optional Input Validator"
 msgstr "Validador de entrada opcional"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr "Array opcional de hash de registro"
 
@@ -7440,6 +7449,9 @@ msgstr "PBKDF2 SHA1"
 
 msgid "PBKDF2 password cost"
 msgstr "Coste de la contraseña PBKDF2"
+
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
 
 msgid "POAP PXE template"
 msgstr "Plantilla PXE POAP"
@@ -8700,9 +8712,6 @@ msgstr "Claves SSH para: %s"
 
 msgid "SSH timeout"
 msgstr "Tiempo de espera de SSH"
-
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr ""
 
 msgid "SSL CA file"
 msgstr "Archivo SSL CA"
@@ -12404,6 +12413,9 @@ msgstr "Es inválida"
 msgid "is locked for user modifications."
 msgstr "se encuentra bloqueado para modificaciones por parte del usuario."
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "No es una dirección MAC válida"
 
@@ -12464,8 +12476,7 @@ msgstr "enlazar grupo de usuarios externos con este grupo de usuario"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Español"
 
@@ -12537,6 +12548,9 @@ msgstr "debe contener nombres de host válidos"
 
 msgid "must end with /v2 or /v3"
 msgstr "debe terminar con /v2 o /v3"
+
+msgid "must not include a CIDR prefix"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "no debe incluir puntos"

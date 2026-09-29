@@ -1957,9 +1957,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr ""
-
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
