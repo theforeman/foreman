@@ -246,18 +246,44 @@ module Katello
       assert_nil bios[:release_date]
     end
 
-    def test_operatingsystem_race_condition_handling
-      existing_os = ::Operatingsystem.create(name: 'RedHat', major: '9', minor: '')
-      # Simulate the race: initial lookup returns nothing, then create_or_find_by
-      # handles the uniqueness conflict atomically and returns the existing record.
-      ::Operatingsystem.expects(:find_by_attributes).once.returns([])
+    def test_operatingsystem_returns_existing_os_after_record_not_unique
+      existing_os = ::Operatingsystem.create!(:name => 'RedHat', :major => '9', :minor => '')
+      find_seq = sequence('find')
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.none)
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordNotUnique)
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.where(:id => existing_os.id))
       @facts['distribution.name'] = 'Red Hat Enterprise Linux'
       @facts['distribution.version'] = '9'
-      @facts['distribution.id'] = 'Nine'
 
-      assert_nothing_raised do
+      os = parser.operatingsystem
+      assert os.persisted?
+      assert_equal existing_os.id, os.id
+    end
+
+    def test_operatingsystem_returns_existing_os_after_uniqueness_validation_conflict
+      existing_os = ::Operatingsystem.create!(:name => 'RedHat', :major => '9', :minor => '')
+      find_seq = sequence('find')
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.none)
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordInvalid.new(existing_os))
+      ::Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.where(:id => existing_os.id))
+      @facts['distribution.name'] = 'Red Hat Enterprise Linux'
+      @facts['distribution.version'] = '9'
+
+      os = parser.operatingsystem
+      assert os.persisted?
+      assert_equal existing_os.id, os.id
+    end
+
+    def test_operatingsystem_raises_non_race_validation_failure
+      ::Operatingsystem.expects(:find_by_attributes).twice.returns(Operatingsystem.none)
+      invalid_os = ::Operatingsystem.new
+      invalid_os.errors.add(:name, :blank)
+      ::Operatingsystem.expects(:create!).raises(ActiveRecord::RecordInvalid.new(invalid_os))
+      @facts['distribution.name'] = 'Red Hat Enterprise Linux'
+      @facts['distribution.version'] = '9'
+
+      assert_raises(ActiveRecord::RecordInvalid) do
         parser.operatingsystem
-        existing_os.destroy
       end
     end
   end
