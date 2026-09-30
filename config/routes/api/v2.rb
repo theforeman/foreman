@@ -96,6 +96,7 @@ Foreman::Application.routes.draw do
       constraints(:id => /[^\/]+/) do
         resources :operatingsystems, :except => [:new, :edit] do
           get :bootfiles, :on => :member
+          post :sync_boot_files, :on => :member
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :action => :reset
