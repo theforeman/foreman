@@ -2675,18 +2675,18 @@ class HostTest < ActiveSupport::TestCase
     assert_equal "dhcp123", Host::Managed.new(:name => "dhcp123").fqdn
   end
 
-  test 'clone should create compute_attributes for VM-based hosts' do
-    host = FactoryBot.create(:host, :on_compute_resource)
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
-    copy = host.clone
-    assert !copy.compute_attributes.nil?
-  end
-
   test 'clone should NOT create compute_attributes for bare-metal host' do
     host = FactoryBot.create(:host)
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
     copy = host.clone
     assert_nil copy.compute_attributes
+  end
+
+  test 'clone rejects virtual machine hosts' do
+    host = FactoryBot.create(:host, :on_compute_resource)
+
+    error = assert_raises(Foreman::Exception) { host.clone }
+    assert_equal 'Cloning virtual machine hosts is not supported', error.bare_message
   end
 
   test 'facts are deleted when build set to true' do
