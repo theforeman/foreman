@@ -78,6 +78,7 @@ module Foreman
           end
 
           def preseed_attributes
+            @installation_iso = nil unless @variables_keys.include?(:installation_iso)
             if operatingsystem && medium && architecture
               @preseed_path   = preseed_path(@medium_provider)
               @preseed_server = preseed_server(@medium_provider)
@@ -97,9 +98,34 @@ module Foreman
 
           def pxe_config
             return unless @medium_provider
-            @kernel = kernel(@medium_provider)
-            @initrd = initrd(@medium_provider)
+            @kernel = kernel(@medium_provider) unless @variables_keys.include?(:kernel)
+            @initrd = initrd(@medium_provider) unless @variables_keys.include?(:initrd)
             @kernel_uri, @initrd_uri = operatingsystem.boot_files_uri(@medium_provider)
+            pxegrub2_universe_config
+          end
+
+          def pxegrub2_universe_config
+            return unless template.try(:template_kind).try(:name) == 'PXEGrub2'
+
+            boot_files = if @variables_keys.include?(:universe_boot_files)
+                           @universe_boot_files
+                         elsif preview?
+                           Foreman::BootloaderUniverse::HostBootFiles.new(host).plan
+                         end
+            return unless boot_files
+
+            mac = @boot_mac.presence || host.provision_interface&.mac
+            return unless mac.present?
+
+            grub_dir = "host-config/#{mac.tr(':', '-').downcase}/grub2"
+            @kernel = File.basename(boot_files[:kernel])
+            @initrd = File.basename(boot_files[:initrd])
+            @kernel_httpboot = File.join(grub_dir, @kernel)
+            @initrd_httpboot = File.join(grub_dir, @initrd)
+            @installation_iso = boot_files[:installation_iso] if boot_files[:installation_iso]
+            @bootloader_universe = true
+            @variables_keys |= [:kernel, :initrd, :kernel_httpboot, :initrd_httpboot, :bootloader_universe]
+            @variables_keys << :installation_iso if boot_files[:installation_iso]
           end
         end
       end
