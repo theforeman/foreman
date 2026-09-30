@@ -55,6 +55,22 @@ class RendererTest < ActiveSupport::TestCase
     tempfile&.close!
   end
 
+  [true, false].each do |safemode|
+    test "temporary report rendering uses report macros with safemode #{safemode}" do
+      Setting[:safemode_render] = safemode
+      template = FactoryBot.build_stubbed(
+        :report_template,
+        template: "<% report_row('name' => 'example') %><%= report_render %>"
+      )
+
+      tempfile = Foreman::Renderer.render_template_to_tempfile(template: template, prefix: 'renderer-test')
+
+      assert_equal "name\nexample\n", File.read(tempfile.path)
+    ensure
+      tempfile&.close!
+    end
+  end
+
   private
 
   def assert_template(template)
