@@ -20,6 +20,8 @@ class Medium < ApplicationRecord
   validates :name, :uniqueness => true, :presence => true
   validates :path, :uniqueness => true, :presence => true,
     :url_schema => ['http', 'https', 'ftp', 'nfs']
+  validates :boot_path, :url_schema => ['http', 'https', 'ftp'], :allow_blank => true
+  validate :boot_path_is_prefix
   validates :media_path, :config_path, :image_path, :allow_blank => true,
                 :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
                 :if => proc { |m| m.respond_to? :media_path }
@@ -40,6 +42,10 @@ class Medium < ApplicationRecord
 
   def media_host
     media_path.match(VALID_NFS_PATH)[1]
+  end
+
+  def boot_file_source_path
+    boot_path.presence || path
   end
 
   def jumpstart_host
@@ -66,5 +72,16 @@ class Medium < ApplicationRecord
     end
     Rails.logger.error "You may not destroy #{to_label} as it is used by hosts in build mode!"
     throw :abort
+  end
+
+  private
+
+  def boot_path_is_prefix
+    return if boot_path.blank?
+
+    uri = URI.parse(boot_path)
+    errors.add(:boot_path, _('must not include a query or fragment')) if uri.query || uri.fragment
+  rescue URI::InvalidURIError
+    # The URL schema validator reports invalid URLs.
   end
 end
