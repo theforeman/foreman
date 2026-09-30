@@ -1,0 +1,18 @@
+<%#
+name: pxegrub2_boot_paths
+model: ProvisioningTemplate
+snippet: true
+-%>
+<% if @bootloader_universe -%>
+# Network filesystems cannot list files for -e; -s opens the kernel instead.
+if [ -s <%= @kernel %> ]; then
+  set foreman_kernel=<%= @kernel %>
+  set foreman_initrd=<%= @initrd %>
+else
+  set foreman_kernel=<%= @kernel_httpboot %>
+  set foreman_initrd=<%= @initrd_httpboot %>
+fi
+<% else -%>
+set foreman_kernel=<%= @kernel %>
+set foreman_initrd=<%= @initrd %>
+<% end -%>
