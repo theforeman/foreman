@@ -171,11 +171,19 @@ class TemplatesController < ApplicationController
     case params[:action]
       when 'lock', 'unlock'
         :lock
-      when 'clone_template', 'preview', 'export'
+      when 'clone_template', 'export'
         :view
+      when 'preview'
+        params[:id].present? ? :edit : :create
       else
         super
     end
+  end
+
+  def path_to_authenticate
+    return current_permission.to_sym if action_name == 'preview'
+
+    super
   end
 
   def type_name_plural
