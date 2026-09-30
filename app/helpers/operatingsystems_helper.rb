@@ -1,6 +1,42 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
+  def bootloader_medium_actions(operatingsystem)
+    return [] unless boot_file_proxies.any? { |proxy| Foreman::BootloaderUniverse::Download.universe_capable?(proxy, operatingsystem) }
+    return [] unless authorizer.can?('edit_operatingsystems', operatingsystem)
+    return [] unless operatingsystem.architectures.any? { |architecture| architecture.name == 'x86_64' }
+
+    authorized_media_ids = (@authorized_media_ids ||= Medium.authorized(:view_media).pluck(:id).to_set)
+    media = operatingsystem.media.select do |medium|
+      authorized_media_ids.include?(medium.id) && bootloader_medium_source?(medium)
+    end
+    media.map do |medium|
+      link_to(_("Sync boot files from %{name}") % { name: medium.name },
+        sync_boot_files_operatingsystem_path(operatingsystem, source: { type: 'medium', id: medium.id }),
+        method: :post)
+    end
+  end
+
+  def bootloader_medium_source?(medium)
+    uri = URI.parse(medium.boot_file_source_path)
+    %w[http https ftp].include?(uri.scheme) && uri.host.present? && uri.query.nil? && uri.fragment.nil?
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def boot_file_proxies
+    @boot_file_proxies || []
+  end
+
+  # Plugins can add explicit source choices to the Operating Systems index.
+  def additional_bootloader_actions(_operatingsystem)
+    []
+  end
+
+  def additional_bootloader_source_fields(_operatingsystem)
+    nil
+  end
+
   def label(record)
     return "" if record.blank? || record.name.blank?
     record.to_label
