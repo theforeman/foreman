@@ -52,8 +52,11 @@ module InputType
 
     def self.api_params_for_input_group(context)
       attributes.each do |attr|
+        # TODO: humanized_name is translated, but that can't work
         context.param attr, String, required: false,
-                                    desc: format(N_('%{input_type_attr_name}, used when input type is %{input_type}'), input_type_attr_name: attr.to_s.humanize, input_type: humanized_name)
+                                    desc: format(N_('%{input_type_attr_name}, used when input type is %{input_type}'),
+                                                 input_type_attr_name: ->() { attr.to_s.humanize },
+                                                 input_type: ->() { humanized_name })
       end
     end
 
