@@ -9,7 +9,7 @@ module Api
       end
 
       before_action :find_optional_nested_object
-      before_action :find_resource, :only => %w{show edit update destroy bootfiles}
+      before_action :find_resource, :only => %w{show edit update destroy bootfiles download_boot_files}
       before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, "/operatingsystems/", N_("List all operating systems")
@@ -100,12 +100,36 @@ module Api
         render_exception(e, :status => :unprocessable_entity)
       end
 
+      api :POST, "/operatingsystems/:id/download_boot_files", N_("Download boot files to TFTP Smart Proxies")
+      param :id, String, :required => true
+      param :source, Hash, :required => true do
+        param :type, String, :required => true, :desc => N_("medium or katello_kickstart_repository")
+        param :id, Integer, :required => true
+        param :content_source_id, Integer, :desc => N_("Katello content source Smart Proxy ID")
+      end
+      param :smart_proxy_ids, Array, :desc => N_("TFTP Smart Proxy IDs; omit for all capable proxies")
+
+      def download_boot_files
+        source = params.require(:source).permit(:type, :id, :content_source_id)
+        result = Foreman::BootloaderUniverse::Download.new(
+          operatingsystem: @operatingsystem,
+          source: source,
+          smart_proxy_ids: params[:smart_proxy_ids]
+        ).call
+        status = result[:results].any? { |entry| entry[:request_count].positive? } ? :accepted : :bad_gateway
+        render json: result, status: status
+      rescue Foreman::BootloaderUniverse::Download::InvalidRequest => e
+        render_exception(e, status: :unprocessable_entity)
+      end
+
       private
 
       def action_permission
         case params[:action]
         when 'bootfiles'
           :view
+        when 'download_boot_files'
+          :edit
         else
           super
         end

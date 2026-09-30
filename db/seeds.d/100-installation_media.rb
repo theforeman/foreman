@@ -44,6 +44,7 @@ Medium.without_auditing do
       :name => "Ubuntu mirror",
       :os_family => "Debian",
       :path => "http://archive.ubuntu.com/ubuntu",
+      :boot_path => "https://releases.ubuntu.com",
     },
     {
       :name => "RancherOS mirror",
@@ -81,6 +82,12 @@ Medium.without_auditing do
       :path => "http://mirror.openshift.com",
     },
   ].each do |input|
+    if input[:name] == 'Ubuntu mirror'
+      seeded_medium = Medium.unscoped.find_by(name: input[:name], path: input[:path])
+      if seeded_medium && seeded_medium.boot_path.blank? && !SeedHelper.audit_modified?(Medium, input[:name])
+        seeded_medium.update_column(:boot_path, input[:boot_path])
+      end
+    end
     next if Medium.unscoped.where(['name = ? OR path = ?', input[:name], input[:path]]).any?
     next if SeedHelper.audit_modified? Medium, input[:name]
     m = Medium.create input

@@ -271,6 +271,20 @@ class HostsControllerTest < ActionController::TestCase
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
+  test "when host is not saved after setBuild as JSON, response includes the error message" do
+    Host.any_instance.stubs(:setBuild).returns(false)
+    errors = mock
+    errors.expects(:full_messages).returns(['Boot files missing, download boot files for Debian 12'])
+    Host.any_instance.stubs(:errors).returns(errors)
+
+    put :setBuild, params: { :id => @host.name, :format => :json }, session: set_session_user
+
+    assert_response :unprocessable_entity
+    response_body = JSON.parse(response.body)
+    assert_equal ['Boot files missing, download boot files for Debian 12'], response_body['errors']
+    assert_equal 'Boot files missing, download boot files for Debian 12', response_body['message']
+  end
+
   context "when host is saved after setBuild" do
     setup do
       @request.env['HTTP_REFERER'] = current_hosts_path
