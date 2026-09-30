@@ -50,6 +50,22 @@ class OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   context 'redirects' do
+    test 'shows boot file preflight warning instead of success when proxy request is accepted' do
+      operatingsystem = operatingsystems(:redhat)
+      source_url = 'http://mirror.example.test/images/boot.iso'
+      result = {
+        warnings: ["Boot file not available, download will fail: #{source_url}"],
+        results: [{ smart_proxy_id: 42, architecture: 'x86_64', accepted: true, request_count: 1 }],
+      }
+      Foreman::BootloaderUniverse::Download.any_instance.expects(:call).returns(result)
+
+      post :download_boot_files, params: { id: operatingsystem.id, source: { type: 'medium', id: 7 } }, session: set_session_user
+
+      assert_redirected_to operatingsystems_path
+      assert_equal "Boot file not available, download will fail: #{source_url}", flash[:warning]
+      assert_nil flash[:success]
+    end
+
     test 'create valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
       post :create, params: { :operatingsystem => {:name => "MyOS"} }, session: set_session_user

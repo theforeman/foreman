@@ -43,6 +43,7 @@ module Api
         param :medium, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("Name of media")
           param :path, String, :required => true, :desc => PATH_INFO
+          param :boot_path, String, :desc => N_("Alternative URL prefix for downloading boot files")
           param :os_family, String, :require => false, :desc => OS_FAMILY_INFO
           param :operatingsystem_ids, Array, :require => false
           param_group :taxonomies, ::Api::V2::BaseController

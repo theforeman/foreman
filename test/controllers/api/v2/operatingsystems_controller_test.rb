@@ -28,6 +28,29 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should dispatch an explicitly selected medium and proxy for boot file download" do
+    os = operatingsystems(:redhat)
+    result = {
+      operatingsystem_id: os.id,
+      source: { type: 'medium', id: 7 },
+      warnings: ['Boot file not available, download will fail: http://mirror.example.test/boot.iso'],
+      results: [
+        { smart_proxy_id: 9, architecture: 'x86_64', accepted: true, request_count: 1 },
+      ],
+    }
+    service = mock('boot file downloader')
+    service.expects(:call).returns(result)
+    Foreman::BootloaderUniverse::Download.expects(:new).with do |arguments|
+      arguments[:operatingsystem] == os && arguments[:source][:type] == 'medium' &&
+        arguments[:source][:id] == '7' && arguments[:smart_proxy_ids] == ['9']
+    end.returns(service)
+
+    post :download_boot_files, params: { id: os.id, source: { type: 'medium', id: '7' }, smart_proxy_ids: ['9'] }
+    assert_response :accepted
+    assert_equal result[:results].first[:smart_proxy_id], JSON.parse(@response.body)['results'].first['smart_proxy_id']
+    assert_equal result[:warnings], JSON.parse(@response.body)['warnings']
+  end
+
   test "should create os" do
     assert_difference('Operatingsystem.count') do
       post :create, params: { :operatingsystem => os_params }
