@@ -36,6 +36,23 @@ class UsergroupsControllerTest < ActionController::TestCase
     assert_redirected_to usergroups_url
   end
 
+  test 'update assigns organizations and locations' do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+
+    put :update, params: {
+      :id => @model,
+      :usergroup => {
+        :organization_ids => [organization.id],
+        :location_ids => [location.id],
+      },
+    }, session: set_session_user
+
+    assert_redirected_to usergroups_url
+    assert_equal [organization], @model.reload.organizations
+    assert_equal [location], @model.locations
+  end
+
   def test_destroy
     usergroup = Usergroup.first
     delete :destroy, params: { :id => usergroup }, session: set_session_user

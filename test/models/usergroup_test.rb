@@ -26,6 +26,104 @@ class UsergroupTest < ActiveSupport::TestCase
   should allow_value(*valid_name_list).for(:name)
   should have_many(:cached_users)
   should have_many(:cached_usergroups)
+  should have_many(:organizations)
+  should have_many(:locations)
+
+  test "nested user groups restrict users to assigned organizations and locations" do
+    organization = FactoryBot.create(:organization)
+    restricted_organization = FactoryBot.create(:organization, :parent => organization)
+    other_organization = FactoryBot.create(:organization, :parent => organization)
+    ignored_organization = FactoryBot.create(:organization, :ignore_types => ['User'])
+    location = FactoryBot.create(:location)
+    restricted_location = FactoryBot.create(:location, :parent => location)
+    user = FactoryBot.create(:user, :organizations => [organization], :locations => [location])
+    child = FactoryBot.create(:usergroup, :locations => [restricted_location], :users => [user])
+    parent = FactoryBot.create(:usergroup, :organizations => [restricted_organization], :usergroups => [child])
+
+    assert_includes user.reload.my_organizations, restricted_organization
+    refute_includes user.my_organizations, other_organization
+    assert_includes user.my_organizations, ignored_organization
+    assert_includes user.my_locations, restricted_location
+
+    parent.usergroups = []
+
+    assert_includes user.reload.my_organizations, other_organization
+    assert_includes user.my_locations, restricted_location
+  end
+
+  test "taxonomies from multiple user groups form one restriction set" do
+    organization = FactoryBot.create(:organization)
+    first = FactoryBot.create(:organization, :parent => organization)
+    second = FactoryBot.create(:organization, :parent => organization)
+    user = FactoryBot.create(:user, :organizations => [organization])
+    FactoryBot.create(:usergroup, :organizations => [first], :users => [user])
+    FactoryBot.create(:usergroup, :organizations => [second], :users => [user])
+
+    assert_includes user.reload.my_organizations, first
+    assert_includes user.my_organizations, second
+  end
+
+  test "user group taxonomies never grant access outside the user scope" do
+    organization = FactoryBot.create(:organization)
+    other_organization = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [organization])
+    FactoryBot.create(:usergroup, :organizations => [other_organization], :users => [user])
+
+    refute_includes user.reload.my_organizations, organization
+    refute_includes user.my_organizations, other_organization
+  end
+
+  test "user groups without taxonomies do not restrict the user scope" do
+    organization = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [organization])
+    FactoryBot.create(:usergroup, :users => [user])
+
+    assert_includes user.reload.my_organizations, organization
+  end
+
+  test "users can use a user group taxonomy restriction as their default" do
+    organization = FactoryBot.create(:organization)
+    restricted_organization = FactoryBot.create(:organization, :parent => organization)
+    location = FactoryBot.create(:location)
+    restricted_location = FactoryBot.create(:location, :parent => location)
+    user = FactoryBot.create(:user, :organizations => [organization], :locations => [location])
+    FactoryBot.create(:usergroup, :organizations => [restricted_organization], :locations => [restricted_location], :users => [user])
+
+    user.default_organization = restricted_organization
+    user.default_location = restricted_location
+
+    assert_valid user
+  end
+
+  test "users cannot assign user group taxonomies outside their own scope" do
+    organization = FactoryBot.create(:organization)
+    other_organization = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [organization], :locations => [])
+    FactoryBot.create(:usergroup, :organizations => [organization], :users => [user])
+    target = FactoryBot.create(:usergroup, :organizations => [organization])
+    Organization.expects(:authorized).
+      with('assign_organizations', Organization).
+      returns(Organization.where(:id => organization.id))
+
+    as_user user do
+      target.organization_ids = [other_organization.id]
+      refute_valid target, :organization_ids
+    end
+  end
+
+  test "users cannot remove an existing user group restriction" do
+    organization = FactoryBot.create(:organization)
+    user = FactoryBot.create(:user, :organizations => [organization])
+    target = FactoryBot.create(:usergroup, :organizations => [organization])
+    Organization.expects(:authorized).
+      with('assign_organizations', Organization).
+      returns(Organization.where(:id => organization.id))
+
+    as_user user do
+      target.organization_ids = []
+      refute_valid target, :organization_ids
+    end
+  end
 
   test 'should not update with multiple invalid names' do
     usergroup = FactoryBot.create(:usergroup)
