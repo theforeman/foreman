@@ -55,6 +55,27 @@ class RendererTest < ActiveSupport::TestCase
     tempfile&.close!
   end
 
+  test 'temporary template rendering uses the template render scope' do
+    template = FactoryBot.build_stubbed(:provisioning_template, template: 'rendered')
+    source = stub
+    scope = stub
+    Foreman::Renderer.stubs(:get_source).with(template: template, host: nil).returns(source)
+    Foreman::Renderer.expects(:get_scope).with(
+      source: source,
+      template: template,
+      host: nil,
+      params: {},
+      variables: {}
+    ).returns(scope)
+    Foreman::Renderer.stubs(:render).with(source, scope).returns('rendered')
+
+    tempfile = Foreman::Renderer.render_template_to_tempfile(template: template, prefix: 'renderer-test')
+
+    assert_equal 'rendered', File.read(tempfile.path)
+  ensure
+    tempfile&.close!
+  end
+
   private
 
   def assert_template(template)
