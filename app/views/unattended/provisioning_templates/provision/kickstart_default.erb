@@ -20,6 +20,7 @@ test_on:
 - rocky8_dhcp
 - rocky9_dhcp
 - rocky10_dhcp
+- kickstart_vlan_on_bond_dhcp
 description: |
   The provisioning template for kickstart based distributions. The output is fetched by Anaconda installer during
   the network based installation. To customize the installation, modify the host parameters.
@@ -127,16 +128,9 @@ selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing'
 keyboard <%= host_param('keyboard') || 'us' %>
 
 <%
-# start with the provisioning interface, then other physical interfaces and finally bonds and bridges
-interfaces = @host.interfaces.reject { |iface| iface.bmc? }.sort_by do |iface|
-  if iface.bond? || iface.bridge?
-    20
-  elsif iface.provision?
-    0
-  else
-    10
-  end
-end
+# Keep each interface's parent and members ahead of it, preferring the provisioning interface
+# whenever its dependencies have already been emitted.
+interfaces = kickstart_network_interfaces
 
 interfaces.each do |iface|
 -%>
