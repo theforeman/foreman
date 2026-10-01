@@ -108,7 +108,9 @@ export const ReviewModal = ({
             ouiaId="clipboard-copy-template-review"
             variant={ClipboardCopyVariant.expansion}
           >
-            {response}
+            {typeof response === 'string'
+              ? response
+              : JSON.stringify(response, null, 2)}
           </ClipboardCopy>
         )}
       </SkeletonLoader>
