@@ -30,12 +30,7 @@ const SettingValue = ({ setting }) => {
   };
 
   if (setting.readonly) {
-    fieldProps.tooltipText = sprintf(
-      __(
-        'This setting is defined in the configuration file %s and is read-only.'
-      ),
-      setting.configFile
-    );
+    fieldProps.tooltipText = __('This setting is read-only.');
   } else {
     const defaultStr = defaultToString(setting);
     fieldProps.tooltipText = sprintf(__('Default: %s'), defaultStr);

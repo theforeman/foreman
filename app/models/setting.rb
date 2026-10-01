@@ -61,10 +61,6 @@ class Setting < ApplicationRecord
 
   delegate :settings_type, :encrypted, :encrypted?, :default, to: :setting_definition, allow_nil: true
 
-  def self.config_file
-    'settings.yaml'
-  end
-
   # can't use our own settings
   def self.per_page
     20

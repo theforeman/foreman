@@ -20,10 +20,6 @@ node :readonly do |s|
   s.readonly?
 end
 
-node :config_file do |s|
-  s.config_file
-end
-
 node :encrypted do |s|
   s.encrypted?
 end
