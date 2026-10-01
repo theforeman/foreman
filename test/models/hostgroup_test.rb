@@ -10,7 +10,7 @@ def valid_hostgroup_name_list
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(245),
     *RFauxFactory.gen_strings(1..245, exclude: [:html, :punctuation]).values,
-    RFauxFactory.gen_html(rand((1..220))),
+    RFauxFactory.gen_html(rand(1..220)),
   ]
 end
 
@@ -89,8 +89,8 @@ class HostgroupTest < ActiveSupport::TestCase
 
     as_admin do
       top = FactoryBot.create(:hostgroup, :name => "topA",
-                               :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
-                                                                 pid += 1 => {"name" => "topB", "value" => "1"}})
+        :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
+                                          pid += 1 => {"name" => "topB", "value" => "1"}})
       child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
     end
 
@@ -182,6 +182,105 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
+  test "reuses one ancestor query for repeated inherited id lookups" do
+    child = hostgroups(:inherited)
+    assert_sql_queries(1) do
+      child.inherited_domain_id
+      child.inherited_architecture_id
+      child.inherited_operatingsystem_id
+    end
+  end
+
+  test "inherited lookups reflect in-memory updates on the same hostgroup instance" do
+    child = hostgroups(:inherited)
+    assert_equal hostgroups(:parent).domain_id, child.inherited_domain_id
+
+    child.domain_id = domains(:yourdomain).id
+
+    assert_equal domains(:yourdomain).id, child.inherited_domain_id
+  end
+
+  test "reuses preloaded ancestor associations for inherited object lookups" do
+    child = hostgroups(:inherited)
+    HostgroupReadContext.load([child])
+
+    assert_sql_queries(0) do
+      child.domain
+      child.architecture
+      child.operatingsystem
+    end
+  end
+
+  test "reuses read context for parent display metadata" do
+    child = hostgroups(:inherited)
+    HostgroupReadContext.load([child])
+    expected_parent_title = hostgroups(:parent).title
+
+    assert_sql_queries(0) do
+      assert_equal expected_parent_title, child.parent_name
+    end
+  end
+
+  test "ancestor_chain falls back to database when requested associations not preloaded" do
+    as_admin do
+      parent = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+      child = FactoryBot.create(:hostgroup, :parent => parent)
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => parent, :name => 'test_param', :value => 'test_value')
+
+      HostgroupReadContext.load([child], include_parameters: false)
+
+      ancestors = child.send(:ancestor_chain, :group_parameters)
+      assert_equal 1, ancestors.size
+      assert_equal parent.id, ancestors.first.id
+
+      assert_sql_queries(0) do
+        params = ancestors.first.group_parameters
+        assert_equal 1, params.size
+      end
+    end
+  end
+
+  test "ancestor_chain uses context when requested associations are preloaded" do
+    as_admin do
+      parent = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+      child = FactoryBot.create(:hostgroup, :parent => parent)
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => parent, :name => 'test_param', :value => 'test_value')
+
+      HostgroupReadContext.load([child], include_parameters: true)
+
+      assert_sql_queries(0) do
+        ancestors = child.send(:ancestor_chain, :group_parameters)
+        assert_equal 1, ancestors.size
+        assert_equal parent.id, ancestors.first.id
+      end
+
+      assert_sql_queries(0) do
+        ancestors = child.send(:ancestor_chain, :group_parameters)
+        params = ancestors.first.group_parameters
+        assert_equal 1, params.size
+      end
+    end
+  end
+
+  test "ancestor_chain falls back to database when context skipped inheritance preloading entirely" do
+    as_admin do
+      # Mirrors HostgroupsController#index/csv (include_inheritance: false).
+      parent = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+      child = FactoryBot.create(:hostgroup, :parent => parent)
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => parent, :name => 'test_param', :value => 'test_value')
+
+      HostgroupReadContext.load([child], include_counts: true, include_inheritance: false)
+
+      assert_nothing_raised do
+        ancestors = child.send(:ancestor_chain, :group_parameters)
+        assert_equal 1, ancestors.size
+        assert_equal parent.id, ancestors.first.id
+      end
+
+      assert_equal({'test_param' => 'test_value'}, child.parent_params)
+    end
+  end
+
   test "inherited id value does not inherit parent's field id value if the child's value is not null" do
     child = hostgroups(:inherited)
     parent = hostgroups(:parent)
@@ -204,6 +303,16 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
+  test "inherited puppet_ca_proxy is looked up unscoped by id, ignoring feature changes" do
+    child = hostgroups(:inherited)
+    proxy = smart_proxies(:puppetmaster)
+    assert_equal proxy, child.puppet_ca_proxy
+
+    smart_proxy_features(:puppetmaster_puppetca).destroy
+
+    assert_equal proxy, child.reload.puppet_ca_proxy
+  end
+
   test "inherited object does not inherit parent object if the child's value is null" do
     child = hostgroups(:inherited)
     parent = hostgroups(:parent)
@@ -211,6 +320,22 @@ class HostgroupTest < ActiveSupport::TestCase
     child.reload
     refute_equal parent.domain, child.domain
     assert_equal domains(:yourdomain), child.domain
+  end
+
+  test "inherited attribute skips nil but not empty string values in ancestry chain" do
+    as_admin do
+      grandparent = FactoryBot.create(:hostgroup, :with_os, :with_domain, pxe_loader: 'Grub2 UEFI')
+      parent = FactoryBot.create(:hostgroup, parent: grandparent, pxe_loader: '')
+      child = FactoryBot.create(:hostgroup, parent: parent, pxe_loader: nil)
+
+      # Inherits parent's '', not grandparent's 'Grub2 UEFI'
+      assert_equal '', child.inherited_pxe_loader
+      # pxe_loader (unlike inherited_pxe_loader) applies .presence, so '' becomes nil
+      assert_nil child.pxe_loader
+
+      HostgroupReadContext.load([child])
+      assert_equal '', child.inherited_pxe_loader
+    end
   end
 
   test "root_pass inherited from parent if blank" do
@@ -347,6 +472,32 @@ class HostgroupTest < ActiveSupport::TestCase
     nested_group = FactoryBot.create(:hostgroup, :parent => group)
     FactoryBot.create_list(:host, 4, :managed, :hostgroup => nested_group)
     assert_equal(7, group.parent.children_hosts_count)
+  end
+
+  test "children_hosts_count fallback is taxonomy-scoped, not unscoped" do
+    group = FactoryBot.create(:hostgroup, :with_parent, :with_os, :with_domain)
+    parent = group.parent
+
+    HostgroupSubtreeCounts.expects(:new).with(Hostgroup, target_hostgroups: [parent]).returns(stub(:totals => {}))
+    parent.children_hosts_count
+  end
+
+  test "HostgroupReadContext counts are correct whether or not scoped to the given hostgroups" do
+    parent = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+    child = FactoryBot.create(:hostgroup, :parent => parent)
+    FactoryBot.create_list(:host, 2, :managed, :hostgroup => parent)
+    FactoryBot.create_list(:host, 3, :managed, :hostgroup => child)
+
+    scoped = HostgroupReadContext.load([parent, child], include_counts: true,
+      include_inheritance: false, scope_counts_to_hostgroups: true)
+    unscoped = HostgroupReadContext.load([parent, child], include_counts: true,
+      include_inheritance: false, scope_counts_to_hostgroups: false)
+
+    assert_equal scoped.direct_host_count_for(parent), unscoped.direct_host_count_for(parent)
+    assert_equal scoped.direct_host_count_for(child), unscoped.direct_host_count_for(child)
+    assert_equal scoped.subtree_host_count_for(parent), unscoped.subtree_host_count_for(parent)
+    assert_equal 5, unscoped.subtree_host_count_for(parent)
+    assert_equal 3, unscoped.subtree_host_count_for(child)
   end
 
   test "should not associate proxies without appropriate features" do
