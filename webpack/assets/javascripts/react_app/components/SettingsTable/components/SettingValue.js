@@ -29,7 +29,7 @@ const SettingValue = ({ setting }) => {
     tooltipId: setting.name,
   };
 
-  if (setting.readonly) {
+  if (setting.readonly && setting.configFile) {
     fieldProps.tooltipText = sprintf(
       __(
         'This setting is defined in the configuration file %s and is read-only.'
