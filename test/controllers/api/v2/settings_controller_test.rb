@@ -80,6 +80,19 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       assert_response :success
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_include show_response.keys, 'updated_at'
+      assert_include show_response.keys, 'config_file'
+      assert_nil show_response['config_file']
+    end
+
+    test "show includes config_file for settings overridden by configuration" do
+      SETTINGS[:entries_per_page] = 50
+      get :show, params: { :id => 'entries_per_page' }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal Rails.root.join('config/settings.yaml.test').to_s,
+        show_response['config_file']
+    ensure
+      SETTINGS.delete(:entries_per_page)
     end
 
     test "return 404 for non-existent setting" do
