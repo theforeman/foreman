@@ -12,6 +12,16 @@
     }
   }
 
+  .page-layout-toolbar-group-search {
+    align-items: center;
+
+    #selection-checkbox,
+    #select-all-checkbox-dropdown-toggle {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   .pf-v5-c-table tr.pf-m-clickable {
     cursor: default;
   }

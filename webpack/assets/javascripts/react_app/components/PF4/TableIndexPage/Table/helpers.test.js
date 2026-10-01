@@ -62,13 +62,13 @@ describe('getHeaderModifier', () => {
     );
   });
 
-  test('truncates 3+ word titles', () => {
+  test('wraps 3+ word titles', () => {
     expect(
       getHeaderModifier(
         { title: 'Content view environments' },
         'content_view_environments'
       )
-    ).toBe('truncate');
+    ).toBe('wrap');
   });
 
   test('uses an explicit headerModifier over word count', () => {
