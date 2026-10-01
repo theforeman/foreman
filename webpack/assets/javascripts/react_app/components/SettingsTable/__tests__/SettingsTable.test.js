@@ -133,6 +133,17 @@ describe('SettingsTable', () => {
     expect(screen.getAllByRole('row')).toHaveLength(5);
   });
 
+  it('displays a read-only setting value without an edit button', () => {
+    renderTable([
+      { ...settingByName('administrator'), readonly: true },
+    ]);
+
+    const row = getSettingRow('Administrator email address');
+
+    expect(within(row).getByText('root@example.com')).toBeInTheDocument();
+    expect(within(row).queryByRole('button')).not.toBeInTheDocument();
+  });
+
   it('submits a new string value', async () => {
     renderTable();
 

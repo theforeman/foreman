@@ -12,7 +12,6 @@ export const settings = [
     fullName: 'Administrator email address',
     selectValues: null,
     value: 'root@example.com',
-    configFile: 'settings.yaml',
     encrypted: false,
   },
   {
@@ -28,7 +27,6 @@ export const settings = [
     fullName: 'Root password',
     selectValues: null,
     value: '*****',
-    configFile: 'settings.yaml',
     encrypted: true,
   },
   {
@@ -45,7 +43,6 @@ export const settings = [
     fullName: null,
     selectValues: null,
     value: false,
-    configFile: 'settings.yaml',
     encrypted: false,
   },
   {
@@ -62,7 +59,6 @@ export const settings = [
     fullName: 'Append domain names to the host',
     selectValues: null,
     value: true,
-    configFile: 'settings.yaml',
     encrypted: false,
   },
   {
@@ -79,12 +75,10 @@ export const settings = [
     fullName: 'BCrypt password cost',
     selectValues: null,
     value: 9,
-    configFile: 'settings.yaml',
     encrypted: false,
   },
   {
     category: 'Setting::Provisioning',
-    configFile: 'settings.yaml',
     createdAt: '2018-11-06 09:42:45 +0100',
     default: 'PXELinux global default',
     description:
@@ -114,7 +108,6 @@ export const settings = [
   },
   {
     category: 'General',
-    configFile: 'settings.yaml',
     default: null,
     description: 'Timezone to use for new users',
     encrypted: false,
@@ -145,7 +138,6 @@ export const settings = [
   },
   {
     category: 'Setting::Provisioning',
-    configFile: 'settings.yaml',
     createdAt: '2019-11-06 09:42:45 +0100',
     updatedAt: '2019-11-06 09:42:45 +0100',
     default: '4-Users',
@@ -182,7 +174,6 @@ export const settings = [
   },
   {
     category: 'General',
-    configFile: 'settings.yaml',
     createdAt: '2019-11-06 09:42:45 +0100',
     default: [],
     description:
@@ -211,7 +202,6 @@ export const settings = [
     selectValues: null,
     value: 'root@example.com',
     encrypted: false,
-    configFile: 'settings.yaml',
   },
 ];
 

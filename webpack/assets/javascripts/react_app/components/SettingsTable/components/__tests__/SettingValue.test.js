@@ -61,8 +61,12 @@ describe('SettingValue', () => {
     expect(tooltip).toHaveTextContent('Default: No');
   });
 
-  it('shows a read-only tooltip when the setting is defined in a config file', async () => {
-    const readonlySetting = { ...stringSetting, readonly: true };
+  it('shows a config file tooltip when the setting is read-only because it is overridden by configuration', async () => {
+    const readonlySetting = {
+      ...stringSetting,
+      readonly: true,
+      configFile: '/etc/foreman/settings.yaml',
+    };
 
     render(<SettingValue setting={readonlySetting} />);
 
@@ -71,8 +75,20 @@ describe('SettingValue', () => {
     const tooltip = await showTooltipFor('root@example.com');
 
     expect(tooltip).toHaveTextContent(
-      'This setting is defined in the configuration file settings.yaml and is read-only.'
+      'This setting is defined in the configuration file /etc/foreman/settings.yaml and is read-only.'
     );
+  });
+
+  it('shows a generic read-only tooltip when the setting is read-only without a config file', async () => {
+    const readonlySetting = { ...stringSetting, readonly: true };
+
+    render(<SettingValue setting={readonlySetting} />);
+
+    expect(screen.getByText('root@example.com')).toBeInTheDocument();
+
+    const tooltip = await showTooltipFor('root@example.com');
+
+    expect(tooltip).toHaveTextContent('This setting is read-only.');
   });
 
   it('renders Empty when the setting has no value', () => {

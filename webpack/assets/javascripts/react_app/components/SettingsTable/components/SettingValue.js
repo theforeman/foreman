@@ -29,13 +29,15 @@ const SettingValue = ({ setting }) => {
     tooltipId: setting.name,
   };
 
-  if (setting.readonly) {
+  if (setting.readonly && setting.configFile) {
     fieldProps.tooltipText = sprintf(
       __(
         'This setting is defined in the configuration file %s and is read-only.'
       ),
       setting.configFile
     );
+  } else if (setting.readonly) {
+    fieldProps.tooltipText = __('This setting is read-only.');
   } else {
     const defaultStr = defaultToString(setting);
     fieldProps.tooltipText = sprintf(__('Default: %s'), defaultStr);

@@ -21,7 +21,8 @@ node :readonly do |s|
 end
 
 node :config_file do |s|
-  s.config_file
+  settings_file = Rails.env.test? ? 'settings.yaml.test' : 'settings.yaml'
+  Rails.root.join('config', settings_file).to_s if s.readonly?
 end
 
 node :encrypted do |s|
