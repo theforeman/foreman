@@ -11,6 +11,7 @@ module Foreman::Controller::Parameters::Medium
           :name,
           :os_family,
           :path,
+          :boot_path,
           :operatingsystems => [], :operatingsystem_ids => [], :operatingsystem_names => []
         add_taxonomix_params_filter(filter)
       end

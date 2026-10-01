@@ -53,6 +53,72 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
     end
 
+    test 'universe mode omits the on-build boot file fetch and sends validation data' do
+      plan = {
+        kernel: 'bootloader-universe/pxegrub2/debian/12/x86_64/linux',
+        initrd: 'bootloader-universe/pxegrub2/debian/12/x86_64/initrd.gz',
+        archive: 'bootloader-universe/pxegrub2/debian/12/x86_64/netboot.tar.gz',
+        source_digest: 'a' * 64,
+      }
+      @host.operatingsystem.stubs(:pxe_loader_kind).with(@host).returns(:PXEGrub2)
+      @host.provision_interface.stubs(:bootloader_universe_plan).returns(plan)
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map(&:name)
+      refute_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
+
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      ProxyAPI::TFTP.any_instance.expects(:set).with do |_kind, _mac, args|
+        args[:universe_archive] == plan[:archive] && args[:universe_kernel] == plan[:kernel] &&
+          args[:universe_initrd] == plan[:initrd] && args[:universe_source_digest] == plan[:source_digest]
+      end.once.returns(true)
+      @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+      ProxyAPI::TFTP.any_instance.expects(:fetch_boot_file).never
+      assert @host.provision_interface.send(:setTFTPBootFiles)
+    end
+
+    test 'universe mode renders PXEGrub2 boot file basenames' do
+      plan = {
+        kernel: 'bootloader-universe/linux',
+        initrd: 'bootloader-universe/initrd.gz',
+        installation_iso: 'https://releases.example.test/ubuntu.iso',
+      }
+      @host.operatingsystem.stubs(:pxe_loader_kind).with(@host).returns(:PXEGrub2)
+      @host.provision_interface.stubs(:bootloader_universe_plan).returns(plan)
+      @host.provision_interface.stubs(:bootloader_universe_capable?).returns(true)
+      template = mock('template')
+      @host.stubs(:provisioning_template).returns(template)
+      @host.expects(:render_template).with(template: template, variables: {
+        kernel: 'linux', initrd: 'initrd.gz', installation_iso: plan[:installation_iso]
+      }).returns('config')
+
+      assert_equal 'config', @host.provision_interface.send(:build_pxe_render, 'PXEGrub2')
+    end
+
+    test 'universe capability checks use smart proxy records' do
+      proxy = @host.provision_interface.subnet.tftp
+      Foreman::BootloaderUniverse::Download.expects(:universe_capable?).with(proxy, @host.operatingsystem).returns(true)
+
+      assert @host.provision_interface.send(:bootloader_universe_capable?)
+    end
+
+    test 'universe readiness errors identify the operating system missing boot files' do
+      plan = {
+        kernel: 'bootloader-universe/pxegrub2/debian/12/x86_64/linux',
+        initrd: 'bootloader-universe/pxegrub2/debian/12/x86_64/initrd.gz',
+        archive: 'bootloader-universe/pxegrub2/debian/12/x86_64/netboot.tar.gz',
+        source_digest: 'a' * 64,
+      }
+      @host.operatingsystem.stubs(:pxe_loader_kind).with(@host).returns(:PXEGrub2)
+      @host.provision_interface.stubs(:bootloader_universe_plan).returns(plan)
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      conflict = Struct.new(:http_code, :message).new(409, 'universe files missing')
+      error = ProxyAPI::ProxyException.new('https://proxy.example.test', conflict, 'Unable to set TFTP boot entry')
+      ProxyAPI::TFTP.any_instance.expects(:set).raises(error)
+
+      refute @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+      assert_includes @host.errors[:base].join, "Boot files missing, download boot files for #{@host.operatingsystem.fullname}"
+    end
+
     test "without pxe loader should not have tftp" do
       @host.expects(:pxe_loader).returns('').at_least(1)
       assert_equal false, @host.tftp?
@@ -211,6 +277,35 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     EXPECTED
     assert_equal expected.strip, template
     assert h.build
+  end
+
+  test 'universe mode is not used to render a non-selected template kind' do
+    host = FactoryBot.build_stubbed(:host, :managed, :build => true,
+      :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64))
+    host.organization.update_attribute :ignore_types, host.organization.ignore_types + ['ProvisioningTemplate']
+    host.location.update_attribute :ignore_types, host.location.ignore_types + ['ProvisioningTemplate']
+    host.pxe_loader = 'Grub2 UEFI'
+    host.provision_interface.expects(:bootloader_universe_plan).never
+
+    config = host.send(:generate_pxe_template, :PXELinux)
+    refute_includes config, 'bootloader-universe/'
+  end
+
+  test 'universe mode renders the kernel and initramdisk paths into a PXEGrub2 template' do
+    host = FactoryBot.build_stubbed(:host, :managed, :build => true,
+      :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64))
+    template = FactoryBot.build_stubbed(:provisioning_template, template_kind: template_kinds(:pxegrub2),
+      template: "linux <%= @kernel %>\ninitrd <%= @initrd %>")
+    host.stubs(:provisioning_template).returns(template)
+    host.pxe_loader = 'Grub2 UEFI'
+    plan = { kernel: 'bootloader-universe/pxegrub2/redhat/9/x86_64/vmlinuz',
+             initrd: 'bootloader-universe/pxegrub2/redhat/9/x86_64/initrd.img' }
+    host.provision_interface.stubs(:bootloader_universe_plan).returns(plan)
+    host.provision_interface.stubs(:bootloader_universe_capable?).returns(true)
+
+    config = host.send(:generate_pxe_template, :PXEGrub2)
+    assert_includes config, File.basename(plan[:kernel])
+    assert_includes config, File.basename(plan[:initrd])
   end
 
   test "generate_pxe_template_for_pxelinux_localboot" do

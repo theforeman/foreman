@@ -398,8 +398,8 @@ Foreman::AccessControl.map do |permission_set|
                                              :"api/v2/operatingsystems" => [:create],
                                              :"api/v2/os_default_templates" => [:create],
                                             }
-    map.permission :edit_operatingsystems, {:operatingsystems => [:edit, :update],
-                                       :"api/v2/operatingsystems" => [:update],
+    map.permission :edit_operatingsystems, {:operatingsystems => [:edit, :update, :new_boot_file_download, :download_boot_files],
+                                       :"api/v2/operatingsystems" => [:update, :download_boot_files],
                                        :"api/v2/os_default_templates" => [:create, :update, :destroy],
                                      }
     map.permission :destroy_operatingsystems, {:operatingsystems => [:destroy],
