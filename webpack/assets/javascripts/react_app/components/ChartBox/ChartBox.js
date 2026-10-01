@@ -51,7 +51,7 @@ const ChartBoxContent = ({ status, panelChart, error }) => {
     <EmptyState
       header={__('Invalid Status')}
       variant="sm"
-      icon={ExclamationCircleIcon}
+      icon={<ExclamationCircleIcon />}
     />
   );
 };
