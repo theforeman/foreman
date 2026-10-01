@@ -399,11 +399,12 @@ describe('Table', () => {
     ).toBeInTheDocument();
   });
 
-  test('applies wrap and truncate header modifiers from the column title', () => {
+  test('applies wrap and nowrap header modifiers from the column title', () => {
     const mixedColumns = {
       name: { title: 'Name' },
       hostgroup: { title: 'Host group' },
       cve: { title: 'Content view environments' },
+      truncated: { title: 'Always truncated', headerModifier: 'truncate' },
     };
     const { container } = render(
       <Provider store={store}>
@@ -412,7 +413,7 @@ describe('Table', () => {
           params={{ page: 1, perPage: 10, order: '' }}
           setParams={setParams}
           refreshData={refreshData}
-          results={[{ id: 1, name: 'a', hostgroup: 'b', cve: 'c' }]}
+          results={[{ id: 1, name: 'a', hostgroup: 'b', cve: 'c', truncated: 'd' }]}
           url="/users"
           isPending={false}
         />
@@ -426,11 +427,16 @@ describe('Table', () => {
     const cveTh = [...headers].find(
       th => th.getAttribute('aria-label') === 'Content view environments'
     );
+    const truncatedTh = [...headers].find(
+      th => th.getAttribute('aria-label') === 'Always truncated'
+    );
     expect(nameTh).toHaveClass('pf-m-nowrap');
     expect(hgTh).toHaveClass('pf-m-wrap');
-    expect(cveTh).toHaveClass('pf-m-truncate');
+    expect(cveTh).toHaveClass('pf-m-wrap');
+    expect(truncatedTh).toHaveClass('pf-m-truncate');
     expect(hgTh).toHaveStyle({ maxWidth: '12ch' });
-    expect(cveTh).toHaveStyle({ maxWidth: '16ch' });
+    expect(cveTh).toHaveStyle({ maxWidth: '12ch' });
+    expect(truncatedTh).toHaveStyle({ maxWidth: '16ch' });
   });
 
   test('applies wrap and truncate cell modifiers from the column definition', () => {
@@ -465,5 +471,31 @@ describe('Table', () => {
     expect(nameTd).toHaveClass('pf-m-break-word');
     expect(commentTd).toHaveClass('pf-m-truncate');
     expect(roleTd).toHaveClass('pf-m-wrap');
+  });
+
+  test('applies column className to header and body cells', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={{
+            name: { title: 'Name', className: 'hosts-index-type-column' },
+          }}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={[{ id: 1, name: 'a' }]}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+    expect(
+      [...container.querySelectorAll('thead th')].find(
+        th => th.getAttribute('aria-label') === 'Name'
+      )
+    ).toHaveClass('hosts-index-type-column');
+    expect(container.querySelector('td[data-label="Name"]')).toHaveClass(
+      'hosts-index-type-column'
+    );
   });
 });

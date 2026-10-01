@@ -146,10 +146,12 @@ export const Table = ({
               return (
                 <Th
                   key={k}
+                  className={columns[k]?.className}
                   modifier={headerModifier}
                   style={getHeaderStyle(columns[k], headerModifier)}
                   tooltip={
-                    headerModifier === 'truncate' ? headerLabel : undefined
+                    columns[k]?.headerTooltip ||
+                    (headerModifier === 'truncate' ? headerLabel : undefined)
                   }
                   textCenter={columns[k]?.textCenter}
                   sort={
@@ -226,6 +228,7 @@ export const Table = ({
                       return (
                         <Td
                           key={k}
+                          className={columns[k]?.className}
                           dataLabel={keysToColumnNames[k]}
                           textCenter={columns[k]?.textCenter}
                           modifier={cellModifier}

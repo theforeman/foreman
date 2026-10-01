@@ -59,6 +59,17 @@
     --pf-v5-c-table--cell--PaddingRight: 0;
     vertical-align: top;
   }
+
+  // Card/grid layout: default cells are 1fr / 1.5fr with a 16px gap, which
+  // wraps labels. Size the label to its text so values can use the rest.
+  --pf-v5-c-table-td--responsive--GridColumnGap: 0;
+  --pf-v5-c-table__tr--responsive--GridColumnGap: var(
+    --pf-v5-global--spacer--sm
+  );
+
+  td[data-label] {
+    grid-template-columns: max-content minmax(0, 1fr);
+  }
 }
 
 // compact-ui forces 2px vertical padding on PF table cells globally.

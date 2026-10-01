@@ -48,8 +48,10 @@ A page component that displays a table with data fetched from the API. It provid
 @param {boolean} columns[].isSorted - whether or not the column is sortable by its columnName. Only works if ORDER BY <columnName> will work.
 @param {function} columns[].isRelevant - optional function that takes in ForemanContext and returns a boolean. The column will be hidden from the column selector if isRelevant returns false. If the isRelevant key is omitted, columns are always relevant.
 @param {boolean} columns[].textCenter - optional boolean to center-align the column header and cell content. Uses PatternFly's textCenter prop on Th and Td.
-@param {string} columns[].headerModifier - optional PatternFly Th modifier: wrap, truncate, nowrap, breakWord, or fitContent. When omitted, 1-word titles stay on one line (nowrap), 2-word titles wrap, and 3+ word titles truncate.
+@param {string} columns[].headerModifier - optional PatternFly Th modifier: wrap, truncate, nowrap, breakWord, or fitContent. When omitted, 1-word titles stay on one line (nowrap) and 2+ word titles wrap. Set truncate only when the title should ellipsis with a tooltip.
 @param {string} columns[].headerMaxWidth - optional CSS max-width for the header cell (for example 12ch) so wrap/truncate can take effect in an auto-layout table.
+@param {string} columns[].headerTooltip - optional tooltip on the header cell. Truncated headers default to the column label.
+@param {string} columns[].className - optional class name applied to the column header and body cells.
 @param {string} columns[].cellModifier - optional PatternFly Td modifier: wrap, truncate, nowrap, breakWord, or fitContent. Defaults to wrap so overflowing strings fold. Use truncate for long free-text (Comment) and breakWord for unbreakable values (FQDN, IPv6). Truncated cells get a PatternFly tooltip; do not character-count truncate in the wrapper.
 @param {string}{controller} - the name of the controller for the API
 @param {boolean} {creatable} - whether or not to show create button

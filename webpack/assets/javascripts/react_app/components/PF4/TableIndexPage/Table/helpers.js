@@ -58,8 +58,7 @@ export const countHeaderWords = label => {
 
 /**
  * PatternFly Th modifier for a column header.
- * 1 word → nowrap, 2 words → wrap, 3+ words → truncate.
- * Override with column.headerModifier.
+ * 1 word → nowrap, 2+ words → wrap. Override with column.headerModifier.
  * @param {Object} column
  * @param {string} fallbackKey
  * @returns {'wrap'|'truncate'|'nowrap'|'breakWord'|'fitContent'}
@@ -69,8 +68,7 @@ export const getHeaderModifier = (column, fallbackKey) => {
     return column.headerModifier;
   }
   const words = countHeaderWords(getColumnLabel(column, fallbackKey));
-  if (words >= 3) return 'truncate';
-  if (words === 2) return 'wrap';
+  if (words >= 2) return 'wrap';
   return 'nowrap';
 };
 
