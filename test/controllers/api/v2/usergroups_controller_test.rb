@@ -44,6 +44,23 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should create usergroup with organizations and locations" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+
+    post :create, params: {
+      :usergroup => valid_attrs.merge(
+        :organization_ids => [organization.id],
+        :location_ids => [location.id]
+      ),
+    }
+
+    assert_response :created
+    response = JSON.parse(@response.body)
+    assert_equal [organization.id], response["organizations"].pluck("id")
+    assert_equal [location.id], response["locations"].pluck("id")
+  end
+
   test "should create usergroup with role" do
     role = Role.find_by_name('Manager')
     post :create, params: { :usergroup => valid_attrs.clone.update(:role_ids => [role.id])}
@@ -94,6 +111,23 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
   test "should update usergroup" do
     put :update, params: { :id => @usergroup.to_param, :usergroup => valid_attrs }
     assert_response :success
+  end
+
+  test "should update usergroup organizations and locations" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+
+    put :update, params: {
+      :id => @usergroup.to_param,
+      :usergroup => {
+        :organization_ids => [organization.id],
+        :location_ids => [location.id],
+      },
+    }
+
+    assert_response :success
+    assert_equal [organization], @usergroup.reload.organizations
+    assert_equal [location], @usergroup.locations
   end
 
   test "should update usergroup with role" do
