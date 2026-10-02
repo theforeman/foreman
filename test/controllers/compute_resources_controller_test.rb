@@ -87,7 +87,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
 
   test "host update without  password in the params does not erase existing password" do
     old_password = @compute_resource.password
-    setup_user "edit"
+    setup_user "edit", 'compute_resources', "id = #{@compute_resource.id}"
     put :update, params: { :id => @compute_resource.to_param, :compute_resource => {:name => "editing_self"} }, session: set_session_user
     @compute_resource = ComputeResource.unscoped.find(@compute_resource.id)
     assert_equal old_password, @compute_resource.password
@@ -111,6 +111,25 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     setup_user "edit"
     get :edit, params: { :id => @compute_resource.to_param }, session: set_session_user
     assert_response :success
+  end
+
+  test "should show Application Credential fields for an OpenStack compute resource" do
+    compute_resource = compute_resources(:openstack)
+    compute_resource.url = 'https://openstack.example.com/v3/auth/tokens'
+    compute_resource.authentication_type = Foreman::Model::Openstack::APPLICATION_CREDENTIAL_AUTHENTICATION
+    compute_resource.application_credential_id = 'credential-id'
+    compute_resource.application_credential_secret = 'application-secret'
+    compute_resource.save!
+    Foreman::Model::Openstack.any_instance.stubs(:tenants).returns([])
+    User.current = users(:admin)
+
+    get :edit, params: { :id => compute_resource.to_param }, session: set_session_user
+
+    assert_response :success
+    assert_select '#openstack_password_credentials.hide'
+    assert_select '#openstack_application_credentials:not(.hide)'
+    assert_select 'input#compute_resource_application_credential_id:not([disabled])'
+    assert_select '#openstack_credential_secret label', :text => /Application Credential Secret/
   end
 
   test "should not update compute resource when not permitted" do
