@@ -2,7 +2,7 @@ class InterfaceTypeMapper
   class UnknownTypeException < Foreman::Exception; end
 
   DEFAULT_TYPE = Nic::Managed
-  ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map { |t| t.humanized_name.downcase }
+  ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map { |t| t.humanized_name.downcase }.uniq
   LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map { |t| t.name }
 
   def self.map(nic_type)
