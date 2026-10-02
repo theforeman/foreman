@@ -1,5 +1,10 @@
 module AuthSourcesHelper
   def number_of_users_counter(users, auth_source_type)
+    if auth_source_type == 'AuthSourceOidc'
+      linked_user_ids = OidcIdentity.where(:auth_source_id => AuthSourceOidc.with_taxonomy_scope.select(:id)).distinct.pluck(:user_id).to_set
+      return users.count { |user| linked_user_ids.include?(user.id) }
+    end
+
     users.count { |user| user.auth_source.type == auth_source_type }
   end
 
@@ -17,6 +22,8 @@ module AuthSourcesHelper
       type = "Internal"
     when "AuthSourceExternal"
       type = "External"
+    when "AuthSourceOidc"
+      type = "OpenID Connect"
     end
     type
   end

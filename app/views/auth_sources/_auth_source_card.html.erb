@@ -7,13 +7,17 @@
       <% if auth_source.type == 'AuthSourceExternal' %>
         <%= render :partial => 'auth_source_externals/external_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
       <% end %>
+      <% if auth_source.type == 'AuthSourceOidc' %>
+        <%= render :partial => 'auth_source_oidcs/oidc_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
+      <% end %>
       <h2 class="card-pf-title text-center">
         <%= type_of_auth_source(auth_source) %>
       </h2>
       <div class="card-pf-items text-center">
         <div class="card-pf-item">
           <span class="pficon pficon-users"></span>
-          <span class="card-pf-item-text"><%= link_to_if_authorized(number_of_users_counter(users, auth_source.type), hash_for_users_path(:search => "auth_source_type = #{auth_source.type}")) %></span>
+          <% search = auth_source.type == 'AuthSourceOidc' ? 'has_oidc_identity = true' : "auth_source_type = #{auth_source.type}" %>
+          <span class="card-pf-item-text"><%= link_to_if_authorized(number_of_users_counter(users, auth_source.type), hash_for_users_path(:search => search)) %></span>
         </div>
       </div>
     </div>

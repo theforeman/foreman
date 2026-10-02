@@ -292,8 +292,18 @@ Foreman::Application.routes.draw do
     end
   end
 
+  resources :auth_source_oidcs, :except => [:show, :index] do
+    collection do
+      put 'test_connection'
+    end
+  end
+
   resources :auth_sources, only: [:show, :index]
   resources :auth_source_externals, only: [:update, :edit]
+
+  post 'users/oidc/:id', :to => 'oidc_authentications#start', :as => :start_oidc_authentication
+  post 'users/oidc/:id/link', :to => 'oidc_authentications#link', :as => :link_oidc_identity
+  get 'users/oidc/callback', :to => 'oidc_authentications#callback', :as => :callback_oidc_authentications
 
   put 'users/(:id)/test_mail', to: 'users#test_mail', as: 'test_mail_user'
 

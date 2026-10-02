@@ -59,4 +59,17 @@ describe('LoginPage', () => {
 
     expect(submitButton).toBeEnabled();
   });
+
+  it('renders configured OpenID Connect providers', () => {
+    renderLoginPage({
+      alerts: null,
+      oidcProviders: [{ name: 'Keycloak', url: '/users/oidc/keycloak' }],
+    });
+
+    const button = screen.getByRole('button', { name: 'Log in with Keycloak' });
+    expect(button).toBeInTheDocument();
+    expect(button.closest('form')).toHaveAttribute('action', '/users/oidc/keycloak');
+    expect(button.closest('form')).toHaveAttribute('method', 'post');
+    expect(button.closest('form').elements.authenticity_token).toHaveValue(token);
+  });
 });

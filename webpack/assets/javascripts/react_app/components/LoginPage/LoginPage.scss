@@ -11,6 +11,10 @@ $background_image: url('../LoginPage/background.svg');
     background-size: contain;
     background-repeat: repeat-y;
   }
+
+  .external-login-form + .external-login-form {
+    margin-top: 0.5rem;
+  }
 }
 
 #login-page .pf-v5-c-login__footer p {
