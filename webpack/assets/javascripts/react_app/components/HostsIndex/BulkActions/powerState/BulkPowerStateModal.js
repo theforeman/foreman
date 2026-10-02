@@ -33,7 +33,6 @@ const BulkPowerStateModal = ({
   locationId,
   isOpen,
   closeModal,
-  onSuccess: onSuccessCallback,
 }) => {
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [selectedPowerState, setSelectedPowerState] = useState('');
@@ -59,7 +58,6 @@ const BulkPowerStateModal = ({
         message: response.data.message,
       })
     );
-    if (onSuccessCallback) onSuccessCallback();
     cleanup();
   };
 
@@ -209,7 +207,6 @@ BulkPowerStateModal.propTypes = {
   locationId: PropTypes.number,
   isOpen: PropTypes.bool,
   closeModal: PropTypes.func,
-  onSuccess: PropTypes.func,
 };
 
 BulkPowerStateModal.defaultProps = {
@@ -218,7 +215,6 @@ BulkPowerStateModal.defaultProps = {
   locationId: undefined,
   isOpen: false,
   closeModal: () => {},
-  onSuccess: undefined,
 };
 
 export default BulkPowerStateModal;

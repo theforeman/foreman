@@ -9,7 +9,6 @@ const BulkPowerStateModalScene = ({ isOpen, closeModal }) => {
     selectedCount = 0,
     organizationId,
     locationId,
-    refreshTableData,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkPowerStateModal
@@ -19,7 +18,6 @@ const BulkPowerStateModalScene = ({ isOpen, closeModal }) => {
       locationId={locationId}
       isOpen={isOpen}
       closeModal={closeModal}
-      onSuccess={refreshTableData}
     />
   );
 };
