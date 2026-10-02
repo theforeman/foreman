@@ -27,8 +27,6 @@ gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', '~> 7.0'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '~> 2.1'
-gem 'net-scp'
-gem 'net-ssh'
 gem 'net-ldap', '>= 0.16.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 2.0.0', '< 3'
