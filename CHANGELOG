@@ -1,3 +1,28 @@
+2026-10-02	Odilon Sousa <osousa@redhat.com>
+	* Release 5.0.1
+	* Fixes #39841 - Load config safely
+	* Fixes #39839 - Prevent database task injection
+	* Fixes #39840 - Validate foreman-tail input
+	* Fixes #39838 - Escape fetch_log request_id
+
+2026-10-02	Lukas Zapletal <lzapleta@redhat.com>
+	* Fixes #39846 - Restrict template preview access
+
+2026-10-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #39837 - Enforce per-OS provisioning token
+
+2026-10-01	Vijaykumar Sawant <visawant@redhat.com>
+	* Fixes #39774 - Update UI notification for report
+
+2026-10-01	Quinn James <qj@quinnjam.es>
+	* Fixes #39586 - Improve RAM consumption for host available errata report; add auto-compression to reports; fix gzip output
+
+2026-09-28	Alleny244 <alleny244@gmail.com>
+	* Fixes #39702 - Drop Smart Proxy version mismatch check
+
+2026-09-28	Arvind Jangir <arvindjangirlpu@gmail.com>
+	* Fixes #39811 - Pin Katello version to KATELLO-5.0 on 5.0-stable for CI compatibility
+
 2026-09-08	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 5.0.0
 	* i18n - extracting new, pulling from tx
