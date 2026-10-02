@@ -560,6 +560,7 @@ const HostsIndex = () => {
       >
         <Table
           ouiaId="hosts-index-table"
+          hasInnerScroll
           params={{
             ...paramsWithoutPerPage,
             page,
