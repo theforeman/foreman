@@ -190,6 +190,19 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     end
   end
 
+  [:organizations, :locations].each do |taxonomy|
+    test "user with viewer rights and no #{taxonomy} should succeed in viewing users" do
+      user_one_as_anonymous_viewer
+      users(:one).public_send("#{taxonomy}=", [])
+
+      as_user :one do
+        get :index
+        assert_response :success
+        assert_empty ActiveSupport::JSON.decode(@response.body)['results']
+      end
+    end
+  end
+
   test 'admin user can be created' do
     user = users(:one)
     user.update_attribute :admin, true
