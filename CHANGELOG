@@ -1,3 +1,22 @@
+2026-10-02	Odilon Sousa <osousa@redhat.com>
+	* Release 3.19.2
+	* Fixes #39841 - Load config safely
+	* Fixes #39839 - Prevent database task injection
+	* Fixes #39840 - Validate foreman-tail input
+	* Fixes #39838 - Escape fetch_log request_id
+
+2026-10-02	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #39370 - Update safemode to 2.0
+
+2026-10-02	Lukas Zapletal <lzapleta@redhat.com>
+	* Fixes #39846 - Restrict template preview access
+
+2026-10-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #39837 - Enforce per-OS provisioning token
+
+2026-08-07	Nadja Heitmann <nadjah@atix.de>
+	* Fixes #39437 - Apply taxonomies to UI bulk actions
+
 2026-07-01	Odilon Sousa <osousa@redhat.com>
 	* Release 3.19.1
 
