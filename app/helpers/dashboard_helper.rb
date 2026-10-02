@@ -176,8 +176,11 @@ module DashboardHelper
   end
 
   def out_of_sync_enabled?(origin)
-    setting = origin_setting(origin, 'out_of_sync_disabled')
-    setting.nil? ? true : !setting
+    origins = origin ? [origin] : Foreman::Plugin.report_origin_registry.origins_for('ConfigReport')
+    Array(origins).any? do |report_origin|
+      setting = origin_setting(report_origin, 'out_of_sync_disabled')
+      setting.nil? || !setting
+    end
   end
 
   def host_build_status_icon(host)

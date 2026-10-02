@@ -46,6 +46,32 @@ class DashboardTest < ActiveSupport::TestCase
     end
   end
 
+  context 'with origin-specific out-of-sync settings' do
+    setup do
+      Foreman::Plugin.report_origin_registry.stubs(:origins_for).with('ConfigReport').returns(['Puppet', 'Salt'])
+    end
+
+    test 'omits out-of-sync data when every origin disables it' do
+      data = Dashboard::Data.new('', :origin => 'All')
+      data.stubs(:origin_out_of_sync_disabled?).with('Puppet').returns(true)
+      data.stubs(:origin_out_of_sync_disabled?).with('Salt').returns(true)
+
+      as_admin do
+        refute data.report.key?(:out_of_sync_hosts_enabled)
+      end
+    end
+
+    test 'includes out-of-sync data when one origin enables it' do
+      data = Dashboard::Data.new('', :origin => 'All')
+      data.stubs(:origin_out_of_sync_disabled?).with('Puppet').returns(true)
+      data.stubs(:origin_out_of_sync_disabled?).with('Salt').returns(false)
+
+      as_admin do
+        assert data.report.key?(:out_of_sync_hosts_enabled)
+      end
+    end
+  end
+
   context 'with eventful report' do
     setup do
       @host.reports.first.update_attribute(:status, 2)
