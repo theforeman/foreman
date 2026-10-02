@@ -1,0 +1,11 @@
+development:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: /var/lib/foreman/storage
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage-test") %>
