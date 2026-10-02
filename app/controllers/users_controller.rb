@@ -232,6 +232,11 @@ class UsersController < ApplicationController
       :auditable_id => user_id
     )
     session[:user] = @user = User.current = nil
+    # Expire the per-page selected hosts cookies (see #29019) so a following
+    # user on a shared browser does not inherit the previous selection.
+    request.cookies.keys.grep(/\A_ForemanSelected/).each do |name|
+      cookies.delete(name)
+    end
     if flash[:success] || flash[:info] || flash[:error]
       flash.keep
     else
