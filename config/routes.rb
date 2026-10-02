@@ -479,6 +479,7 @@ Foreman::Application.routes.draw do
   get 'unattended/(:kind/(:id(:format)))', controller: 'unattended', action: 'host_template', format: 'text'
 
   get 'userdata/(:mac)/user-data', controller: 'userdata', action: 'userdata', format: 'text'
+  get 'userdata/(:mac)/vendor-data', controller: 'userdata', action: 'vendordata', format: 'text'
   get 'userdata/(:mac)/meta-data', controller: 'userdata', action: 'metadata', format: 'text'
 
   resources :tasks, only: [:show]
