@@ -139,7 +139,7 @@ class HostJSTest < IntegrationTestWithJavascript
     describe 'create and redirect' do
       test 'redirects correctly with second nic being primary' do
         compute_resource = FactoryBot.create(:compute_resource, :libvirt)
-        os = FactoryBot.create(:ubuntu14_10, :with_associations)
+        os = FactoryBot.create(:ubuntu24_04, :with_associations)
         Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
         visit new_host_path
 
@@ -181,7 +181,7 @@ class HostJSTest < IntegrationTestWithJavascript
       test "redirects correctly with display_fqdn_for_hosts turned off" do
         Setting['display_fqdn_for_hosts'] = false
         compute_resource = FactoryBot.create(:compute_resource, :libvirt)
-        os = FactoryBot.create(:ubuntu14_10, :with_associations)
+        os = FactoryBot.create(:ubuntu24_04, :with_associations)
         Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
         visit new_host_path
 
@@ -339,7 +339,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'saves correct values for inherited fields without hostgroup' do
       compute_resource = FactoryBot.create(:compute_resource, :libvirt)
-      os = FactoryBot.create(:ubuntu14_10, :with_associations)
+      os = FactoryBot.create(:ubuntu24_04, :with_associations)
       Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
       visit new_host_path
 
@@ -374,7 +374,7 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'sets fields to "inherit" when hostgroup is selected' do
       compute_resource2 = FactoryBot.create(:compute_resource, :libvirt)
       hg = FactoryBot.create(:hostgroup, :with_compute_resource)
-      os = FactoryBot.create(:ubuntu14_10, :with_associations)
+      os = FactoryBot.create(:ubuntu24_04, :with_associations)
       disable_orchestration
       visit new_host_path
 
