@@ -73,9 +73,9 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :ip6, :complete_value => true, :rename => :has_ip6, :only_explicit => true
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
-      scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
+      scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ', '^ ', '!^ ']
       scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
-      scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
+      scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ', '^ ', '!^ ']
 
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'reported.boot_time', :only_explicit => true
@@ -214,15 +214,22 @@ module Hostext
 
         if Parameter.find_by(name: key_name)&.key_type == 'boolean'
           # boolean value is saved as 't'/'f' in searchable_value column
-          value = value.chr
+          value = if ['IN', 'NOT IN'].include?(operator.strip)
+                    value.split(',').map { |item| item.strip.chr }.join(',')
+                  else
+                    value.chr
+                  end
         end
 
-        condition = sanitize_sql_for_conditions(["name = ? and searchable_value #{operator} ?", key_name, value_to_sql(operator, value)])
+        condition = sanitize_sql_for_conditions(['name = ?', key_name])
+        condition += " and #{sanitize_search_condition('searchable_value', operator, value)}"
         p = Parameter.where(condition).reorder(:priority)
         return {:conditions => '1 = 0'} if p.blank?
 
         max = p.first.priority
-        condition = sanitize_sql_for_conditions(["name = ? and NOT(searchable_value #{operator} ?) and priority > ?", key_name, value_to_sql(operator, value), max])
+        condition = sanitize_sql_for_conditions(['name = ?', key_name])
+        condition += " and NOT(#{sanitize_search_condition('searchable_value', operator, value)})"
+        condition += sanitize_sql_for_conditions([' and priority > ?', max])
         n = Parameter.where(condition).reorder(:priority)
 
         conditions = param_conditions(p)
