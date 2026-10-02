@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   include Foreman::Controller::Flash
   include Foreman::Controller::Authorize
+  include Foreman::Controller::SmartProxyAuth
 
   protect_from_forgery with: :exception # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
@@ -24,6 +25,8 @@ class ApplicationController < ActionController::Base
   before_action :authorize
   before_action :welcome, :find_selected_columns, :only => :index, :unless => :api_request?
   around_action :set_timezone
+
+  add_registered_smart_proxy_filters
 
   attr_reader :original_search_parameter
 

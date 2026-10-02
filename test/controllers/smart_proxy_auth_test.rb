@@ -58,6 +58,29 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     end
   end
 
+  def test_registered_smart_proxy_action_uses_declared_features
+    Foreman::Plugin.register :test_smart_proxy_feature do
+      smart_proxy_feature 'Test Feature', 'api/v2/config_reports' => :index
+    end
+
+    @controller.stubs(:controller_path).returns('api/v2/config_reports')
+    @controller.stubs(:action_name).returns('index')
+    @controller.expects(:require_smart_proxy_or_login).with(['Test Feature']).returns(true)
+
+    assert @controller.send(:registered_smart_proxy_action?)
+    assert @controller.send(:require_registered_smart_proxy_or_login)
+  ensure
+    Foreman::Plugin.unregister(:test_smart_proxy_feature)
+  end
+
+  def test_base_controllers_install_registered_smart_proxy_filter
+    [ApplicationController, Api::BaseController].each do |controller|
+      filters = controller._process_action_callbacks.map(&:filter)
+
+      assert_includes filters, :require_registered_smart_proxy_or_login
+    end
+  end
+
   def test_require_user_login_calls_all_required_filters
     User.current = users(:admin)
 

@@ -1,6 +1,7 @@
 # Proxy features
 proxy_features = ["Templates", "TFTP", "DNS", "DHCP", "Puppet CA", "BMC", "Realm", "Facts", "Logs", "HTTPBoot", "External IPAM",
                   "Registration"]
+proxy_features.concat(Foreman::Plugin.registered_smart_proxy_features).uniq!
 
 proxy_features.each do |input|
   f = Feature.where(:name => input).first_or_create
