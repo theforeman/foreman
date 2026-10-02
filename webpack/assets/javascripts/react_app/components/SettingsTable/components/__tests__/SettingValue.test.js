@@ -75,6 +75,18 @@ describe('SettingValue', () => {
     );
   });
 
+  it('shows the default for a setting that is read-only due to permissions', async () => {
+    render(
+      <SettingValue
+        setting={{ ...stringSetting, readonly: true, configFile: null }}
+      />
+    );
+
+    const tooltip = await showTooltipFor('root@example.com');
+
+    expect(tooltip).toHaveTextContent('Default: root@example.com');
+  });
+
   it('renders Empty when the setting has no value', () => {
     render(
       <SettingValue

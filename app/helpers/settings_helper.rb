@@ -1,9 +1,10 @@
 module SettingsHelper
   def grouped_settings(settings)
-    settings.map { |s| setting_to_hash(s) }.group_by { |s| s[:category] }
+    can_edit = User.current.can?(:edit_settings)
+    settings.map { |s| setting_to_hash(s, can_edit: can_edit) }.group_by { |s| s[:category] }
   end
 
-  def setting_to_hash(setting)
+  def setting_to_hash(setting, can_edit: User.current.can?(:edit_settings))
     {
       :id => setting.id,
       :name => setting.name,
@@ -11,7 +12,7 @@ module SettingsHelper
       :description => setting.description,
       :settings_type => setting.settings_type,
       :default => setting.default,
-      :readonly => setting.readonly?,
+      :readonly => setting.readonly? || !can_edit,
       :full_name => setting.full_name,
       :config_file => setting.config_file,
       :select_values => setting.select_values,
