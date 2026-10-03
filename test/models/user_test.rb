@@ -36,6 +36,8 @@ def test_roles
 end
 
 class UserTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   def setup
     User.current = users :admin
     @user = User.create :auth_source => auth_sources(:one), :login => "foo", :mail => "foo@bar.com"
@@ -329,15 +331,53 @@ class UserTest < ActiveSupport::TestCase
         assert_nil user.reload.firstname
       end
 
-      test 'old avatars can be removed upon login' do
+      test 'ldap avatars are stored with Active Storage on login' do
+        avatar = Base64.decode64('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==')
         attrs = { :firstname => "foo", :mail => "foo@bar.com",
-                  :login => "ldap-user", :avatar_hash => 'testavatar',
+                  :login => "ldap-user", :avatar => avatar,
                   :auth_source_id => auth_sources(:one).id }
         AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
-        User.any_instance.expects(:avatar_hash).returns('oldhash').at_least_once
-        User.try_to_login('foo', 'password')
+        user = User.try_to_login('foo', 'password')
+
+        assert user.avatar.attached?
+        assert_equal 'image/png', user.avatar.content_type
+        assert_equal avatar, user.avatar.download
+      end
+
+      test 'an avatar storage outage does not prevent LDAP login' do
+        attrs = { :firstname => 'foo', :mail => 'foo@bar.com',
+                  :login => 'ldap-user', :avatar => 'avatar',
+                  :auth_source_id => auth_sources(:one).id }
+        AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
+        User.any_instance.stubs(:update_ldap_avatar).returns(false)
+
+        assert User.try_to_login('foo', 'password')
       end
     end
+  end
+
+  test 'unsupported LDAP avatar content is ignored' do
+    refute @user.update_ldap_avatar('not an image')
+    refute @user.avatar.attached?
+  end
+
+  test 'unchanged LDAP photos reuse the current attachment' do
+    content = Base64.decode64('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==')
+    assert @user.update_ldap_avatar(content)
+
+    assert_no_difference('ActiveStorage::Blob.count') do
+      assert @user.update_ldap_avatar(content)
+    end
+  end
+
+  test 'invalid replacement content leaves the current LDAP photo intact' do
+    @user.avatar.attach(:io => StringIO.new('existing photo'), :filename => 'existing.jpg')
+    original_blob_id = @user.avatar.blob.id
+
+    refute @user.update_ldap_avatar('not an image')
+
+    assert_equal original_blob_id, @user.reload.avatar.blob.id
+    assert_equal 'existing photo', @user.avatar.download
   end
 
   def setup_user(operation, type = 'users', search = nil)
