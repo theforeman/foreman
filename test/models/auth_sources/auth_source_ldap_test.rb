@@ -260,26 +260,21 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
   end
 
-  context 'save external avatar' do
-    let(:temp_dir) { Dir.mktmpdir }
+  context 'external avatar' do
+    test 'decodes a base64 encoded avatar without writing it to local disk' do
+      avatar = Base64.decode64('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==')
+      encoded_avatar = Base64.strict_encode64(avatar)
 
-    setup do
-      AuthSourceLdap.any_instance.stubs(:avatar_path).returns(temp_dir)
+      assert_equal avatar, AuthSourceLdap.new.send(:decode_avatar, encoded_avatar)
     end
 
-    test 'store_avatar can save 8bit ascii files' do
-      auth = AuthSourceLdap.new
-      file = File.open("#{temp_dir}/out.txt", 'wb+')
-      file_string = File.open(file, 'rb') { |f| f.read } # set the file_string to binary
-      file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
-      avatar_hash = Digest::SHA1.hexdigest(file_string)
-      assert_equal(Encoding::ASCII_8BIT, file_string.encoding)
-      assert_nothing_raised do
-        auth.send(:store_avatar, file_string)
-      end
-      assert(File.exist?("#{temp_dir}/#{avatar_hash}.jpg"))
-    ensure
-      FileUtils.remove_entry temp_dir
+    test 'preserves binary LDAP avatars without base64 decoding them again' do
+      avatar = Net::BER::BerIdentifiedString.new("\xFF\xD8\xFF\xE0".b)
+
+      decoded = AuthSourceLdap.new.send(:decode_avatar, avatar)
+
+      assert_equal avatar.b, decoded
+      assert_equal Encoding::BINARY, decoded.encoding
     end
   end
 

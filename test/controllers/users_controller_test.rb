@@ -23,6 +23,81 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test '#avatar returns an attached avatar inline' do
+    avatar = 'avatar-data'
+    @model.avatar.attach(
+      :io => StringIO.new(avatar),
+      :filename => 'avatar.jpg',
+      :content_type => 'image/jpeg'
+    )
+
+    get :avatar, params: { :id => @model.id }, session: set_session_user
+
+    assert_response :success
+    assert_equal 'image/jpeg', response.media_type
+    assert_equal avatar, response.body
+    assert_match(/^inline/, response.headers['Content-Disposition'])
+  end
+
+  test '#avatar returns not found when no avatar is attached' do
+    get :avatar, params: { :id => @model.id }, session: set_session_user
+
+    assert_response :not_found
+  end
+
+  test '#avatar serves an unmigrated image through the authorized endpoint' do
+    content = Base64.decode64('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==')
+    Tempfile.create(['legacy-avatar', '.jpg']) do |file|
+      file.binmode
+      file.write(content)
+      file.flush
+      User.any_instance.stubs(:legacy_avatar_path).returns(Pathname.new(file.path))
+
+      get :avatar, params: { :id => @model.id }, session: set_session_user
+
+      assert_response :success
+      assert_equal 'image/png', response.media_type
+      assert_equal content, response.body
+    end
+  end
+
+  test 'users without view_users permission can read their own avatar' do
+    user = FactoryBot.create(:user)
+    user.avatar.attach(:io => StringIO.new('my avatar'), :filename => 'avatar.png')
+
+    get :avatar, params: { :id => user.id }, session: set_session_user(user)
+
+    assert_response :success
+    assert_equal 'my avatar', response.body
+  end
+
+  test 'users without view_users permission cannot read another avatar' do
+    user = FactoryBot.create(:user)
+
+    get :avatar, params: { :id => @model.id }, session: set_session_user(user)
+
+    assert_response :forbidden
+  end
+
+  test 'view_users permission permits reading an authorized avatar' do
+    target = FactoryBot.create(:user)
+    target.avatar.attach(:io => StringIO.new('avatar'), :filename => 'avatar.png')
+    viewer = FactoryBot.create(:user)
+    setup_user('view', 'users', nil, viewer)
+
+    assert User.authorized(:view_users).except_hidden.exists?(target.id)
+    get :avatar, params: { :id => target.id }, session: set_session_user(viewer)
+
+    assert_response :success
+    assert_equal 'avatar', response.body
+  end
+
+  test 'hidden user avatars are not accessible' do
+    get :avatar, params: { :id => users(:anonymous).id }, session: set_session_user(users(:admin))
+
+    assert_response :not_found
+  end
+
   test 'should create regular user' do
     post :create, params: {
       :user => {
