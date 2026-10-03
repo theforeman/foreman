@@ -6,7 +6,7 @@ class JwtSecret < ApplicationRecord
   belongs_to :user, inverse_of: :jwt_secret
 
   validates :token, uniqueness: true
-  validates :user, presence: true
+  validates :user, presence: true, uniqueness: true
 
   before_create :generate_token, prepend: true, unless: proc { |j| j.token.present? }
 

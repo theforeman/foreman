@@ -6,6 +6,8 @@ module JwtAuth
 
     def jwt_secret!
       jwt_secret || create_jwt_secret!
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+      reload_jwt_secret || raise
     end
 
     # expiration:  integer, eg: 4.hours.to_i
