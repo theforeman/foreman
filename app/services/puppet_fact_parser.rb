@@ -31,14 +31,9 @@ class PuppetFactParser < FactParser
       args[:description] = os_class.new(args).shorten_description(distro_description)
     end
 
-    os = Operatingsystem.find_by_attributes(**args.slice(:name, :major, :minor, :description)).first || Operatingsystem.new(args)
-
-    if os.new_record?
-      os.save!
-      Operatingsystem.find_by_id(os.id) # complete reload to be an instance of the STI subclass
-    else
-      os.save!
-      os
+    Operatingsystem.find_or_create_by_attributes(args) do
+      os = Operatingsystem.create!(args)
+      Operatingsystem.find_by_id(os.id) # reload as the STI subclass
     end
   end
 

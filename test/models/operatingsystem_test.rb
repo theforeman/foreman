@@ -495,4 +495,65 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert_equal Operatingsystem.none.to_a, result.to_a
     end
   end
+
+  context 'find_or_create_by_attributes' do
+    test 'returns existing OS without yielding' do
+      existing_os = Operatingsystem.create!(:name => 'TestOS', :major => '1', :minor => '0')
+      block_called = false
+
+      os = Operatingsystem.find_or_create_by_attributes(:name => 'TestOS', :major => '1', :minor => '0') do
+        block_called = true
+        Operatingsystem.create!(:name => 'TestOS', :major => '1', :minor => '0')
+      end
+
+      refute block_called, 'Block should not be called when OS already exists'
+      assert_equal existing_os.id, os.id
+    end
+
+    test 'creates OS via block when not found' do
+      os = Operatingsystem.find_or_create_by_attributes(:name => 'NewOS', :major => '1', :minor => '0') do
+        Operatingsystem.create!(:name => 'NewOS', :major => '1', :minor => '0')
+      end
+
+      assert os.persisted?
+      assert_equal 'NewOS', os.name
+    end
+
+    test 'retries find after RecordNotUnique from DB constraint race' do
+      existing_os = Operatingsystem.create!(:name => 'RaceOS', :major => '1', :minor => '0')
+      find_seq = sequence('find')
+      Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.none)
+      Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.where(:id => existing_os.id))
+
+      os = Operatingsystem.find_or_create_by_attributes(:name => 'RaceOS', :major => '1', :minor => '0') do
+        raise ActiveRecord::RecordNotUnique, 'duplicate key'
+      end
+
+      assert_equal existing_os.id, os.id
+    end
+
+    test 'retries find after RecordInvalid from model validation race' do
+      existing_os = Operatingsystem.create!(:name => 'RaceOS2', :major => '1', :minor => '0')
+      find_seq = sequence('find')
+      Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.none)
+      Operatingsystem.expects(:find_by_attributes).in_sequence(find_seq).returns(Operatingsystem.where(:id => existing_os.id))
+
+      invalid_os = Operatingsystem.new(:name => 'RaceOS2', :major => '1', :minor => '0')
+      invalid_os.errors.add(:name, :taken)
+
+      os = Operatingsystem.find_or_create_by_attributes(:name => 'RaceOS2', :major => '1', :minor => '0') do
+        raise ActiveRecord::RecordInvalid.new(invalid_os)
+      end
+
+      assert_equal existing_os.id, os.id
+    end
+
+    test 're-raises when retry find also returns nothing (genuine validation failure)' do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        Operatingsystem.find_or_create_by_attributes(:name => '', :major => '1', :minor => '0') do
+          Operatingsystem.create!(:name => '', :major => '1', :minor => '0')
+        end
+      end
+    end
+  end
 end
