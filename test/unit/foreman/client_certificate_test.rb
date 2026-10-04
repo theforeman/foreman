@@ -54,6 +54,15 @@ class Foreman::ClientCertificateTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#raw_data' do
+    test 'returns the certificate header without decoding it' do
+      escaped_certificate = raw_certificate.gsub(' ', '%20').gsub("\n", '%0A')
+      request.env['SSL_CLIENT_CERT'] = escaped_certificate
+
+      assert_equal escaped_certificate, client_certificate.raw_data
+    end
+  end
+
   describe '#verify' do
     context 'with SSL_CLIENT_VERIFY = SUCCESS' do
       test 'the client certificate is valid' do
