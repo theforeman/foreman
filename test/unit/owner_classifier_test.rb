@@ -27,7 +27,7 @@ class OwnerClassifierTest < ActiveSupport::TestCase
     user = FactoryBot.create(:user)
     id_and_type = user.id_and_type
 
-    assert_deprecated do
+    assert_deprecated(ActiveSupport.deprecator) do
       owner = OwnerClassifier.new(id_and_type).user_or_usergroup
       assert_equal user, owner
     end
