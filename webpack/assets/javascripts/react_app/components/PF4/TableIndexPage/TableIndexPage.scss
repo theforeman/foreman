@@ -15,11 +15,17 @@
   .page-layout-toolbar-group-search {
     align-items: center;
 
-    #selection-checkbox,
-    #select-all-checkbox-dropdown-toggle {
-      display: flex;
+    // PF dropdown is inline-flex with align-items: flex-start. Do not set
+    // display:flex here — that makes it block-level and can expand across
+    // the toolbar, wrapping Manage columns onto a second row.
+    #selection-checkbox {
       align-items: center;
     }
+  }
+
+  .pf-v5-c-toolbar__group.table-toolbar-actions {
+    flex-grow: 0;
+    flex-shrink: 0;
   }
 
   .pf-v5-c-table tr.pf-m-clickable {
