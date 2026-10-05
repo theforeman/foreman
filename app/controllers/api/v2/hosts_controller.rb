@@ -342,7 +342,10 @@ module Api
       api :GET, "/hosts/:id/inherited_parameters", N_("Get all inherited parameters for a host")
       param :id, :identifier_dottable, :required => true
       def inherited_parameters
-        render :json => {params: @host.host_inherited_params_objects}, :status => :ok
+        params = @host.host_inherited_params_objects.map do |parameter|
+          parameter.as_json.except('searchable_value').merge('value' => parameter.safe_value)
+        end
+        render :json => {params: params}, :status => :ok
       end
 
       private

@@ -975,6 +975,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert @response.body =~ /template content/
   end
 
+  test 'inherited parameters hide hidden values' do
+    secret = 'inherited-parameter-secret'
+    hostgroup = FactoryBot.create(:hostgroup)
+    hostgroup.group_parameters.create!(:name => 'hidden_parameter', :value => secret, :hidden_value => true)
+    managed_host = FactoryBot.create(:host, :managed, :hostgroup => hostgroup)
+
+    get :inherited_parameters, params: { :id => managed_host.to_param }
+
+    assert_response :success
+    response_params = ActiveSupport::JSON.decode(@response.body)['params']
+    hidden_parameter = response_params.find { |parameter| parameter['name'] == 'hidden_parameter' }
+    assert_equal Parameter::HIDDEN_VALUE, hidden_parameter['value']
+    refute_includes @response.body, secret
+  end
+
   test 'wrong template name should return not found' do
     managed_host = FactoryBot.create(:host, :managed)
     Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provitamin'}).returns(nil)
