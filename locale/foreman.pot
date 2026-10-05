@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 17:27+0200\n"
-"PO-Revision-Date: 2026-09-08 17:27+0200\n"
+"POT-Creation-Date: 2026-09-29 13:47+0200\n"
+"PO-Revision-Date: 2026-09-29 13:47+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Parent is already selected"
 msgstr ""
 
-#: ../app/assets/javascripts/proxy_status.js:25
+#: ../app/assets/javascripts/proxy_status.js:21
 #: ../app/helpers/dashboard_helper.rb:60
 #: ../app/models/host_status/configuration_status.rb:77
 msgid "Active"
@@ -4330,14 +4330,8 @@ msgstr ""
 msgid "Successfully refreshed features from %s."
 msgstr ""
 
-#: ../app/controllers/smart_proxies_controller.rb:56
+#: ../app/controllers/smart_proxies_controller.rb:54
 msgid "No TFTP feature"
-msgstr ""
-
-#: ../app/controllers/smart_proxies_controller.rb:176
-msgid ""
-"Core and proxy versions do not match. foreman: %{foreman_version}, foreman-pro"
-"xy: %{proxy_version}"
 msgstr ""
 
 #: ../app/controllers/subnets_controller.rb:73
