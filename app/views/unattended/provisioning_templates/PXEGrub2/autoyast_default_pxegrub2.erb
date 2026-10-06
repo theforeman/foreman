@@ -29,7 +29,7 @@ description: |
     http_proxy_string = ''
   end
 
-  kernel_options = "ramdisk_size=65536 install=#{@mediapath} autoyast=#{foreman_url('provision')} textmode=1 #{http_proxy_string}"
+  kernel_options = "ramdisk_size=65536 install=#{@mediapath} autoyast=#{foreman_url('provision')} textmode=1 #{http_proxy_string} autoyast.parse=0"
 -%>
 
 set default=<%= host_param('default_grub_install_entry') || 0 %>
