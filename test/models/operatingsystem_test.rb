@@ -276,10 +276,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert Coreos.new.token_enforced?
     assert Fcos.new.token_enforced?
     assert Rhcos.new.token_enforced?
+    assert Debian.new.token_enforced?
 
     # Not enforced: base default and OSes that match hosts by IP/MAC only
     refute Operatingsystem.new.token_enforced?
-    refute Debian.new.token_enforced?
     refute Suse.new.token_enforced?
   end
 
