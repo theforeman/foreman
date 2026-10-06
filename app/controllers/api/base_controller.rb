@@ -6,11 +6,12 @@ module Api
     include Foreman::Controller::BruteforceProtection
 
     before_action :load_settings
+    before_action :session_expiry
     before_action :set_default_response_format, :authorize, :set_taxonomy
     before_action :check_media_type
     before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
-    before_action :session_expiry, :update_activity_time
+    before_action :update_activity_time
     around_action :set_timezone
 
     respond_to :json

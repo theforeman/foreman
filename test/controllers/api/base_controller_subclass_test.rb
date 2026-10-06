@@ -91,6 +91,14 @@ class Api::TestableControllerTest < ActionController::TestCase
   end
 
   context "API session expiration" do
+    test "expired session returns 401 even when the user is not authorized for the action" do
+      @controller.stubs(:authorized).returns(false)
+      get :index, session: { expires_at: 5.days.ago.utc, user: users(:apiadmin).id }
+      assert_response :unauthorized
+      assert_nil session[:user]
+      assert_nil session[:expires_at]
+    end
+
     context "with credentials being sent" do
       test "request succeeds if there's no existing session" do
         # this would be typical API call initiated directly or from cli
