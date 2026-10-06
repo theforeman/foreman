@@ -35,6 +35,12 @@ class Debian < Operatingsystem
     "preseed"
   end
 
+  # debian-installer receives the provisioning token on the kernel command line,
+  # so the unattended endpoint can require it for these hosts.
+  def token_enforced?
+    true
+  end
+
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
     true
