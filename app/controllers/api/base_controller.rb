@@ -7,7 +7,7 @@ module Api
 
     before_action :load_settings
     before_action :session_expiry
-    before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :set_default_response_format, :authorize, :set_taxonomy, :authorize_in_taxonomy_scope
     before_action :check_media_type
     before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
@@ -236,6 +236,45 @@ module Api
       end
 
       true
+    end
+
+    def authorize_in_taxonomy_scope
+      # Some controllers narrow or skip :authorize and do their own checks
+      # (smart-proxy auth, subscription-manager proxies). The taxonomy check
+      # has to follow that same set of actions, because it runs later, after
+      # set_taxonomy.
+      return true unless authorize_filter_applies?
+      return true if !User.current || User.consumer?
+
+      unless authorized_in_taxonomy_scope
+        deny_access
+        return false
+      end
+
+      true
+    end
+
+    def authorize_filter_applies?
+      callback = self.class._process_action_callbacks.find { |candidate| candidate.kind == :before && candidate.filter == :authorize }
+      return false unless callback
+
+      if_conditions = callback.instance_variable_get(:@if) || []
+      unless_conditions = callback.instance_variable_get(:@unless) || []
+      if_conditions.all? { |condition| callback_condition_matches?(condition) } &&
+        unless_conditions.none? { |condition| callback_condition_matches?(condition) }
+    end
+
+    def callback_condition_matches?(condition)
+      if condition.is_a?(AbstractController::Callbacks::ActionFilter)
+        condition.match?(self)
+      elsif condition.is_a?(Symbol) && respond_to?(condition, true)
+        send(condition)
+      elsif condition.respond_to?(:call)
+        # :if / :unless procs are invoked with the controller, same as Rails.
+        condition.arity == 0 ? instance_exec(&condition) : condition.call(self)
+      else
+        true
+      end
     end
 
     def require_admin
