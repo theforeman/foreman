@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class Foreman::ClientCertificateTest < ActiveSupport::TestCase
-  let(:raw_certificate) { File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt')) }
+  let(:certificate) { File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt')) }
+  let(:raw_certificate) { certificate }
   # Can be SUCCESS, GENEROUS or NONE
   let(:ssl_client_verify) { 'SUCCESS' }
   let(:ssl_client_dn) { '/CN=example.com/serialNumber=123456789012/DC=FOO/C=US' }
@@ -51,6 +52,15 @@ class Foreman::ClientCertificateTest < ActiveSupport::TestCase
       test 'raw client certificate is available' do
         assert_equal true, client_certificate.raw_cert_available?
       end
+    end
+  end
+
+  describe '#raw_data' do
+    let(:escaped_certificate) { certificate.gsub(' ', '%20').gsub("\n", '%0A') }
+    let(:raw_certificate) { escaped_certificate }
+
+    test 'returns the certificate header without decoding it' do
+      assert_equal escaped_certificate, client_certificate.raw_data
     end
   end
 
