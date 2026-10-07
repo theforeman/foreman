@@ -19,7 +19,7 @@ module AuthorizeHelper
     permission      = options.delete(:permission) || [action, controller_name.split('/').last].join('_')
 
     if object.nil?
-      user.allowed_to?({ :controller => controller_name, :action => action, :id => id, :user_id => user_id }) rescue false
+      user.allowed_to_in_taxonomy_scope?({ :controller => controller_name, :action => action, :id => id, :user_id => user_id }) rescue false
     else
       authorizer = options.delete(:authorizer) || Authorizer.new(user)
       authorizer.can?(permission, object) rescue false

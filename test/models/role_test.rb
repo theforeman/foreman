@@ -440,4 +440,91 @@ class RoleTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe '#allowed_to_in_taxonomy_scope?' do
+    setup do
+      @permission = :view_domains
+      @action = { :controller => 'domains', :action => 'index' }
+      @org1 = FactoryBot.create(:organization)
+      @org2 = FactoryBot.create(:organization)
+      @loc1 = FactoryBot.create(:location)
+      @loc2 = FactoryBot.create(:location)
+      @role = FactoryBot.create(:role,
+        :filters => [FactoryBot.create(:filter, :permissions => [Permission.find_by_name(@permission)])])
+      @role.organization_ids = [@org1.id]
+      @role.location_ids = [@loc1.id]
+      @role.save!
+    end
+
+    it 'allows public permissions without taxonomy checks' do
+      public_permission = Foreman::AccessControl.public_permissions.first
+
+      Taxonomy.as_taxonomy(@org2, @loc2) do
+        assert @role.allowed_to_in_taxonomy_scope?(public_permission.name)
+      end
+    end
+
+    it 'allows when current taxonomies are unset' do
+      assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      assert @role.allowed_to_in_taxonomy_scope?(@action)
+    end
+
+    it 'allows in matching organization and location' do
+      Taxonomy.as_taxonomy(@org1, @loc1) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+        assert @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'denies in a different organization' do
+      Taxonomy.as_taxonomy(@org2, @loc1) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+        refute @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'denies in a different location' do
+      Taxonomy.as_taxonomy(@org1, @loc2) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+        refute @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'allows any organization when role has no organization limit' do
+      @role.organizations = []
+
+      Taxonomy.as_taxonomy(@org2, @loc1) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+        assert @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'allows any location when role has no location limit' do
+      @role.locations = []
+
+      Taxonomy.as_taxonomy(@org1, @loc2) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+        assert @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'only honors direct taxonomy assignment' do
+      child_location = FactoryBot.create(:location, :parent => @loc1)
+
+      Taxonomy.as_taxonomy(@org1, child_location) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+        refute @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+
+    it 'allows when role has no taxonomy limit' do
+      @role.organizations = []
+      @role.locations = []
+
+      Taxonomy.as_taxonomy(@org2, @loc2) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+        assert @role.allowed_to_in_taxonomy_scope?(@action)
+      end
+    end
+  end
 end
