@@ -1428,4 +1428,37 @@ class UserTest < ActiveSupport::TestCase
       assert_equal user.id_and_type, Setting[:host_owner]
     end
   end
+
+  test "user can be saved when the current organization/location is already assigned" do
+    org = taxonomies(:organization1)
+    loc = taxonomies(:location1)
+
+    user = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
+
+    Organization.current = org
+    Location.current     = loc
+
+    reloaded = User.find(user.id)
+
+    assert_nothing_raised do
+      reloaded.update!(
+        :password => "NewPassword123!",
+        :password_confirmation => "NewPassword123!"
+      )
+    end
+  ensure
+    Organization.current = nil
+    Location.current     = nil
+  end
+
+  test "organization_ids= and location_ids= dedupe input before writing" do
+    org  = taxonomies(:organization1)
+    user = FactoryBot.create(:user)
+
+    user.organization_ids = [org.id, org.id]
+    user.save!
+
+    assert_equal 1,
+      TaxableTaxonomy.where(:taxable_id => user.id, :taxable_type => 'User', :taxonomy_id => org.id).count
+  end
 end
