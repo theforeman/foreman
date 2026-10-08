@@ -29,6 +29,7 @@ import { translate as __ } from '../../common/I18n';
 import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
 import { ActionKebab } from './ActionKebab';
 import { HOSTS_API_PATH, API_REQUEST_KEY } from '../../routes/Hosts/constants';
+import { useAPI } from '../../common/hooks/API/APIHooks';
 import { selectKebabItems } from './Selectors';
 import {
   useBulkSelect,
@@ -118,9 +119,14 @@ const HostsIndex = () => {
     defaultParams,
     syncWithOptions: true,
   });
+  const { response: bulkScopeHashResponse } = useAPI(
+    'get',
+    '/api/v2/hosts/bulk_scope_hash'
+  );
   const contextData = useForemanContext();
   const currentOrganization = useForemanOrganization();
   const currentLocation = useForemanLocation();
+  const bulkScopeHash = bulkScopeHashResponse?.['scope_hash'] || null;
 
   const {
     response: {
@@ -249,6 +255,7 @@ const HostsIndex = () => {
         bulkParams,
         organizationId: currentOrganization?.id,
         locationId: currentLocation?.id,
+        bulkScopeHash,
         selectedCount,
         destroyVmOnHostDelete,
         onDeleteSuccess: () => {
@@ -619,6 +626,7 @@ const HostsIndex = () => {
             organizationId: currentOrganization?.id,
             locationId: currentLocation?.id,
             refreshTableData,
+            bulkScopeHash,
           }}
         >
           <BulkAssignOrganizationModal

@@ -12,7 +12,7 @@ module Api
       include HostsControllerExtension
 
       before_action :find_optional_nested_object, :except => [:facts]
-      before_action :find_resource, :except => [:index, :create, :facts]
+      before_action :find_resource, :except => [:index, :create, :facts, :bulk_scope_hash]
       check_permissions_for %w{power boot}
       before_action :process_parameter_attributes, :only => %w{update}
 
@@ -26,6 +26,7 @@ module Api
       end
 
       api :GET, "/hosts/", N_("List all hosts")
+      api :GET, "/hosts/bulk_scope_hash", N_("Get hash of the current visible host scope")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
       api :GET, "/locations/:location_id/hosts", N_("List hosts per location")
       api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization")
@@ -58,6 +59,10 @@ module Api
           @parameters = params[:include].include?('parameters')
           @all_parameters = params[:include].include?('all_parameters')
         end
+      end
+
+      def bulk_scope_hash
+        render :json => { :scope_hash => ::Hosts::BulkScopeHash.for_current_viewer }
       end
 
       api :GET, "/hosts/:id/", N_("Show a host")
@@ -377,6 +382,8 @@ module Api
 
       def action_permission
         case params[:action]
+          when 'bulk_scope_hash'
+            :view
           when 'power_status'
             :power
           when 'power'
