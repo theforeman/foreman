@@ -10,7 +10,7 @@ module ForemanRegister
     validates_lengths_from_database
 
     validates :jwt_secret, uniqueness: true
-    validates :host, presence: true, allow_blank: false
+    validates :host, presence: true, allow_blank: false, uniqueness: true
 
     before_create :generate_jwt_secret, prepend: true, unless: proc { |f| f.jwt_secret.present? }
 
