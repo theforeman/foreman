@@ -2,6 +2,7 @@ require 'test_helper'
 
 class UnattendedControllerTest < ActionController::TestCase
   setup do
+    Setting[:token_enforcement] = true
     Host::Managed.any_instance.stubs(:handle_ca).returns(true)
     as_admin do
       disable_orchestration # avoids dns errors
@@ -68,6 +69,12 @@ class UnattendedControllerTest < ActionController::TestCase
       test "refuses a tokenless MAC-matched request when the OS enforces tokens" do
         get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
         assert_response :unauthorized
+      end
+
+      test "allows a tokenless MAC-matched request when token enforcement is disabled" do
+        Setting[:token_enforcement] = false
+        get :host_template, params: { :kind => 'provision', :mac => @rh_host.mac }
+        assert_response :success
       end
 
       test "renders the template when the host's valid token is provided" do

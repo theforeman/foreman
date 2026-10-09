@@ -48,6 +48,11 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Time in minutes installation tokens should be valid for, 0 to disable token generation"),
       default: 60 * 6,
       full_name: N_('Installation token lifetime'))
+    setting('token_enforcement',
+      type: :boolean,
+      description: N_("Enforce provisioning tokens for selected OS families. Must be turned off for Bootdisk provisioning"),
+      default: true,
+      full_name: N_('Token enforcement'))
     setting('ssh_timeout',
       type: :integer,
       description: N_("Time in seconds before SSH provisioning times out"),

@@ -40,6 +40,7 @@ class Foreman::UnattendedInstallation::HostVerifierTest < ActiveSupport::TestCas
 
     setup do
       Setting[:token_duration] = 360
+      Setting[:token_enforcement] = true
     end
 
     it 'allows an IP/MAC matched host when its OS does not enforce a token' do
@@ -72,6 +73,12 @@ class Foreman::UnattendedInstallation::HostVerifierTest < ActiveSupport::TestCas
     it 'is inert when installation tokens are disabled globally' do
       Setting[:token_duration] = 0
       host = stub_host(token_enforced: true, token_value: nil)
+      assert verifier_for(host, token: nil).send(:valid_host_token?)
+    end
+
+    it 'allows MAC-matched hosts when token enforcement is disabled' do
+      Setting[:token_enforcement] = false
+      host = stub_host(token_enforced: true, token_value: 'the-token')
       assert verifier_for(host, token: nil).send(:valid_host_token?)
     end
 
