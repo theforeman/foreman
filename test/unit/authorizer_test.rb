@@ -41,6 +41,35 @@ class AuthorizerTest < ActiveSupport::TestCase
 
             refute auth.can?(@permission.name.to_sym, nil, cache)
           end
+
+          test "limited by current organization" do
+            org_with_role = FactoryBot.create(:organization)
+            org_without_role = FactoryBot.create(:organization)
+            user = FactoryBot.create(:user, :organizations => [org_with_role, org_without_role])
+            role = FactoryBot.create(:role)
+            role.organization_ids = [org_with_role.id]
+            role.save!
+            user.roles << role
+            FactoryBot.create(:filter, :role => role, :permissions => [@permission])
+            user.reload
+            auth = Authorizer.new(user)
+
+            as_user user do
+              assert auth.can?(@permission.name.to_sym, nil, cache)
+              assert user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+
+              in_taxonomy org_with_role do
+                assert auth.can?(@permission.name.to_sym, nil, cache)
+                assert user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+              end
+
+              in_taxonomy org_without_role do
+                refute auth.can?(@permission.name.to_sym, nil, cache)
+                refute user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+                assert user.allowed_to?(@permission.name.to_sym)
+              end
+            end
+          end
         end
 
         context 'with subject (e.g: Domain)' do

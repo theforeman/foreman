@@ -45,6 +45,10 @@ module Foreman::Controller::Authentication
     User.current.allowed_to?(path_to_authenticate)
   end
 
+  def authorized_in_taxonomy_scope
+    User.current.allowed_to_in_taxonomy_scope?(path_to_authenticate)
+  end
+
   def path_to_authenticate
     Foreman::AccessControl.normalize_path_hash(params.slice(:controller, :action, :id, :user_id))
   end
