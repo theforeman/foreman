@@ -22,7 +22,6 @@ module Api
         property :value, String, desc: N_('Setting current value. If this setting is encypted, the value will not be returned')
         property :readonly, [true, false], desc: N_('Is this setting readonly?')
         property :encrypted, [true, false], desc: N_('Is this setting encrypted?')
-        property :config_file, String, desc: N_('If this setting needs to be changed in file, it will have the file path.')
         property :select_values, Array, desc: N_('If this setting has list of possible values, this includes the list of the values.')
         property :updated_at, Time, desc: N_('Last updated. NOTE: this will be reset to application install time, when setting is reset to default value.')
       end

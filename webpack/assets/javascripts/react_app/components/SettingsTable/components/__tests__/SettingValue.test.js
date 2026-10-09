@@ -61,7 +61,7 @@ describe('SettingValue', () => {
     expect(tooltip).toHaveTextContent('Default: No');
   });
 
-  it('shows a read-only tooltip when the setting is defined in a config file', async () => {
+  it('shows a read-only tooltip when the setting is read-only', async () => {
     const readonlySetting = { ...stringSetting, readonly: true };
 
     render(<SettingValue setting={readonlySetting} />);
@@ -70,9 +70,7 @@ describe('SettingValue', () => {
 
     const tooltip = await showTooltipFor('root@example.com');
 
-    expect(tooltip).toHaveTextContent(
-      'This setting is defined in the configuration file settings.yaml and is read-only.'
-    );
+    expect(tooltip).toHaveTextContent('This setting is read-only.');
   });
 
   it('renders Empty when the setting has no value', () => {

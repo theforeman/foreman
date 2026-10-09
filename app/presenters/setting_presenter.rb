@@ -13,7 +13,6 @@ class SettingPresenter
   attribute :full_name, :string
   attribute :encrypted, :boolean, :default => false
   attribute :settings_type, :string
-  attribute :config_file, :string
   attribute :updated_at
 
   attr_accessor :collection

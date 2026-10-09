@@ -80,6 +80,7 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       assert_response :success
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_include show_response.keys, 'updated_at'
+      assert_not_include show_response.keys, 'config_file'
     end
 
     test "return 404 for non-existent setting" do

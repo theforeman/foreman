@@ -3,7 +3,6 @@
 exports[`SettingRecordsSelectors should select setting by id 1`] = `
 Object {
   "category": "Setting::Email",
-  "configFile": "settings.yaml",
   "createdAt": "2019-11-06 09:42:45 +0100",
   "default": "root@example.com",
   "description": "Email reply address for emails that Foreman is sending",
@@ -24,7 +23,6 @@ Object {
   "General": Array [
     Object {
       "category": "General",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": "root@example.com",
       "description": "The default administrator email address",
@@ -40,7 +38,6 @@ Object {
     },
     Object {
       "category": "General",
-      "configFile": "settings.yaml",
       "createdAt": "2018-01-22 14:03:38 +0100",
       "default": false,
       "description": "Foreman will append domain names when new hosts are provisioned",
@@ -56,7 +53,6 @@ Object {
     },
     Object {
       "category": "General",
-      "configFile": "settings.yaml",
       "default": null,
       "description": "Timezone to use for new users",
       "encrypted": false,
@@ -87,7 +83,6 @@ Object {
     },
     Object {
       "category": "General",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": Array [],
       "description": "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.",
@@ -108,7 +103,6 @@ Object {
   "Setting::Auth": Array [
     Object {
       "category": "Setting::Auth",
-      "configFile": "settings.yaml",
       "createdAt": "2019-04-30 11:24:17 +0200",
       "default": 4,
       "description": "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect.",
@@ -126,7 +120,6 @@ Object {
   "Setting::Email": Array [
     Object {
       "category": "Setting::Email",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": "root@example.com",
       "description": "Email reply address for emails that Foreman is sending",
@@ -144,7 +137,6 @@ Object {
   "Setting::Provisioning": Array [
     Object {
       "category": "Setting::Provisioning",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": "foobar",
       "description": "Default encrypted root password on provisioned hosts",
@@ -160,7 +152,6 @@ Object {
     },
     Object {
       "category": "Setting::Provisioning",
-      "configFile": "settings.yaml",
       "createdAt": "2018-11-06 09:42:45 +0100",
       "default": "PXELinux global default",
       "description": "Global default PXELinux template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.",
@@ -189,7 +180,6 @@ Object {
     },
     Object {
       "category": "Setting::Provisioning",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": "4-Users",
       "description": "Default owner on provisioned hosts, if empty Foreman will use current user",
@@ -245,7 +235,6 @@ Object {
   "Setting::Puppet": Array [
     Object {
       "category": "Setting::Puppet",
-      "configFile": "settings.yaml",
       "createdAt": "2019-11-06 09:42:45 +0100",
       "default": false,
       "description": "This has no fullName. All hosts will show a configuration status even when a Puppet smart proxy is not assigned",
@@ -275,7 +264,6 @@ exports[`SettingRecordsSelectors should select settings by category 1`] = `
 Array [
   Object {
     "category": "General",
-    "configFile": "settings.yaml",
     "createdAt": "2019-11-06 09:42:45 +0100",
     "default": "root@example.com",
     "description": "The default administrator email address",
@@ -291,7 +279,6 @@ Array [
   },
   Object {
     "category": "General",
-    "configFile": "settings.yaml",
     "createdAt": "2018-01-22 14:03:38 +0100",
     "default": false,
     "description": "Foreman will append domain names when new hosts are provisioned",
@@ -307,7 +294,6 @@ Array [
   },
   Object {
     "category": "General",
-    "configFile": "settings.yaml",
     "default": null,
     "description": "Timezone to use for new users",
     "encrypted": false,
@@ -338,7 +324,6 @@ Array [
   },
   Object {
     "category": "General",
-    "configFile": "settings.yaml",
     "createdAt": "2019-11-06 09:42:45 +0100",
     "default": Array [],
     "description": "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.",
