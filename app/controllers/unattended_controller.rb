@@ -64,7 +64,8 @@ class UnattendedController < ApplicationController
     return if render_ipxe_template
     return if render_public_template(kind, params[:id])
 
-    return unless verify_found_host
+    kind = 'iPXE' if kind == 'gPXE'
+    return unless verify_found_host(kind != 'iPXE')
     return head(:method_not_allowed) unless allowed_to_install?
     (handle_realm || return) if kind == 'provision'
 
