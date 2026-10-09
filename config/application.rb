@@ -9,7 +9,7 @@ require "rails"
 
 [
   'active_record/railtie',
-  # 'active_storage/engine',
+  'active_storage/engine',
   'action_controller/railtie',
   'action_view/railtie',
   'action_mailer/railtie',
@@ -107,6 +107,9 @@ module Foreman
     # Rails 7.0 changed this to true
     config.active_record.verify_foreign_keys_for_fixtures = false
     config.active_record.automatic_scope_inversing = false
+
+    # Consumers must authorize access to attachments in their own controllers.
+    config.active_storage.draw_routes = false
 
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
