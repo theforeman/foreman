@@ -4,7 +4,7 @@ export const vmwareDiskNameForIndex = oneBasedIndex =>
 
 export const defaultControllerAttributes = 
   {
-    type: 'VirtualLsiLogicController',
+    type: 'ParaVirtualSCSIController',
   }
 
 const _defaultDiskAttributes = {
