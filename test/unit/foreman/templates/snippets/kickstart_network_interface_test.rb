@@ -334,5 +334,32 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       assert_not_nil(dns_search_match = /--ipv4-dns-search=([^ ]*)/.match(actual))
       assert_match(/test.com/, dns_search_match[1])
     end
+
+    test 'should not set no-activate by default' do
+      iface = FactoryBot.build(:nic_managed, primary: true)
+
+      actual = render_template(
+        iface,
+        host: @host,
+        static: false,
+        static6: false
+      )
+
+      assert_no_match(/--no-activate/, actual)
+    end
+
+    test 'should set no-activate when host parameter is true' do
+      FactoryBot.create(:host_parameter, host: @host, name: 'kickstart-network-no-activate', value: 'true')
+      iface = FactoryBot.build(:nic_managed, primary: true)
+
+      actual = render_template(
+        iface,
+        host: @host,
+        static: false,
+        static6: false
+      )
+
+      assert_match(/--no-activate/, actual)
+    end
   end
 end
