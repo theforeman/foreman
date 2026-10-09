@@ -63,7 +63,13 @@ module Orchestration::TFTP
   def build_pxe_render(kind)
     template = host.provisioning_template({:kind => kind})
     return unless template.present?
-    host.render_template(template: template)
+    boot_files = bootloader_universe_plan if bootloader_universe_template?(kind)
+    variables = boot_files ? { kernel: boot_files[:kernel], initrd: boot_files[:initrd] } : {}
+    if boot_files && bootloader_universe_capable?
+      variables.transform_values! { |path| File.basename(path) }
+    end
+    variables[:installation_iso] = boot_files[:installation_iso] if boot_files && boot_files[:installation_iso]
+    host.render_template(template: template, variables: variables)
   rescue => e
     failure _("Unable to render %{kind} template '%{name}': %{e}") % { :kind => kind, :name => template.try(:name), :e => e }, e
   end
@@ -85,15 +91,29 @@ module Orchestration::TFTP
     content = generate_pxe_template(kind)
     if content
       logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
+      boot_files = bootloader_universe_plan if bootloader_universe_template?(kind)
       each_unique_feasible_tftp_proxy do |proxy|
         mac_addresses_for_provisioning.each do |mac_addr|
-          proxy.set(kind, mac_addr, {
+          args = {
                       :pxeconfig => content,
                       :targetos => host.operatingsystem.name.downcase,
                       :release => host.operatingsystem.release,
                       :arch => host.arch.name,
                       :bootfile_suffix => host.arch.bootfilename_efi,
-                    })
+                    }
+          if boot_files
+            args.merge!(universe_archive: boot_files[:archive], universe_kernel: boot_files[:kernel],
+              universe_initrd: boot_files[:initrd], universe_source_digest: boot_files[:source_digest])
+          end
+          begin
+            proxy.set(kind, mac_addr, args)
+          rescue ProxyAPI::ProxyException => e
+            if boot_files && e.wrapped_exception.respond_to?(:http_code) && e.wrapped_exception.http_code == 409
+              return failure(_("Boot files missing, download boot files for %{os}") %
+                { os: host.operatingsystem.fullname }, e)
+            end
+            raise
+          end
         end
       end
     else
@@ -114,6 +134,11 @@ module Orchestration::TFTP
   end
 
   def setTFTPBootFiles
+    if bootloader_universe_plan
+      logger.info "Using managed bootloader universe files for #{host.name}"
+      return true
+    end
+
     logger.info "Fetching required TFTP boot files for #{host.name}"
     valid = []
 
@@ -156,6 +181,8 @@ module Orchestration::TFTP
       queue.create(:name => _("Deploy TFTP %{kind} config for %{host}") % {:kind => kind, :host => self}, :priority => 20, :action => [self, :setTFTP, kind])
     end
     return unless build
+    return if bootloader_universe_plan
+
     queue.create(:name => _("Fetch TFTP boot files for %s") % self, :priority => 25, :action => [self, :setTFTPBootFiles])
   end
 
@@ -200,5 +227,23 @@ module Orchestration::TFTP
   def each_unique_feasible_tftp_proxy(&block)
     results = unique_feasible_tftp_proxies.map(&block)
     results.all?
+  end
+
+  def bootloader_universe_plan
+    Foreman::BootloaderUniverse::HostBootFiles.new(host).call
+  end
+
+  def bootloader_universe_template?(kind)
+    host.operatingsystem&.pxe_loader_kind(host).to_s == kind.to_s
+  end
+
+  def bootloader_universe_capable?
+    proxies = []
+    proxies << subnet.tftp if tftp?
+    proxies << subnet6.tftp if tftp6?
+
+    proxies.compact.uniq(&:url).all? do |proxy|
+      Foreman::BootloaderUniverse::Download.universe_capable?(proxy, host.operatingsystem)
+    end
   end
 end

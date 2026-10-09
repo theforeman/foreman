@@ -1,6 +1,31 @@
 class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
+  def bootloader_universe_boot_files(architecture)
+    return nil unless architecture.name == 'x86_64'
+
+    directory = bootloader_universe_directory(architecture)
+    { kernel: "#{directory}/linux", initrd: "#{directory}/initrd.gz" }
+  end
+
+  def bootloader_source_architecture(architecture)
+    architecture.name == 'x86_64' ? 'amd64' : architecture.name
+  end
+
+  def bootloader_universe_requests(source_prefix:, architecture:)
+    return [] unless architecture.name == 'x86_64'
+
+    directory = bootloader_universe_directory(architecture)
+    boot_files = bootloader_universe_boot_files(architecture)
+    grub = "#{directory}/grubx64.efi"
+
+    if guess_os == 'ubuntu'
+      ubuntu_bootloader_requests(source_prefix, directory, grub, boot_files)
+    else
+      debian_bootloader_requests(source_prefix, directory, grub, boot_files)
+    end
+  end
+
   def pxedir(medium_provider = nil)
     if is_subiquity? # support Ubuntu 22.04, which drops legacy_image support
       'casper'
@@ -78,6 +103,53 @@ class Debian < Operatingsystem
   end
 
   private
+
+  def debian_bootloader_requests(source_prefix, directory, grub, boot_files)
+    shim = "#{directory}/shimx64.efi"
+    archive = "dists/#{release_name}/main/installer-amd64/current/images/netboot/netboot.tar.gz"
+    [{
+      extract: {
+        source: bootloader_source_url(source_prefix, archive),
+        destination: "#{directory}/netboot.tar.gz",
+        type: 'tgz',
+        files: {
+          boot_files[:kernel] => 'debian-installer/amd64/linux',
+          boot_files[:initrd] => 'debian-installer/amd64/initrd.gz',
+          grub => 'debian-installer/amd64/grubx64.efi',
+          shim => 'debian-installer/amd64/bootnetx64.efi',
+        },
+        symlinks: {
+          "#{directory}/boot.efi" => grub,
+          "#{directory}/boot-sb.efi" => shim,
+        },
+      },
+    }]
+  end
+
+  def ubuntu_bootloader_requests(source_prefix, directory, grub, boot_files)
+    shim = "#{directory}/shimx64.efi"
+    version = release
+    [{
+      extract: {
+        source: bootloader_source_url(source_prefix, "#{version}/ubuntu-#{version}-netboot-amd64.tar.gz"),
+        destination: "#{directory}/netboot.tar.gz",
+        type: 'tgz',
+        files: {
+          boot_files[:kernel] => 'amd64/linux',
+          boot_files[:initrd] => 'amd64/initrd',
+          grub => 'amd64/grubx64.efi',
+          shim => 'amd64/bootx64.efi',
+        },
+        symlinks: {
+          "#{directory}/boot.efi" => grub,
+          "#{directory}/boot-sb.efi" => shim,
+        },
+      },
+    }, {
+      source: bootloader_source_url(source_prefix, "#{version}/ubuntu-#{version}-live-server-amd64.iso"),
+      destination: "#{directory}/boot.iso",
+    }]
+  end
 
   # tries to guess if this an ubuntu or a debian os
   def guess_os

@@ -199,6 +199,32 @@ class Operatingsystem < ApplicationRecord
     end
   end
 
+  # Subclasses return fetch_boot_file payloads for the selected medium.
+  def bootloader_universe_requests(source_prefix:, architecture:)
+    []
+  end
+
+  def bootloader_universe_boot_files(architecture)
+    nil
+  end
+
+  def bootloader_source_architecture(architecture)
+    architecture.name
+  end
+
+  def bootloader_universe_directory(architecture)
+    parts = [name.downcase, release, architecture.name]
+    unless parts.all? { |part| part.to_s != '.' && part.to_s != '..' && /\A[a-z0-9_.-]+\z/i.match?(part.to_s) }
+      raise Foreman::Exception.new(N_('Invalid operating system universe path'))
+    end
+
+    File.join('bootloader-universe', 'pxegrub2', *parts)
+  end
+
+  def bootloader_source_url(prefix, suffix)
+    "#{prefix.to_s.sub(%r{/+\z}, '')}/#{suffix}"
+  end
+
   def pxedir(medium_provider = nil)
     ""
   end

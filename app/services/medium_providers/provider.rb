@@ -26,6 +26,11 @@ module MediumProviders
       throw "medium_uri is not implemented for #{self.class.name}"
     end
 
+    # The URL prefix used by managed bootloader universe downloads.
+    def boot_file_source_uri(operatingsystem:, architecture:)
+      medium_uri
+    end
+
     # A medium provider can optionally return an array of hashes for additional
     # software repos to enable during installation, if the template supports
     # it.  The default implemenation looks at host parameters. The hash keys:
