@@ -29,6 +29,7 @@ module Foreman
 
       # Set token
       params[:token] = host.token.value if host.try(:build) && host.try(:token)
+      params[:mac] = host.try(:provision_interface).try(:mac) if action.to_s == 'built' && Setting[:token_duration] == 0
 
       # Parameters which must not be URL-encoded (e.g. iPXE synax ${xxx})
       raw_string = ''

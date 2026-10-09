@@ -121,6 +121,6 @@ bootsect.exe /nt60 C:
 C:\Windows\System32\bcdboot C:\Windows /l en-US
 
 echo Foreman build has finished
-%WGET% <%= foreman_url('built') %>
+%WGET% <%= foreman_url('built').gsub('%', '%%') %>
 
 exit 0
