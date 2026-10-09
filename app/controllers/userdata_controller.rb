@@ -14,6 +14,10 @@ class UserdataController < ApplicationController
     render_userdata_template
   end
 
+  def vendordata
+    render_vendor_data_template
+  end
+
   def metadata
     data = {
       :'instance-id' => "i-#{Digest::SHA1.hexdigest(@host.id.to_s)[0..17]}",
@@ -39,6 +43,16 @@ class UserdataController < ApplicationController
       )
       return
     end
+    safe_render(template)
+  end
+
+  def render_vendor_data_template
+    template = @host.provisioning_template(kind: 'vendor_data')
+    unless template
+      logger.info "No vendor-data template configured for host #{@host.name} running #{@host.operatingsystem}"
+      return render plain: ''
+    end
+
     safe_render(template)
   end
 
