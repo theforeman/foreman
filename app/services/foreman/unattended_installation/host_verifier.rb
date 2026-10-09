@@ -68,6 +68,7 @@ module Foreman
       # generated in that mode (see Hostext::Token#set_token).
       def token_required?
         return false if Setting[:token_duration] == 0
+        return false if Setting[:token_enforcement] == false
         return false unless @host&.build?
 
         !!@host.operatingsystem&.token_enforced?
