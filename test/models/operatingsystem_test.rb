@@ -277,10 +277,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert Fcos.new.token_enforced?
     assert Rhcos.new.token_enforced?
     assert Debian.new.token_enforced?
+    assert Suse.new.token_enforced?
 
     # Not enforced: base default and OSes that match hosts by IP/MAC only
     refute Operatingsystem.new.token_enforced?
-    refute Suse.new.token_enforced?
   end
 
   test "should not have preferred pxe loader for an OS without architecture associated" do

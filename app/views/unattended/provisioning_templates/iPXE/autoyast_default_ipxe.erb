@@ -12,7 +12,7 @@ description: |
   See https://ipxe.org/scripting for more details
 -%>
 <%
-extra_args = []
+extra_args = ['autoyast.parse=0']
 if host_param('http-proxy') && host_param('http-proxy-port')
   extra_args << "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port')
 elsif host_param('http-proxy')

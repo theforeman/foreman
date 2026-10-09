@@ -9,6 +9,12 @@ class Suse < Operatingsystem
     "boot/$arch/loader"
   end
 
+  # suse installer receives the provisioning token on the kernel command line,
+  # so the unattended endpoint can require it for these hosts.
+  def token_enforced?
+    true
+  end
+
   def available_loaders
     self.class.all_loaders
   end
