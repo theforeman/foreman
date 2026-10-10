@@ -34,8 +34,11 @@ class FactValue < ApplicationRecord
     joins(:fact_name).where("fact_names.name = ?", :_timestamp)
   }
   scope :my_facts, lambda {
-    if !User.current.admin? || Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
+    if !User.current.admin?
       joins_authorized(Host, :view_hosts, :where => Host.taxonomy_conditions)
+    elsif Organization.expand(Organization.current).present? || Location.expand(Location.current).present?
+      # joins_authorized(Host) means Host::Managed only, which leaves out discovered hosts
+      where(:host_id => Host::Base.unscoped.where(Host::Base.taxonomy_conditions).select(:id))
     end
   }
 
