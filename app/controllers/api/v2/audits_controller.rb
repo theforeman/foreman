@@ -21,6 +21,10 @@ module Api
       def resource_base(*args)
         super(*args).taxed_and_untaxed
       end
+
+      def allowed_nested_id
+        %w(host_id)
+      end
     end
   end
 end
