@@ -211,6 +211,25 @@ class FactValueTest < ActiveSupport::TestCase
           end
         end
       end
+
+      test "admin in a taxonomy sees facts of hosts that are not managed" do
+        user = as_admin { FactoryBot.create(:user, :admin) }
+        target_host.update(:location => @locs.last, :organization => @orgs.last)
+        target_host.update_column(:type, 'Host::Base')
+        fact = FactValue.where(:host_id => target_host.id).first
+
+        as_user user do
+          in_taxonomy(@orgs.last) do
+            in_taxonomy(@locs.last) do
+              assert_includes FactValue.my_facts, fact
+            end
+          end
+
+          in_taxonomy(@orgs.first) do
+            refute_includes FactValue.my_facts, fact
+          end
+        end
+      end
     end
   end
 end
