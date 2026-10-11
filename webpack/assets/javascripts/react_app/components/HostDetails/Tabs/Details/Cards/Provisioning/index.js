@@ -17,11 +17,16 @@ import { STATUS, MS_PER_SECOND } from '../../../../../../constants';
 
 const ProvisioningCard = ({ status, hostDetails }) => {
   const {
+    managed,
     initiated_at: initiatedAt,
     installed_at: installedAt,
     token,
     pxe_loader: PXELoader,
   } = hostDetails;
+
+  if (!managed) {
+    return null;
+  }
 
   const dateOptions = {
     largest: 1,
@@ -101,6 +106,7 @@ const ProvisioningCard = ({ status, hostDetails }) => {
 ProvisioningCard.propTypes = {
   status: PropTypes.string,
   hostDetails: PropTypes.shape({
+    managed: PropTypes.bool,
     initiated_at: PropTypes.string,
     installed_at: PropTypes.string,
     token: PropTypes.string,
