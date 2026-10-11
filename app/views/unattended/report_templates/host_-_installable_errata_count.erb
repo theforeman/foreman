@@ -1,0 +1,38 @@
+<%#
+name: Host - Installable Errata Count
+snippet: false
+template_inputs:
+- name: Hosts filter
+  required: false
+  input_type: user
+  description: Limit the report only on hosts found by this search query. Keep empty
+    for report on all available hosts.
+  advanced: false
+  value_type: search
+  resource_type: Host
+  hidden_value: false
+model: ReportTemplate
+require:
+- plugin: katello
+￼ version: 4.9.0
+-%>
+<%- report_headers 'Host', 'Security Errata Count', 'Bugfix Errata Count', 'Enhancement Errata Count', 'Upgradable RPM Count' -%>
+<%- load_hosts(search: input('Hosts filter'), preload: [:content_facet]).each_record do |host| -%>
+<%- content_facet = host_content_facet(host) -%>
+<%-   
+   security_errata_count = content_facet ? content_facet.installable_security_errata_count : 0
+   bugfix_errata_count = content_facet ? content_facet.installable_bugfix_errata_count : 0
+   enhancement_errata_count = content_facet ? content_facet.installable_enhancement_errata_count: 0
+   upgradable_rpm_count = content_facet ? content_facet.upgradable_rpm_count : 0
+-%>
+<%- if content_facet -%>
+    <%- report_row(
+          'Host Name': host.name,
+          'Security Errata Count': security_errata_count,
+          'Bugfix Errata Count': bugfix_errata_count,
+          'Enhancement Errata Count': enhancement_errata_count,
+          'Upgradable RPM Count': upgradable_rpm_count
+        ) -%>
+   <%- end -%>
+<%- end -%>
+<%= report_render -%>
