@@ -73,4 +73,28 @@ namespace :orchestration do
       end
     end
   end
+
+  namespace :tftp do
+    task :prune => :environment do
+      duration = Setting['token_duration']
+      return if duration == 0
+
+      age = duration * 60
+
+      SmartProxy.unscoped.with_features('TFTP').sum do |smart_proxy|
+        tftp = ProxyAPI::TFTP.new(url: smart_proxy.url)
+        pruned = tftp.prune(age)
+
+        if pruned.nil?
+          puts "Smart Proxy #{smart_proxy} does not implement pruning"
+          0
+        else
+          puts "Smart Proxy #{smart_proxy} pruned #{pruned} files"
+          pruned
+        end
+      end
+
+      puts "Pruned #{pruned} files in total"
+    end
+  end
 end
