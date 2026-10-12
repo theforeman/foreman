@@ -38,6 +38,11 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Allow access to unattended URLs without build mode being used"),
       default: false,
       full_name: N_('Access unattended without build'))
+    setting('unattended_attempts_limit',
+      type: :integer,
+      description: N_("Foreman will block unattended requests from an IP address after this number of requests within 5 minutes. Set to 0 to disable unattended protection"),
+      default: 300,
+      full_name: N_('Unattended attempts limit'))
     setting('query_local_nameservers',
       type: :boolean,
       description: N_("Foreman will query the locally configured resolver instead of the SOA/NS authorities"),
