@@ -5,6 +5,7 @@ class UserdataController < ApplicationController
 
   skip_before_action :require_login, :check_user_enabled, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, :verify_authenticity_token
 
+  before_action :check_unattended_attempts
   before_action :set_admin_user
   before_action :skip_secure_headers
   before_action :skip_session
@@ -26,6 +27,14 @@ class UserdataController < ApplicationController
   end
 
   private
+
+  def check_unattended_attempts
+    protection = ::Foreman::UnattendedProtection.new(request_ip: request.remote_ip)
+    return unless protection.rate_limited?
+
+    protection.log_rate_limited
+    head :too_many_requests
+  end
 
   def render_userdata_template
     template = @host.provisioning_template(kind: 'cloud-init')

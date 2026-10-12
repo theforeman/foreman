@@ -10,6 +10,7 @@ class UnattendedController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   before_action :permissions_check, if: -> { preview? }, only: [:host_template, :hostgroup_template]
+  before_action :check_unattended_attempts
   before_action :set_admin_user, unless: -> { preview? }
   before_action :load_host_details, only: [:host_template, :built, :failed]
 
@@ -79,6 +80,14 @@ class UnattendedController < ApplicationController
 
   def permissions_check
     deny_access unless User.current.allowed_to?(:view_provisioning_templates)
+  end
+
+  def check_unattended_attempts
+    protection = ::Foreman::UnattendedProtection.new(request_ip: request.remote_ip)
+    return unless protection.rate_limited?
+
+    protection.log_rate_limited
+    head :too_many_requests
   end
 
   def render_error(message, options)
