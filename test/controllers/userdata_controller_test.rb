@@ -66,6 +66,17 @@ class UserdataControllerTest < ActionController::TestCase
         assert_equal user_data_content, @response.body
       end
 
+      test 'should limit MAC-based user-data requests by requester IP' do
+        Setting[:unattended_attempts_limit] = 1
+        @request.remote_ip = '198.51.100.2'
+
+        get :userdata, params: { mac: host.mac }
+        assert_response :success
+
+        get :userdata, params: { mac: host.mac }
+        assert_response :too_many_requests
+      end
+
       context 'with unknown ip address' do
         test 'should display an error' do
           @request.remote_ip = '198.51.100.1'
@@ -107,6 +118,16 @@ class UserdataControllerTest < ActionController::TestCase
       parsed = YAML.safe_load(response)
       assert_equal host.mac, parsed['mac']
       assert_equal host.hostname, parsed['hostname']
+    end
+
+    test 'should share the unattended limit between meta-data and user-data' do
+      Setting[:unattended_attempts_limit] = 1
+
+      get :metadata
+      assert_response :success
+
+      get :userdata
+      assert_response :too_many_requests
     end
   end
 end
