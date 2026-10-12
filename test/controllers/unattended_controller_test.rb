@@ -337,7 +337,6 @@ class UnattendedControllerTest < ActionController::TestCase
 
   context "ubuntu" do
     setup do
-      Setting[:token_duration] = 0
       ptable_ubuntu = FactoryBot.create(:ptable, :debian, :name => 'ubuntu default',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       @ub_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
@@ -518,7 +517,7 @@ class UnattendedControllerTest < ActionController::TestCase
   end
 
   test "should get a template from the provision interface" do
-    os = FactoryBot.create(:freebsd, :with_provision, :with_associations)
+    os = FactoryBot.create(:debian7_0, :with_provision, :with_associations)
     host = FactoryBot.create(:host, :managed, :build => true, :operatingsystem => os,
                               :organization => @org,
                               :location => @loc,
