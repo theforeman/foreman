@@ -152,6 +152,32 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test "should limit unattended requests by IP address" do
+      Setting[:unattended_attempts_limit] = 1
+      @request.env['REMOTE_ADDR'] = '10.0.1.2'
+
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :not_found
+
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :too_many_requests
+    end
+
+    test "should count built requests against the unattended limit" do
+      Setting[:unattended_attempts_limit] = 1
+      @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
+      @request.env['REMOTE_ADDR'] = '10.0.1.2'
+
+      get :built
+      assert_response :created
+
+      get :built
+      assert_response :too_many_requests
+
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :too_many_requests
+    end
+
     test "should not provide unattended files to hosts which don't have an assign os" do
       @rh_host.update_attribute(:operatingsystem_id, nil)
       @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
