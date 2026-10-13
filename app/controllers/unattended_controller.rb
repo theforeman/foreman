@@ -66,8 +66,6 @@ class UnattendedController < ApplicationController
 
     return unless verify_found_host
     return head(:method_not_allowed) unless allowed_to_install?
-    (handle_realm || return) if kind == 'provision'
-
     render_provisioning_template(kind)
   end
 
@@ -136,6 +134,10 @@ class UnattendedController < ApplicationController
 
     template = @host.provisioning_template(kind: type)
 
+    if template && (type == 'provision' || (type == 'finish' && @host.build?)) && !handle_realm
+      return
+    end
+
     render_template(template: template, type: type)
   end
 
@@ -200,7 +202,7 @@ class UnattendedController < ApplicationController
     allowed
   end
 
-  # Reset realm OTP. This is run as a before_action for provisioning templates.
+  # Ensure an OTP for enrollment, including installers that only fetch a finish script.
   def handle_realm
     # We don't do anything if we are in spoof mode.
     return true if spoof
