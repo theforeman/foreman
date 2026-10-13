@@ -22,14 +22,4 @@ class OwnerClassifierTest < ActiveSupport::TestCase
     id_and_type = "5-UsErS"
     assert_raises(ArgumentError) { OwnerClassifier.classify_owner(id_and_type) }
   end
-
-  test "Deprecated method: user_or_usergroup should return user if id_and_type is a user" do
-    user = FactoryBot.create(:user)
-    id_and_type = user.id_and_type
-
-    assert_deprecated do
-      owner = OwnerClassifier.new(id_and_type).user_or_usergroup
-      assert_equal user, owner
-    end
-  end
 end
