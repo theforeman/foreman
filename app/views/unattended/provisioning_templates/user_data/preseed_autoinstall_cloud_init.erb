@@ -20,11 +20,14 @@ description: |
   - username_to_create: string (default="root")
   - realname_to_create: string (default=username_to_create)
   - password_to_create: string (default=@host.root_pass)
+  - http-proxy: string (proxy hostname)
+  - http-proxy-port: string (optional proxy port)
 -%>
 <%-
 username_to_create = host_param('username_to_create', 'root')
 realname_to_create = host_param('realname_to_create') || username_to_create
 password_to_create = host_param('password_to_create') || @host.root_pass
+proxy_port = host_param('http-proxy-port')
 enable_auto_update = (host_param_true?('package_upgrade') && !host_param('kt_activation_keys'))
 os_major = @host.operatingsystem.major.to_i
 -%>
@@ -67,6 +70,9 @@ autoinstall:
   locale: <%= host_param('lang', 'en_US') %>.UTF-8
   timezone: <%= host_param('time-zone', 'Etc/UTC') %>
 <%= snippet 'preseed_netplan_setup' -%>
+<% if host_param('http-proxy') -%>
+  proxy: http://<%= host_param('http-proxy') %><%= ":#{proxy_port}" if proxy_port.present? %>
+<% end -%>
   ssh:
     allow-pw: true
     install-server: true
