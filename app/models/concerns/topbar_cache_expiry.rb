@@ -8,6 +8,6 @@ module TopbarCacheExpiry
   end
 
   def expire_topbar_cache_within_controller
-    expire_topbar_cache if TopbarSweeper.instance.controller.present?
+    expire_topbar_cache if TopbarSweeper.controller
   end
 end
