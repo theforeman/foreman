@@ -689,6 +689,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_rebuild_config_with_taxonomy
+    Host.any_instance.expects(:recreate_config).returns({ "TFTP" => true })
+    host = FactoryBot.create(:host, :organization => taxonomies(:organization1), :location => taxonomies(:location1))
+    post :rebuild_config, params: { :id => host.to_param, :organization_id => taxonomies(:organization1).id, :location_id => taxonomies(:location1).id }, session: set_session_user
+    assert_response :success
+  end
+
   context 'fact import' do
     let (:facts) { fact_json['facts'] }
     let (:hostname) { fact_json['name'] }
