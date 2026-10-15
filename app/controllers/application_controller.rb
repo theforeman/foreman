@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
       render :json => { :error => "Authentication error" }, :status => :unauthorized
       return
     end
-    authorized ? true : deny_access
+    authorized_in_taxonomy_scope ? true : deny_access
   end
 
   def deny_access
