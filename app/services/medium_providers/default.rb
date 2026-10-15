@@ -13,11 +13,20 @@ module MediumProviders
       errors
     end
 
-    def medium_uri(path = "", &block)
-      url ||= entity.medium.path if entity.medium.present?
-      url ||= ''
+    def medium_uri(path = "", boot_files: false, &block)
+      url = if entity.medium.present?
+              boot_files ? entity.medium.boot_file_source_path : entity.medium.path
+            else
+              ''
+            end
       url += '/' + path unless path.empty?
       medium_vars_to_uri(url, entity.architecture.name, entity.operatingsystem, &block)
+    end
+
+    def boot_file_source_uri(operatingsystem:, architecture:)
+      medium_uri('', boot_files: true) do |vars|
+        vars[:arch] = operatingsystem.bootloader_source_architecture(architecture)
+      end
     end
 
     def interpolate_vars(pattern)

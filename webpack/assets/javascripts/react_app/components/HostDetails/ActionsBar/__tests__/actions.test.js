@@ -1,4 +1,4 @@
-import { deleteHost } from '../actions';
+import { buildHost, deleteHost } from '../actions';
 import { openConfirmModal } from '../../../ConfirmModal';
 import { APIActions } from '../../../../redux/API';
 import { visit } from '../../../../common/helpers';
@@ -14,6 +14,10 @@ jest.mock('../../../../redux/API', () => ({
   APIActions: {
     delete: jest.fn(params => ({
       type: 'API_DELETE',
+      params,
+    })),
+    put: jest.fn(params => ({
+      type: 'API_PUT',
       params,
     })),
   },
@@ -145,5 +149,41 @@ describe('deleteHost', () => {
 
       expect(toastMessage).toBe(errorMessage);
     });
+  });
+});
+
+describe('buildHost', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('uses the server error message when a build request fails', () => {
+    const dispatch = jest.fn();
+    const serverMessage = 'Boot files missing, download boot files for CentOS 10';
+
+    buildHost('host-id')(dispatch);
+    const { errorToast } = APIActions.put.mock.calls[0][0];
+
+    expect(
+      errorToast({
+        message: 'Request failed with status code 422',
+        response: { data: { message: serverMessage } },
+      })
+    ).toBe(serverMessage);
+  });
+
+  it('falls back to the server errors array when there is no message', () => {
+    const dispatch = jest.fn();
+    const serverMessage = 'Boot files missing, download boot files for CentOS 10';
+
+    buildHost('host-id')(dispatch);
+    const { errorToast } = APIActions.put.mock.calls[0][0];
+
+    expect(
+      errorToast({
+        message: 'Request failed with status code 422',
+        response: { data: { errors: [serverMessage] } },
+      })
+    ).toBe(serverMessage);
   });
 });

@@ -69,6 +69,24 @@ class MediumTest < ActiveSupport::TestCase
     end
   end
 
+  test 'BootPath defaults to the installation path and accepts an HTTP prefix' do
+    medium = FactoryBot.build(:medium, path: 'https://mirror.example.test/os')
+    assert_equal medium.path, medium.boot_file_source_path
+
+    medium.boot_path = 'https://boot.example.test/releases'
+    assert medium.valid?
+    assert_equal medium.boot_path, medium.boot_file_source_path
+  end
+
+  test 'BootPath rejects queries and fragments' do
+    medium = FactoryBot.build(:medium, boot_path: 'https://boot.example.test/releases?token=123')
+    refute medium.valid?
+    assert_includes medium.errors.attribute_names, :boot_path
+
+    medium.boot_path = 'https://boot.example.test/releases#fragment'
+    refute medium.valid?
+  end
+
   test "should destroy and nullify host.medium_id if medium is in use but host.build? is false" do
     medium = Medium.new :name => "Archlinux mirror", :path => "http://www.google.com"
     assert medium.save!

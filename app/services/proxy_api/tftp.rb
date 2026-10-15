@@ -14,6 +14,8 @@ module ProxyAPI
     #    :release  => String containing the operating system major and minor version
     #    :arch  => String containing the operating system architecture
     #    :bootfile_suffix => String containing the architecture specific boot filename suffix
+    #    :universe_archive, :universe_kernel, :universe_initrd => Paths to prefetched universe files
+    #    :universe_source_digest => SHA-256 digest of the archive source URL
     # Returns  : Boolean status
     def set(kind, mac, args)
       parse(post(args, "#{kind}/#{mac}"))
@@ -38,6 +40,15 @@ module ProxyAPI
     # Returns    : Boolean status
     def fetch_boot_file(args)
       parse(post(args, "fetch_boot_file"))
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
+    end
+
+    # Archive extraction and exact destinations use the Smart Proxy JSON API.
+    # Acceptance is the HTTP status; proxy downloads continue asynchronously.
+    def fetch_boot_file_json(args)
+      response = post(args.to_json, "fetch_boot_file", content_type: :json)
+      response&.code&.between?(200, 299)
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
     end

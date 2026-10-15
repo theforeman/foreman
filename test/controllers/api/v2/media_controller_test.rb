@@ -33,6 +33,17 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
     assert_equal @new_medium[:name], JSON.parse(@response.body)["name"], "Can't create media with valid name #{@new_medium[:name]}"
   end
 
+  test "should create medium with BootPath" do
+    post :create, params: { medium: @new_medium.merge(boot_path: 'https://boot.example.test/releases') }
+    assert_response :created
+    assert_equal 'https://boot.example.test/releases', JSON.parse(@response.body)['boot_path']
+  end
+
+  test "should reject BootPath with a query" do
+    post :create, params: { medium: @new_medium.merge(boot_path: 'https://boot.example.test/releases?token=123') }
+    assert_response :unprocessable_entity
+  end
+
   test "should create medium with os family" do
     os_family = Operatingsystem.families.sample
     medium_os_family = @new_medium.clone.update(:os_family => os_family)
