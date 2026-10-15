@@ -26,6 +26,7 @@ gem 'fast_gettext', '~> 2.1'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', '~> 7.0'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
+gem 'syslog'
 gem 'fog-core', '~> 2.1'
 gem 'net-ldap', '>= 0.16.0'
 gem 'net-ping', :require => false
