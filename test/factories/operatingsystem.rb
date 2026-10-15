@@ -152,10 +152,10 @@ FactoryBot.define do
 
     factory :for_snapshots_freebsd, class: Freebsd do
       name { 'FreeBSD' }
-      major { '11' }
-      minor { '2' }
+      major { '14' }
+      minor { '3' }
       type { 'Freebsd' }
-      title { 'FreeBSD 11.2' }
+      title { 'FreeBSD 14.3' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:medium, :freebsd)] }
       ptables { [FactoryBot.build(:ptable, :freebsd, name: 'ptable')] }
@@ -255,10 +255,10 @@ FactoryBot.define do
 
     factory :freebsd, class: Freebsd do
       sequence(:name) { 'FreeBSD' }
-      major { '11' }
-      minor { '2' }
+      major { '14' }
+      minor { '3' }
       type { 'Freebsd' }
-      title { 'FreeBSD 11.2' }
+      title { 'FreeBSD 14.3' }
     end
 
     factory :opensuse_16_0, class: Suse do
@@ -320,18 +320,18 @@ FactoryBot.define do
 
     factory :solaris, class: Solaris do
       sequence(:name) { 'Solaris' }
-      major { '10' }
-      minor { '8' }
+      major { '11' }
+      minor { '4' }
       type { 'Solaris' }
-      title { 'Solaris 10.8' }
+      title { 'Solaris 11.4' }
     end
 
     factory :suse, class: Suse do
       sequence(:name) { 'OpenSuse' }
-      major { '11' }
-      minor { '4' }
+      major { '15' }
+      minor { '6' }
       type { 'Suse' }
-      title { 'OpenSuse 11.4' }
+      title { 'openSUSE Leap 15.6' }
     end
 
     # Legacy release retained for version-specific Ubuntu behavior.
@@ -362,5 +362,13 @@ FactoryBot.define do
       title { 'Ubuntu Jammy' }
     end
 
+    factory :ubuntu24_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '24.04' }
+      minor { '' }
+      type { 'Debian' }
+      release_name { 'noble' }
+      title { 'Ubuntu Noble' }
+    end
   end
 end

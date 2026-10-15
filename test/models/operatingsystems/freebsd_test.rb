@@ -15,7 +15,7 @@ class FreebsdTest < ActiveSupport::TestCase
 
   describe '#mediumpath' do
     test 'generates the medium path url' do
-      assert_equal 'http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/11.2-RELEASE', operatingsystem.mediumpath(medium_provider)
+      assert_equal 'http://ftp.freebsd.org/pub/FreeBSD/releases/amd64/14.3-RELEASE', operatingsystem.mediumpath(medium_provider)
     end
   end
 
@@ -27,7 +27,7 @@ class FreebsdTest < ActiveSupport::TestCase
 
   describe '#initrd' do
     test 'builds initrd url' do
-      assert_equal 'boot/FreeBSD-x86_64-11.2-mfs.img', operatingsystem.initrd(medium_provider)
+      assert_equal 'boot/FreeBSD-x86_64-14.3-mfs.img', operatingsystem.initrd(medium_provider)
     end
   end
 end
