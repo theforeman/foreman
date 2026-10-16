@@ -24,6 +24,7 @@ const BulkDisassociateModal = ({
   organizationId,
   locationId,
   onSuccess: onSuccessCallback,
+  bulkScopeHash,
 }) => {
   const dispatch = useDispatch();
   const hostsWithComputeResource = selectedResults?.filter(
@@ -80,6 +81,7 @@ const BulkDisassociateModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       includedSearch: queryString,
     });
 
@@ -177,6 +179,7 @@ BulkDisassociateModal.propTypes = {
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
   onSuccess: PropTypes.func,
+  bulkScopeHash: PropTypes.string,
 };
 
 BulkDisassociateModal.defaultProps = {
@@ -186,6 +189,7 @@ BulkDisassociateModal.defaultProps = {
   organizationId: undefined,
   locationId: undefined,
   onSuccess: undefined,
+  bulkScopeHash: undefined,
 };
 
 export default BulkDisassociateModal;

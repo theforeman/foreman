@@ -20,6 +20,7 @@ export const buildBulkRequestBody = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
   includedSearch,
   ...params
 }) => ({
@@ -27,6 +28,7 @@ export const buildBulkRequestBody = ({
     search: includedSearch || fetchBulkParams(),
   },
   ...bulkActionTaxonomyParams({ organizationId, locationId }),
+  ...(bulkScopeHash ? { scope_hash: bulkScopeHash } : {}),
   ...params,
 });
 

@@ -39,6 +39,7 @@ describe('bulkDeleteHosts', () => {
   const bulkParams = 'id ^ (1,2,3)';
   const organizationId = 1;
   const locationId = 2;
+  const bulkScopeHash = 'test-scope-hash';
   const selectedCount = 3;
   const destroyVmOnHostDelete = true;
 
@@ -47,6 +48,7 @@ describe('bulkDeleteHosts', () => {
       bulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       selectedCount,
       destroyVmOnHostDelete,
     })(dispatch);
@@ -67,6 +69,7 @@ describe('bulkDeleteHosts', () => {
         bulkParams,
         organizationId,
         locationId,
+        bulkScopeHash,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
@@ -86,6 +89,7 @@ describe('bulkDeleteHosts', () => {
       expect(requestUrl.searchParams.get('location_id')).toBe(
         String(locationId)
       );
+      expect(requestUrl.searchParams.get('scope_hash')).toBe(bulkScopeHash);
       expect(deleteParams.key).toBe('BULK-HOSTS-DELETE');
       expect(typeof deleteParams.successToast).toBe('function');
       expect(typeof deleteParams.errorToast).toBe('function');
@@ -102,6 +106,7 @@ describe('bulkDeleteHosts', () => {
         bulkParams,
         organizationId,
         locationId,
+        bulkScopeHash,
         selectedCount,
         destroyVmOnHostDelete,
         onDeleteSuccess,
@@ -124,6 +129,7 @@ describe('bulkDeleteHosts', () => {
         bulkParams,
         organizationId,
         locationId,
+        bulkScopeHash,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
@@ -144,6 +150,7 @@ describe('bulkDeleteHosts', () => {
         bulkParams,
         organizationId,
         locationId,
+        bulkScopeHash,
         selectedCount,
         destroyVmOnHostDelete,
       })(dispatch);
