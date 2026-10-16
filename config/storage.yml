@@ -6,6 +6,20 @@ local:
   service: Disk
   root: /var/lib/foreman/storage
 
+s3:
+  service: S3
+<% s3 = SETTINGS.fetch(:active_storage, {}).fetch(:s3, {}) %>
+<% if s3[:access_key_id].present? %>
+  access_key_id: <%= s3[:access_key_id].to_json %>
+  secret_access_key: <%= s3[:secret_access_key].to_json %>
+<% end %>
+  region: <%= s3[:region].to_json %>
+  bucket: <%= s3[:bucket].to_json %>
+<% if s3[:endpoint].present? %>
+  endpoint: <%= s3[:endpoint].to_json %>
+<% end %>
+  force_path_style: <%= s3.fetch(:force_path_style, false) %>
+
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage-test") %>
