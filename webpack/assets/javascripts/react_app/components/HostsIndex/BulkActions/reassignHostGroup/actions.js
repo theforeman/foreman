@@ -22,6 +22,7 @@ export const fetchHostgroups = () => {
     url,
     params: {
       per_page: 'all',
+      thin: true,
     },
   });
 };
