@@ -99,7 +99,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "this is not a smart class parameter?" do
-    assert_not_deprecated do
+    assert_not_deprecated(ActiveSupport.deprecator) do
       refute FactoryBot.build_stubbed(:lookup_key).puppet?
     end
   end

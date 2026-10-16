@@ -6,7 +6,7 @@ class SmartProxy < ApplicationRecord
   include Taxonomix
   include Parameterizable::ByIdName
 
-  serialize :unrecognized_features, Array
+  serialize :unrecognized_features, type: Array
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)
