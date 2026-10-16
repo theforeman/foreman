@@ -9,6 +9,7 @@ import HostsIndex, { getScheduleJobSearch } from './index';
 import { useForemanPermissions } from '../../Root/Context/ForemanContext';
 
 const mockStore = configureMockStore([thunk]);
+const mockSetAPIOptions = jest.fn();
 
 // Mock useDispatch
 jest.spyOn(ReactRedux, 'useDispatch').mockImplementation(() => jest.fn());
@@ -29,7 +30,7 @@ jest.mock('../PF4/TableIndexPage/Table/TableIndexHooks', () => ({
       search: 'name~host', // Current search query from API
     },
     status: 'RESOLVED',
-    setAPIOptions: jest.fn(),
+    setAPIOptions: mockSetAPIOptions,
   })),
   useSetParamsAndApiAndSearch: jest.fn(() => ({
     params: {
@@ -74,7 +75,7 @@ jest.mock('../PF4/TableIndexPage/Table/TableHooks', () => ({
     selectedResults: [],
   })),
   useUrlParams: jest.fn(() => ({
-    searchParam: 'name~host',
+    searchParam: '',
     page: 1,
     per_page: 10,
   })),
@@ -151,6 +152,7 @@ describe('HostsIndex', () => {
 
   beforeEach(() => {
     capturedTableProps = null;
+    mockSetAPIOptions.mockClear();
     useForemanPermissions.mockReturnValue(
       new Set(['edit_hosts', 'view_params', 'edit_params'])
     );
@@ -172,6 +174,25 @@ describe('HostsIndex', () => {
       search: 'name~host',
       page: 2, // From API response, not from params state (which has 1)
       per_page: 20, // From API response, not from params state (which has 10)
+    });
+  });
+
+  test('preserves the current search when refreshing table data', () => {
+    render(
+      <Provider store={store}>
+        <HostsIndex />
+      </Provider>
+    );
+
+    capturedTableProps.refreshData();
+
+    expect(mockSetAPIOptions).toHaveBeenCalledWith({
+      key: 'HOSTS',
+      params: {
+        search: 'name~host',
+        page: 1,
+        perPage: 10,
+      },
     });
   });
 
