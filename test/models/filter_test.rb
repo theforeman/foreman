@@ -7,6 +7,35 @@ class FilterTest < ActiveSupport::TestCase
     assert_nil f.resource_type
   end
 
+  test "changing permissions is audited" do
+    filter = FactoryBot.create(:filter, :on_name_all, :role => FactoryBot.create(:role), :permissions => [Permission.find_by(:name => 'view_domains')])
+    filter.reload
+    new_permission = Permission.find_by(:name => 'edit_domains')
+
+    assert_difference 'filter.audits.count', 1 do
+      filter.update!(:permission_ids => filter.permission_ids + [new_permission.id])
+    end
+
+    audit = filter.audits.last
+    assert_equal 'update', audit.action
+    assert_includes audit.audited_changes['permission_ids'].last, new_permission.id
+  end
+
+  test "replacing a permission with another one is audited" do
+    filter = FactoryBot.create(:filter)
+    filter.reload
+    old_permission_id = filter.permission_ids.first
+    new_permission = FactoryBot.create(:permission, :host)
+
+    assert_difference 'filter.audits.count', 1 do
+      filter.update!(:permission_ids => [new_permission.id])
+    end
+
+    audit = filter.audits.last
+    assert_equal 'update', audit.action
+    assert_equal [[old_permission_id], [new_permission.id]], audit.audited_changes['permission_ids']
+  end
+
   test "#resource_type" do
     f = FactoryBot.build_stubbed(:filter)
     f.stub :filterings, [OpenStruct.new(:permission => OpenStruct.new(:resource_type => 'test'))] do
