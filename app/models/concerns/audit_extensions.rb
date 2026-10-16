@@ -4,11 +4,12 @@ module AuditExtensions
   include HasManyCommon
 
   REDACTED = N_('[redacted]')
+  REDACTED_ATTRIBUTES = %w[password password_hash password_salt token secret].freeze
 
   included do
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name, :set_taxonomies
     before_save :filter_encrypted, :if => proc { |audit| audit.audited_changes.present? }
-    before_save :filter_passwords, :if => proc { |audit| audit.audited_changes.try(:has_key?, 'password') }
+    before_save :filter_sensitive, :if => proc { |audit| audit.audited_changes.present? && audit.audited_changes.keys.any? { |key| REDACTED_ATTRIBUTES.include?(key) } }
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
@@ -248,11 +249,10 @@ module AuditExtensions
     end
   end
 
-  def filter_passwords
-    if action == 'update'
-      audited_changes['password'] = [REDACTED, REDACTED]
-    else
-      audited_changes['password'] = REDACTED
+  def filter_sensitive
+    audited_changes.each_key do |name|
+      next unless REDACTED_ATTRIBUTES.include?(name)
+      audited_changes[name] = action == 'update' ? [REDACTED, REDACTED] : REDACTED
     end
   end
 
