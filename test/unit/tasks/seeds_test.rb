@@ -75,6 +75,16 @@ class SeedsTest < ActiveSupport::TestCase
     end
   end
 
+  test 'creates Smart Proxy features declared by plugins' do
+    Foreman::Plugin.register(:test_smart_proxy_feature) { smart_proxy_feature 'Test Plugin Feature' }
+
+    assert_difference('Feature.where(:name => "Test Plugin Feature").count', 1) do
+      seed('110-smart_proxy_features.rb')
+    end
+  ensure
+    Foreman::Plugin.unregister(:test_smart_proxy_feature)
+  end
+
   test 'populates hidden admin users' do
     assert_difference 'User.unscoped.where(:login => [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN]).count', 2 do
       seed('030-auth_sources.rb', '035-admin.rb')
