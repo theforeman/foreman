@@ -3,6 +3,7 @@ class Parameter < ApplicationRecord
   friendly_id :name
   include Parameterizable::ByIdName
   include HiddenValue
+  include EncryptValue
   include KeyType
   include KeyValueValidation
 
@@ -41,6 +42,7 @@ class Parameter < ApplicationRecord
 
   before_create :set_priority
   before_save :set_searchable_value, :set_default_key_type
+  before_save :encrypt_hidden_parameter_value
 
   PRIORITY = { :common_parameter => 0,
                :organization_parameter => 10,
@@ -60,8 +62,24 @@ class Parameter < ApplicationRecord
     PRIORITY.fetch(type.to_s.underscore.to_sym, nil) unless type.nil?
   end
 
+  def value=(val)
+    if hidden_value? && val.to_s == HIDDEN_VALUE
+      return
+    end
+    super
+  end
+
+  def value
+    v = self[:value]
+    if v.is_a?(String) && matches_prefix?(v)
+      v = decrypt_field(v)
+    end
+    cast_loaded_value(v)
+  end
+
   def value_before_type_cast
     return self[:value] if errors[:value].present?
+    return safe_value if hidden_value?
     self.class.format_value_before_type_cast(value, key_type)
   end
 
@@ -83,7 +101,45 @@ class Parameter < ApplicationRecord
   end
 
   def set_searchable_value
-    self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
+    if hidden_value?
+      self.searchable_value = HIDDEN_VALUE
+    else
+      self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
+    end
+  end
+
+  def encrypt_hidden_parameter_value
+    return unless hidden_value?
+    return if encryption_key.blank?
+
+    current = self[:value]
+    return if current.nil?
+
+    plain = if current.is_a?(String)
+              current
+            else
+              Parameter.format_value_before_type_cast(current, key_type).to_s
+            end
+
+    return if plain.blank?
+    return if matches_prefix?(plain)
+    return if plain == HIDDEN_VALUE
+
+    self[:value] = encrypt_field(plain)
+  end
+
+  def cast_loaded_value(v)
+    return v if v.nil? || !v.is_a?(String) || v.contains_erb?
+    return v if key_type.blank? || key_type.to_s == 'string'
+
+    Foreman::Parameters::Caster.new(
+      self,
+      :attribute_name => :value,
+      :to => key_type,
+      :value => v
+    ).cast
+  rescue StandardError
+    v
   end
 
   def set_priority
