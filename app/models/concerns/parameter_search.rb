@@ -2,7 +2,7 @@ module ParameterSearch
   extend ActiveSupport::Concern
 
   included do
-    scoped_search :relation => parameter_relation_symbol, :on => :searchable_value, :in_key => parameter_relation_symbol, :on_key => :name, :rename => :params, :complete_value => true, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_params
+    scoped_search :relation => parameter_relation_symbol, :on => :searchable_value, :in_key => parameter_relation_symbol, :on_key => :name, :rename => :params, :complete_value => true, :only_explicit => true, :operators => ['= ', '~ ', '^ ', '!^ '], :ext_method => :search_by_params
   end
 
   module ClassMethods
@@ -12,12 +12,15 @@ module ParameterSearch
 
       if Parameter.find_by(name: key_name)&.key_type == 'boolean'
         # boolean value is saved as 't'/'f' in searchable_value column
-        value = value.chr
+        value = if ['IN', 'NOT IN'].include?(operator.strip)
+                  value.split(',').map { |item| item.strip.chr }.join(',')
+                else
+                  value.chr
+                end
       end
 
-      conditions = sanitize_sql_for_conditions(
-        ["parameters.name = ? and parameters.searchable_value #{operator} ?", key_name, value_to_sql(operator, value)]
-      )
+      conditions = sanitize_sql_for_conditions(['parameters.name = ?', key_name])
+      conditions += " and #{sanitize_search_condition('parameters.searchable_value', operator, value)}"
       build_query = unscoped
       if respond_to?(:with_taxonomy_scope)
         build_query = build_query.with_taxonomy_scope
