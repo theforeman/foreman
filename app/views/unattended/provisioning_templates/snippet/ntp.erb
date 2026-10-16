@@ -20,7 +20,7 @@ ntp_server = host_param('ntp-server')
 echo "Updating system time"
 <% if os_family == 'Debian' -%>
   <% if ntp_server -%>
-    <% if @host.operatingsystem.name == "Ubuntu" -%>
+    <% if @host.operatingsystem.name == 'Ubuntu' && os_major < 26 -%>
       <%- if ntp_server.respond_to?(:join) -%>
       sed -i -E 's/^[[:space:]]*#?\s*NTP=.*/NTP=<%= ntp_server.first %>/' /etc/systemd/timesyncd.conf
       <%- else -%>
