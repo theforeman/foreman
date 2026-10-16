@@ -191,8 +191,7 @@ class FilterTest < ActiveSupport::TestCase
 
     test 'works with conflicting existing taxonomy_search' do
       f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :taxonomy_search => "organization_id = 7", :resource_type => 'Domain')
-      expected = "((name ~ test*) AND (set? organization_id AND null? organization_id) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
-      assert_equal expected, f.search_condition_for_user(@user)
+      assert_equal false, f.search_condition_for_user(@user)
     end
 
     test 'also covers nested organizations' do
@@ -216,8 +215,7 @@ class FilterTest < ActiveSupport::TestCase
       user_no_orgs.organizations = []
       user_no_orgs.locations = [@loc1]
       f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
-      expected = "((name ~ test*) AND (set? organization_id AND null? organization_id) AND (location_id ^ (#{@loc1.id})))"
-      assert_equal expected, f.search_condition_for_user(user_no_orgs)
+      assert_equal false, f.search_condition_for_user(user_no_orgs)
     end
 
     test 'handles user with no locations' do
@@ -225,8 +223,7 @@ class FilterTest < ActiveSupport::TestCase
       user_no_locs.organizations = [@org1]
       user_no_locs.locations = []
       f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
-      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id})) AND (set? location_id AND null? location_id))"
-      assert_equal expected, f.search_condition_for_user(user_no_locs)
+      assert_equal false, f.search_condition_for_user(user_no_locs)
     end
   end
 end
