@@ -256,6 +256,7 @@ Foreman::Application.routes.draw do
       delete 'invalidate_jwt_for_all_users'
     end
     member do
+      get 'avatar'
       post 'impersonate'
       patch 'invalidate_jwt'
     end

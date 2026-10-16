@@ -3,6 +3,17 @@ require 'test_helper'
 class ApplicationHelperTest < ActionView::TestCase
   include ApplicationHelper
 
+  test 'LDAP avatars use the authorized user avatar endpoint' do
+    user = FactoryBot.create(:user)
+    user.avatar.attach(
+      :io => StringIO.new('avatar'),
+      :filename => 'avatar.jpg',
+      :content_type => 'image/jpeg'
+    )
+
+    assert_includes avatar_image_tag(user, :class => 'avatar'), avatar_user_path(user)
+  end
+
   def test_generate_link_for
     proxy = FactoryBot.create(:dhcp_smart_proxy)
     subnet = FactoryBot.create(:subnet_ipv4, :name => 'My subnet')
