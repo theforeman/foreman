@@ -4,6 +4,22 @@ module Api
       include Api::Version2
       include Foreman::Controller::Authorize
 
+      class_attribute :hide_taxonomy_params_in_docs, default: false
+
+      def self.resource_description(options = {}, &block)
+        @resource_description_options = options
+        @resource_description_block = block
+        hide_taxonomy_params = hide_taxonomy_params_in_docs
+        super(options) do
+          instance_exec(&block) if block
+
+          if hide_taxonomy_params
+            param :location_id, Integer, :show => false
+            param :organization_id, Integer, :show => false
+          end
+        end
+      end
+
       resource_description do
         api_version "v2"
         app_info N_("Foreman API v2 is currently the default API version.")
@@ -163,10 +179,14 @@ module Api
       end
 
       def self.hide_taxonomy_options
+        return if hide_taxonomy_params_in_docs
+
+        self.hide_taxonomy_params_in_docs = true
         prepend_before_action :drop_taxonomy_id_from_params
-        resource_description do
-          param :location_id, Integer, :show => false
-          param :organization_id, Integer, :show => false
+        if @resource_description_block
+          resource_description(@resource_description_options, &@resource_description_block)
+        else
+          resource_description {}
         end
       end
 
