@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import { v7 as uuidV7 } from 'uuid';
 import { getChartConfig } from './ChartService';
 import { MS_PER_SECOND } from '../../react_app/constants';
 
@@ -9,7 +9,7 @@ export const getAreaChartConfig = ({
   yAxisLabel,
   xAxisDataLabel = 'time',
   stacked = true,
-  id = uuidV1(),
+  id = uuidV7(),
   size = undefined,
 }) => {
   const chartConfig = getChartConfig({
