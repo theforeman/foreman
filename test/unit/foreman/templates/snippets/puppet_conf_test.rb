@@ -37,6 +37,18 @@ class PuppetConfSnippetTest < ActiveSupport::TestCase
     assert_no_match(/^port\s+= 4443$/, result)
   end
 
+  test 'uses the OpenVox AIO directory layout' do
+    operating_system = FactoryBot.create(:rhel9)
+    host = FactoryBot.create(:host, :managed, build: true, operatingsystem: operating_system)
+
+    result = render_template(host)
+
+    assert_no_match(/^vardir\s+=/, result)
+    assert_no_match(/^logdir\s+=/, result)
+    assert_no_match(/^rundir\s+=/, result)
+    assert_no_match(/^ssldir\s+=/, result)
+  end
+
   test 'does not render the default Puppet server port' do
     FactoryBot.create(:host_parameter, host: @host, name: 'puppet_server_port', value: '8140')
 

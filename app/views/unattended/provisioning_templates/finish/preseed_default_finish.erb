@@ -13,8 +13,6 @@ description: |
   installer, typically DEB based distributions. This template renders to a shell script.
 
   This template accepts the following parameters:
-  - enable-puppetlabs-repo: boolean (default=undef)
-  - enable-official-puppet8-repo: boolean (default=undef)
   - enable-openvox8: boolean (default=undef)
   - enable-openvox9: boolean (default=undef)
 
@@ -29,7 +27,6 @@ description: |
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
-  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo')
   voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
@@ -88,9 +85,6 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 <% if puppet_enabled -%>
 
-<% if puppetlabs_repo_enabled -%>
-<%= snippet 'puppetlabs_repo' %>
-<% end -%>
 <% if voxpupuli_repo_enabled -%>
 <%= snippet 'voxpupuli_repo' %>
 <% end -%>
