@@ -1,5 +1,5 @@
 class Filter < ApplicationRecord
-  audited :associated_with => :role
+  audited :associated_with => :role, :associations => [:permissions]
 
   include Authorizable
   include TopbarCacheExpiry
