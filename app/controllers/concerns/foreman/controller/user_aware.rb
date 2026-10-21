@@ -20,6 +20,12 @@ module Foreman::Controller::UserAware
     end
   end
 
+  def find_authorized_user(permission)
+    return @user = User.current if editing_self?
+
+    @user = User.authorized(permission).except_hidden.find_by(:id => params[:user_id])
+  end
+
   def editing_self_params
     super.merge(:user_id => params[:user_id])
   end
