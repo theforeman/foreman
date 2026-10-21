@@ -9,6 +9,7 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
   def setup
     @user = FactoryBot.create(:user)
     @ssh_key = FactoryBot.create(:ssh_key, :user => @user)
+    FactoryBot.create(:permission, :name => 'create_ssh_keys', :resource_type => 'SshKey')
   end
 
   test "should get index" do
@@ -45,5 +46,79 @@ class Api::V2::SshKeysControllerTest < ActionController::TestCase
       delete :destroy, params: { :id => @ssh_key.to_param, :user_id => @user.id }
     end
     assert_response :success
+  end
+
+  context 'with non-admin user' do
+    it 'allows creating an SSH key for itself without create permission' do
+      caller = FactoryBot.create(:user)
+
+      assert_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => caller.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      assert_equal caller, assigns(:ssh_key).user
+    end
+
+    it 'does not create an SSH key for a user it cannot edit' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+
+      assert_no_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+    end
+
+    it 'does not create an SSH key for another user without create permission' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_no_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :forbidden
+    end
+
+    it 'creates an SSH key for a user it can edit with create permission' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      assert_equal @user, assigns(:ssh_key).user
+    end
+
+    it 'creates an SSH key for a user in its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      assert_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      assert_equal @user, assigns(:ssh_key).user
+    end
+
+    it 'does not create an SSH key for a user outside its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      assert_no_difference('SshKey.count') do
+        post :create, params: { :ssh_key => valid_attrs, :user_id => @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+    end
   end
 end
