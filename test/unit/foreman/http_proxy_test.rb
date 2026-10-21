@@ -167,5 +167,18 @@ class Foreman::HttpProxyTest < ActiveSupport::TestCase
       net_http_object = rest_client_request.net_http_object(request_host, 8080)
       assert_equal URI.parse(http_proxy).hostname, net_http_object.instance_variable_get(:@proxy_address)
     end
+
+    context 'with force_direct' do
+      let(:rest_client_request) { RestClient::Request.new(url: request_host, method: 'get', force_direct: true) }
+
+      test 'proxy_uri returns nil when force_direct is set' do
+        assert_nil rest_client_request.proxy_uri
+      end
+
+      test 'net_http_object does not use a proxy when force_direct is set' do
+        net_http_object = rest_client_request.net_http_object(request_host, 8080)
+        assert_nil net_http_object.instance_variable_get(:@proxy_address)
+      end
+    end
   end
 end
