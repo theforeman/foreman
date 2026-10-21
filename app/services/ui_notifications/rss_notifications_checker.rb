@@ -26,7 +26,11 @@ module UINotifications
       end
 
       def title
-        @title ||= @item.title.respond_to?(:content) ? @item.title.content : @item.title
+        # Strip so lookup matches notification's StripWhitespace on save
+        @title ||= begin
+          value = @item.title.respond_to?(:content) ? @item.title.content : @item.title
+          value.to_s.strip
+        end
       end
     end
 
@@ -46,13 +50,12 @@ module UINotifications
       feed = RSS::Parser.parse(rss_feed, false)
       feed.items[0, @latest_posts].each do |feed_item|
         item = Item.new(feed_item)
-        blueprint = rss_notification_blueprint
         next if notification_already_exists?(item) && !@force_repost
         Notification.create(
           :initiator => User.anonymous_admin,
           :audience => @audience,
           :message => item.title,
-          :notification_blueprint => blueprint,
+          :notification_blueprint => rss_notification_blueprint,
           :actions => {
             :links => [
               {
@@ -69,11 +72,23 @@ module UINotifications
     private
 
     def rss_notification_blueprint
-      NotificationBlueprint.unscoped.find_by_name('rss_post')
+      @rss_notification_blueprint ||= NotificationBlueprint.unscoped.find_by_name('rss_post')
     end
 
     def notification_already_exists?(item)
-      !!Notification.unscoped.find_by_message(item.title)
+      return true if Notification.unscoped.find_by_message(item.title)
+      notification_exists_for_link?(item.link)
+    end
+
+    def notification_exists_for_link?(link)
+      return false if link.blank?
+      return false if rss_notification_blueprint.nil?
+
+      pattern = "%\"href\":\"#{Notification.sanitize_sql_like(link)}\"%"
+      Notification.unscoped.
+        where(:notification_blueprint => rss_notification_blueprint).
+        where("actions LIKE ?", pattern).
+        exists?
     end
 
     def load_rss_feed
