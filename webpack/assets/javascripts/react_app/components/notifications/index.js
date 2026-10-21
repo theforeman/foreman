@@ -8,6 +8,7 @@ import {
   NotificationDrawerGroup,
 } from '@patternfly/react-core';
 
+import { translate as __ } from '../../common/I18n';
 import NotificationHeader from './components/NotificationHeader';
 import NotificationItems from './components/NotificationListItems';
 import NotificationGroupFooter from './components/NotificationGroupFooter';
@@ -41,7 +42,7 @@ const Notifications = () => {
               {Object.entries(notifications).map(([groupName, items], key) => (
                 <NotificationDrawerGroup
                   key={key}
-                  title={groupName}
+                  title={__(groupName)}
                   id={groupName}
                   count={unreadPerGroup(items) || items.length}
                   isRead={unreadPerGroup(items) === 0}
