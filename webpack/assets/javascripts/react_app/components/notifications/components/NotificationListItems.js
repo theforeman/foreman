@@ -20,7 +20,12 @@ import {
 } from '../../../redux/actions/notifications';
 import { formatDateTime } from '../NotificationsDrawerHelpers';
 
-const NotificationItems = ({ isKebabExpanded, toggleKebab, items }) => {
+const NotificationItems = ({
+  isKebabExpanded,
+  toggleKebab,
+  items,
+  newTabOpen,
+}) => {
   const dispatch = useDispatch();
 
   const parseActions = notification => (
@@ -32,6 +37,7 @@ const NotificationItems = ({ isKebabExpanded, toggleKebab, items }) => {
             key={action.href}
             ouiaId={`dropdown-item-${action.title}-${index}`}
             to={action.href}
+            target={newTabOpen ? '_blank' : '_self'}
           >
             {__(action.title)}
           </DropdownItem>
@@ -108,6 +114,11 @@ NotificationItems.propTypes = {
   items: PropTypes.array.isRequired,
   isKebabExpanded: PropTypes.func.isRequired,
   toggleKebab: PropTypes.func.isRequired,
+  newTabOpen: PropTypes.bool,
+};
+
+NotificationItems.defaultProps = {
+  newTabOpen: false,
 };
 
 export default NotificationItems;
