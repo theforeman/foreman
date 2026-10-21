@@ -34,6 +34,8 @@ module Api
       param_group :ssh_key, :as => :create
 
       def create
+        return not_found unless find_authorized_user(:edit_users)
+
         @ssh_key = SshKey.new(ssh_key_params.merge(:user => @user))
         process_response @ssh_key.save
       end
