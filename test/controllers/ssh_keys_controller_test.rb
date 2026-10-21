@@ -5,6 +5,10 @@ class SshKeysControllerTest < ActionController::TestCase
   let(:ssh_key) { FactoryBot.create(:ssh_key) }
   let(:user) { ssh_key.user }
 
+  def setup
+    FactoryBot.create(:permission, :name => 'create_ssh_keys', :resource_type => 'SshKey')
+  end
+
   test 'new' do
     get :new, params: { :user_id => user.id }, session: set_session_user
     assert_template 'new'
@@ -27,5 +31,43 @@ class SshKeysControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => ssh_key.id, :user_id => user.id }, session: set_session_user
     assert_redirected_to edit_user_url(user)
     refute SshKey.exists?(ssh_key.id)
+  end
+
+  context 'with non-admin user' do
+    test 'creates an SSH key for itself without edit_users permission' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+
+      assert_difference('SshKey.count') do
+        post :create, params: { :ssh_key => { :name => 'dummy', :key => key }, :user_id => caller.id }, session: set_session_user(caller)
+      end
+
+      assert_redirected_to edit_user_url(caller)
+    end
+
+    test 'does not create an SSH key for a user it cannot edit' do
+      target = as_admin { FactoryBot.create(:user) }
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+
+      assert_no_difference('SshKey.count') do
+        post :create, params: { :ssh_key => { :name => 'dummy', :key => key }, :user_id => target.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+    end
+
+    test 'creates an SSH key for a user it can edit with create permission' do
+      target = as_admin { FactoryBot.create(:user) }
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'ssh_keys', nil, caller)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_difference('SshKey.count') do
+        post :create, params: { :ssh_key => { :name => 'dummy', :key => key }, :user_id => target.id }, session: set_session_user(caller)
+      end
+
+      assert_redirected_to edit_user_url(target)
+    end
   end
 end
