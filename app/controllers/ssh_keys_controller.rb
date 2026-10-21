@@ -9,6 +9,8 @@ class SshKeysController < ApplicationController
   end
 
   def create
+    return not_found unless find_authorized_user(:edit_users)
+
     @ssh_key = SshKey.new(ssh_key_params.merge(:user => @user))
     if @ssh_key.save
       process_success :success_redirect => edit_user_path(@user)
