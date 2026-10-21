@@ -53,6 +53,7 @@ const Notifications = () => {
                       isKebabExpanded={isKebabExpanded}
                       toggleKebab={toggleKebab}
                       items={items}
+                      newTabOpen={groupName === 'Community'}
                     />
                     <NotificationGroupFooter
                       groupName={groupName}
