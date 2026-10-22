@@ -11,6 +11,7 @@ group :test do
   gem 'launchy', '~> 2.4'
   gem 'facterdb', '~> 1.7'
   gem 'factory_bot_rails', '~> 5.0', :require => false
+  gem 'observer', :require => false # Required by factory_bot; a bundled gem since Ruby 3.4
   gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '~> 5.0'
   gem 'shoulda-context', '~> 1.2'
