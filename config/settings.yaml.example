@@ -32,6 +32,21 @@
 :hosts:
 # - host.example.com
 
+# Active Storage uses local disk storage by default. To use AWS S3 or an
+# S3-compatible service such as MinIO or Ceph RGW, set the service to s3 and
+# provide the bucket and region. Access keys are optional so workload identity
+# and instance roles can be used. If one access-key setting is provided, both
+# must be set.
+# :active_storage:
+#   :service: s3
+#   :s3:
+#     :access_key_id: access-key
+#     :secret_access_key: secret-key
+#     :region: us-east-1
+#     :bucket: foreman
+#     :endpoint: https://object-storage.example.com
+#     :force_path_style: true
+
 # List of Domains allowed for Cross-Origin Resource Sharing
 # :cors_domains:
 #   - https://foreman.example.com
