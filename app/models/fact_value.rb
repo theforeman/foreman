@@ -16,7 +16,7 @@ class FactValue < ApplicationRecord
   scoped_search :relation => :organization, :on => :name, :rename => :organization, :complete_value => true, :only_explicit => true
   scoped_search :relation => :host, :on => :organization_id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
-  scoped_search :on => :value, :in_key => :fact_name, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
+  scoped_search :on => :value, :in_key => :fact_name, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ', '^ ', '!^ ']
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
   scoped_search :on => :updated_at, :rename => :reported_at, :only_explicit => true, :complete_value => true
   scoped_search :on => :host_id, :only_explicit => true, :complete_value => false
