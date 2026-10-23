@@ -131,6 +131,22 @@ module Foreman #:nodoc:
         with_webpack.select { |plugin| plugin.global_js_files.present? }
       end
 
+      def registered_smart_proxy_features
+        registered_plugins.values.flat_map { |plugin| plugin.smart_proxy_features.keys }.uniq.sort
+      end
+
+      def smart_proxy_features_for(controller, action)
+        controller = controller.controller_path if controller.respond_to?(:controller_path)
+        controller = controller.to_s.delete_suffix('Controller').underscore
+        action = action.to_s
+
+        registered_plugins.values.flat_map do |plugin|
+          plugin.smart_proxy_features.filter_map do |feature, controllers|
+            feature if controllers.fetch(controller, []).include?(action)
+          end
+        end.uniq
+      end
+
       private
 
       # Clears the registered plugins hash and registries
@@ -152,7 +168,7 @@ module Foreman #:nodoc:
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
       :renderer_variable_loaders, :host_ui_description, :hostgroup_ui_description, :ping_extension, :status_extension,
-      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path, :preload_scopes
+      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path, :preload_scopes, :smart_proxy_features
 
     delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
 
@@ -172,6 +188,7 @@ module Foreman #:nodoc:
       @template_labels = {}
       @parameter_filters = {}
       @smart_proxies = {}
+      @smart_proxy_features = {}
       @controller_action_scopes = {}
       @dashboard_widgets = []
       @rabl_template_extensions = {}
@@ -504,6 +521,26 @@ module Foreman #:nodoc:
 
     def smart_proxies(klass)
       @smart_proxies.fetch(klass.name, {})
+    end
+
+    # Declares a Smart Proxy feature provided by this plugin and the Foreman
+    # controller actions that proxies with the feature may access.
+    #
+    #   smart_proxy_feature 'My Feature',
+    #     'my_plugin/api/v2/resources' => [:index, :create]
+    #
+    # The actions hash may be omitted when the feature only needs to be seeded.
+    def smart_proxy_feature(name, actions = {})
+      name = name.to_s
+      raise ArgumentError, 'Smart Proxy feature name cannot be blank' if name.blank?
+      raise ArgumentError, 'Smart Proxy feature actions must be a hash' unless actions.respond_to?(:to_h)
+
+      registered_actions = (@smart_proxy_features[name] ||= {})
+      actions.to_h.each do |controller, controller_actions|
+        controller = controller.controller_path if controller.respond_to?(:controller_path)
+        controller = controller.to_s.delete_suffix('Controller').underscore
+        registered_actions[controller] = (registered_actions.fetch(controller, []) + Array(controller_actions).map(&:to_s)).uniq
+      end
     end
 
     def add_controller_action_scope(controller_name, action, &block)
