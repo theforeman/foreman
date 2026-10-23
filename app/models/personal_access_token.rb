@@ -17,6 +17,7 @@ class PersonalAccessToken < ApplicationRecord
 
   scope :active, -> { where(revoked: false).where("expires_at >= ? OR expires_at IS NULL", Time.current.utc) }
   scope :inactive, -> { where(revoked: true).or(where("expires_at < ?", Time.current.utc)) }
+  scope :inactive_before, ->(time) { where("expires_at < :time OR (revoked = :revoked AND updated_at < :time)", :time => time, :revoked => true) }
 
   attr_accessor :token_value
 
@@ -46,6 +47,12 @@ class PersonalAccessToken < ApplicationRecord
     telemetry_duration_histogram(:login_pwhash_duration, :ms, algorithm: type) do
       hasher = Foreman::PasswordHash.new(type)
       hasher.hash_secret(token, token_salt(user, type))
+    end
+  end
+
+  def self.purge_inactive!(before: Time.current.utc)
+    inactive_before(before).find_each.count do |token|
+      token.destroy!
     end
   end
 

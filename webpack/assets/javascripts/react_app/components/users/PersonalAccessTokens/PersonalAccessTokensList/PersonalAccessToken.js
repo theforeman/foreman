@@ -6,6 +6,8 @@ import { translate as __ } from '../../../../common/I18n';
 import { noop } from '../../../../common/helpers';
 
 const PersonalAccessToken = ({
+  deletePersonalAccessToken,
+  deletable,
   revokePersonalAccessToken,
   id,
   name,
@@ -39,12 +41,26 @@ const PersonalAccessToken = ({
           {__('Revoke')}
         </Button>
       )}
+      {!isActive && deletable && (
+        <Button
+          onClick={() => deletePersonalAccessToken(id)}
+          size="sm"
+          variant="link"
+          isDanger
+          isInline
+          ouiaId="delete-personal-access-token-button"
+        >
+          {__('Delete')}
+        </Button>
+      )}
     </td>
   </tr>
 );
 
 PersonalAccessToken.propTypes = {
   id: PropTypes.number.isRequired,
+  deletePersonalAccessToken: PropTypes.func,
+  deletable: PropTypes.bool,
   user_id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   created_at: PropTypes.string.isRequired,
@@ -56,6 +72,8 @@ PersonalAccessToken.propTypes = {
 };
 
 PersonalAccessToken.defaultProps = {
+  deletePersonalAccessToken: noop,
+  deletable: false,
   revokePersonalAccessToken: noop,
   expires_at: null,
   last_used_at: null,

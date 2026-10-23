@@ -55,6 +55,25 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should purge inactive personal_access_token" do
+    @personal_access_token.update_column(:revoked, true)
+
+    assert_difference('PersonalAccessToken.count', -1) do
+      delete :purge, params: { :id => @personal_access_token.to_param, :user_id => @user.id }
+    end
+
+    assert_response :success
+  end
+
+  test "should not purge active personal_access_token" do
+    assert_no_difference('PersonalAccessToken.count') do
+      delete :purge, params: { :id => @personal_access_token.to_param, :user_id => @user.id }
+    end
+
+    assert_response :unprocessable_entity
+    assert_include @response.body, 'must be revoked before they can be deleted'
+  end
+
   context 'with non-admin user' do
     it 'allows to revoke his token' do
       setup_user('edit', 'users', nil, @user)
@@ -62,6 +81,18 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
       delete :destroy, params: { id: @personal_access_token.to_param, user_id: @user.id }, session: set_session_user(@user)
       assert_response :success
       assert @personal_access_token.reload.revoked?
+    end
+
+    it 'allows to purge his inactive token' do
+      @personal_access_token.update_column(:revoked, true)
+      setup_user('edit', 'users', nil, @user)
+      setup_user('revoke', 'personal_access_tokens', nil, @user)
+
+      assert_difference('PersonalAccessToken.count', -1) do
+        delete :purge, params: { id: @personal_access_token.to_param, user_id: @user.id }, session: set_session_user(@user)
+      end
+
+      assert_response :success
     end
   end
 end
