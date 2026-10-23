@@ -8,10 +8,10 @@ module Foreman
       end
 
       def set_topbar_sweeper_controller
-        ::TopbarSweeper.instance.controller = self
+        ::TopbarSweeper.controller = self
         yield
       ensure
-        ::TopbarSweeper.instance.controller = nil
+        ::TopbarSweeper.controller = nil
       end
     end
   end
