@@ -1,6 +1,7 @@
 module Foreman::Controller::Parameters::Usergroup
   extend ActiveSupport::Concern
   include Foreman::Controller::Parameters::ExternalUsergroup
+  include Foreman::Controller::Parameters::Taxonomix
 
   class_methods do
     def usergroup_params_filter
@@ -10,6 +11,8 @@ module Foreman::Controller::Parameters::Usergroup
           :role_ids => [], :role_names => [],
           :user_ids => [], :user_names => [],
           :usergroup_ids => [], :usergroup_names => []
+
+        add_taxonomix_params_filter(filter)
 
         filter.permit do |ctx|
           ctx.permit :admin if (User.current.try(:admin?) && ctx.ui?) || ctx.api?
