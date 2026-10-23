@@ -952,6 +952,31 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert @response.body =~ /template content/
   end
 
+  test 'view_hosts user cannot get rendered provisioning template' do
+    secret = 'template-secret'
+    managed_host = FactoryBot.create(:host, :managed, :root_pass => secret)
+    template = FactoryBot.create(:provisioning_template, :template => '<%= root_pass %>')
+    Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provision'}).returns(template)
+
+    User.current = nil
+    get :template, params: { :id => managed_host.to_param, :kind => 'provision' }, session: set_session_user(:view_hosts)
+
+    assert_response :forbidden
+    refute_includes @response.body, managed_host.root_pass
+  end
+
+  test 'view_hosts user cannot get provisioning template source' do
+    managed_host = FactoryBot.create(:host, :managed)
+    template = FactoryBot.create(:provisioning_template, :template => 'template source')
+    Host::Managed.any_instance.stubs(:provisioning_template).returns(template)
+
+    User.current = nil
+    get :templates, params: { :id => managed_host.to_param }, session: set_session_user(:view_hosts)
+
+    assert_response :forbidden
+    refute_includes @response.body, 'template source'
+  end
+
   test 'wrong template name should return not found' do
     managed_host = FactoryBot.create(:host, :managed)
     Host::Managed.any_instance.stubs(:provisioning_template).with({:kind => 'provitamin'}).returns(nil)
