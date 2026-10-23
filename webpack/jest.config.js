@@ -64,6 +64,7 @@ module.exports = {
     '^@theforeman/test$': foremanTest,
     '^react-redux-test-utils$': foremanTest,
     '^victory(.*)$': `${nodeModules}/victory$1`,
+    '^uuid$': path.resolve(__dirname, '__mocks__/uuid.js'),
   },
   globals: {
     __testing__: true,
