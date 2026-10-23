@@ -67,11 +67,6 @@ module ReactjsHelper
     end
   end
 
-  def css_tags_for(requested_plugins)
-    Foreman::Deprecation.deprecation_warning('3.12', '`css_tags_for` is deprecated, No need to load CSS separately, since it should be referenced from the corresponding JS file.')
-    []
-  end
-
   def locale_js_tags
     locale = FastGettext.locale
     ::Foreman::Plugin.all.filter_map do |plugin|
