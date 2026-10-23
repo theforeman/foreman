@@ -15,6 +15,11 @@ class UserdataController < ApplicationController
     render_userdata_template
   end
 
+  def vendordata
+    logger.info('/userdata/vendor-data is not supported, as all required configuration can be included directly in the user-data template.')
+    not_found
+  end
+
   def metadata
     data = {
       :'instance-id' => "i-#{Digest::SHA1.hexdigest(@host.id.to_s)[0..17]}",

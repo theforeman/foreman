@@ -105,6 +105,32 @@ class UserdataControllerTest < ActionController::TestCase
     end
   end
 
+  context '#vendor-data' do
+    let(:host) { FactoryBot.create(:host, :managed) }
+
+    setup do
+      @request.remote_ip = host.ip
+      @controller.logger.stubs(:info)
+    end
+
+    test 'should log and return 404 for vendor-data access without a MAC' do
+      @controller.logger.expects(:info).with(regexp_matches(/vendor-data is not supported/))
+      get :vendordata
+      assert_response :not_found
+    end
+
+    test 'should log and return 404 for vendor-data access with a MAC' do
+      @controller.logger.expects(:info).with(regexp_matches(/vendor-data is not supported/))
+      get :vendordata, params: { mac: host.mac }
+      assert_response :not_found
+    end
+
+    test 'vendor-data route should route to vendordata action' do
+      assert_routing '/userdata/vendor-data', controller: 'userdata', action: 'vendordata'
+      assert_routing "/userdata/#{host.mac}/vendor-data", controller: 'userdata', action: 'vendordata', mac: host.mac
+    end
+  end
+
   context '#metadata' do
     let(:host) { FactoryBot.create(:host, :managed) }
     setup do
