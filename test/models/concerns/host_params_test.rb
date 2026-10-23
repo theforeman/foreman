@@ -39,10 +39,10 @@ class HostParamsTest < ActiveSupport::TestCase
       host.host_parameters << hp
 
       refute host.host_params.key? hp.name
-      assert host.host_params.key? parameters(:common).name
+      refute host.host_params.key? parameters(:common).name
 
       refute host.host_params_hash.key? hp.name
-      assert host.host_params_hash.key? parameters(:common).name
+      refute host.host_params_hash.key? parameters(:common).name
     end
   end
 end
