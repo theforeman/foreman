@@ -3,7 +3,7 @@ name: Host - Applied Errata
 snippet: false
 template_inputs:
 - name: Filter Errata Type
-  required: false
+  required: true
   input_type: user
   description: Filter only errata of a given type. If you select all, errata are not
     filtered by type.
@@ -19,7 +19,7 @@ template_inputs:
   value_type: search
   resource_type: Host
 - name: Include Last Reboot
-  required: false
+  required: true
   input_type: user
   description: Last reboot information is based on configuration management facts,
     such as uptime reported by Puppet or Ansible. The computation might be performance
@@ -28,7 +28,7 @@ template_inputs:
   default: "no"
   advanced: false
 - name: Status
-  required: false
+  required: true
   input_type: user
   description: Limit the search based on the application result.
   options: "all\r\nsuccess\r\nwarning\r\nerror\r\ncancelled"
