@@ -116,6 +116,7 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :provisioning_templates do |map|
     map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview, :export, :welcome],
                                         :"api/v2/provisioning_templates" => [:index, :show, :revision, :export],
+                                        :"api/v2/hosts" => [:template, :templates],
                                         :"api/v2/template_combinations" => [:index, :show],
                                         :"api/v2/template_kinds" => [:index],
                                         :'api/v2/template_inputs' => [:index, :show],
@@ -234,7 +235,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome, :statuses],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:host_template, :hostgroup_template],
-                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :templates, :enc, :inherited_parameters],
+                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :enc, :inherited_parameters],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :"api/v2/host_statuses" => [:index],
                                      :locations =>  [:mismatches],
