@@ -26,6 +26,9 @@ module Foreman::Controller::Parameters::ComputeResource
 
         # openstack
         filter.permit :allow_external_network,
+          :application_credential_id,
+          :application_credential_secret,
+          :authentication_type,
           :key_pair,
           :tenant,
           :domain,
