@@ -164,8 +164,11 @@ module HostCommon
 
   def crypt_passwords
     root_pass = self[:root_pass]
+    encoded_base64_root_pass = %w[Base64 Base64-Windows].include?(operatingsystem&.password_hash) && password_base64_encrypted?
     self.root_pass = crypt_pass(root_pass, :root)
-    self.grub_pass = crypt_pass(self[:grub_pass] || root_pass, :grub)
+    grub_pass = self[:grub_pass]
+    grub_pass ||= root_pass unless encoded_base64_root_pass
+    self.grub_pass = crypt_pass(grub_pass, :grub)
   end
 
   def crypt_pass(unencrypted_pass, pass_kind)
