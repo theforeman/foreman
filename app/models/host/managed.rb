@@ -677,14 +677,17 @@ autopart"', desc: 'to render the content of host partition table'
   include_in_clone :host_parameters, :lookup_values
   exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
 
+  def cloneable?
+    compute_resource.nil?
+  end
+
   def clone
+    raise Foreman::Exception, _("Cloning virtual machine hosts is not supported") unless cloneable?
+
     # do not copy system specific attributes
     host = selective_clone
 
     host.interfaces = interfaces.map(&:clone)
-    if compute_resource
-      host.compute_attributes = host.compute_resource.vm_compute_attributes_for(uuid)
-    end
     host.refresh_global_status
     host
   end
