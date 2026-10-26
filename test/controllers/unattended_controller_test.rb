@@ -68,6 +68,12 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test 'should return not_found for an unknown public template' do
+      get :host_template, params: { kind: 'public', id: 'does_not_exist' }
+      assert_response :not_found
+      assert_match('unable to find public template with name does_not_exist', @response.body)
+    end
+
     test "should get a kickstart when IPv6 mapped IPv4 address is used" do
       @request.env["HTTP_X_FORWARDED_FOR"] = "::ffff:" + @rh_host.ip
       @request.env["REMOTE_ADDR"] = "127.0.0.1"

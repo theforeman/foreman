@@ -85,3 +85,4 @@ files:
   - script/windows_default_script.erb
   - snippet/windows_network.erb
   - registration/global_registration.erb
+  - registration/katello_rhsm_consumer.erb

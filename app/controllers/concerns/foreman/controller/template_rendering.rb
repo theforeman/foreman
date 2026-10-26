@@ -9,7 +9,7 @@ module Foreman
         return safe_render(template) if template
 
         error_message = N_("unable to find %{type} template for %{host} running %{os}")
-        render_error(error_message, type: type, host: @host.name, os: @host.operatingsystem, status: :not_found)
+        render_error(error_message, type: type, host: @host&.name, os: @host&.operatingsystem, status: :not_found)
       end
 
       def safe_render(template)
