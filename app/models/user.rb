@@ -482,6 +482,9 @@ class User < ApplicationRecord
     options[:controller].to_s == 'api/v2/personal_access_tokens' &&
       options[:action] =~ /show|destroy|index|create/ &&
       options[:user_id].to_i == id ||
+    options[:controller].to_s == 'api/v2/mail_notifications' &&
+      /user_mail_notifications|create|update|destroy/.match?(options[:action]) &&
+      (options[:user_id] || options[:id]).to_i == id ||
     options[:controller].to_s == 'api/v2/registration_tokens' &&
       options[:action] =~ /invalidate_jwt/ &&
       options[:id].to_i == id
