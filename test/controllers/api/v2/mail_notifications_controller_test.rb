@@ -64,14 +64,18 @@ class Api::V2::MailNotificationsControllerTest < ActionController::TestCase
     test 'does not disclose mail notifications for a user outside its edit_users filter' do
       caller = FactoryBot.create(:user)
       allowed_user = FactoryBot.create(:user)
-      @user.user_mail_notifications.first.update!(:mail_query => 'sensitive search')
+      subscription = @user.user_mail_notifications.first
+      subscription.update!(:interval => 'Weekly', :mail_query => 'sensitive search', :last_sent => 2.days.ago, :skip_if_empty => true)
       setup_user('view', 'mail_notifications', nil, caller)
       setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
 
       get :user_mail_notifications, params: { :id => @user.id }, session: set_session_user(caller)
 
       assert_response :not_found
-      refute_includes @response.body, 'sensitive search'
+      response = JSON.parse(@response.body)
+      response_keys = response.is_a?(Array) ? response.flat_map(&:keys) : response.keys
+      serialized_keys = subscription.attributes.keys + %w[name description]
+      assert_empty serialized_keys & response_keys
     end
 
     test 'does not create a mail notification for a user outside its edit_users filter' do
@@ -110,7 +114,28 @@ class Api::V2::MailNotificationsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    test 'does not update a mail notification for a user outside its edit_users filter' do
+    test 'does not update interval, query, or skip behavior for a user outside its edit_users filter' do
+      notification = FactoryBot.create(:mail_notification, :queryable, :skippable)
+      subscription = FactoryBot.create(
+        :user_mail_notification,
+        :user => @user,
+        :mail_notification => notification,
+        :interval => 'Daily',
+        :mail_query => 'original search',
+        :skip_if_empty => true
+      )
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      put :update, params: { :user_id => @user.id, :interval => 'weekly', :mail_query => 'altered search', :skip_if_empty => false, :id => notification.id }, session: set_session_user(caller)
+
+      assert_response :not_found
+      assert_equal({ 'interval' => 'Daily', 'mail_query' => 'original search', 'skip_if_empty' => true }, subscription.reload.attributes.slice('interval', 'mail_query', 'skip_if_empty'))
+    end
+
+    test 'does not update subscription mode for a user outside its edit_users filter' do
       subscription = FactoryBot.create(:user_mail_notification, :user => @user, :mail_notification => @mail_notification, :interval => 'Subscribe to my hosts')
       caller = FactoryBot.create(:user)
       allowed_user = FactoryBot.create(:user)
