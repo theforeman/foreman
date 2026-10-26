@@ -3,6 +3,7 @@ module Api
     class MailNotificationsController < V2::BaseController
       include Api::Version2
       include Foreman::Controller::Parameters::UserMailNotification
+      include Foreman::Controller::AuthorizedUser
 
       before_action :find_resource, :only => %w{show}
 
@@ -36,7 +37,8 @@ module Api
       param_group :user_mail_notification_params
 
       def create
-        @user = User.find(params[:user_id])
+        return not_found unless find_authorized_user(:edit_users, params[:user_id])
+
         validate_params params[:mail_notification_id]
         user_mail_notification = @user.user_mail_notifications.find { |mail_notification| mail_notification.mail_notification_id == params[:mail_notification_id] }
         if user_mail_notification.nil?
@@ -57,7 +59,8 @@ module Api
       param_group :user_mail_notification_params
 
       def update
-        @user = User.find(params[:user_id])
+        return not_found unless find_authorized_user(:edit_users, params[:user_id])
+
         validate_params params[:id]
         user_mail_notification = @user.user_mail_notifications.find { |mail_notification| mail_notification.mail_notification_id == params[:id].to_i }
         if user_mail_notification.nil?
@@ -76,20 +79,18 @@ module Api
       param :mail_notification_id, Integer, :required => true
 
       def destroy
-        @user = User.find(params[:user_id])
-        if @user == User.current || User.current.admin?
-          notification = @user.mail_notifications.find(params[:id])
-          @user.mail_notifications.delete(notification)
-        else
-          deny_access N_("You do not have permission to delete a mail notification of another user")
-        end
+        return not_found unless find_authorized_user(:edit_users, params[:user_id])
+
+        notification = @user.mail_notifications.find(params[:id])
+        @user.mail_notifications.delete(notification)
       end
 
       api :GET, "/users/:user_id/mail_notifications/", N_("List all email notifications for a user")
       param :user_id, String, :required => true
 
       def user_mail_notifications
-        @user = User.find(params[:id])
+        return not_found unless find_authorized_user(:edit_users, params[:id])
+
         @user_mail_notifications = @user.user_mail_notifications.map do |user_mail_notification|
           mail_notification = @user.mail_notifications.find { |mail_notification| mail_notification.id == user_mail_notification.mail_notification_id }
           user_mail_notification.attributes.merge('name' => mail_notification.name, 'description' => mail_notification.description)
@@ -102,7 +103,6 @@ module Api
       def validate_params(mail_notification_id)
         mail_notification = MailNotification.find(mail_notification_id)
         raise ::Foreman::Exception.new(N_("Interval or subscription option is missing")) if params[:interval].nil? && params[:subscription].nil?
-        deny_access N_("You do not have permission to add a mail notification to another user") unless @user == User.current || User.current.admin?
         raise ::Foreman::Exception.new(N_("Interval option is needed")) if mail_notification.subscription_type == 'report' && params[:interval].nil?
         raise ::Foreman::Exception.new(N_("Subscription option is needed")) if mail_notification.subscription_type == 'alert' && params[:subscription].nil?
         subscription_options = mail_notification.subscription_options
