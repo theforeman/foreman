@@ -897,6 +897,26 @@ class UserTest < ActiveSupport::TestCase
       @options[:id] = User.current.id
       refute User.current.editing_self?(@options)
     end
+
+    test "mail notification actions for self" do
+      editing_self_helper
+      @options[:controller] = "api/v2/mail_notifications"
+      @options[:user_id] = User.current.id
+
+      %w[user_mail_notifications create update destroy].each do |action|
+        @options[:action] = action
+        assert User.current.editing_self?(@options), "Expected #{action} to allow self-service"
+      end
+    end
+
+    test "mail notification actions for another user" do
+      editing_self_helper
+      @options[:controller] = "api/v2/mail_notifications"
+      @options[:action] = "user_mail_notifications"
+      @options[:id] = users(:two).id
+
+      refute User.current.editing_self?(@options)
+    end
   end
 
   test "#can? for admin" do
