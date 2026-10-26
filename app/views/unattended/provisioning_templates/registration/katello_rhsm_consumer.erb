@@ -1,0 +1,49 @@
+<%#
+kind: public
+name: katello-rhsm-consumer
+model: ProvisioningTemplate
+require:
+- plugin: katello
+test_on:
+- registration_template_default
+description: |
+  Script for RHEL Anaconda installer to prepare system for foreman registration.
+  Replaces static script from puppet-foreman_proxy_content.
+-%>
+<% request_url = parse_url("https://#{foreman_request_addr}/rhsm") -%>
+<% katello_server = request_url.hostname -%>
+<% katello_port = request_url.port -%>
+<% katello_url_port = katello_port == 443 ? '' : ":#{katello_port}" -%>
+<% pulp_content_url = "https://#{katello_server}#{katello_url_port}/pulp/content/" -%>
+<% if katello_server && !katello_server.empty? -%>
+#!/bin/bash
+
+set -e
+export LC_ALL=C LANG=C
+
+KATELLO_SERVER="<%= katello_server %>"
+
+is_debian() {
+  [ -r /etc/os-release ] || return 1
+
+  . /etc/os-release || return 1
+
+  case " ${ID:-} ${ID_LIKE:-} " in
+    *" debian "*|*" ubuntu "*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+<%= snippet('subscription_manager_setup', variables: { subman_setup_scenario: 'registration', rhsm_url: request_url, pulp_content_url: pulp_content_url }) -%>
+
+# Debian-based systems fetch content from the deb endpoint
+if is_debian; then
+  subscription-manager config --rhsm.baseurl="https://$KATELLO_SERVER/pulp/deb"
+fi
+
+exit 0
+<% else -%>
+#!/bin/bash
+echo "Error: Unable to determine Katello server hostname"
+exit 1
+<% end -%>

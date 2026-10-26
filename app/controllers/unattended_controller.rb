@@ -103,7 +103,11 @@ class UnattendedController < ApplicationController
 
     template = ProvisioningTemplate.joins(:template_kind).find_by(name: name, template_kinds: { name: kind })
 
-    render_template(template: template, type: kind)
+    return render_template(template: template, type: kind) if template
+
+    message = N_('unable to find public template with name %{name}')
+    render_error(message, name: name, status: :not_found)
+    true
   end
 
   def render_intermediate_template
