@@ -24,4 +24,196 @@ class Api::V2::MailNotificationsControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => @mail_notification.id, :user_id => @user.id }
     assert_response :success
   end
+
+  context 'with non-admin user' do
+    test 'lists its own mail notifications' do
+      caller = FactoryBot.create(:user)
+      FactoryBot.create(:user_mail_notification, :user => caller, :mail_notification => @mail_notification)
+      setup_user('view', 'mail_notifications', nil, caller)
+
+      get :user_mail_notifications, params: { :id => caller.id }, session: set_session_user(caller)
+
+      assert_response :success
+      assert_includes @response.body, @mail_notification.name
+    end
+
+    test 'lists mail notifications for a user in its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      setup_user('view', 'mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      get :user_mail_notifications, params: { :id => @user.id }, session: set_session_user(caller)
+
+      assert_response :success
+      assert_includes @response.body, 'config_summary'
+    end
+
+    test 'does not disclose mail notifications for a user outside its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      @user.user_mail_notifications.first.update!(:mail_query => 'sensitive search')
+      setup_user('view', 'mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      get :user_mail_notifications, params: { :id => @user.id }, session: set_session_user(caller)
+
+      assert_response :not_found
+      refute_includes @response.body, 'sensitive search'
+    end
+
+    test 'does not create a mail notification for a user outside its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      assert_no_difference('UserMailNotification.count') do
+        post :create, params: { :user_id => @user.id, :subscription => 'subscribe to my hosts', :mail_notification_id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+    end
+
+    test 'creates a mail notification for a user in its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      assert_difference('UserMailNotification.count') do
+        post :create, params: { :user_id => @user.id, :subscription => 'subscribe to my hosts', :mail_notification_id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :success
+    end
+
+    test 'creates its own mail notification' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+
+      assert_difference('UserMailNotification.count') do
+        post :create, params: { :user_id => caller.id, :subscription => 'subscribe to my hosts', :mail_notification_id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :success
+    end
+
+    test 'does not update a mail notification for a user outside its edit_users filter' do
+      subscription = FactoryBot.create(:user_mail_notification, :user => @user, :mail_notification => @mail_notification, :interval => 'Subscribe to my hosts')
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      put :update, params: { :user_id => @user.id, :subscription => 'subscribe to all hosts', :id => @mail_notification.id }, session: set_session_user(caller)
+
+      assert_response :not_found
+      assert_equal 'Subscribe to my hosts', subscription.reload.interval
+    end
+
+    test 'updates its own mail notification' do
+      caller = FactoryBot.create(:user)
+      subscription = FactoryBot.create(:user_mail_notification, :user => caller, :mail_notification => @mail_notification, :interval => 'Subscribe to my hosts')
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+
+      put :update, params: { :user_id => caller.id, :subscription => 'subscribe to all hosts', :id => @mail_notification.id }, session: set_session_user(caller)
+
+      assert_response :success
+      assert_equal 'Subscribe to all hosts', subscription.reload.interval
+    end
+
+    test 'updates a mail notification for a user in its edit_users filter' do
+      subscription = FactoryBot.create(:user_mail_notification, :user => @user, :mail_notification => @mail_notification, :interval => 'Subscribe to my hosts')
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      put :update, params: { :user_id => @user.id, :subscription => 'subscribe to all hosts', :id => @mail_notification.id }, session: set_session_user(caller)
+
+      assert_response :success
+      assert_equal 'Subscribe to all hosts', subscription.reload.interval
+    end
+
+    test 'does not delete a mail notification for a user outside its edit_users filter' do
+      subscription = FactoryBot.create(:user_mail_notification, :user => @user, :mail_notification => @mail_notification)
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      assert_no_difference('UserMailNotification.count') do
+        delete :destroy, params: { :user_id => @user.id, :id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+      assert subscription.reload.persisted?
+    end
+
+    test 'deletes its own mail notification' do
+      caller = FactoryBot.create(:user)
+      FactoryBot.create(:user_mail_notification, :user => caller, :mail_notification => @mail_notification)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+
+      assert_difference('UserMailNotification.count', -1) do
+        delete :destroy, params: { :user_id => caller.id, :id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :success
+    end
+
+    test 'deletes a mail notification for a user in its edit_users filter' do
+      FactoryBot.create(:user_mail_notification, :user => @user, :mail_notification => @mail_notification)
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      assert_difference('UserMailNotification.count', -1) do
+        delete :destroy, params: { :user_id => @user.id, :id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :success
+    end
+
+    test 'requires view_mail_notifications when listing another user notifications' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'users', nil, caller)
+
+      get :user_mail_notifications, params: { :id => @user.id }, session: set_session_user(caller)
+
+      assert_response :forbidden
+      refute_includes @response.body, 'config_summary'
+    end
+
+    test 'requires edit_user_mail_notifications when changing another user notifications' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_no_difference('UserMailNotification.count') do
+        post :create, params: { :user_id => @user.id, :subscription => 'subscribe to my hosts', :mail_notification_id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :forbidden
+    end
+
+    test 'does not list notifications for a missing user' do
+      caller = FactoryBot.create(:user)
+      setup_user('view', 'mail_notifications', nil, caller)
+      setup_user('edit', 'users', nil, caller)
+
+      get :user_mail_notifications, params: { :id => User.maximum(:id) + 1 }, session: set_session_user(caller)
+
+      assert_response :not_found
+    end
+
+    test 'does not create notifications for a hidden user' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'user_mail_notifications', nil, caller)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_no_difference('UserMailNotification.count') do
+        post :create, params: { :user_id => users(:apiadmin).id, :subscription => 'subscribe to my hosts', :mail_notification_id => @mail_notification.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+    end
+  end
 end
