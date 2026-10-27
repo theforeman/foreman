@@ -971,38 +971,43 @@ class UserTest < ActiveSupport::TestCase
     # Setup user with no default taxonomies
     user = FactoryBot.create(:user, organizations: [], locations: [])
 
+    # Create z-assigned before a-ignoring so title ordering reverses the two
+    # subtrees relative to ID ordering. Keep assertions order-sensitive.
     # Organizations: assigned + children
-    org_assigned = FactoryBot.create(:organization)
-    org_assigned_child = FactoryBot.create(:organization, parent: org_assigned)
+    org_assigned = FactoryBot.create(:organization, name: 'z-assigned')
+    org_assigned_child = FactoryBot.create(:organization, parent: org_assigned, name: 'child')
+    org_assigned_grandchild = FactoryBot.create(:organization, parent: org_assigned_child, name: 'grandchild')
     user.organizations << org_assigned
 
     # Organizations: ignoring User + children
-    org_ignoring = FactoryBot.create(:organization, ignore_types: ['User'])
-    org_ignoring_child = FactoryBot.create(:organization, parent: org_ignoring)
+    org_ignoring = FactoryBot.create(:organization, name: 'a-ignoring', ignore_types: ['User'])
+    org_ignoring_child = FactoryBot.create(:organization, parent: org_ignoring, name: 'child')
+    org_ignoring_grandchild = FactoryBot.create(:organization, parent: org_ignoring_child, name: 'grandchild')
 
     # Locations: mirror the same pattern
-    loc_assigned = FactoryBot.create(:location)
-    loc_assigned_child = FactoryBot.create(:location, parent: loc_assigned)
+    loc_assigned = FactoryBot.create(:location, name: 'z-assigned')
+    loc_assigned_child = FactoryBot.create(:location, name: 'child', parent: loc_assigned)
     user.locations << loc_assigned
 
-    loc_ignoring = FactoryBot.create(:location, ignore_types: ['User'])
-    loc_ignoring_child = FactoryBot.create(:location, parent: loc_ignoring)
+    loc_ignoring = FactoryBot.create(:location, name: 'a-ignoring', ignore_types: ['User'])
+    loc_ignoring_child = FactoryBot.create(:location, name: 'child', parent: loc_ignoring)
 
     # Test organizations
-    expected_org_ids = [org_assigned.id, org_assigned_child.id, org_ignoring.id, org_ignoring_child.id].sort
-    assert_equal expected_org_ids, user.organization_and_child_ids.sort
+    expected_org_ids = [org_assigned.id, org_assigned_child.id, org_assigned_grandchild.id,
+                        org_ignoring.id, org_ignoring_child.id, org_ignoring_grandchild.id]
+    assert_equal expected_org_ids, user.organization_and_child_ids
 
     # Verify it matches batch_subtree_ids (which returns sorted results)
     batch_result = Taxonomy.batch_subtree_ids([org_assigned, org_ignoring])
-    assert_equal batch_result, user.organization_and_child_ids.sort
+    assert_equal batch_result, user.organization_and_child_ids
 
     # Test locations
-    expected_loc_ids = [loc_assigned.id, loc_assigned_child.id, loc_ignoring.id, loc_ignoring_child.id].sort
-    assert_equal expected_loc_ids, user.location_and_child_ids.sort
+    expected_loc_ids = [loc_assigned.id, loc_assigned_child.id, loc_ignoring.id, loc_ignoring_child.id]
+    assert_equal expected_loc_ids, user.location_and_child_ids
 
     # Verify it matches batch_subtree_ids (which returns sorted results)
     batch_result = Taxonomy.batch_subtree_ids([loc_assigned, loc_ignoring])
-    assert_equal batch_result, user.location_and_child_ids.sort
+    assert_equal batch_result, user.location_and_child_ids
   end
 
   test "chaging hostgroup should update cache" do
