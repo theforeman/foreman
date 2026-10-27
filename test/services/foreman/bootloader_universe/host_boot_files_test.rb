@@ -19,12 +19,19 @@ class Foreman::BootloaderUniverse::HostBootFilesTest < ActiveSupport::TestCase
       operatingsystem: @os, arch: @architecture, provision_interface: @interface,
       medium_provider: @provider)
     @host.stubs(:host_param).with('disable_universe').returns(nil)
+    ProxyAPI::TFTP.any_instance.stubs(:universe_boot_files_ready?).returns(true)
   end
 
   test 'uses the Red Hat boot ISO as the source for universe kernel and initramdisk' do
+    directory = 'bootloader-universe/pxegrub2/centos/10/x86_64'
+    api = mock('TFTP API')
+    ProxyAPI::TFTP.expects(:new).with(url: @proxy.url).returns(api)
+    api.expects(:universe_boot_files_ready?).with({
+      targetos: 'centos', release: '10', arch: 'x86_64',
+      universe_kernel: "#{directory}/vmlinuz", universe_initrd: "#{directory}/initrd.img"
+    }).returns(true)
     plan = Foreman::BootloaderUniverse::HostBootFiles.new(@host).call
 
-    directory = 'bootloader-universe/pxegrub2/centos/10/x86_64'
     assert_equal "#{directory}/vmlinuz", plan[:kernel]
     assert_equal "#{directory}/initrd.img", plan[:initrd]
     assert_equal "#{directory}/boot.iso", plan[:archive]
@@ -56,6 +63,32 @@ class Foreman::BootloaderUniverse::HostBootFilesTest < ActiveSupport::TestCase
 
   test 'keeps legacy downloads when a proxy lacks host boot file validation' do
     @proxy.stubs(:has_capability?).with(:TFTP, :bootloader_universe_boot_files).returns(false)
+    ProxyAPI::TFTP.expects(:new).never
+
+    assert_nil Foreman::BootloaderUniverse::HostBootFiles.new(@host).call
+  end
+
+  test 'keeps legacy downloads when universe files are not ready' do
+    ProxyAPI::TFTP.any_instance.stubs(:universe_boot_files_ready?).returns(false)
+
+    assert_nil Foreman::BootloaderUniverse::HostBootFiles.new(@host).call
+  end
+
+  test 'keeps legacy downloads when any TFTP proxy lacks universe files' do
+    other_proxy = mock('other TFTP proxy')
+    other_proxy.stubs(:url).returns('https://other-proxy.example.test')
+    other_proxy.stubs(:has_feature?).with('TFTP').returns(true)
+    other_proxy.stubs(:has_capability?).returns(true)
+    subnet6 = mock('IPv6 subnet')
+    subnet6.stubs(:tftp).returns(other_proxy)
+    @interface.stubs(tftp6?: true, subnet6: subnet6)
+
+    first_api = mock('first TFTP API')
+    first_api.stubs(:universe_boot_files_ready?).returns(true)
+    second_api = mock('second TFTP API')
+    second_api.stubs(:universe_boot_files_ready?).returns(false)
+    ProxyAPI::TFTP.expects(:new).with(url: @proxy.url).returns(first_api)
+    ProxyAPI::TFTP.expects(:new).with(url: other_proxy.url).returns(second_api)
 
     assert_nil Foreman::BootloaderUniverse::HostBootFiles.new(@host).call
   end

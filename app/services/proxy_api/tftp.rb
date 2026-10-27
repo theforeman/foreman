@@ -53,6 +53,15 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
     end
 
+    def universe_boot_files_ready?(args)
+      response = parse(get("universe_boot_files", query: args))
+      response.is_a?(Hash) && response["ready"] == true
+    rescue RestClient::ResourceNotFound
+      false
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to check TFTP bootloader universe files"))
+    end
+
     # returns the TFTP boot server for this proxy
     def bootServer
       if (response = parse(get("serverName"))) && response["serverName"].present?

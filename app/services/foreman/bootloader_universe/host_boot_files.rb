@@ -57,6 +57,17 @@ module Foreman
         # a TFTP proxy does not necessarily provide an HTTP server for its copy.
         iso = requests.find { |request| request[:destination] == "#{os.bootloader_universe_directory(architecture)}/boot.iso" }
         plan[:installation_iso] = iso[:source] if iso
+        ready_params = {
+          targetos: os.name.downcase, release: os.release, arch: architecture.name,
+          universe_kernel: plan[:kernel], universe_initrd: plan[:initrd]
+        }
+        return unless proxies.all? do |proxy|
+          ::ProxyAPI::TFTP.new(url: proxy.url).universe_boot_files_ready?(ready_params)
+        rescue ::ProxyAPI::ProxyException => e
+          Rails.logger.warn("Unable to check bootloader universe files on #{proxy.url}: #{e.message}")
+          false
+        end
+
         plan
       rescue URI::InvalidURIError
         nil

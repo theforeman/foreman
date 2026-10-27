@@ -35,6 +35,7 @@ module Orchestration::TFTP
   end
 
   def rebuild_tftp
+    @bootloader_universe_plan_checked = false
     unless tftp? || tftp6?
       logger.info "TFTP not supported for #{name} (#{ip}/#{ip6}), skipping orchestration rebuild"
       return true
@@ -170,6 +171,7 @@ module Orchestration::TFTP
   end
 
   def queue_tftp
+    @bootloader_universe_plan_checked = false
     return log_orchestration_errors unless (tftp? || tftp6?) && no_errors
     # Jumpstart builds require only minimal tftp services. They do require a tftp object to query for the boot_server.
     return true if host.jumpstart?
@@ -230,7 +232,11 @@ module Orchestration::TFTP
   end
 
   def bootloader_universe_plan
-    Foreman::BootloaderUniverse::HostBootFiles.new(host).call
+    return @bootloader_universe_plan if @bootloader_universe_plan_checked
+
+    @bootloader_universe_plan = Foreman::BootloaderUniverse::HostBootFiles.new(host).call
+    @bootloader_universe_plan_checked = true
+    @bootloader_universe_plan
   end
 
   def bootloader_universe_template?(kind)

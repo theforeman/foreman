@@ -76,6 +76,23 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       assert @host.provision_interface.send(:setTFTPBootFiles)
     end
 
+    test 'missing universe files keep the legacy fetch and deployment request' do
+      @host.operatingsystem.stubs(:pxe_loader_kind).with(@host).returns(:PXEGrub2)
+      checker = mock('bootloader universe readiness')
+      Foreman::BootloaderUniverse::HostBootFiles.expects(:new).with(@host).returns(checker)
+      checker.expects(:call).once.returns(nil)
+
+      @host.provision_interface.send(:queue_tftp)
+      tasks = @host.queue.all.map(&:name)
+      assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
+
+      @host.provision_interface.stubs(:generate_pxe_template).returns('Template')
+      ProxyAPI::TFTP.any_instance.expects(:set).with do |kind, _mac, args|
+        kind == 'PXEGrub2' && args[:pxeconfig] == 'Template' && !args.key?(:universe_archive)
+      end.once.returns(true)
+      assert @host.provision_interface.send(:setTFTP, 'PXEGrub2')
+    end
+
     test 'universe mode renders PXEGrub2 boot file basenames' do
       plan = {
         kernel: 'bootloader-universe/linux',
