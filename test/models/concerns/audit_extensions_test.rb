@@ -5,6 +5,11 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     @user = users :admin
   end
 
+  test '.visible returns no audits without a current user' do
+    User.current = nil
+    assert_empty Audit.visible
+  end
+
   test "should be connected to current user" do
     audit = as_admin do
       FactoryBot.create(:audit)

@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'controllers/shared/template_revision_test'
 
 class ReportTemplatesControllerTest < ActionController::TestCase
+  include TemplateRevisionTest
+  template_revision_tests :report_template
+
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 

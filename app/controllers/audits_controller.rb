@@ -14,7 +14,7 @@ class AuditsController < ApplicationController
   private
 
   def resource_base(*args)
-    super(*args).taxed_and_untaxed
+    super(*args).merge(Audit.taxed_and_untaxed)
   end
 
   def controller_permission

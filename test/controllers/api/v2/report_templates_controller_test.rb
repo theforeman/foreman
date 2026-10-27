@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'controllers/shared/template_revision_test'
 
 class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
+  include TemplateRevisionTest
+  template_revision_tests :report_template, api: true
+
   valid_attrs = { :name => 'report_template_test', :template => 'a,b,c' }
 
   def setup

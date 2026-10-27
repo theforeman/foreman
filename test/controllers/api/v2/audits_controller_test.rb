@@ -1,6 +1,23 @@
 require 'test_helper'
 
 class Api::V2::AuditsControllerTest < ActionController::TestCase
+  test 'preserves audit search restrictions when applying taxonomy visibility' do
+    os = FactoryBot.create(:operatingsystem, :with_auditing)
+    allowed = os.audits.reorder(:id).last
+    os.update!(:name => 'ChangedOS')
+    role = FactoryBot.create(:role)
+    FactoryBot.create(:filter, :role => role,
+      :permissions => [Permission.find_by!(:name => 'view_audit_logs')], :search => "id = #{allowed.id}")
+    user = users(:one)
+    user.roles = [role]
+    User.current = user
+
+    get :index, session: set_session_user(user)
+
+    assert_response :success
+    assert_equal [allowed.id], assigns(:audits).map(&:id)
+  end
+
   test "should get index" do
     get :index
     assert_response :success

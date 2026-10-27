@@ -111,13 +111,107 @@ class BaseMacrosTest < ActiveSupport::TestCase
   end
 
   describe '#previous_revision' do
-    test "should return previous revision of a host" do
+    setup do
+      @revision_os = FactoryBot.create(:operatingsystem, :with_auditing, :name => 'OldOS')
+      @revision_os.update!(:name => 'MiddleOS')
+      @previous_audit = @revision_os.audits.reorder(:id).last
+      @revision_os.update!(:name => 'CurrentOS')
+    end
+
+    test 'returns the previous revision of a host' do
       host = FactoryBot.build(:host)
       host.name = 'oldname'
       host.save!
-      host.update(name: 'newname')
-      host.save!
+      host.update!(name: 'newname')
       assert_equal 'oldname', @scope.previous_revision(host).name
+    end
+
+    test 'returns previous revisions in order' do
+      previous = @scope.previous_revision(@revision_os)
+      assert_equal 'MiddleOS', previous.name
+      first = @scope.previous_revision(previous)
+      assert_equal 'OldOS', first.name
+      assert_same first, @scope.previous_revision(first)
+    end
+
+    test 'rendering a previous revision does not restore persisted associations' do
+      original_organization = FactoryBot.create(:organization)
+      original_location = FactoryBot.create(:location)
+      current_organization = FactoryBot.create(:organization)
+      current_location = FactoryBot.create(:location)
+      domain = FactoryBot.create(:domain, :with_auditing, :name => 'previous.example.test',
+        :organizations => [original_organization], :locations => [original_location])
+      domain.update!(:name => 'current.example.test',
+        :organizations => [current_organization], :locations => [current_location])
+      report = FactoryBot.build(:report_template, :template => '<%= previous_revision(@object).name %>')
+
+      rendered = report.render(renderer: Foreman::Renderer::SafeModeRenderer, variables: { :object => domain })
+
+      assert_equal 'previous.example.test', rendered
+      domain.reload
+      assert_equal 'current.example.test', domain.name
+      assert_equal [current_organization.id], domain.organization_ids
+      assert_equal [current_location.id], domain.location_ids
+    end
+
+    test 'returns the same object when there is no previous revision' do
+      os = FactoryBot.create(:operatingsystem, :with_auditing)
+      assert_same os, @scope.previous_revision(os)
+    end
+
+    test 'returns the same object when there are no audits' do
+      os = FactoryBot.create(:operatingsystem)
+      assert_empty os.audits
+      assert_same os, @scope.previous_revision(os)
+    end
+
+    test 'requires audit permission' do
+      users(:one).roles = []
+      setup_user('view', 'operatingsystems')
+      error = assert_raises(Foreman::Renderer::Errors::PreviousRevisionNotAccessible) { @scope.previous_revision(@revision_os) }
+      assert_kind_of Foreman::Exception, error
+      assert_includes error.message, 'The previous revision is not accessible'
+      refute_includes error.message, @previous_audit.id.to_s
+    end
+
+    test 'respects audit permission search filters on every revision' do
+      users(:one).roles = []
+      setup_user('view', 'audit_logs', "id = #{@previous_audit.id}")
+      previous = @scope.previous_revision(@revision_os)
+      assert_equal 'MiddleOS', previous.name
+      assert_raises(Foreman::Renderer::Errors::PreviousRevisionNotAccessible) { @scope.previous_revision(previous) }
+    end
+
+    test 'safe mode reports cannot read history without audit permission' do
+      report = FactoryBot.build(:report_template,
+        :template => "<% load_operating_systems(search: 'id = #{@revision_os.id}').each_record do |os| %><%= previous_revision(os).name %><% end %>")
+      users(:one).roles = []
+      setup_user('view', 'operatingsystems')
+      assert_raises(Foreman::Renderer::Errors::PreviousRevisionNotAccessible) { report.render(renderer: Foreman::Renderer::SafeModeRenderer) }
+      setup_user('view', 'audit_logs')
+      assert_equal 'MiddleOS', report.render(renderer: Foreman::Renderer::SafeModeRenderer)
+    end
+
+    test 'rejects history from the previous tenant after a resource moves' do
+      organization = FactoryBot.create(:organization)
+      location = FactoryBot.create(:location)
+      domain = FactoryBot.create(:domain, :with_auditing,
+        :organizations => [FactoryBot.create(:organization)], :locations => [location])
+      domain.update!(:name => 'old.example.test')
+      domain.update!(:name => 'current.example.test', :organizations => [organization])
+      user = users(:one)
+      user.roles = []
+      user.organizations = [organization]
+      user.locations = [location]
+      user.save!
+      setup_user('view', 'domains')
+      setup_user('view', 'audit_logs')
+      assert Domain.authorized(:view_domains).exists?(domain.id)
+      assert_raises(Foreman::Renderer::Errors::PreviousRevisionNotAccessible) { @scope.previous_revision(domain) }
+    end
+
+    test 'rejects non-auditable records' do
+      assert_raises(Foreman::Exception) { @scope.previous_revision(Object.new) }
     end
   end
 
