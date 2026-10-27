@@ -65,8 +65,10 @@ module Api
       param :version, String, :desc => N_("template version")
 
       def revision
-        audit = Audit.authorized(:view_audit_logs).find(params[:version])
+        audit = Audit.visible.find(params[:version])
         render :json => audit.revision.template
+      rescue ActiveRecord::RecordNotFound
+        not_found
       end
 
       api :PUT, "/report_templates/:id/", N_("Update a report template")

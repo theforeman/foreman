@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'controllers/shared/template_revision_test'
 
 class Api::V2::PtablesControllerTest < ActionController::TestCase
+  include TemplateRevisionTest
+  template_revision_tests :ptable, api: true
+
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   def setup

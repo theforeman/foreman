@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'controllers/shared/template_revision_test'
 
 class PtablesControllerTest < ActionController::TestCase
+  include TemplateRevisionTest
+  template_revision_tests :ptable
+
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 

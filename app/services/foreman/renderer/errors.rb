@@ -51,6 +51,10 @@ module Foreman
         MESSAGE = N_('Hostgroup not found or not accessible').freeze
       end
 
+      class PreviousRevisionNotAccessible < RenderingError
+        MESSAGE = N_('The previous revision is not accessible with the current permissions and taxonomy context.').freeze
+      end
+
       class UndefinedSetting < RenderingError
         MESSAGE = N_("Undefined setting '%{setting}'").freeze
       end

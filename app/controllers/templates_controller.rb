@@ -71,7 +71,7 @@ class TemplatesController < ApplicationController
   end
 
   def revision
-    audit = Audit.find(params[:version])
+    audit = Audit.visible.find(params[:version])
     render :json => audit.revision.template
   end
 
@@ -160,7 +160,7 @@ class TemplatesController < ApplicationController
 
   def load_history
     return unless @template
-    @history = Audit.descending
+    @history = Audit.visible.descending
                     .where(:auditable_id => @template.id,
                       :auditable_type => @template.class.base_class.name,
                       :action => %w(update create))

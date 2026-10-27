@@ -39,6 +39,14 @@ module AuditExtensions
     end
 
     class << self
+      def visible
+        return none unless User.current
+
+        # taxed_and_untaxed starts from an unscoped relation. Apply permission
+        # filters afterwards so they are not discarded by taxonomy scoping.
+        taxed_and_untaxed.authorized(:view_audit_logs)
+      end
+
       def allows_organization_filtering?
         false
       end

@@ -15,7 +15,9 @@
     <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
     <%= render_pagelets_for(:tab_headers, :subject => @template) %>
 
-    <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
+    <% if User.current.can?(:view_audit_logs) %>
+      <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
+    <% end %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
     <% end %>
@@ -106,9 +108,11 @@
       </div>
     </div>
 
-    <div class="tab-pane" id="history">
-      <%= render :partial => 'history', :locals => { history: @history } %>
-    </div>
+    <% if User.current.can?(:view_audit_logs) %>
+      <div class="tab-pane" id="history">
+        <%= render :partial => 'history', :locals => { history: @history } %>
+      </div>
+    <% end %>
 
     <div class="tab-pane" id="help">
       <div>

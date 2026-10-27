@@ -19,7 +19,7 @@ module Api
       end
 
       def resource_base(*args)
-        super(*args).taxed_and_untaxed
+        super(*args).merge(Audit.taxed_and_untaxed)
       end
 
       def allowed_nested_id

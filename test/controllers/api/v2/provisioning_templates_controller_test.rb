@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'controllers/shared/template_revision_test'
 
 class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
+  include TemplateRevisionTest
+  template_revision_tests :provisioning_template, api: true
+
   test "should get index" do
     get :index
     templates = ActiveSupport::JSON.decode(@response.body)

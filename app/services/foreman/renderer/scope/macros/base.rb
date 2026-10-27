@@ -431,14 +431,28 @@ module Foreman
           end
 
           apipie :method, 'Returns previous revision of a record as tracked in the audit' do
-            desc 'Returns the same object if there is no previous revision'
+            desc 'Returns the same object if there is no previous revision. Reading a previous revision requires view_audit_logs permission and access to that audit.'
             required :record, ApplicationRecord, desc: 'Record to get previous revision for'
             returns ApplicationRecord
             raises error: Foreman::Exception, desc: 'when the provided record is not auditable'
+            raises error: Foreman::Renderer::Errors::PreviousRevisionNotAccessible, desc: 'when access to the previous audit is denied'
             example 'previous_revision(host_with_new_name).name # => "previous-name"'
           end
           def previous_revision(record)
-            record.revision(:previous)
+            audits = record.audits.descending
+            audits = if record.audit_version
+                       audits.where('version < ?', record.audit_version)
+                     else
+                       audits.offset(1)
+                     end
+            audit = audits.first
+            return record unless audit
+
+            raise PreviousRevisionNotAccessible.new unless Audit.visible.exists?(audit.id)
+
+            # Preserve Foreman's revision_with safeguard against restoring
+            # historical associations on the persisted record.
+            record.revision(audit.version)
           rescue NoMethodError => e
             Foreman::Logging.logger('templates').error(e)
             raise Foreman::Exception.new(_('%s is not auditable') % record.class)
