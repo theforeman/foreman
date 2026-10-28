@@ -88,6 +88,32 @@ class ForemanURLRendererTest < ActiveSupport::TestCase
     end
   end
 
+  context 'with token duration disabled' do
+    setup do
+      Setting[:token_duration] = 0
+      host.stubs(:token).returns(nil)
+      renderer.host = host
+    end
+
+    test 'should include the provision interface MAC in built URLs' do
+      encoded_mac = CGI.escape(host.provision_interface.mac)
+      assert_equal "#{Setting[:unattended_url]}/unattended/built?mac=#{encoded_mac}",
+        renderer.foreman_url('built')
+    end
+
+    test 'should include the provision interface MAC in failed URLs' do
+      encoded_mac = CGI.escape(host.provision_interface.mac)
+      assert_equal "#{Setting[:unattended_url]}/unattended/failed?mac=#{encoded_mac}",
+        renderer.foreman_url('failed')
+    end
+
+    test 'should not include the provision interface MAC in template URLs' do
+      %w[provision finish script].each do |action|
+        assert_equal "#{Setting[:unattended_url]}/unattended/#{action}", renderer.foreman_url(action)
+      end
+    end
+  end
+
   context '#force_url_https' do
     test "should convert HTTP to HTTPS" do
       url = "http://satellite.example.com/unattended/built?token=abc123"
