@@ -101,6 +101,7 @@ module Foreman
 
         Tempfile.create("foreman-ssh-#{@uuid}") do |f|
           f.write(@options[:key_data])
+          f.flush
           yield f
         end
       end
