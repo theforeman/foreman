@@ -87,6 +87,12 @@ class HostsController < ApplicationController
 
   # Clone the host
   def clone
+    unless @host.cloneable?
+      error(_("Cloning virtual machine hosts is not supported"))
+      redirect_to helpers.current_host_details_path(@host)
+      return
+    end
+
     @clone_host = @host
     @host = @clone_host.clone
     @host.build = true if @host.managed?
