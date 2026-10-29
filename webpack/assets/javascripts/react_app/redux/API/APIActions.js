@@ -12,7 +12,8 @@ const { GET, POST, PUT, DELETE, PATCH } = API_OPERATIONS;
  * @param { Object } payload.params the API get request params.
  * @param { Function } payload.handleError an error handling callback.
  * @param { Function } payload.handleSuccess a success handling callback.
- * @param { Function } payload.errorToast an error toast will be triggered with this message after API error.
+ * @param {boolean|Function} payload.errorToast If `true`, show `getAPIErrorMessage` (APIHelpers).
+ *   If a function, called as `(error, parsedMessage) => string` (return falsy to skip toast).
  * @param { Function } payload.successToast a succes toast will be triggered with this message after API success.
  * @param { Object } payload.payload the API payload which will be passed also to the reducer.
  * @param { Object } payload.actionTypes action types which will replace the default action types.
