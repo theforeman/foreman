@@ -27,6 +27,8 @@ class LookupKey < ApplicationRecord
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates_associated :lookup_values
 
+  set_callback :validation, :around, :with_lookup_value_match_index, prepend: true
+
   before_validation :sanitize_path
   before_validation :cast_default_value, :if => :override?
   validate :validate_default_value, :disable_avoid_duplicates, :disable_merge_overrides, :disable_merge_default, :if => :override?
@@ -142,7 +144,55 @@ class LookupKey < ApplicationRecord
     lookup_values.sort_by { |val| [prio.index(val.path), val.match] }
   end
 
+  def lookup_value_match_taken?(value)
+    context = @lookup_value_validation_context
+    index = context ? (context[:index] ||= build_lookup_value_match_index) : build_lookup_value_match_index
+    match = value.match
+    update_lookup_value_match_index(index, value, match)
+    owners = index[:owners][match]
+    return false unless owners
+
+    self_count = owners.key?(lookup_value_identity(value)) ? 1 : 0
+    owners.size > self_count
+  end
+
   private
+
+  def with_lookup_value_match_index
+    previous = @lookup_value_validation_context
+    @lookup_value_validation_context = {}
+    yield
+  ensure
+    @lookup_value_validation_context = previous
+  end
+
+  def build_lookup_value_match_index
+    lookup_values.each_with_object({ owners: {}, matches: {}.compare_by_identity }) do |value, index|
+      next if index[:matches].key?(value)
+      match = value.match
+      index[:matches][value] = match
+      owners = (index[:owners][match] ||= {})
+      identity = lookup_value_identity(value)
+      owners[identity] = owners.fetch(identity, 0) + 1
+    end
+  end
+
+  def update_lookup_value_match_index(index, value, match)
+    matches = index[:matches]
+    return unless matches.key?(value) && matches[value] != match
+
+    identity = lookup_value_identity(value)
+    previous_owners = index[:owners][matches[value]]
+    previous_owners[identity] -= 1
+    previous_owners.delete(identity) if previous_owners[identity] == 0
+    owners = (index[:owners][match] ||= {})
+    owners[identity] = owners.fetch(identity, 0) + 1
+    matches[value] = match
+  end
+
+  def lookup_value_identity(value)
+    value.id.nil? ? [:object, value.object_id] : [:record, value.class, value.id]
+  end
 
   def reset_override_params
     self.merge_overrides = false
