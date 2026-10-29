@@ -221,4 +221,40 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal "hostgroup\nfqdn", key.path
     assert_equal "hostgroup=Common", lv.match
   end
+
+  test 'normalize_match preserves whitespace handling and matcher grammar without changing its input' do
+    {
+      nil => nil,
+      '' => '',
+      " \t\n" => " \t\n",
+      '   ' => '   ',
+      'comment=A, ' => 'comment=A,=',
+      ' ,comment=A' => '=,comment=A',
+      'a=b,c=d' => 'a=b,c=d',
+      ' COMMENT = Mixed , DOMAIN = Example.COM ' => 'comment=Mixed,domain=Example.COM',
+      'COMMENT=First=Last' => 'comment=Last',
+      'COMMENT=Value=' => 'comment=Value',
+      'COMMENT' => 'comment=',
+    }.each do |input, expected|
+      original = input&.dup
+      actual = LookupValue.normalize_match(input)
+      expected.nil? ? assert_nil(actual) : assert_equal(expected, actual)
+      original.nil? ? assert_nil(input) : assert_equal(original, input)
+    end
+  end
+
+  test 'standalone candidates compare current sibling matches without prevalidating them' do
+    key = FactoryBot.build(:lookup_key, path: 'comment')
+    sibling = key.lookup_values.build(match: ' COMMENT = Same ', value: 'old')
+    candidate = LookupValue.new(lookup_key: key, match: 'comment=Same', value: 'new')
+    refute key.lookup_values.any? { |value| value.equal?(candidate) }
+    assert_valid candidate
+    assert_equal ' COMMENT = Same ', sibling.match
+    assert_valid sibling
+    refute_valid candidate
+    assert candidate.errors.added?(:match, :taken)
+
+    sibling.match = 'comment=Other'
+    assert_valid candidate
+  end
 end

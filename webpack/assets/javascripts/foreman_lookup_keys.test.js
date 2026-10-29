@@ -1,0 +1,119 @@
+import $ from 'jquery';
+import { serializeLookupValues } from './foreman_lookup_keys';
+
+jest.unmock('jquery');
+jest.unmock('./foreman_lookup_keys');
+
+const row = (index, fields) => `<tr class="matchers"><td>${fields}
+  <input class="match" name="key[lookup_values_attributes][${index}][match]" value="hostgroup=db${index}">
+  <textarea name="key[lookup_values_attributes][${index}][value]">4</textarea>
+  <input type="hidden" name="key[lookup_values_attributes][${index}][omit]" value="0">
+  <input type="checkbox" name="key[lookup_values_attributes][${index}][omit]" checked>
+  </td></tr>`;
+
+beforeEach(() => {
+  document.body.innerHTML = `<form data-lookup-values-json="true">
+    <input name="_method" value="patch">
+    <div class="children_fields lookup_values">
+      <input class="lookup_values_json" name="key[lookup_values_json]">
+      <table><tbody>${row(
+        0,
+        `
+        <input type="hidden" name="key[lookup_values_attributes][0][id]" value="12">
+        <input type="hidden" name="key[lookup_values_attributes][0][_destroy]" value="1">
+      `
+      )}${row(1, '')}</tbody></table>
+      <div class="lookup_values_fields_template"><table>${row(
+        'new',
+        ''
+      )}</table></div>
+    </div>
+  </form>`;
+});
+
+it('serializes rows, includes removed rows, excludes the template and disables nested fields', () => {
+  const form = document.querySelector('form');
+  const omittedValue = form.querySelector('[name$="[1][value]"]');
+  omittedValue.disabled = true;
+  const outsideField = document.createElement('input');
+  outsideField.name = 'key[lookup_values_attributes][outside][value]';
+  outsideField.disabled = true;
+  form.appendChild(outsideField);
+  const previouslyDisabled = [omittedValue, outsideField];
+  const expectOriginalDisabledState = () => {
+    form
+      .querySelectorAll('[name*="[lookup_values_attributes]"]')
+      .forEach(input => {
+        expect(input.disabled).toBe(previouslyDisabled.includes(input));
+        expect(input.dataset.lookupValuesReenable).toBeUndefined();
+      });
+  };
+  window.dispatchEvent(new Event('pageshow'));
+  expectOriginalDisabledState();
+
+  form.querySelector('tr.matchers').style.display = 'none';
+  // The existing form handler builds matches before the delegated serializer.
+  $(form).on('submit', () => {
+    form.querySelector('.match').value = 'hostgroup=updated';
+  });
+  form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+
+  expect(JSON.parse(form.querySelector('.lookup_values_json').value)).toEqual([
+    { match: 'hostgroup=updated', omit: true, id: '12', _destroy: '1' },
+    { match: 'hostgroup=db1', omit: true },
+  ]);
+  const submitted = new FormData(form);
+  expect(Array.from(submitted.keys())).toEqual([
+    '_method',
+    'key[lookup_values_json]',
+  ]);
+  form
+    .querySelectorAll('[name*="[lookup_values_attributes]"]')
+    .forEach(input => {
+      expect(input.disabled).toBe(true);
+      expect(input.dataset.lookupValuesReenable).toBe(
+        previouslyDisabled.includes(input) ? undefined : 'true'
+      );
+    });
+
+  window.dispatchEvent(new Event('pageshow'));
+  expect(form.querySelector('.lookup_values_json').value).toBe('');
+  expectOriginalDisabledState();
+  expect(Array.from(new FormData(form).keys())).toContain(
+    'key[lookup_values_attributes][0][value]'
+  );
+
+  form.querySelector('tbody').innerHTML = '';
+  serializeLookupValues({ target: form });
+  expect(form.querySelector('.lookup_values_json').value).toBe('[]');
+});
+
+it('leaves nested puppet and host forms on nested attributes without opting in', () => {
+  const form = document.querySelector('form');
+  form.removeAttribute('data-lookup-values-json');
+  const jsonField = form.querySelector('.lookup_values_json');
+  jsonField.value = 'untouched';
+  form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  serializeLookupValues({ target: form });
+  expect(jsonField.value).toBe('untouched');
+  const disabledInput = form.querySelector('.match');
+  disabledInput.disabled = true;
+  disabledInput.dataset.lookupValuesReenable = 'true';
+  window.dispatchEvent(new Event('pageshow'));
+  expect(disabledInput.disabled).toBe(true);
+  expect(disabledInput.dataset.lookupValuesReenable).toBe('true');
+  expect(jsonField.value).toBe('untouched');
+  disabledInput.disabled = false;
+  delete disabledInput.dataset.lookupValuesReenable;
+  jsonField.remove();
+  form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  serializeLookupValues({ target: form });
+  form
+    .querySelectorAll('[name*="[lookup_values_attributes]"]')
+    .forEach(input => {
+      expect(input.disabled).toBe(false);
+    });
+  expect(Array.from(new FormData(form).keys())).toContain(
+    'key[lookup_values_attributes][0][value]'
+  );
+});

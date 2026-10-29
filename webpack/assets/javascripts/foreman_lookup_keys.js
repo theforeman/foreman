@@ -37,3 +37,61 @@ export const matcherValueChanged = element => {
 
   matcherFieldChanged(element, currentValue);
 };
+
+export const serializeLookupValues = event => {
+  const form = event.target;
+  if (!form.matches('form[data-lookup-values-json="true"]')) return;
+  form.querySelectorAll('.lookup_values_json').forEach(jsonField => {
+    const container = jsonField.closest('.children_fields.lookup_values');
+    if (!container) return;
+
+    const values = Array.from(container.querySelectorAll('tr.matchers'))
+      .filter(row => !row.closest('.lookup_values_fields_template'))
+      .map(row => {
+        const read = key => row.querySelector(`[name$="[${key}]"]`);
+        const value = {
+          match: read('match').value,
+          omit: Boolean(
+            row.querySelector('input[type="checkbox"][name$="[omit]"]:checked')
+          ),
+        };
+        if (!value.omit) value.value = read('value').value;
+        ['id', '_destroy'].forEach(key => {
+          const input = read(key);
+          if (input) value[key] = input.value;
+        });
+        return value;
+      });
+
+    jsonField.value = JSON.stringify(values);
+    container
+      .querySelectorAll('[name*="[lookup_values_attributes]"]')
+      .forEach(input => {
+        if (input.disabled) return;
+        input.dataset.lookupValuesReenable = 'true';
+        input.disabled = true;
+      });
+  });
+};
+
+$(document).on(
+  'submit',
+  'form[data-lookup-values-json="true"]',
+  serializeLookupValues
+);
+
+window.addEventListener('pageshow', () => {
+  document
+    .querySelectorAll('form[data-lookup-values-json="true"]')
+    .forEach(form => {
+      form
+        .querySelectorAll('[data-lookup-values-reenable="true"]')
+        .forEach(input => {
+          input.disabled = false;
+          delete input.dataset.lookupValuesReenable;
+        });
+      form.querySelectorAll('.lookup_values_json').forEach(jsonField => {
+        jsonField.value = '';
+      });
+    });
+});
