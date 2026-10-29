@@ -93,13 +93,12 @@ export const submitForm = ({
         __(item)
       );
 
-    const defaultErrorToast = error =>
+    const defaultErrorToast = (error, parsedMessage) =>
       sprintf(
         __(
           'Oh no! Something went wrong while submitting the form, the server returned the following error: %s'
         ),
-        // eslint-disable-next-line camelcase
-        error?.response?.data?.error?.full_messages?.join(', ')
+        parsedMessage
       );
     dispatch(
       APIActions[method]({
