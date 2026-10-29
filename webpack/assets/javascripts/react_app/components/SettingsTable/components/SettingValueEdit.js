@@ -24,6 +24,7 @@ import { arraySelection, renderPF5Options } from '../SettingsTableHelpers';
 import { useForemanSetContext } from '../../../Root/Context/ForemanContext';
 
 import { APIActions } from '../../../redux/API';
+import { parseAPIError } from '../../../redux/API/APIHelpers';
 
 export const SETTING_UPDATE_PATH = '/api/settings/:id';
 export const SETTING_NEW_HOSTS_PAGE = 'new_hosts_page';
@@ -97,12 +98,8 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       handleSuccess: response => successCallback(response),
       handleError: errorCallback,
       errorToast: error => {
-        const msg =
-          error.response?.data?.error?.message ||
-          error.response?.data?.error?.errors?.value?.join('\n') ||
-          // eslint-disable-next-line camelcase
-          error.response?.data?.error?.full_messages ||
-          error.response?.data?.errors?.value?.join('\n');
+        const parsed = parseAPIError(error);
+        const msg = parsed.fieldErrors.value?.join('\n') || parsed.message;
         setErrMsg(msg);
         return `${__('Error updating setting')}: ${msg}`;
       },

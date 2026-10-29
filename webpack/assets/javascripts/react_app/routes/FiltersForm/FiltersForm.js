@@ -20,7 +20,7 @@ import { SelectResourceType } from './SelectResourceType';
 import { SelectRole } from './SelectRole';
 import { EMPTY_RESOURCE_TYPE, SEARCH_ID } from './FiltersFormConstants';
 import { APIActions } from '../../redux/API';
-import { addToast } from '../../components/ToastsList';
+import { getAPIErrorMessage } from '../../redux/API/APIHelpers';
 
 export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
   const [role, setRole] = useState(roleId);
@@ -44,17 +44,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
       handleSuccess: () => {
         history.push(`/filters?role_id=${roleId}`);
       },
-      handleError: ({ response }) => {
-        dispatch(
-          addToast({
-            sticky: true,
-            type: 'danger',
-            // eslint-disable-next-line camelcase
-            message: response?.data?.error?.full_messages[0] || '',
-            key: 'role_edit_failure',
-          })
-        );
-      },
+      errorToast: error => getAPIErrorMessage(error),
       params,
     };
     if (isNew) {

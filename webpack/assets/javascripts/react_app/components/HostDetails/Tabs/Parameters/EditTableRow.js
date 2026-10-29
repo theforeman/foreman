@@ -49,9 +49,7 @@ export const EditParametersTableRow = ({
   const dispatch = useDispatch();
 
   const APIActionsProps = {
-    errorToast: ({ response }) =>
-      // eslint-disable-next-line camelcase
-      response?.data?.error?.full_messages || response?.data?.error?.message,
+    errorToast: true,
     handleSuccess: () => {
       dispatch(updateHost(hostId));
     },
