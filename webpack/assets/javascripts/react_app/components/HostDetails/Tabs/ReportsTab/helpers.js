@@ -106,10 +106,10 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
               url: `/api/v2/config_reports/${id}`,
               key: `report-${id}-DELETE`,
               successToast: success => __('Report was successfully deleted'),
-              errorToast: error =>
+              errorToast: (error, parsedMessage) =>
                 sprintf(
                   __('There was some issue deleting the report: %s'),
-                  error
+                  parsedMessage
                 ),
               handleSuccess: fetchReports,
             })
