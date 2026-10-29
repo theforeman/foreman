@@ -1,3 +1,6 @@
+<% if local_assigns.fetch(:json_transport, false) %>
+  <%= hidden_field_tag "#{f.object_name}[lookup_values_json]", nil, :class => 'lookup_values_json' %>
+<% end %>
 <table class="table white-header <%= 'hidden' unless f.object.lookup_values.present? %>">
   <thead>
   <tr>
