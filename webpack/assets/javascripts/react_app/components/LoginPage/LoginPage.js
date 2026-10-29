@@ -12,11 +12,11 @@ import {
   FormAlert,
 } from '@patternfly/react-core';
 
-import { translate as __ } from '../../common/I18n';
+import { sprintf, translate as __ } from '../../common/I18n';
 import { adjustAlerts, defaultFormProps } from './helpers';
 import './LoginPage.scss';
 
-const LoginPage = ({ alerts, caption, logoSrc, token }) => {
+const LoginPage = ({ alerts, caption, logoSrc, oidcProviders, token }) => {
   const { modifiedAlerts, submitErrors } = adjustAlerts(alerts);
 
   const [username, setUsername] = useState('');
@@ -114,6 +114,30 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
     </Form>
   );
 
+  const oidcLogin = oidcProviders.length > 0 && (
+    <>
+      <hr />
+      {oidcProviders.map(provider => (
+        <form
+          className="external-login-form"
+          key={provider.url}
+          action={provider.url}
+          method="post"
+        >
+          <input name="authenticity_token" type="hidden" value={token} />
+          <Button
+            ouiaId={`external-login-${provider.name}`}
+            type="submit"
+            isBlock
+            variant="secondary"
+          >
+            {sprintf(__('Log in with %s'), provider.name)}
+          </Button>
+        </form>
+      ))}
+    </>
+  );
+
   return (
     <div id="login-page">
       <PF5LoginPage
@@ -124,6 +148,7 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
         textContent={caption}
       >
         {loginForm}
+        {oidcLogin}
       </PF5LoginPage>
     </div>
   );
@@ -138,6 +163,12 @@ LoginPage.propTypes = {
   backgroundUrl: PropTypes.string,
   caption: PropTypes.string,
   logoSrc: PropTypes.string,
+  oidcProviders: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })
+  ),
   token: PropTypes.string.isRequired,
 };
 
@@ -146,6 +177,7 @@ LoginPage.defaultProps = {
   backgroundUrl: null,
   caption: null,
   logoSrc: null,
+  oidcProviders: [],
 };
 
 export default LoginPage;

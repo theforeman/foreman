@@ -5,6 +5,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_current_user, { :"api/v2/users" => [:show_current] }, public: :true
     map.permission :my_account, {
       :users => [:edit],
+      :oidc_authentications => [:link],
       :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group],
       :"api/v2/table_preferences" => [:show, :create, :update, :destroy, :index],
     }, :public => true
@@ -38,21 +39,29 @@ Foreman::AccessControl.map do |permission_set|
     ajax_actions = [:test_connection]
     map.permission :view_authenticators, {:auth_sources => [:index, :show, :welcome],
                                              :auth_source_ldaps => [:welcome],
+                                             :auth_source_oidcs => [:welcome],
                                              :"api/v2/auth_source_ldaps" => [:index, :show],
+                                             :"api/v2/auth_source_oidcs" => [:index, :show],
                                              :"api/v2/auth_sources" => [:index, :show],
                                              :"api/v2/auth_source_internals" => [:index, :show],
                                              :"api/v2/auth_source_externals" => [:index, :show],
     }
     map.permission :create_authenticators, {:auth_source_ldaps => [:new, :create].push(*ajax_actions),
                                              :"api/v2/auth_source_ldaps" => [:create],
+                                             :auth_source_oidcs => [:new, :create].push(*ajax_actions),
+                                             :"api/v2/auth_source_oidcs" => [:create],
     }
     map.permission :edit_authenticators, {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
+                                             :auth_source_oidcs => [:edit, :update].push(*ajax_actions),
                                              :auth_source_externals => [:edit, :update],
                                              :"api/v2/auth_source_ldaps" => [:update, :test],
+                                             :"api/v2/auth_source_oidcs" => [:update, :test],
                                              :"api/v2/auth_source_externals" => [:update],
     }
     map.permission :destroy_authenticators, {:auth_source_ldaps => [:destroy],
+                                             :auth_source_oidcs => [:destroy],
                                              :"api/v2/auth_source_ldaps" => [:destroy],
+                                             :"api/v2/auth_source_oidcs" => [:destroy],
     }
   end
 
