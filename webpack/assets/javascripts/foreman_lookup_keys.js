@@ -37,3 +37,47 @@ export const matcherValueChanged = element => {
 
   matcherFieldChanged(element, currentValue);
 };
+
+// Delegate so build_match's form submit handler runs before serialization.
+export const serializeLookupValues = event => {
+  const form = event.target;
+  if (!form.matches('form[data-lookup-values-json="true"]')) return;
+  form.querySelectorAll('.lookup_values_json').forEach(jsonField => {
+    const container = jsonField.closest('.children_fields.lookup_values');
+    if (!container) return;
+
+    const values = Array.from(container.querySelectorAll('tr.matchers'))
+      .filter(row => !row.closest('.lookup_values_fields_template'))
+      .map(row => {
+        const read = key => row.querySelector(`[name$="[${key}]"]`);
+        const value = {
+          match: read('match').value,
+          omit: Boolean(
+            row.querySelector('input[type="checkbox"][name$="[omit]"]:checked')
+          ),
+        };
+        // Omitted values were disabled controls before JSON transport. Do not
+        // reassign their displayed string, since omitted values skip casting.
+        // Read non-omitted values even on a repeated submit after we disabled them.
+        if (!value.omit) value.value = read('value').value;
+        ['id', '_destroy'].forEach(key => {
+          const input = read(key);
+          if (input) value[key] = input.value;
+        });
+        return value;
+      });
+
+    jsonField.value = JSON.stringify(values);
+    container
+      .querySelectorAll('[name*="[lookup_values_attributes]"]')
+      .forEach(input => {
+        input.disabled = true;
+      });
+  });
+};
+
+$(document).on(
+  'submit',
+  'form[data-lookup-values-json="true"]',
+  serializeLookupValues
+);

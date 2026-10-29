@@ -10,6 +10,7 @@ module Foreman::Controller::Parameters::LookupKey
         :hidden_value,
         :key,
         :key_type,
+        :lookup_values_json,
         :merge_default,
         :merge_overrides,
         :override,
