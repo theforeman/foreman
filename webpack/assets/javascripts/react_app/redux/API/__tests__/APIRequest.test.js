@@ -110,13 +110,16 @@ describe('API get', () => {
 
     const modifiedAction = { ...action };
     modifiedAction.payload.errorToast = jest.fn(
-      error =>
-        `Oh no! Something went wrong, server returned the error: ${error.message}`
+      (error, parsedMessage) =>
+        `Oh no! Something went wrong, server returned the error: ${parsedMessage}`
     );
 
     await apiRequest(modifiedAction, store);
 
-    expect(modifiedAction.payload.errorToast).toHaveBeenCalledWith(apiError);
+    expect(modifiedAction.payload.errorToast).toHaveBeenCalledWith(
+      apiError,
+      'bad request'
+    );
     expect(store.dispatch).toHaveBeenCalledTimes(3);
     expect(store.dispatch).toHaveBeenNthCalledWith(3, {
       type: 'toasts/addToast',
@@ -130,6 +133,51 @@ describe('API get', () => {
         },
       },
     });
+  });
+
+  it('should toast getAPIErrorMessage when errorToast is true', async () => {
+    const apiError = new Error('Request failed with status code 422');
+    apiError.response = {
+      status: 422,
+      data: { error: { full_messages: ['Name has already been taken'] } },
+    };
+    API.get.mockRejectedValue(apiError);
+
+    const modifiedAction = {
+      ...action,
+      payload: { ...action.payload, errorToast: true },
+    };
+
+    await apiRequest(modifiedAction, store);
+
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
+    expect(store.dispatch).toHaveBeenNthCalledWith(3, {
+      type: 'toasts/addToast',
+      payload: {
+        key: 'SOME_KEY_FAILURE',
+        toast: {
+          key: 'SOME_KEY_FAILURE',
+          message: 'Name has already been taken',
+          type: 'danger',
+        },
+      },
+    });
+  });
+
+  it('should not toast when errorToast is omitted', async () => {
+    const apiError = new Error('bad request');
+    API.get.mockRejectedValue(apiError);
+
+    const payloadWithoutToast = { ...action.payload };
+    delete payloadWithoutToast.errorToast;
+    const actionWithoutToast = { ...action, payload: payloadWithoutToast };
+
+    await apiRequest(actionWithoutToast, store);
+
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'toasts/addToast' })
+    );
   });
 
   it('should dispatch an update if an updateData callback exists', async () => {
