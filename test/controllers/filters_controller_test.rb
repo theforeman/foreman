@@ -10,6 +10,67 @@ class FiltersControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
+  context 'filter edit links' do
+    setup do
+      %w[view_filters edit_filters].each do |name|
+        FactoryBot.create(:permission, :name => name, :resource_type => 'Filter')
+      end
+
+      @filter = FactoryBot.create(:filter, :on_name_all,
+        :permissions => [Permission.find_by!(:name => 'view_hosts')])
+    end
+
+    test 'shows both edit links to non-admin users with edit permission' do
+      setup_user 'view', 'filters'
+      setup_user 'edit', 'filters'
+
+      get :index, params: { :role_id => @filter.role_id }, session: set_session_user(:one)
+
+      assert_response :success
+      assert_select 'a[href=?]', edit_filter_path(@filter, :role_id => @filter.role), :count => 2
+    end
+
+    test 'hides edit links from non-admin users without edit permission' do
+      setup_user 'view', 'filters'
+
+      get :index, params: { :role_id => @filter.role_id }, session: set_session_user(:one)
+
+      assert_response :success
+      assert_select 'a[href=?]', edit_filter_path(@filter, :role_id => @filter.role), :count => 0
+    end
+
+    test 'respects the edit permission scope' do
+      other_filter = FactoryBot.create(:filter, :role => @filter.role,
+        :permissions => [Permission.find_by!(:name => 'view_hosts')])
+      setup_user 'view', 'filters'
+      setup_user 'edit', 'filters', "id = #{@filter.id}"
+
+      get :index, params: { :role_id => @filter.role_id }, session: set_session_user(:one)
+
+      assert_response :success
+      assert_select 'a[href=?]', edit_filter_path(@filter, :role_id => @filter.role), :count => 2
+      assert_select 'a[href=?]', edit_filter_path(other_filter, :role_id => other_filter.role), :count => 0
+    end
+
+    test 'shows both edit links to admins' do
+      get :index, params: { :role_id => @filter.role_id }, session: set_session_user
+
+      assert_response :success
+      assert_select 'a[href=?]', edit_filter_path(@filter, :role_id => @filter.role), :count => 2
+    end
+
+    test 'hides edit links for locked roles' do
+      Role.ignore_locking { @filter.role.update!(:origin => 'foreman') }
+      setup_user 'view', 'filters'
+      setup_user 'edit', 'filters'
+
+      get :index, params: { :role_id => @filter.role_id }, session: set_session_user(:one)
+
+      assert_response :success
+      assert_select 'a[href=?]', edit_filter_path(@filter, :role_id => @filter.role), :count => 0
+    end
+  end
+
   test "changes should expire topbar cache" do
     user1 = FactoryBot.create(:user, :with_mail)
     user2 = FactoryBot.create(:user, :with_mail)
