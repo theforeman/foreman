@@ -12,6 +12,23 @@ class FactValuesControllerTest < ActionController::TestCase
     User.current = nil
   end
 
+  context 'parent fact routes' do
+    %w[
+      sw_pkg_altap_salamander_4.0_x64
+      sw_pkg_altap_salamander_4.0_(x64)
+      software::sw_pkg_altap_salamander_4.0_(x64)
+      mounts::/var/lib/data_(old)
+    ].each do |parent_fact|
+      test "routes #{parent_fact}" do
+        assert_routing "/hosts/example.com/parent_facts/#{parent_fact}/facts",
+          :controller => 'fact_values',
+          :action => 'index',
+          :host_id => 'example.com',
+          :parent_fact => parent_fact
+      end
+    end
+  end
+
   def test_index
     get :index, session: set_session_user
     assert_response :success
