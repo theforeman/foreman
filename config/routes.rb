@@ -125,7 +125,7 @@ Foreman::Application.routes.draw do
         resources :config_reports, only: [:index, :show]
         resources :facts, only: :index, controller: :fact_values
 
-        get 'parent_facts/*parent_fact/facts', to: 'fact_values#index', as: 'parent_fact_facts', parent_fact: /[\/\w.:_-]+/
+        get 'parent_facts/*parent_fact/facts', to: 'fact_values#index', as: 'parent_fact_facts', parent_fact: /[\/\w.:_()-]+/
       end
     end
 
