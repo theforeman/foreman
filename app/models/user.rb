@@ -517,13 +517,12 @@ class User < ApplicationRecord
   end
 
   def taxonomy_and_child_ids(taxonomies)
+    # Unsaved users have no unique cache key and their memberships can still change.
+    return uncached_taxonomy_and_child_ids(taxonomies) if new_record?
+
     delay = Rails.env.test? ? 0 : 2.minutes
     Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
-      klass = taxonomies.to_s.classify.constantize
-      top_level = send(taxonomies) + klass.unscoped.ignoring(User)
-      next [] if top_level.empty?
-
-      Taxonomy.batch_subtree_ids(top_level)
+      uncached_taxonomy_and_child_ids(taxonomies)
     end
   end
 
@@ -614,6 +613,14 @@ class User < ApplicationRecord
   end
 
   private
+
+  def uncached_taxonomy_and_child_ids(taxonomies)
+    klass = taxonomies.to_s.classify.constantize
+    top_level = send(taxonomies) + klass.unscoped.ignoring(User)
+    return [] if top_level.empty?
+
+    Taxonomy.batch_subtree_ids(top_level)
+  end
 
   def can_escalate_excluding_roles?(usergroup, role_ids)
     return true if admin?
