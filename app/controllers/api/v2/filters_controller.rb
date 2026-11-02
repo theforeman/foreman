@@ -53,7 +53,9 @@ module Api
       end
 
       def resource_scope(...)
-        resource_class.unscoped
+        return resource_class.unscoped if %w[index show].include?(action_name)
+
+        super
       end
 
       private
