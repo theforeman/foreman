@@ -34,7 +34,7 @@ is_debian() {
   esac
 }
 
-<%= snippet('subscription_manager_setup', variables: { subman_setup_scenario: 'registration', rhsm_url: request_url, pulp_content_url: pulp_content_url }) -%>
+<%= snippet('subscription_manager_setup', variables: { subman_setup_scenario: 'installation', rhsm_url: request_url, pulp_content_url: pulp_content_url }) -%>
 
 # Debian-based systems fetch content from the deb endpoint
 if is_debian; then
