@@ -1,0 +1,49 @@
+= LDAP avatar storage and migration
+
+New LDAP avatars are stored as private Active Storage attachments rather than
+being written below `public/images/avatars`. The existing avatar image helper
+uses an authenticated controller action. Users can read their own avatar;
+reading other users' avatars requires `view_users` and the existing user scope.
+The generic Rails attachment routes remain disabled.
+
+The default disk service works for standalone installations. A shared backend,
+such as S3, lets all web replicas read the same uploaded photo without writing
+into the application image. A storage outage does not prevent LDAP login.
+
+== Migrating existing photos
+
+Before migrating, back up the database and avatar directory and configure the
+same Active Storage service for web and worker processes. The migration must
+run on a machine with access to the old `public/images/avatars` directory.
+
+Preview the files without creating any attachments:
+
+[source,console]
+----
+foreman-rake foreman:avatars:migrate
+----
+
+Copy the files:
+
+[source,console]
+----
+APPLY=true foreman-rake foreman:avatars:migrate
+----
+
+The task processes users in batches, skips existing attachments, validates the
+image type, and verifies the uploaded bytes before
+attaching them. It can be rerun after an interruption. Missing or corrupt files
+are reported with a nonzero task exit status. The task does not delete files,
+overwrite newer attachments, or contact LDAP.
+
+The old filename is an identifier, not a reliable checksum of the file: some
+LDAP adapters hashed the Base64 representation before decoding it. Migration
+therefore verifies the copied content directly against the source bytes.
+
+Unmigrated images remain available through the authorized avatar endpoint
+while the original directory is accessible. Existing static public image URLs
+also remain accessible until an administrator removes the old directory from
+the web server. Only do that after migration, verification, and an appropriate
+retention period. Retain the old directory outside the web root if rollback to
+an older Foreman version is required. An older version cannot read attachments
+created only in Active Storage.

@@ -556,7 +556,7 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :users do |map|
     map.permission :view_users,
-      :users => [:index, :show, :auto_complete_search, :test_mail],
+      :users => [:index, :show, :auto_complete_search, :test_mail, :avatar],
       :"api/v2/users" => [:index, :show]
     map.permission :create_users,
       :users => [:new, :create],

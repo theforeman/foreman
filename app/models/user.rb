@@ -1,4 +1,7 @@
+require 'digest/md5'
 require 'digest/sha1'
+require 'digest/sha2'
+require 'stringio'
 
 class User < ApplicationRecord
   audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
@@ -56,6 +59,7 @@ class User < ApplicationRecord
   has_many :user_mail_notifications, :dependent => :destroy, :inverse_of => :user
   has_many :mail_notifications, :through => :user_mail_notifications
   has_many :notification_recipients, :dependent => :delete_all
+  has_one_attached :avatar
 
   accepts_nested_attributes_for :user_mail_notifications, :allow_destroy => true, :reject_if => :reject_empty_intervals
 
@@ -275,22 +279,18 @@ class User < ApplicationRecord
         logger.debug "Authenticated user #{user.login} against #{user.auth_source} authentication source"
 
         # update with returned attrs, maybe some info changed in LDAP
-        old_hash = user.avatar_hash
         User.as_anonymous_admin do
           if attrs.is_a? Hash
-            valid_attrs = attrs.slice(:firstname, :lastname, :mail, :avatar_hash).delete_if { |k, v| v.blank? }
+            avatar = attrs.delete(:avatar)
+            valid_attrs = attrs.slice(:firstname, :lastname, :mail).delete_if { |k, v| v.blank? }
             logger.debug("Updating user #{user.login} attributes from auth source: #{attrs.keys}")
-            unless user.update(valid_attrs)
+            if user.update(valid_attrs)
+              user.update_ldap_avatar(avatar) if avatar.present?
+            else
               logger.warn "Failed to update #{user.login} attributes: #{user.errors.full_messages.join(', ')}"
             end
           end
           user.auth_source.update_usergroups(user.login)
-        end
-
-        # clean up old avatar if it exists and the image isn't in use by anyone else
-        if old_hash.present? && user.avatar_hash != old_hash && !User.unscoped.where(:avatar_hash => old_hash).any?
-          old_avatar = "#{Rails.public_path}/images/avatars/#{old_hash}.jpg"
-          File.delete(old_avatar) if File.exist?(old_avatar)
         end
       else
         logger.debug "Failed to authenticate #{user.login} against #{user.auth_source} authentication source"
@@ -468,7 +468,7 @@ class User < ApplicationRecord
 
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
-      /edit|update|invalidate_jwt/.match?(options[:action]) &&
+      /edit|update|invalidate_jwt|avatar/.match?(options[:action]) &&
       options[:id].to_i == id ||
     /\Aapi\/v\d+\/users\Z/.match?(options[:controller]) &&
       /show|update/.match?(options[:action]) &&
@@ -563,6 +563,7 @@ class User < ApplicationRecord
     return unless (attrs = AuthSource.authenticate(login, password))
 
     attrs.delete(:dn)
+    avatar = attrs.delete(:avatar)
     user = new(attrs)
     # Inherit taxonomies from authentication source on creation
     auth_source = AuthSource.find(attrs[:auth_source_id])
@@ -581,6 +582,7 @@ class User < ApplicationRecord
     # The default user can't auto create users, we need to change to Admin for this to work
     User.as_anonymous_admin do
       if user.save
+        user.update_ldap_avatar(avatar) if avatar.present?
         auth_source.update_usergroups(user.login)
         logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
       else
@@ -595,6 +597,60 @@ class User < ApplicationRecord
     user.valid?
 
     user
+  end
+
+  def update_ldap_avatar(content, skip_existing: false)
+    blob = nil
+    return if skip_existing && avatar.attached?
+
+    content_type = Marcel::MimeType.for(StringIO.new(content))
+    extension = {'image/jpeg' => 'jpg', 'image/png' => 'png'}[content_type]
+    unless extension
+      logger.warn "Ignoring unsupported LDAP avatar content type for user #{login}: #{content_type}"
+      return false
+    end
+
+    checksum = Digest::MD5.base64digest(content)
+    return true if avatar.attached? && avatar.blob.checksum == checksum
+
+    digest = Digest::SHA256.hexdigest(content)
+    # Keep the blob reference before storage I/O so failed uploads can also
+    # clean up their database record without affecting the previous avatar.
+    blob = ActiveStorage::Blob.create_before_direct_upload!(
+      :filename => "ldap-avatar-#{digest}.#{extension}",
+      :content_type => content_type,
+      :byte_size => content.bytesize,
+      :checksum => checksum
+    )
+    blob.upload(StringIO.new(content), :identify => false)
+    # Verify the upload before replacing a usable avatar. Network I/O is kept
+    # outside the user's database lock.
+    raise ActiveStorage::IntegrityError unless blob.download == content
+    blob.save!
+
+    with_lock do
+      return if skip_existing && avatar.attached?
+
+      avatar.attach(blob)
+      raise ActiveRecord::RecordInvalid.new(self) unless avatar.attachment&.persisted?
+    end
+    true
+  rescue StandardError => error
+    logger.warn "Unable to store LDAP avatar for user #{id}: #{error.class}"
+    false
+  ensure
+    begin
+      blob.purge if blob&.persisted? && !blob.attachments.exists?
+    rescue StandardError => error
+      logger.warn "Unable to purge unused LDAP avatar for user #{id}: #{error.class}"
+    end
+  end
+
+  def legacy_avatar_path
+    return unless /\A[0-9a-f]{40}\z/.match?(avatar_hash.to_s)
+
+    path = Pathname.new(Rails.public_path).join('images', 'avatars', "#{avatar_hash}.jpg")
+    path if path.file? && !path.symlink?
   end
 
   def fullname
