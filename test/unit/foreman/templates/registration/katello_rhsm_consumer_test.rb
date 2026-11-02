@@ -82,4 +82,13 @@ class KatelloRhsmConsumerTemplateTest < ActiveSupport::TestCase
     assert_includes output, '--server.port="8443" \\'
     assert_includes output, '--rhsm.baseurl="https://foreman.example.com:8443/pulp/content/" \\'
   end
+
+  test 'does not render package manager operations for the installation scenario' do
+    output = render_template
+
+    assert_not_includes output, 'PKG_MANAGER'
+    assert_not_includes output, '$PKG_MANAGER_INSTALL subscription-manager'
+    assert_not_includes output, '$PKG_MANAGER_UPGRADE subscription-manager'
+    assert_includes output, 'exit 1'
+  end
 end

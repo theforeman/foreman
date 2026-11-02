@@ -7,11 +7,26 @@ description: |
   This snippet installs and configures subscription-manager that is required for host registration.
   The snippet is included in the "global_registration" template and in the "redhat_register" snippet.
   The latter ensures host registration during the provisioning process.
+
+  The @subman_setup_scenario variable controls which parts of the snippet are rendered:
+
+    'registration'  - the host is being registered by the user (e.g. via the global
+                      registration script), subscription-manager may need to be
+                      installed or upgraded
+    'provisioning'  - the host is being provisioned by Foreman and registered
+                      during the provisioning process
+    'installation'  - the snippet runs inside an installer (e.g. Anaconda)
+                      environment, triggered by the katello-rhsm-consumer script,
+                      where subscription-manager is already installed from the
+                      installation media and no repositories are configured yet,
+                      so no package operations are possible
 -%>
+<% if @subman_setup_scenario != 'installation' -%>
 # Select package manager for the OS (sets the $PKG_MANAGER* variables)
 if [ -z "$PKG_MANAGER" ]; then
 <%= indent(2) { snippet 'pkg_manager' } -%>
 fi
+<% end -%>
 
 # Define the path to rhsm.conf
 RHSM_CFG=/etc/rhsm/rhsm.conf
@@ -61,7 +76,14 @@ RHSM_CFG=/etc/rhsm/rhsm.conf
 
 # Prepare subscription-manager
 if ! [ -x "$(command -v subscription-manager)" ] ; then
+<% if @subman_setup_scenario == 'installation' -%>
+<% if plugin_present?('katello') -%>
+  rm -f $KATELLO_SERVER_CA_CERT
+<% end -%>
+  exit 1
+<% else -%>
   $PKG_MANAGER_INSTALL subscription-manager
+<% end -%>
 else
   echo "subscription-manager is already installed!"
   <% if @subman_setup_scenario == 'registration' -%>
@@ -78,7 +100,7 @@ if ! [ -f $RHSM_CFG ] ; then
   exit 1
 fi
 
-<% if @subman_setup_scenario == 'registration'
+<% if @subman_setup_scenario == 'registration' || @subman_setup_scenario == 'installation'
      if plugin_present?('katello')
        server_hostname = @rhsm_url.host if @rhsm_url
        server_port = @rhsm_url.port if @rhsm_url

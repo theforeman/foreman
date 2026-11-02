@@ -28,7 +28,7 @@ if [ -z "$PKG_MANAGER" ]; then
     PKG_MANAGER='dnf'
     if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
       PKG_MANAGER='yum'
-    elif [ -f /etc/system-release ]; then
+    elif [ x$ID = xamzn -a "${VERSION_ID%.*}" -le 2 ]; then
       PKG_MANAGER='yum'
     fi
     PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
