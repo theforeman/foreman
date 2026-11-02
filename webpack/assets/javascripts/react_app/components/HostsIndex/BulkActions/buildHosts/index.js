@@ -9,6 +9,7 @@ const BulkBuildHostModalScene = ({ isOpen, closeModal }) => {
     fetchBulkParams,
     organizationId,
     locationId,
+    bulkScopeHash,
   } = useContext(ForemanActionsBarContext);
   return (
     <BulkBuildHostModal
@@ -17,6 +18,7 @@ const BulkBuildHostModalScene = ({ isOpen, closeModal }) => {
       fetchBulkParams={fetchBulkParams}
       organizationId={organizationId}
       locationId={locationId}
+      bulkScopeHash={bulkScopeHash}
       isOpen={isOpen}
       closeModal={closeModal}
     />

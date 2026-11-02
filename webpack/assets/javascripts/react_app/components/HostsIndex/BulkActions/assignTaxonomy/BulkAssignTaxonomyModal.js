@@ -49,6 +49,7 @@ const BulkAssignTaxonomyModal = ({
   fetchBulkParams,
   organizationId,
   locationId,
+  bulkScopeHash,
   modalType,
   onSuccess: onSuccessCallback,
 }) => {
@@ -128,6 +129,7 @@ const BulkAssignTaxonomyModal = ({
       fetchBulkParams,
       organizationId,
       locationId,
+      bulkScopeHash,
       id: taxId,
       mismatch_setting: fixRadioChecked,
     });
@@ -233,6 +235,7 @@ BulkAssignTaxonomyModal.propTypes = {
   fetchBulkParams: PropTypes.func.isRequired,
   organizationId: PropTypes.number,
   locationId: PropTypes.number,
+  bulkScopeHash: PropTypes.string,
   modalType: PropTypes.string.isRequired,
   onSuccess: PropTypes.func,
 };
@@ -243,4 +246,5 @@ BulkAssignTaxonomyModal.defaultProps = {
   organizationId: undefined,
   locationId: undefined,
   onSuccess: undefined,
+  bulkScopeHash: undefined,
 };
