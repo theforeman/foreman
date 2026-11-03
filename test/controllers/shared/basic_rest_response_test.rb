@@ -103,7 +103,13 @@ module BasicRestResponseTest
         test 'should not render pagination when no search results' do
           @request.env['HTTP_REFERER'] = root_url
           get :index, params: {search: "name='A98$bcD#67Ef*g"}, session: set_session_user
-          assert (@response.body.include? "No entries found") || @response.body.match(/You are being.*redirected/)
+          # This search string is invalid scoped_search syntax, so it's rescued
+          # by ApplicationController#invalid_search_query and redirected back
+          # rather than rendering the index. Rails >= 7.1's redirect_to no
+          # longer sets a default HTML body (was "You are being redirected..."),
+          # see rails/rails#44554, so check @response.redirect? instead of
+          # body content.
+          assert (@response.body.include? "No entries found") || @response.redirect?
         end
 
         teardown do

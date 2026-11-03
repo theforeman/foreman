@@ -4,9 +4,19 @@ module Hostext
 
     included do
       scope :with_os, -> { where('hosts.operatingsystem_id IS NOT NULL') }
-      alias_attribute :os, :operatingsystem
       validates :operatingsystem_id, :presence => true,
         :if => ->(host) { host.managed }
+    end
+
+    # Defined explicitly (rather than via alias_attribute) because operatingsystem
+    # is an association, not a real attribute, and Rails 7.2 stops alias_attribute
+    # from supporting non-attribute targets.
+    def os
+      operatingsystem
+    end
+
+    def os=(value)
+      self.operatingsystem = value
     end
 
     # returns a configuration template (such as kickstart) to a given host
