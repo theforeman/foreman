@@ -34,6 +34,25 @@ import {
 } from './BulkAssignTaxonomyConstants';
 import TaxonomySelect from './TaxonomySelect';
 
+const TaxonomyOptionLabel = ({ title }) => {
+  const parts = title.split('/');
+
+  return (
+    <span className="taxonomy-label">
+      {parts.slice(0, -1).map((part, index) => (
+        <span key={`${part}-${index}`} className="taxonomy-name-parent">
+          {part}
+        </span>
+      ))}
+      <strong>{parts[parts.length - 1]}</strong>
+    </span>
+  );
+};
+
+TaxonomyOptionLabel.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
 export const BulkAssignOrganizationModal = props => (
   <BulkAssignTaxonomyModal modalType={MODAL_TYPES.ORGANIZATION} {...props} />
 );
@@ -208,8 +227,8 @@ const BulkAssignTaxonomyModal = ({
           setRadioChecked={setFixRadioChecked}
         >
           {taxResults.results?.map(tax => (
-            <SelectOption key={tax.id} value={tax.id}>
-              {tax.name}
+            <SelectOption key={tax.id} value={tax.id} aria-label={tax.title}>
+              <TaxonomyOptionLabel title={tax.title} />
             </SelectOption>
           ))}
         </TaxonomySelect>
