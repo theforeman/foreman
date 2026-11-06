@@ -88,7 +88,7 @@ describe('bulkDeleteHosts', () => {
       );
       expect(deleteParams.key).toBe('BULK-HOSTS-DELETE');
       expect(typeof deleteParams.successToast).toBe('function');
-      expect(typeof deleteParams.errorToast).toBe('function');
+      expect(deleteParams.errorToast).toBe(true);
       expect(typeof deleteParams.handleSuccess).toBe('function');
 
       deleteParams.handleSuccess();
@@ -139,7 +139,7 @@ describe('bulkDeleteHosts', () => {
   });
 
   describe('errorToast', () => {
-    it('returns error message from response', () => {
+    it('uses errorToast: true to auto-parse error messages', () => {
       bulkDeleteHosts({
         bulkParams,
         organizationId,
@@ -152,10 +152,7 @@ describe('bulkDeleteHosts', () => {
       modalPayload.onConfirm();
 
       const deleteParams = APIActions.delete.mock.calls[0][0];
-      const errorMessage = 'Bulk delete failed';
-      const toastMessage = deleteParams.errorToast({ message: errorMessage });
-
-      expect(toastMessage).toBe(errorMessage);
+      expect(deleteParams.errorToast).toBe(true);
     });
   });
 });

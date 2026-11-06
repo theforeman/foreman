@@ -1,4 +1,5 @@
 import { modelErrorToast } from './modelErrorToast';
+import { getAPIErrorMessage } from '../../redux/API/APIHelpers';
 
 describe('modelErrorToast', () => {
   it('returns custom message for duplicate model name field errors', () => {
@@ -14,8 +15,9 @@ describe('modelErrorToast', () => {
         },
       },
     };
+    const parsedMessage = getAPIErrorMessage(error);
 
-    expect(modelErrorToast(error)).toBe(
+    expect(modelErrorToast(error, parsedMessage)).toBe(
       'A model with this name already exists. Please choose a different name.'
     );
   });
@@ -30,13 +32,14 @@ describe('modelErrorToast', () => {
         },
       },
     };
+    const parsedMessage = getAPIErrorMessage(error);
 
-    expect(modelErrorToast(error)).toBe(
+    expect(modelErrorToast(error, parsedMessage)).toBe(
       'A model with this name already exists. Please choose a different name.'
     );
   });
 
-  it('returns full messages for non-duplicate validation errors', () => {
+  it('returns parsed message for non-duplicate validation errors', () => {
     const error = {
       response: {
         data: {
@@ -46,9 +49,24 @@ describe('modelErrorToast', () => {
         },
       },
     };
+    const parsedMessage = getAPIErrorMessage(error);
 
-    expect(modelErrorToast(error)).toBe(
+    expect(modelErrorToast(error, parsedMessage)).toBe(
       'Info is too long (maximum is 255 characters)'
+    );
+  });
+
+  it('returns parsedMessage when error has no duplicate name issue', () => {
+    const error = {
+      response: {
+        status: 500,
+        data: { error: { message: 'Internal server error' } },
+      },
+    };
+    const parsedMessage = getAPIErrorMessage(error);
+
+    expect(modelErrorToast(error, parsedMessage)).toBe(
+      'Internal server error'
     );
   });
 });
