@@ -51,7 +51,9 @@ module ForemanChef
       end
 
       args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
-      Operatingsystem.find_by_attributes(**args).first || klass.new(args.merge(:release_name => release_name)).tap(&:save!)
+      Operatingsystem.find_or_create_by_attributes(args) do
+        klass.create!(args.merge(:release_name => release_name))
+      end
     end
 
     # we don't want to parse puppet environment, foreman_chef already has its own environment
