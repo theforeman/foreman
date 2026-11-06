@@ -78,6 +78,7 @@ module Foreman
           end
 
           def preseed_attributes
+            @installation_iso = nil unless @variables_keys.include?(:installation_iso)
             if operatingsystem && medium && architecture
               @preseed_path   = preseed_path(@medium_provider)
               @preseed_server = preseed_server(@medium_provider)
@@ -97,8 +98,8 @@ module Foreman
 
           def pxe_config
             return unless @medium_provider
-            @kernel = kernel(@medium_provider)
-            @initrd = initrd(@medium_provider)
+            @kernel = kernel(@medium_provider) unless @variables_keys.include?(:kernel)
+            @initrd = initrd(@medium_provider) unless @variables_keys.include?(:initrd)
             @kernel_uri, @initrd_uri = operatingsystem.boot_files_uri(@medium_provider)
           end
         end

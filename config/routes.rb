@@ -374,6 +374,8 @@ Foreman::Application.routes.draw do
       member do
         get 'bootfiles'
         get 'clone'
+        get 'new_boot_file_download'
+        post 'download_boot_files'
       end
       collection do
         get 'auto_complete_search'

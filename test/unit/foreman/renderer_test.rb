@@ -55,6 +55,26 @@ class RendererTest < ActiveSupport::TestCase
     tempfile&.close!
   end
 
+  test 'Ubuntu autoinstall uses the universe ISO source including its scheme and path' do
+    Setting[:safemode_render] = true
+    template = Foreman::Renderer::Source::Snapshot.load_file(
+      Rails.root.join('app/views/unattended/provisioning_templates/PXEGrub2/preseed_default_pxegrub2_autoinstall.erb'))
+    host = Foreman::TemplateSnapshotService.new.ubuntu_autoinst4dhcp
+    source = Foreman::Renderer::Source::Snapshot.new(template)
+    iso = 'https://releases.example.test/26.04/ubuntu-26.04-live-server-amd64.iso'
+    scope = Foreman::Renderer.get_scope(host: host, source: source, variables: {
+      kernel: 'bootloader-universe/pxegrub2/ubuntu/26.04/x86_64/linux',
+      initrd: 'bootloader-universe/pxegrub2/ubuntu/26.04/x86_64/initrd.gz',
+      installation_iso: iso,
+    })
+
+    rendered = Foreman::Renderer.render(source, scope)
+
+    assert_includes rendered, "url=#{iso} "
+    assert_includes rendered, 'bootloader-universe/pxegrub2/ubuntu/26.04/x86_64/linux'
+    assert_includes rendered, 'bootloader-universe/pxegrub2/ubuntu/26.04/x86_64/initrd.gz'
+  end
+
   private
 
   def assert_template(template)

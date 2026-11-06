@@ -1,6 +1,39 @@
 class Redhat < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
+  def bootloader_universe_boot_files(architecture)
+    return nil unless architecture.name == 'x86_64'
+
+    directory = bootloader_universe_directory(architecture)
+    { kernel: "#{directory}/vmlinuz", initrd: "#{directory}/initrd.img" }
+  end
+
+  def bootloader_universe_requests(source_prefix:, architecture:)
+    return [] unless architecture.name == 'x86_64'
+
+    directory = bootloader_universe_directory(architecture)
+    boot_files = bootloader_universe_boot_files(architecture)
+    grub = "#{directory}/grubx64.efi"
+    shim = "#{directory}/shimx64.efi"
+    [{
+      extract: {
+        source: bootloader_source_url(source_prefix, 'images/boot.iso'),
+        destination: "#{directory}/boot.iso",
+        type: 'iso',
+        files: {
+          grub => 'EFI/BOOT/grubx64.efi',
+          shim => 'EFI/BOOT/BOOTX64.EFI',
+          boot_files[:kernel] => 'images/pxeboot/vmlinuz',
+          boot_files[:initrd] => 'images/pxeboot/initrd.img',
+        },
+        symlinks: {
+          "#{directory}/boot.efi" => grub,
+          "#{directory}/boot-sb.efi" => shim,
+        },
+      },
+    }]
+  end
+
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
   def mediumpath(medium_provider)

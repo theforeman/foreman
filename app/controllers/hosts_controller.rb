@@ -237,7 +237,8 @@ class HostsController < ApplicationController
           process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
         end
         format.json do
-          render :json => { :errors => @host.errors.full_messages }, :status => :internal_server_error
+          errors = @host.errors.full_messages
+          render :json => { :errors => errors, :message => errors.join(', ') }, :status => :unprocessable_entity
         end
       end
     end

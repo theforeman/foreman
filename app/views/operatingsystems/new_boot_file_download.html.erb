@@ -1,0 +1,13 @@
+<% title(_("Download boot files for %{name}") % { name: @operatingsystem.fullname }) %>
+
+<% source_fields = additional_bootloader_source_fields(@operatingsystem) %>
+<% if source_fields.present? %>
+  <%= form_tag download_boot_files_operatingsystem_path(@operatingsystem), method: :post do %>
+    <%= source_fields %>
+    <%= submit_tag _("Download boot files"), class: 'btn btn-primary' %>
+    <%= link_to _("Cancel"), operatingsystems_path, class: 'btn btn-default' %>
+  <% end %>
+<% else %>
+  <p><%= _("No compatible boot file source is available.") %></p>
+  <%= link_to _("Back"), operatingsystems_path, class: 'btn btn-default' %>
+<% end %>

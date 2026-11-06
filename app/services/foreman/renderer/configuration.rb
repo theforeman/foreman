@@ -101,6 +101,7 @@ module Foreman
         :mediaserver,
         :osver,
         :preseed_path,
+        :installation_iso,
         :preseed_server,
         :provisioning_type,
         :repos,

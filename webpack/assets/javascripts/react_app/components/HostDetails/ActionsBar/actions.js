@@ -79,7 +79,8 @@ export const updateHost = hostId => dispatch => {
 export const buildHost = hostId => dispatch => {
   const successToast = () =>
     sprintf(__('Host %s will be built next boot'), hostId);
-  const errorToast = ({ message }) => message;
+  const errorToast = ({ message, response }) =>
+    response?.data?.message || response?.data?.errors?.join(', ') || message;
   const url = foremanUrl(`/hosts/${hostId}/setBuild`);
   dispatch(
     APIActions.put({

@@ -1,6 +1,31 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
+  def bootloader_medium_actions(operatingsystem)
+    return [] unless boot_file_proxies.any? { |proxy| Foreman::BootloaderUniverse::Download.universe_capable?(proxy, operatingsystem) }
+    return [] unless authorizer.can?('edit_operatingsystems', operatingsystem)
+    return [] unless operatingsystem.architectures.any? { |architecture| architecture.name == 'x86_64' }
+
+    Medium.authorized(:view_media).where(id: operatingsystem.media.map(&:id)).map do |medium|
+      link_to(_("Sync boot files from %{name}") % { name: medium.name },
+        download_boot_files_operatingsystem_path(operatingsystem, source: { type: 'medium', id: medium.id }),
+        method: :post)
+    end
+  end
+
+  def boot_file_proxies
+    @boot_file_proxies || []
+  end
+
+  # Plugins can add explicit source choices to the Operating Systems index.
+  def additional_bootloader_actions(_operatingsystem)
+    []
+  end
+
+  def additional_bootloader_source_fields(_operatingsystem)
+    nil
+  end
+
   def label(record)
     return "" if record.blank? || record.name.blank?
     record.to_label
