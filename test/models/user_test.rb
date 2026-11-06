@@ -927,6 +927,39 @@ class UserTest < ActiveSupport::TestCase
     assert users(:one).valid?
   end
 
+  context 'taxonomy caching for new users' do
+    setup do
+      # Use the production cache lifetime; zero expiry hides cross-user cache reuse.
+      Rails.env.stubs(:test?).returns(false)
+    end
+
+    test 'failed user creation does not reject valid defaults for another user' do
+      invalid_user = FactoryBot.build(:user, login: '', organizations: [], locations: [])
+      refute invalid_user.save
+
+      organization = taxonomies(:organization1)
+      location = taxonomies(:location1)
+      user = FactoryBot.build(:user, organizations: [organization], locations: [location],
+                             default_organization: organization, default_location: location)
+
+      assert user.save, user.errors.full_messages.join(', ')
+    end
+
+    test 'unsaved users see membership changes after a taxonomy lookup' do
+      user = FactoryBot.build(:user, organizations: [], locations: [])
+      organization = taxonomies(:organization1)
+      location = taxonomies(:location1)
+      refute_includes user.organization_and_child_ids, organization.id
+      refute_includes user.location_and_child_ids, location.id
+
+      user.organizations = [organization]
+      user.locations = [location]
+
+      assert_includes user.organization_and_child_ids, organization.id
+      assert_includes user.location_and_child_ids, location.id
+    end
+  end
+
   test "return location and child ids for non-admin user" do
     users(:one).roles << Role.find_by_name('Manager')
     as_user :one do
