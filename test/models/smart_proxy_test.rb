@@ -139,6 +139,13 @@ class SmartProxyTest < ActiveSupport::TestCase
   end
 
   describe "with v2 api" do
+    test "refresh returns validation errors when no features are running" do
+      proxy = smart_proxies(:one)
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns({})
+
+      assert_includes proxy.refresh[:base], 'No features found on this proxy, please make sure you enable at least one feature'
+    end
+
     test "should be saved if features exist" do
       ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:tftp => {:settings => {}, :capabilities => [], :state => 'running'}, :puppet => {:state => 'not_running'})
       proxy = FactoryBot.build(:smart_proxy)
