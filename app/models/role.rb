@@ -146,8 +146,17 @@ class Role < ApplicationRecord
     if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
       allowed_actions.include? Foreman::AccessControl.path_hash_to_string(action)
     else
-      allowed_permissions.include? action
+      allowed_permissions.include? permission_identifier(action)
     end
+  end
+
+  def allowed_to_in_taxonomy_scope?(action)
+    public_permission_names = Foreman::AccessControl.public_permissions.map(&:name)
+    return true if action_allowed?(action, public_permission_names)
+
+    allowed_to?(action) &&
+      allowed_to_in_taxonomy?(action, Organization) &&
+      allowed_to_in_taxonomy?(action, Location)
   end
 
   # options can have following keys
@@ -292,7 +301,7 @@ class Role < ApplicationRecord
   end
 
   def allowed_permissions
-    @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map(&:name)
+    @allowed_permissions ||= permission_names + Foreman::AccessControl.public_permissions.map { |permission| permission_identifier(permission.name) }
   end
 
   def allowed_actions
@@ -309,6 +318,32 @@ class Role < ApplicationRecord
   def not_locked
     errors.add(:base, _("This role is locked from being modified by users.")) if locked? && !modify_locked && changed?
     errors.empty?
+  end
+
+  def allowed_to_in_taxonomy?(action, taxonomy_class)
+    role_taxonomy_ids = public_send("#{taxonomy_class.name.underscore}_ids")
+    return true if role_taxonomy_ids.empty?
+
+    current_taxonomy = taxonomy_class.current
+    return true if current_taxonomy.nil?
+    current_taxonomy_ids = Array(current_taxonomy).map(&:id)
+    (role_taxonomy_ids & current_taxonomy_ids).any?
+  end
+
+  def action_allowed?(action, permissions)
+    permissions = permissions.map { |permission| permission_identifier(permission) }
+    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
+      action = Foreman::AccessControl.path_hash_to_string(action)
+      permissions = permissions.flat_map { |permission| Foreman::AccessControl.allowed_actions(permission) }
+    else
+      action = permission_identifier(action)
+    end
+
+    permissions.include?(action)
+  end
+
+  def permission_identifier(permission)
+    permission.respond_to?(:to_sym) ? permission.to_sym : permission
   end
 
   def find_filter(resource_type, current_filters, search = :skip)
