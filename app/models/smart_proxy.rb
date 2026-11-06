@@ -65,7 +65,7 @@ class SmartProxy < ApplicationRecord
 
   def refresh
     statuses.each_value { |status| status.revoke_cache! }
-    associate_features
+    catch(:abort) { associate_features }
     errors
   end
 
