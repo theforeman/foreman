@@ -67,7 +67,7 @@
     <fieldset>
       <h2><%= _("Specify Matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
       <div class="children_fields lookup_values">
-        <%= render 'lookup_keys/values', :f => f, :is_param => true %>
+        <%= render 'lookup_keys/values', :f => f, :is_param => true, :json_transport => local_assigns.fetch(:json_transport, false) %>
       </div>
     </fieldset>
   </div>

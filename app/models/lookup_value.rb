@@ -48,6 +48,17 @@ class LookupValue < ApplicationRecord
     match
   end
 
+  def self.normalize_match(match)
+    return match unless match.present?
+
+    match.split(LookupKey::KEY_DELM).map do |m|
+      split_match = m.split(LookupKey::EQ_DELM)
+      matcher_attribute = split_match.first.downcase.strip
+      matcher_value = (split_match.count > 1) ? split_match.last.strip : ""
+      [matcher_attribute, matcher_value].join(LookupKey::EQ_DELM)
+    end.join(LookupKey::KEY_DELM)
+  end
+
   def value_before_type_cast
     return self[:value] if errors[:value].present?
     return value if lookup_key.nil? || value.contains_erb?
@@ -77,15 +88,8 @@ class LookupValue < ApplicationRecord
     end
   end
 
-  # TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
   def sanitize_match
-    return true unless match.present?
-    self.match = match.split(LookupKey::KEY_DELM).map do |m|
-      split_match = m.split(LookupKey::EQ_DELM)
-      matcher_attribute = split_match.first.downcase.strip
-      matcher_value = (split_match.count > 1) ? split_match.last.strip : ""
-      [matcher_attribute, matcher_value].join(LookupKey::EQ_DELM)
-    end.join(LookupKey::KEY_DELM)
+    self.match = self.class.normalize_match(match)
   end
 
   def ensure_fqdn_exists
@@ -130,8 +134,9 @@ class LookupValue < ApplicationRecord
 
   # needs to be validated manualy as at validation time, siblings might not be saved
   def ensure_match_uniqueness
-    return if lookup_key.nil?
-    errors.add(:match, :taken) if lookup_key.lookup_values.any? { |sibling| sibling != self && sibling.match == match }
+    return unless lookup_key
+
+    errors.add(:match, :taken) if lookup_key.lookup_value_match_taken?(self)
   end
 
   def skip_strip_attrs

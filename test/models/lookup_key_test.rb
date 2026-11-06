@@ -285,4 +285,167 @@ class LookupKeyTest < ActiveSupport::TestCase
       assert_valid lookup_key
     end
   end
+
+  test 'validation rebuilds and expires match indexes while restoring nested and independent parent contexts' do
+    key = FactoryBot.build(:lookup_key, path: 'comment')
+    first = key.lookup_values.build(match: 'comment=first', value: 'one')
+    second = key.lookup_values.build(match: 'comment=first', value: 'two')
+    refute key.save
+    assert_nil key.instance_variable_get(:@lookup_value_validation_context)
+
+    second.match = 'comment=second'
+    assert_valid key
+    third = key.lookup_values.build(match: first.match, value: 'three')
+    refute_valid key
+    key.lookup_values.target.delete(third)
+    assert_valid key
+    second.match = first.match
+    refute_valid key
+    second.mark_for_destruction
+    refute_valid key
+    assert first.errors.added?(:match, :taken)
+    assert_nil key.instance_variable_get(:@lookup_value_validation_context)
+
+    key = FactoryBot.build(:lookup_key, path: 'comment')
+    value = key.lookup_values.build(match: 'comment=first', value: 'one')
+    key.define_singleton_method(:validate_default_value) do
+      lookup_value_match_taken?(value)
+      raise 'validation interrupted'
+    end
+    key.override = true
+    error = assert_raises(RuntimeError) { key.valid? }
+    assert_equal 'validation interrupted', error.message
+    assert_nil key.instance_variable_get(:@lookup_value_validation_context)
+    key.singleton_class.remove_method(:validate_default_value)
+    assert_valid key
+
+    key = FactoryBot.build(:lookup_key, path: 'comment')
+    value = key.lookup_values.build(match: 'comment=first', value: 'one')
+    key.define_singleton_method(:sanitize_path) do
+      lookup_value_match_taken?(value)
+      throw :abort
+    end
+    refute_valid key
+    assert_nil key.instance_variable_get(:@lookup_value_validation_context)
+    key.singleton_class.remove_method(:sanitize_path)
+    assert_valid key
+
+    key = FactoryBot.build(:lookup_key, path: 'comment')
+    outer = { index: {} }
+    key.instance_variable_set(:@lookup_value_validation_context, outer)
+    assert_valid key
+    assert_same outer, key.instance_variable_get(:@lookup_value_validation_context)
+
+    first = FactoryBot.build(:lookup_key, path: 'comment')
+    second = FactoryBot.build(:lookup_key, path: 'comment')
+    first.lookup_values.build(match: 'comment=Same', value: 'one')
+    second.lookup_values.build(match: 'comment=Same', value: 'two')
+    first.define_singleton_method(:validate_default_value) { second.valid? }
+    first.override = true
+    assert_valid first
+    assert_nil first.instance_variable_get(:@lookup_value_validation_context)
+    assert_nil second.instance_variable_get(:@lookup_value_validation_context)
+  ensure
+    key&.instance_variable_set(:@lookup_value_validation_context, nil)
+  end
+
+  test 'SQL uniqueness still rejects reusing a persisted match marked for deletion' do
+    key = FactoryBot.create(:lookup_key, :with_override)
+    old = key.lookup_values.to_a.first
+    old.mark_for_destruction
+    replacement = key.lookup_values.build(match: old.match, value: 'new')
+    assert key.lookup_value_match_taken?(replacement)
+    refute key.save
+    assert replacement.errors.added?(:match, :taken, value: replacement.match)
+    assert LookupValue.exists?(old.id)
+    assert_nil key.instance_variable_get(:@lookup_value_validation_context)
+  end
+
+  test 'parent validation match reads scale linearly with the number of children' do
+    counts = [128, 256].map do |size|
+      key = FactoryBot.build(:lookup_key, path: 'comment')
+      values = Array.new(size) do |index|
+        key.lookup_values.build(match: "comment=scaling#{index}", value: 'override')
+      end
+      reads = 0
+      values.each do |value|
+        reader = value.method(:match)
+        value.define_singleton_method(:match) do
+          reads += 1
+          reader.call
+        end
+      end
+      assert_valid key
+      assert_operator reads, :>, 0, "No match reads measured for #{size} children"
+      assert_operator reads, :<=, size * 80, "#{reads} match reads for #{size} children"
+      reads
+    end
+    assert_operator counts.last, :<=, counts.first * 2.25, "Match reads: #{counts.inspect}"
+    assert_operator counts.last, :>=, counts.first * 1.75, "Match reads: #{counts.inspect}"
+  end
+
+  test 'taken errors match the original sibling scan throughout randomized parent validation' do
+    persisted_key = FactoryBot.create(:lookup_key, path: "comment\ndomain\ncomment,domain")
+    persisted = ['comment=Mixed', 'comment=other'].map do |match|
+      persisted_key.lookup_values.create!(match: match, value: 'override')
+    end
+    matches = [nil, '', '   ', 'comment=Mixed', 'COMMENT=Mixed', ' COMMENT = Mixed ',
+               'comment=mixed', 'Comment = mixed', 'comment=other', 'domain=Example.COM',
+               'DOMAIN = Example.COM', 'comment=first=Mixed', 'comment=Mixed=',
+               'comment=Mixed,domain=Example.COM', 'COMMENT=Mixed, DOMAIN = Example.COM']
+    random = Random.new(39973)
+    cases = [
+      [{ match: 'comment=Mixed' }, { match: ' COMMENT = Mixed ' }],
+      [{ match: 'comment=Mixed' }, { match: 'comment=Mixed', marked: true }],
+      [{ match: 'comment=Mixed', record: 0 }, { match: ' COMMENT = Mixed ', record: 0 }, { match: 'comment=Mixed' }],
+    ]
+    cases.concat(Array.new(200) do
+      Array.new(random.rand(1..10)) do
+        { match: matches.sample(random: random), record: [nil, nil, 0, 1].sample(random: random), marked: random.rand(5) == 0 }
+      end
+    end)
+
+    cases.each_with_index do |rows, index|
+      [rows, rows.reverse].each do |ordered_rows|
+        expected = lookup_value_uniqueness_results(persisted_key, persisted, ordered_rows, reference: true)
+        actual = lookup_value_uniqueness_results(persisted_key, persisted, ordered_rows, reference: false)
+        assert_equal expected, actual, "Parity case #{index}: #{ordered_rows.inspect}"
+      end
+    end
+  end
+
+  private
+
+  def original_lookup_value_uniqueness(value)
+    return if value.lookup_key.nil?
+    if value.lookup_key.lookup_values.any? { |sibling| sibling != value && sibling.match == value.match }
+      value.errors.add(:match, :taken)
+    end
+  end
+
+  def lookup_value_uniqueness_results(persisted_key, persisted, rows, reference:)
+    key = LookupKey.instantiate(persisted_key.attributes)
+    original = method(:original_lookup_value_uniqueness)
+    trace = []
+    values = rows.each_with_index.map do |row, index|
+      value = if row[:record].nil?
+                LookupValue.new(value: 'override')
+              else
+                LookupValue.instantiate(persisted.fetch(row[:record]).attributes)
+              end
+      value.lookup_key = key
+      value.match = row[:match]
+      value.mark_for_destruction if row[:marked]
+      value.define_singleton_method(:ensure_match_uniqueness) do
+        reference ? original.call(self) : super()
+        trace << [index, errors.added?(:match, :taken)]
+      end
+      value
+    end
+    key.association(:lookup_values).target = values
+    key.association(:lookup_values).loaded!
+    valid = key.valid?
+    taken = values.each_index.select { |index| values[index].errors.details[:match].any? { |error| error[:error] == :taken } }
+    [valid, trace, taken, values.map(&:match)]
+  end
 end
