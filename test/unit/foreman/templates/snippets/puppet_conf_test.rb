@@ -27,6 +27,40 @@ class PuppetConfSnippetTest < ActiveSupport::TestCase
     @host = FactoryBot.create(:host, :managed, :build => true, :operatingsystem => operating_system)
   end
 
+  %w[enable-puppetlabs-repo enable-official-puppet8-repo enable-puppet8
+     enable-openvox8 enable-openvox8-repo enable-openvox9 enable-openvox9-repo].each do |parameter|
+    test "does not render directory overrides for #{parameter}" do
+      @host.operatingsystem.stubs(:family).returns('Debian')
+      FactoryBot.create(:host_parameter, host: @host, name: parameter, value: 'true')
+
+      result = render_template(@host)
+
+      assert_no_match(/^(vardir|logdir|rundir|ssldir)\s*=/, result)
+    end
+  end
+
+  test 'renders distribution paths when OpenVox is unset or false' do
+    @host.operatingsystem.stubs(:family).returns('Debian')
+    original = render_template(@host)
+
+    assert_match(/^vardir = \/var\/lib\/puppet$/, original)
+    assert_match(/^logdir = \/var\/log\/puppet$/, original)
+    assert_match(/^rundir = \/var\/run\/puppet$/, original)
+    assert_match(/^ssldir = \\\$vardir\/ssl$/, original)
+
+    FactoryBot.create(:host_parameter, host: @host, name: 'enable-openvox8-repo', value: 'false')
+
+    assert_equal original, render_template(@host)
+  end
+
+  test 'preserves FreeBSD paths when OpenVox is enabled' do
+    @host.operatingsystem.stubs(:family).returns('Freebsd')
+    original = render_template(@host)
+    FactoryBot.create(:host_parameter, host: @host, name: 'enable-openvox8-repo', value: 'true')
+
+    assert_equal original, render_template(@host)
+  end
+
   test 'renders a custom Puppet server port as serverport' do
     FactoryBot.create(:host_parameter, host: @host, name: 'puppet_server_port', value: '4443')
 
