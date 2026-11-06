@@ -1,4 +1,5 @@
 import { STATUS } from '../../constants';
+import { getAPIErrorMessage } from './APIHelpers';
 
 export const selectAPI = state => state.API;
 
@@ -21,11 +22,7 @@ export const selectAPIError = (state, key) =>
 export const selectAPIErrorMessage = (state, key) => {
   const error = selectAPIError(state, key);
   if (!error) return undefined;
-  return (
-    error.response?.data?.error?.message ||
-    error.response?.data?.message ||
-    error.message
-  );
+  return getAPIErrorMessage(error);
 };
 
 export const selectAPIHttpStatus = (state, key) => {

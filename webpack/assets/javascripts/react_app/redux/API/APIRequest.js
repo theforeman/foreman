@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { getApiResponse } from './APIHelpers';
+import { getApiResponse, getAPIErrorMessage } from './APIHelpers';
 import { actionTypeGenerator } from './APIActionTypeGenerator';
 import { noop } from '../../common/helpers';
 import { stopInterval } from '../middlewares/IntervalMiddleware';
@@ -77,10 +77,12 @@ export const apiRequest = async (
       response: error,
     });
 
-    errorToast &&
-      dispatch(
-        addToast({ type: 'danger', message: errorToast(error), key: FAILURE })
-      );
+    if (errorToast) {
+      const parsedMessage = getAPIErrorMessage(error);
+      const message =
+        errorToast === true ? parsedMessage : errorToast(error, parsedMessage);
+      message && dispatch(addToast({ type: 'danger', message, key: FAILURE }));
+    }
 
     handleError(error, stopIntervalCallback);
   }
