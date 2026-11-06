@@ -13,7 +13,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   include AccessPermissionsTestBase
 
   MAY_SKIP_REQUIRE_LOGIN = [
-    "users/login", "users/logout", "users/extlogin", "users/extlogout", "home/status", "notices/destroy",
+    "users/login", "users/logout", "users/extlogin", "users/extlogout",
+    "oidc_authentications/start", "oidc_authentications/callback", "home/status", "notices/destroy",
 
     # unattended built and failed action is not for interactive use
     "unattended/built", "unattended/failed",

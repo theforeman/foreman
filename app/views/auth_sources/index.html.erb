@@ -2,21 +2,28 @@
 <div class="container-fluid container-cards-pf">
   <div class="row row-cards-pf">
     <% @auth_sources.each do |auth_source| %>
-      <% if auth_source.type != 'AuthSourceLdap' %>
+      <% if !['AuthSourceLdap', 'AuthSourceOidc'].include?(auth_source.type) %>
         <%= render :partial => 'auth_source_card', :locals => {:auth_source => auth_source, :users => @users} %>
       <% end %>
     <% end %>
     <% if auth_source = ldap_present(@auth_sources) %>
       <%= render :partial => 'auth_source_card', :locals => {:auth_source => auth_source, :users => @users} %>
     <% end %>
+    <%= render :partial => 'auth_source_card', :locals => {:auth_source => AuthSourceOidc.new, :users => @users} %>
   </div>
+</div>
+
+<div>
+  <% if @auth_source_oidcs.any? %>
+    <%= render :partial => 'auth_source_oidcs/oidc_table', :locals => { :auth_source_oidcs => @auth_source_oidcs } %>
+  <% end %>
 </div>
 
 <div>
   <% if @auth_source_ldaps.any? %>
     <%= render :partial => 'auth_source_ldaps/ldap_table', :locals => {:auth_source_ldaps => @auth_source_ldaps} %>
     <%= will_paginate_with_info @auth_source_ldaps %>
-  <% else %>
+  <% elsif @auth_source_oidcs.empty? %>
     <%= render :partial => 'welcome' %>
   <% end %>
 </div>
