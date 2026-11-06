@@ -209,9 +209,9 @@ function template_info(div, url) {
     error: function(jqXHR, textStatus, errorThrown) {
       $(div).html(
         '<div class="alert alert-warning alert-dismissable">' +
-          tfm.tools.iconText('warning-triangle-o', '', 'pficon') +
           '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-          __('Sorry but no templates were configured.') +
+          '<span class="pficon pficon-warning-triangle-o"></span>' +
+          '<span class="text">' + __('Sorry but no templates were configured.') + '</span>' +
           '</div>'
       );
     },
