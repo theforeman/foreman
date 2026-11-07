@@ -318,3 +318,74 @@ bin/rake test TEST="../<PLUGIN_PATH>/test/PATH/TO/TEST"
 [[Forklift]]
 == Forklift
 https://github.com/theforeman/forklift[Forklift] provides tools to create Foreman+Katello environments for development, testing, and production configurations. Follow the https://github.com/theforeman/forklift/blob/master/docs/vagrant.md[installation guide].
+
+[[container-image-build-from-source]]
+== Building container images from source
+
+The official container images are built from the RPM packages, but building
+a container image directly from the Foreman sources works and is useful for
+testing or for distributions that need custom gems. The notes below assume a
+CentOS Stream (or RHEL) container base and a multi-stage build; they apply
+to Foreman 5.0.
+
+=== Base image prerequisites
+
+Install the same development packages as for a source install, with two
+additions:
+
+[source, bash]
+....
+dnf install -y --nodocs gcc gcc-c++ make git nodejs npm ruby-devel \
+    libxml2-devel libxslt-devel postgresql-devel redhat-rpm-config \
+    libcap-devel libffi-devel glib2-devel systemd-devel pkgconfig krb5-devel
+dnf install -y --nodocs --enablerepo=crb libvirt-devel
+....
+
+`libvirt-devel` lives in the CRB (CodeReady Builder) repository on EL
+distributions; without it the `ruby-libvirt` native extension fails to
+build. `systemd-devel` is needed by `journald-native`, `libcap-devel` by
+`cap2` (pulled in by `net-ping`), and `libffi-devel` by `fiddle`.
+
+=== Bundler, not bundler_ext
+
+The RPM packaging renames the Gemfile to `Gemfile.in` and relies on
+`bundler_ext` to load gems from the system paths. A container build that
+vendors its gems with plain Bundler must keep the file named `Gemfile`:
+`config/application.rb` selects `bundler_ext` (system gems) whenever a
+`Gemfile.in` exists, and that fails because the vendored gems are not on the
+system gem path.
+
+=== Compiling assets without a database
+
+The upstream packaging builds the webpack bundles and the Rails assets with
+a NULL database adapter:
+
+[source, bash]
+....
+cp db/schema.rb.nulldb db/schema.rb
+cp config/database.yml.example config/database.yml
+npm install --no-audit --no-fund
+RAILS_ENV=production DATABASE_URL=nulldb://nohost bundle exec rake webpack:compile
+RAILS_ENV=production RAILS_GROUPS=assets bundle exec rake assets:precompile
+rm db/schema.rb
+....
+
+`rake` is not part of the resolved bundle in a vendored setup; `gem install
+rake` (outside the bundle) makes the `bundle exec rake` entry point work.
+
+=== sassc and libsass.so
+
+`sassc` 2.4.0 (pulled in through `sass-rails` 6) builds `libsass.so` and
+rubygems installs it under the extensions directory, while the FFI loader
+looks for it inside the gem itself. When the bundle is vendored
+(`bundle config path vendor/bundle`) the build succeeds but the first sass
+compilation fails with `Could not open library '.../sassc-2.4.0/ext/libsass.so'`.
+Copy the built library to the expected locations:
+
+[source, bash]
+....
+cd vendor/bundle/ruby/3.3.0
+cp extensions/x86_64-linux/3.3.0/sassc-2.4.0/sassc/libsass.so \
+   gems/sassc-2.4.0/ext/libsass.so
+cp gems/sassc-2.4.0/ext/libsass.so gems/sassc-2.4.0/lib/sassc/libsass.so
+....
