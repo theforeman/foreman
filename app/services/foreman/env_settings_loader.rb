@@ -54,6 +54,13 @@ module Foreman
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_CONNECT_TIMEOUT' => [:float, :rails_cache_store, :options, :connect_timeout],
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_READ_TIMEOUT' => [:float, :rails_cache_store, :options, :read_timeout],
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => [:float, :rails_cache_store, :options, :write_timeout],
+        'FOREMAN_ACTIVE_STORAGE_SERVICE' => [:string, :active_storage, :service],
+        'FOREMAN_ACTIVE_STORAGE_S3_ACCESS_KEY_ID' => [:string, :active_storage, :s3, :access_key_id],
+        'FOREMAN_ACTIVE_STORAGE_S3_SECRET_ACCESS_KEY' => [:string, :active_storage, :s3, :secret_access_key],
+        'FOREMAN_ACTIVE_STORAGE_S3_REGION' => [:string, :active_storage, :s3, :region],
+        'FOREMAN_ACTIVE_STORAGE_S3_BUCKET' => [:string, :active_storage, :s3, :bucket],
+        'FOREMAN_ACTIVE_STORAGE_S3_ENDPOINT' => [:string, :active_storage, :s3, :endpoint],
+        'FOREMAN_ACTIVE_STORAGE_S3_FORCE_PATH_STYLE' => [:boolean, :active_storage, :s3, :force_path_style],
       }.merge(logger_settings_map)
     end
 
