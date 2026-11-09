@@ -4,6 +4,22 @@ import {
   unselectAllRows,
   unselectRow,
 } from '../actions/selectionActions';
+import { deprecate } from '../../../../common/DeprecationService';
+
+let getSelectionControllerDeprecationLogged = false;
+
+const logGetSelectionControllerDeprecation = () => {
+  if (getSelectionControllerDeprecationLogged) {
+    return;
+  }
+
+  getSelectionControllerDeprecationLogged = true;
+  deprecate(
+    'table/schemaHelpers/getSelectionController',
+    'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+    '5.2'
+  );
+};
 
 /**
  * @property {string} tableID - A string that represents the table in the store.
@@ -25,6 +41,8 @@ export const getSelectionController = ({
   selectedRows,
   dispatch,
 }) => {
+  logGetSelectionControllerDeprecation();
+
   const checkAllPageSelected = () =>
     allRowsSelected || rows.length === selectedRows.length;
 

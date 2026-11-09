@@ -5,6 +5,36 @@ import {
   sortableHeaderFormatter,
 } from '../formatters';
 import { column } from './column';
+import { deprecate } from '../../../../common/DeprecationService';
+
+let sortableColumnDeprecationLogged = false;
+let sortControllerFactoryDeprecationLogged = false;
+
+const logSortableColumnDeprecation = () => {
+  if (sortableColumnDeprecationLogged) {
+    return;
+  }
+
+  sortableColumnDeprecationLogged = true;
+  deprecate(
+    'table/schemaHelpers/sortableColumn',
+    'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+    '5.2'
+  );
+};
+
+const logSortControllerFactoryDeprecation = () => {
+  if (sortControllerFactoryDeprecationLogged) {
+    return;
+  }
+
+  sortControllerFactoryDeprecationLogged = true;
+  deprecate(
+    'table/schemaHelpers/sortControllerFactory',
+    'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+    '5.2'
+  );
+};
 
 /**
  * Generate a sortable column for a patternfly-3 table.
@@ -25,14 +55,17 @@ export const sortableColumn = (
   mdWidth,
   sortController,
   additionalCellFormatters = []
-) =>
-  column(
+) => {
+  logSortableColumnDeprecation();
+
+  return column(
     property,
     label,
     [sortableHeaderFormatter(sortController), headerFormatterWithProps],
     [...additionalCellFormatters, ellipsisCellFormatter],
     { sort: true, sortDirection: '', className: `col-md-${mdWidth}` }
   );
+};
 
 /**
  * Creates a sort controller for Patternfly-3 table.
@@ -41,15 +74,19 @@ export const sortableColumn = (
  * @param  {String}   sortOrder the order which the table is sorted by.
  * @return {Object}   a sort controller object.
  */
-export const sortControllerFactory = (apiCall, sortBy, sortOrder) => ({
-  apply: (by, order) => {
-    const uri = new URI(window.location.href);
-    uri.setSearch('order', `${by} ${order}`);
-    // FIXME(bshuster): Going back in the browser won't render the state.
-    //                  Using react-router will fix this completely.
-    window.history.pushState({ path: uri.toString() }, '', uri.toString());
-    apiCall(uri.query(true));
-  },
-  property: sortBy,
-  order: sortOrder,
-});
+export const sortControllerFactory = (apiCall, sortBy, sortOrder) => {
+  logSortControllerFactoryDeprecation();
+
+  return {
+    apply: (by, order) => {
+      const uri = new URI(window.location.href);
+      uri.setSearch('order', `${by} ${order}`);
+      // FIXME(bshuster): Going back in the browser won't render the state.
+      //                  Using react-router will fix this completely.
+      window.history.pushState({ path: uri.toString() }, '', uri.toString());
+      apiCall(uri.query(true));
+    },
+    property: sortBy,
+    order: sortOrder,
+  };
+};
