@@ -1,3 +1,20 @@
+import { deprecate } from '../../../../common/DeprecationService';
+
+let columnDeprecationLogged = false;
+
+const logColumnDeprecation = () => {
+  if (columnDeprecationLogged) {
+    return;
+  }
+
+  columnDeprecationLogged = true;
+  deprecate(
+    'table/schemaHelpers/column',
+    'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+    '5.2'
+  );
+};
+
 /**
  * Generate a column for a patternfly-3 table.
  * See more in http://patternfly-react.surge.sh/patternfly-3/
@@ -21,15 +38,19 @@ export const column = (
   cellFormat,
   headProps = {},
   cellProps = {}
-) => ({
-  property,
-  header: {
-    label,
-    props: headProps,
-    formatters: headFormat,
-  },
-  cell: {
-    props: cellProps,
-    formatters: cellFormat,
-  },
-});
+) => {
+  logColumnDeprecation();
+
+  return {
+    property,
+    header: {
+      label,
+      props: headProps,
+      formatters: headFormat,
+    },
+    cell: {
+      props: cellProps,
+      formatters: cellFormat,
+    },
+  };
+};

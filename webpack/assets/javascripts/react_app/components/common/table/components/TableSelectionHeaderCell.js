@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'patternfly-react';
 import { noop } from '../../../../common/helpers';
+import { deprecate } from '../../../../common/DeprecationService';
 
 const TableSelectionHeaderCell = ({
   id,
@@ -9,17 +10,27 @@ const TableSelectionHeaderCell = ({
   checked,
   onChange,
   ...props
-}) => (
-  <Table.SelectionHeading aria-label={label}>
-    <Table.Checkbox
-      id={id}
-      title={label}
-      checked={checked}
-      onChange={onChange}
-      {...props}
-    />
-  </Table.SelectionHeading>
-);
+}) => {
+  useEffect(() => {
+    deprecate(
+      'table/components/TableSelectionHeaderCell',
+      'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+      '5.2'
+    );
+  }, []);
+
+  return (
+    <Table.SelectionHeading aria-label={label}>
+      <Table.Checkbox
+        id={id}
+        title={label}
+        checked={checked}
+        onChange={onChange}
+        {...props}
+      />
+    </Table.SelectionHeading>
+  );
+};
 
 TableSelectionHeaderCell.propTypes = {
   id: PropTypes.string,
