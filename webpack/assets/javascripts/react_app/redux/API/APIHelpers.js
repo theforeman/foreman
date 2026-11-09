@@ -44,9 +44,6 @@ const flattenFieldErrors = errors => {
 };
 
 const unwrap = input => {
-  if (input == null || typeof input === 'string') {
-    return { status: undefined, body: input, axiosError: undefined };
-  }
   if (input.response) {
     return {
       status: input.response.status,
@@ -54,15 +51,32 @@ const unwrap = input => {
       axiosError: input,
     };
   }
-  if (input.data !== undefined && input.status !== undefined) {
+  if (input.status !== undefined) {
     return { status: input.status, body: input.data, axiosError: undefined };
   }
   return { status: undefined, body: input, axiosError: undefined };
 };
 
 /**
- * Normalize API failure payloads into a consistent shape.
- * Accepts an Axios error, Axios response, unwrapped body, string, or undefined.
+ * @typedef {Object} APIErrorParsed
+ * @property {string|undefined} message Comma-joined summary suitable for toasts.
+ * @property {string[]} messages Individual messages in parser priority order.
+ * @property {Object.<string, string[]>} fieldErrors Validation messages keyed by field.
+ * @property {number|undefined} status HTTP status when available.
+ * @property {*} [body] Unwrapped response body or raw input fragment.
+ */
+
+/**
+ * Normalize known API failure payloads into {@link APIErrorParsed}.
+ *
+ * Bounded helper for existing Foreman and legacy plugin shapes (Foreman v2 `error`,
+ * Katello-style `message` / `errors`, JSON:API `errors[]`, HTML/transport fallbacks).
+ * Not an extensible adapter: do not add new error schemas here — use established API
+ * responses or handle a fixed contract at the call site. See `developer_docs/api-error-parsing.asciidoc`
+ * and `__tests__/APIHelpers.test.js` for the contract.
+ *
+ * @param {Object|string|undefined|null} input Axios error, `{ status, data }`, JSON body, or string.
+ * @returns {APIErrorParsed}
  */
 export const parseAPIError = input => {
   const empty = {
@@ -96,7 +110,9 @@ export const parseAPIError = input => {
   }
 
   if (!body || typeof body !== 'object') {
-    const fallback = axiosError?.message;
+    const fallback =
+      axiosError?.message ||
+      (status ? `Request failed with status code ${status}` : undefined);
     return {
       ...empty,
       message: fallback,
@@ -167,5 +183,14 @@ export const parseAPIError = input => {
   };
 };
 
+/**
+ * @param {Object|string|undefined|null} input Same as {@link parseAPIError}.
+ * @returns {string[]} Message list (empty when none found).
+ */
 export const getAPIErrorMessages = input => parseAPIError(input).messages;
+
+/**
+ * @param {Object|string|undefined|null} input Same as {@link parseAPIError}.
+ * @returns {string|undefined} Single-line summary for toasts and simple UI.
+ */
 export const getAPIErrorMessage = input => parseAPIError(input).message;

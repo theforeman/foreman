@@ -226,3 +226,14 @@ the store on API failure:
   }
 }
 ```
+
+## Error messages and toasts
+
+On failure the API slice stores the Axios error object. Use `getAPIErrorMessage`, `parseAPIError`, or `selectAPIErrorMessage` instead of reading `response.data` ad hoc.
+
+For API actions, `errorToast` may be:
+
+* `true` — default message from `getAPIErrorMessage`
+* `(error, parsedMessage) => string` — custom toast text with a pre-parsed fallback
+
+Full details: link:++developer_docs/api-error-parsing.asciidoc#api-error-parsing++[API error parsing (frontend)].

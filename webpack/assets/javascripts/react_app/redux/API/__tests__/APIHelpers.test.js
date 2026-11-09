@@ -192,6 +192,15 @@ describe('parseAPIError', () => {
     ).toBe('from body');
   });
 
+  it('handles response status without a body', () => {
+    expect(getAPIErrorMessage({ status: 404 })).toBe(
+      'Request failed with status code 404'
+    );
+    expect(
+      getAPIErrorMessage({ status: 500, data: undefined })
+    ).toBe('Request failed with status code 500');
+  });
+
   it('falls back to Axios message when body has no usable messages', () => {
     const error = axiosError(404, {});
     expect(getAPIErrorMessage(error)).toBe(

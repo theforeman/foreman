@@ -7,6 +7,11 @@ import { selectDoesIntervalExist } from '../middlewares/IntervalMiddleware/Inter
 import { selectAPIResponse } from './APISelectors';
 import { addToast } from '../../components/ToastsList';
 
+/**
+ * Runs an API call and dispatches REQUEST / SUCCESS / FAILURE for `payload.key`.
+ * `payload.errorToast`: `true` for `getAPIErrorMessage`, or `(error, parsedMessage) => string`.
+ * See `developer_docs/api-error-parsing.asciidoc`.
+ */
 export const apiRequest = async (
   {
     type,

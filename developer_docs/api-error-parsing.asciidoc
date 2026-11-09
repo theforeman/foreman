@@ -1,0 +1,62 @@
+[[api-error-parsing]]
+
+= API error parsing (frontend)
+:toc: right
+:toclevels: 3
+
+When an API call fails, the Redux API middleware stores the Axios error on the API slice.
+Use the helpers in `webpack/assets/javascripts/react_app/redux/API/APIHelpers.js` to turn that failure into a stable shape for toasts and forms.
+
+== Helpers
+
+[cols="1,3",options="header"]
+|===
+| Export | Use when
+
+| `parseAPIError(input)`
+| You need `message`, `messages`, `fieldErrors`, `status`, or the raw `body` (e.g. inline field validation).
+
+| `getAPIErrorMessage(input)`
+| You only need one string (toasts, simple error text).
+
+| `getAPIErrorMessages(input)`
+| You need the list of messages before joining.
+
+| `selectAPIErrorMessage(state, key)`
+| The failure is already in Redux under an API `key` (uses `getAPIErrorMessage` internally).
+|===
+
+`input` may be an Axios error, an Axios-like `{ status, data }` object, an unwrapped JSON body, a plain string, or `null`/`undefined`.
+
+== Parsed shape
+
+```js
+{
+  message: undefined | string,   // comma-joined summary
+  messages: string[],
+  fieldErrors: { [field]: string[] },
+  status: undefined | number,
+  body: undefined | *,
+}
+```
+
+`parseAPIError(null)` returns an empty skeleton (empty `messages`, `{}` fieldErrors) so callers can read properties without extra guards.
+
+== API middleware and toasts
+
+In `apiRequest`, optional `errorToast` works in two ways:
+
+* `errorToast: true` — show `getAPIErrorMessage(error)`.
+* `errorToast: (error, parsedMessage) => string` — customize text; `parsedMessage` is already parsed (avoid re-walking the payload for the default text).
+
+See also link:++developer_docs/api-middleware-usage.asciidoc#api-middleware-intro++[API Middleware Usage].
+
+== Scope (do not extend)
+
+`parseAPIError` is a **bounded** normalizer for **existing** Foreman and plugin response shapes consolidated during the API error cleanup (#39974 and follow-ups).
+
+* Do **not** add branches for new API error schemas or a plugin adapter registry.
+* Prefer `getAPIErrorMessage` / `errorToast: true` over duplicating `response?.data?.error?...` in components.
+* If an endpoint has a **fixed** contract, handle it in that feature (or use `fieldErrors` from `parseAPIError`) instead of growing the shared parser.
+
+Behavior is defined by `webpack/assets/javascripts/react_app/redux/API/__tests__/APIHelpers.test.js`.

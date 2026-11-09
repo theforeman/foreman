@@ -19,6 +19,7 @@ export const selectAPIError = (state, key) =>
     ? selectAPIResponse(state, key)
     : null;
 
+/** @returns {string|undefined} Parsed message for a failed API key ({@link getAPIErrorMessage}). */
 export const selectAPIErrorMessage = (state, key) => {
   const error = selectAPIError(state, key);
   if (!error) return undefined;
