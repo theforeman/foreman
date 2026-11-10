@@ -1967,9 +1967,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr ""
-
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
@@ -2801,6 +2798,9 @@ msgstr "Disabilitato"
 msgid "Disabled alerts"
 msgstr ""
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr ""
 
@@ -3041,6 +3041,9 @@ msgid "Enable %s?"
 msgstr ""
 
 msgid "Enable Caching"
+msgstr ""
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
 msgstr ""
 
 msgid "Enable Notifications"
@@ -3503,6 +3506,11 @@ msgstr ""
 msgid "Failed to set console: %s"
 msgstr "Impossibile impostare la console: %s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
 msgstr[0] ""
@@ -3939,6 +3947,9 @@ msgstr ""
 msgid "General"
 msgstr "Generale"
 
+msgid "General description of the hardware model"
+msgstr ""
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Descrizione utile generale, ad esempio questo tipo di hardware ha bisogno di una impostazione particolare del BIOS"
 
@@ -4135,6 +4146,9 @@ msgid "Hardware Models"
 msgstr "Modelli hardware"
 
 msgid "Hardware model"
+msgstr ""
+
+msgid "Hardware model name"
 msgstr ""
 
 msgid "Hardware models"
@@ -6447,11 +6461,17 @@ msgstr ""
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr ""
 
+msgid "Name of the hardware model"
+msgstr ""
+
 msgid "Name of the host group"
 msgstr "Nome del gruppo di host"
 
 msgid "Name of the parameter"
 msgstr "Nome del parametro"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr ""
 
 msgid "Name of the table"
 msgstr ""
@@ -6725,6 +6745,9 @@ msgstr "Impossibile trovare modelli completati per questo host, definirne almeno
 msgid "No free ports available for websockify, try again later"
 msgstr ""
 
+msgid "No global parameters found"
+msgstr ""
+
 msgid "No history found"
 msgstr "Nessuna cronologia trovata"
 
@@ -6753,6 +6776,9 @@ msgid "No hosts selected"
 msgstr "Nessun host selezionato"
 
 msgid "No hosts were found with that id, name or query filter"
+msgstr ""
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
 msgstr ""
 
 msgid "No interesting reports received in the last week"
@@ -7254,6 +7280,12 @@ msgstr "Operatori"
 msgid "Optional Input Validator"
 msgstr ""
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr "Insieme opzionale di log hash"
 
@@ -7371,6 +7403,9 @@ msgstr ""
 msgid "PBKDF2 password cost"
 msgstr ""
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "POAP PXE template"
 msgstr ""
 
@@ -7432,8 +7467,14 @@ msgstr ""
 msgid "Parameter Details"
 msgstr ""
 
+msgid "Parameter name is required"
+msgstr ""
+
 msgid "Parameter value"
 msgstr "Valore parametro"
+
+msgid "Parameter value is required"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parametri"
@@ -8285,6 +8326,9 @@ msgstr "Riporta lo stato"
 msgid "Report Templates"
 msgstr ""
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr ""
+
 msgid "Report completed"
 msgstr ""
 
@@ -8304,6 +8348,9 @@ msgid "Report is ready to download"
 msgstr ""
 
 msgid "Report not found, please ensure you used the correct job_id"
+msgstr ""
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
 msgstr ""
 
 msgid "Report templates"
@@ -8623,9 +8670,6 @@ msgstr ""
 msgid "SSH timeout"
 msgstr ""
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr ""
-
 msgid "SSL CA file"
 msgstr ""
 
@@ -8778,6 +8822,12 @@ msgstr "Seleziona Localizzazione"
 
 msgid "Select Organization"
 msgstr "Seleziona organizzazione"
+
+msgid "Select a global parameter"
+msgstr ""
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr ""
 
 msgid "Select a period"
 msgstr "Seleziona un periodo"
@@ -8958,6 +9008,9 @@ msgstr ""
 msgid "Set IP addresses for %s"
 msgstr ""
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr ""
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr ""
 
@@ -8968,6 +9021,19 @@ msgid "Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. S
 msgstr ""
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
+msgstr ""
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameters"
 msgstr ""
 
 msgid "Set the current location context for the request"
@@ -9477,6 +9543,9 @@ msgstr "Stato"
 
 msgid "Status %s does not exist."
 msgstr "Lo Status %s non esiste."
+
+msgid "Stop impersonation"
+msgstr ""
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr ""
@@ -11448,6 +11517,9 @@ msgstr "Valore"
 msgid "Value for required input '%s' was not specified"
 msgstr ""
 
+msgid "Value for the host parameter override"
+msgstr ""
+
 msgid "Value to use when there is no match."
 msgstr ""
 
@@ -11468,6 +11540,9 @@ msgstr ""
 
 msgid "Vendor class"
 msgstr "Classe rivenditore"
+
+msgid "Vendor class of the hardware model"
+msgstr ""
 
 msgid "Verify"
 msgstr "Verifica"
@@ -11782,6 +11857,9 @@ msgid "You can add SSH public keys to a user in Foreman."
 msgstr ""
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12306,6 +12384,9 @@ msgstr "non è valido: %s"
 msgid "is locked for user modifications."
 msgstr ""
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "non è un indirizzo MAC valido"
 
@@ -12401,6 +12482,9 @@ msgstr ""
 msgid "must be an array"
 msgstr "deve essere un insieme"
 
+msgid "must be between 0 and 512 MiB"
+msgstr ""
+
 msgid "must be boolean"
 msgstr "deve essere un valore booleano"
 
@@ -12438,6 +12522,9 @@ msgid "must contain valid hostnames"
 msgstr ""
 
 msgid "must end with /v2 or /v3"
+msgstr ""
+
+msgid "must not include a CIDR prefix"
 msgstr ""
 
 msgid "must not include periods"

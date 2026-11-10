@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-22 15:34+0200\n"
-"PO-Revision-Date: 2026-09-22 15:34+0200\n"
+"POT-Creation-Date: 2026-11-10 10:57-0500\n"
+"PO-Revision-Date: 2026-11-10 10:57-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -36,7 +36,6 @@ msgstr ""
 
 #: ../app/assets/javascripts/application.js:475
 #: ../webpack/assets/javascripts/react_app/components/common/AutocompleteInput/AutocompleteInput.js:34
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:23
 msgid "No matches found"
 msgstr ""
 
@@ -219,7 +218,6 @@ msgstr ""
 
 #: ../app/assets/javascripts/subnets.js:67
 #: ../app/assets/javascripts/subnets.js:91
-#: ../webpack/assets/javascripts/react_app/components/common/forms/validators.js:8
 msgid "can't be blank"
 msgstr ""
 
@@ -234,38 +232,38 @@ msgstr ""
 msgid "is invalid"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:27
+#: ../app/controllers/api/base_controller.rb:28
 msgid ""
 "Internal Server Error: the server was unable to finish the request. This may b"
 "e caused by unavailability of some required service, incorrect API call or a s"
 "erver-side bug. There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:228
+#: ../app/controllers/api/base_controller.rb:229
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:27
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:37
 #: ../app/controllers/users_controller.rb:179
 msgid "User account is disabled, please contact your administrator"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:242
+#: ../app/controllers/api/base_controller.rb:243
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:369
+#: ../app/controllers/api/base_controller.rb:370
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:382
+#: ../app/controllers/api/base_controller.rb:383
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:414
+#: ../app/controllers/api/base_controller.rb:415
 #: ../app/controllers/application_controller.rb:179
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:425
+#: ../app/controllers/api/base_controller.rb:426
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -1704,7 +1702,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:109
 #: ../app/controllers/api/v2/registration_controller.rb:75
-#: ../app/views/hosts/_form.html.erb:135
+#: ../app/views/hosts/_form.html.erb:136
 msgid "Additional information about this host"
 msgstr ""
 
@@ -1867,11 +1865,11 @@ msgstr ""
 msgid "Get all inherited parameters for a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:421
+#: ../app/controllers/api/v2/hosts_controller.rb:424
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:424
+#: ../app/controllers/api/v2/hosts_controller.rb:427
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2157,68 +2155,78 @@ msgstr ""
 msgid "Relevant only for audit summary notification"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:28
-msgid "Show an email notification"
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:19
+msgid ""
+"Do not send the notification when there is nothing to report. Relevant only fo"
+"r summary notifications"
 msgstr ""
 
 #: ../app/controllers/api/v2/mail_notifications_controller.rb:29
+msgid "Show an email notification"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:30
 msgid "Numerical ID or email notification name"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:34
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:35
 msgid "Add an email notification for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:48
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:50
 msgid "User mail notification already exists. Use the update action"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:54
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:56
 msgid "Update an email notification for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:62
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:64
 msgid "No user mail notification to update. Use the create action"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:71
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:74
 msgid "Remove an email notification for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:81
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:84
 msgid "You do not have permission to delete a mail notification of another user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:85
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:88
 msgid "List all email notifications for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:101
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:104
 msgid "Interval or subscription option is missing"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:102
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:105
 msgid "You do not have permission to add a mail notification to another user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:103
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:106
 msgid "Interval option is needed"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:104
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:107
 msgid "Subscription option is needed"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:107
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:110
 msgid "Interval option is not valid"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:108
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:111
 msgid "Subscription option is not valid"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:109
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:112
 msgid "Mail query is not valid"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:113
+msgid "This notification cannot be skipped when empty"
 msgstr ""
 
 #: ../app/controllers/api/v2/media_controller.rb:21
@@ -3238,11 +3246,11 @@ msgid "Is this setting readonly?"
 msgstr ""
 
 #: ../app/controllers/api/v2/settings_controller.rb:24
-msgid "Is this setting encrypted?"
+msgid "Configuration file that controls the setting, if any"
 msgstr ""
 
 #: ../app/controllers/api/v2/settings_controller.rb:25
-msgid "If this setting needs to be changed in file, it will have the file path."
+msgid "Is this setting encrypted?"
 msgstr ""
 
 #: ../app/controllers/api/v2/settings_controller.rb:26
@@ -4423,33 +4431,35 @@ msgid "Template unlocked"
 msgstr ""
 
 #: ../app/controllers/unattended_controller.rb:108
+msgid "unable to find public template with name %{name}"
+msgstr ""
+
+#: ../app/controllers/unattended_controller.rb:121
 msgid "iPXE intermediate script '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:118
+#: ../app/controllers/unattended_controller.rb:131
 msgid "Global iPXE template '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:130
+#: ../app/controllers/unattended_controller.rb:143
 msgid "iPXE local boot template '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:206
+#: ../app/controllers/unattended_controller.rb:219
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:249
+#: ../app/controllers/unattended_controller.rb:262
 #: ../webpack/assets/javascripts/react_app/components/PF4/BreadcrumbSwitcher/index.js:72
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:66
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:161
 msgid "An error occurred."
 msgstr ""
 
-#: ../app/controllers/userdata_controller.rb:35
+#: ../app/controllers/userdata_controller.rb:49
 msgid "Unable to find user-data or cloud-init template for host %{host} running %{os}"
 msgstr ""
 
-#: ../app/controllers/userdata_controller.rb:63
+#: ../app/controllers/userdata_controller.rb:77
 msgid "Could not find host for request %{request_ip}"
 msgstr ""
 
@@ -4514,27 +4524,27 @@ msgstr ""
 msgid "Some imported user account details cannot be saved: %s"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:239
+#: ../app/controllers/users_controller.rb:244
 msgid "Logged out - See you soon"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:252
+#: ../app/controllers/users_controller.rb:257
 msgid "Email address is missing"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:258
+#: ../app/controllers/users_controller.rb:263
 msgid "Unable to send email, check server logs for more information"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:261
+#: ../app/controllers/users_controller.rb:266
 msgid "Email was sent successfully"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:303
+#: ../app/controllers/users_controller.rb:308
 msgid "You have already logged in"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:316
+#: ../app/controllers/users_controller.rb:321
 msgid "CSRF protection token expired, please log in again"
 msgstr ""
 
@@ -4609,7 +4619,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:147
 #: ../app/helpers/provisioning_templates_helper.rb:13
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:512
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:204
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:205
 msgid "Export"
 msgstr ""
 
@@ -4631,7 +4641,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:297
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:28
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:209
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:210
 msgid "Documentation"
 msgstr ""
 
@@ -4642,13 +4652,13 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:322 ../app/helpers/hosts_helper.rb:445
 #: ../app/views/users/logout.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:74
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:73
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingValueEdit.js:159
 msgid "Yes"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:322 ../app/helpers/hosts_helper.rb:445
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:76
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:75
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingValueEdit.js:160
 msgid "No"
 msgstr ""
@@ -5101,7 +5111,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:55
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:60
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:197
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:170
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:189
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/buildHosts/BulkBuildHostModal.js:79
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/changeOwner/BulkChangeOwnerModal.js:149
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/disassociate/BulkDisassociateModal.js:107
@@ -5111,7 +5121,6 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:202
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:63
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:66
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:37
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:204
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:178
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelForm.js:119
@@ -5125,7 +5134,6 @@ msgstr ""
 
 #: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:197
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:28
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:171
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelForm.js:112
 msgid "Submit"
@@ -5693,7 +5701,6 @@ msgid "How values are validated"
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:141
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Form.js:71
 msgid "Unable to save"
 msgstr ""
 
@@ -6183,6 +6190,10 @@ msgstr ""
 msgid "Disable %s?"
 msgstr ""
 
+#: ../app/helpers/users_helper.rb:88
+msgid "Do not send if there is nothing to report"
+msgstr ""
+
 #: ../app/jobs/create_rss_notifications.rb:20
 msgid "Create RSS notifications"
 msgstr ""
@@ -6241,7 +6252,7 @@ msgid ""
 "C 1035 and RFC 2181"
 msgstr ""
 
-#: ../app/mailers/application_mailer.rb:64
+#: ../app/mailers/application_mailer.rb:71
 msgid ""
 ":foreman_url is not set, please configure in the Foreman Web UI (Administer ->"
 " Settings -> General)"
@@ -6251,7 +6262,7 @@ msgstr ""
 msgid "Must specify a user with email enabled"
 msgstr ""
 
-#: ../app/mailers/audit_mailer.rb:13 ../db/seeds.d/160-mail_notifications.rb:10
+#: ../app/mailers/audit_mailer.rb:15 ../db/seeds.d/160-mail_notifications.rb:13
 msgid "Audit summary"
 msgstr ""
 
@@ -6259,17 +6270,17 @@ msgstr ""
 msgid "Must specify a valid user with email enabled"
 msgstr ""
 
-#: ../app/mailers/host_mailer.rb:24
+#: ../app/mailers/host_mailer.rb:28
 msgid ""
 "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipp"
 "ed} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr ""
 
-#: ../app/mailers/host_mailer.rb:43
+#: ../app/mailers/host_mailer.rb:47
 msgid "Configuration Management Error on %s"
 msgstr ""
 
-#: ../app/mailers/host_mailer.rb:53
+#: ../app/mailers/host_mailer.rb:57
 msgid "Host %s is built"
 msgstr ""
 
@@ -6411,7 +6422,7 @@ msgstr ""
 msgid "Hint data is missing"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:187
+#: ../app/models/compute_resources/foreman/model/openstack.rb:188
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
@@ -6916,23 +6927,23 @@ msgstr ""
 msgid "Configure instance %s via SSH"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/ssh_provision.rb:52
+#: ../app/models/concerns/orchestration/ssh_provision.rb:55
 msgid "Unable to find proper authentication method"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/ssh_provision.rb:56
+#: ../app/models/concerns/orchestration/ssh_provision.rb:61
 msgid "Failed to login via SSH to %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/ssh_provision.rb:77
+#: ../app/models/concerns/orchestration/ssh_provision.rb:85
 msgid "Provision script had a non zero exit"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/ssh_provision.rb:80
+#: ../app/models/concerns/orchestration/ssh_provision.rb:88
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/ssh_provision.rb:97
+#: ../app/models/concerns/orchestration/ssh_provision.rb:105
 msgid ""
 "No finish templates were found for this host, make sure you define at least on"
 "e in your %s settings"
@@ -6998,7 +7009,7 @@ msgstr ""
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
-#: ../app/models/concerns/taxonomix.rb:267
+#: ../app/models/concerns/taxonomix.rb:278
 msgid ""
 "Invalid %{assoc} selection, you must select at least one of yours and have '%{"
 "perm}' permission."
@@ -7055,7 +7066,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:771
+#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:778
 msgid "is not permitted"
 msgstr ""
 
@@ -7435,7 +7446,7 @@ msgstr ""
 
 #: ../app/models/parameters/location_parameter.rb:7
 #: ../app/models/taxonomies/location.rb:46
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:142
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:161
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/TaxonomySelect.js:18
 #: taxonomies.rb:6
 msgid "location"
@@ -7447,7 +7458,7 @@ msgstr ""
 
 #: ../app/models/parameters/organization_parameter.rb:7
 #: ../app/models/taxonomies/organization.rb:46
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:142
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:161
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/TaxonomySelect.js:18
 #: taxonomies.rb:7
 msgid "organization"
@@ -7548,35 +7559,35 @@ msgstr ""
 msgid "some permissions were not found: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:123
+#: ../app/models/setting.rb:119
 msgid "must be boolean"
 msgstr ""
 
-#: ../app/models/setting.rb:132
+#: ../app/models/setting.rb:128
 msgid "must be integer"
 msgstr ""
 
-#: ../app/models/setting.rb:143
+#: ../app/models/setting.rb:139
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:155
+#: ../app/models/setting.rb:151
 msgid "Parsing a hash from a string is not supported"
 msgstr ""
 
-#: ../app/models/setting.rb:158
+#: ../app/models/setting.rb:154
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:162
+#: ../app/models/setting.rb:158
 msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
-#: ../app/models/setting.rb:247
+#: ../app/models/setting.rb:243
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:255
+#: ../app/models/setting.rb:251
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7818,28 +7829,28 @@ msgstr ""
 msgid "Missing a permission to edit parent %s"
 msgstr ""
 
-#: ../app/models/template.rb:187
+#: ../app/models/template.rb:194
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr ""
 
-#: ../app/models/template.rb:294
+#: ../app/models/template.rb:301
 msgid "This template is locked and may not be removed."
 msgstr ""
 
-#: ../app/models/template.rb:304
+#: ../app/models/template.rb:311
 msgid "You are not authorized to lock templates."
 msgstr ""
 
-#: ../app/models/template.rb:308
+#: ../app/models/template.rb:315
 msgid "You are not authorized to make a template default."
 msgstr ""
 
-#: ../app/models/template.rb:315 ../app/models/template.rb:334
+#: ../app/models/template.rb:322 ../app/models/template.rb:341
 #: ../app/models/template_input.rb:66
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 
-#: ../app/models/template.rb:319
+#: ../app/models/template.rb:326
 msgid "Cannot add audit comment to a locked template."
 msgstr ""
 
@@ -7979,63 +7990,63 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:677
+#: ../app/models/user.rb:684
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:685
+#: ../app/models/user.rb:692
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:691
+#: ../app/models/user.rb:698
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:699 ../app/models/usergroup.rb:114
+#: ../app/models/user.rb:706 ../app/models/usergroup.rb:114
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:708
+#: ../app/models/user.rb:715
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:717
+#: ../app/models/user.rb:724
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:723
+#: ../app/models/user.rb:730
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:735 ../app/models/usergroup.rb:143
+#: ../app/models/user.rb:742 ../app/models/usergroup.rb:143
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:742
+#: ../app/models/user.rb:749
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:753
+#: ../app/models/user.rb:760
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:759
+#: ../app/models/user.rb:766
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:765
+#: ../app/models/user.rb:772
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:778
+#: ../app/models/user.rb:785
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:780
+#: ../app/models/user.rb:787
 msgid "You do not have permission to edit the login"
 msgstr ""
 
-#: ../app/models/user.rb:787
+#: ../app/models/user.rb:794
 msgid "It is not possible to disable yourself"
 msgstr ""
 
@@ -8059,7 +8070,7 @@ msgstr ""
 msgid "cannot contain itself as member"
 msgstr ""
 
-#: ../app/presenters/setting_presenter.rb:85
+#: ../app/presenters/setting_presenter.rb:84
 msgid "Unsupported search operators :and / :or"
 msgstr ""
 
@@ -8155,7 +8166,6 @@ msgstr ""
 #: ../app/views/taxonomies/_form.html.erb:38
 #: ../app/views/templates/_form.html.erb:20 ../app/views/users/_form.html.erb:9
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:122
-#: ../webpack/assets/javascripts/react_app/components/common/Taxonomies/Taxonomies.js:27
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:120
 #: taxonomies.rb:14
 msgid "Locations"
@@ -8177,7 +8187,6 @@ msgstr ""
 #: ../app/views/templates/_form.html.erb:23
 #: ../app/views/users/_form.html.erb:12
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:89
-#: ../webpack/assets/javascripts/react_app/components/common/Taxonomies/Taxonomies.js:17
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:104
 #: taxonomies.rb:15
 msgid "Organizations"
@@ -8346,7 +8355,7 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:6
-#: ../app/views/hosts/_form.html.erb:115
+#: ../app/views/hosts/_form.html.erb:116
 msgid "Global Parameters"
 msgstr ""
 
@@ -8510,6 +8519,18 @@ msgstr ""
 
 #: ../app/services/foreman/password_hash.rb:73
 msgid "Unknown password hash method: %s"
+msgstr ""
+
+#: ../app/services/foreman/provision/ssh.rb:10
+msgid "must provide a template"
+msgstr ""
+
+#: ../app/services/foreman/provision/ssh.rb:43
+msgid "Failed to connect to %{address} after %{timeout} seconds"
+msgstr ""
+
+#: ../app/services/foreman/provision/ssh.rb:113
+msgid "Missing SSH credentials: provide key_data or password"
 msgstr ""
 
 #: ../app/services/foreman/renderer/errors.rb:11
@@ -9058,7 +9079,7 @@ msgstr ""
 msgid "Regenerate Report"
 msgstr ""
 
-#: ../app/services/ui_notifications/rss_notifications_checker.rb:60
+#: ../app/services/ui_notifications/rss_notifications_checker.rb:63
 msgid "Open"
 msgstr ""
 
@@ -10334,7 +10355,7 @@ msgstr ""
 #: ../app/views/compute_attributes/_form.html.erb:4
 #: ../app/views/compute_resources/show.html.erb:68
 #: ../app/views/hostgroups/_form.html.erb:44
-#: ../app/views/hosts/_form.html.erb:75 model_attributes.rb:88
+#: ../app/views/hosts/_form.html.erb:76 model_attributes.rb:88
 msgid "Compute profile"
 msgstr ""
 
@@ -11602,29 +11623,29 @@ msgstr ""
 msgid "Deploy On"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:117
+#: ../app/views/hosts/_form.html.erb:118
 msgid "Host Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:126
+#: ../app/views/hosts/_form.html.erb:127
 #: ../config/initializers/f_foreman_settings_provisioning.rb:17
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/changeOwner/BulkChangeOwnerModal.js:94
 msgid "Select an owner"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:126
+#: ../app/views/hosts/_form.html.erb:127
 msgid "Owned By"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:129
+#: ../app/views/hosts/_form.html.erb:130
 msgid "Notifications enabled"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:130
+#: ../app/views/hosts/_form.html.erb:131
 msgid "Send email notifications when configuration errors are reported"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:133
+#: ../app/views/hosts/_form.html.erb:134
 msgid "Hardware Model"
 msgstr ""
 
@@ -12160,7 +12181,7 @@ msgid "SSH keys for: %s"
 msgstr ""
 
 #: ../app/views/key_pairs/index.html.erb:26
-#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:70
+#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:96
 msgid "Download"
 msgstr ""
 
@@ -12322,7 +12343,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/media/_form.html.erb:5
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:8
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:38
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:50
 #: model_attributes.rb:344
 msgid "Medium"
 msgstr ""
@@ -12874,7 +12895,7 @@ msgid "Generate a Report"
 msgstr ""
 
 #: ../app/views/report_templates/generate.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:21
+#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:44
 msgid "Generating a report"
 msgstr ""
 
@@ -13739,37 +13760,37 @@ msgstr ""
 msgid "Save something and try again"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:6
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:17
 msgid "Host has no provisioning interface defined"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:7
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:18
 msgid "Host has no IPv4 or IPv6 address defined"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:8
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:19
 msgid "Host has no subnet defined"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:9
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:20
 msgid "Host has no domain defined"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:16
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:27
 msgid "Host bootdisk does not work with static IPv6"
 msgstr ""
 
-#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:18
+#: ../app/views/unattended/provisioning_templates/bootdisk/host.erb:29
 msgid "Both IP and Subnet must be set"
 msgstr ""
 
 #:
-#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:5
+#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:25
 msgid "You are trying to compare the same host."
 msgstr ""
 
 #:
-#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:7
+#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:27
 msgid "At least one of the hosts couldn't be found"
 msgstr ""
 
@@ -14879,119 +14900,129 @@ msgstr ""
 
 #: ../config/initializers/f_foreman_settings_provisioning.rb:43
 msgid ""
+"Foreman will block unattended requests from an IP address after this number of"
+" requests within 5 minutes. Set to 0 to disable unattended protection"
+msgstr ""
+
+#: ../config/initializers/f_foreman_settings_provisioning.rb:45
+msgid "Unattended attempts limit"
+msgstr ""
+
+#: ../config/initializers/f_foreman_settings_provisioning.rb:48
+msgid ""
 "Foreman will query the locally configured resolver instead of the SOA/NS autho"
 "rities"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:45
+#: ../config/initializers/f_foreman_settings_provisioning.rb:50
 msgid "Query local nameservers"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:48
+#: ../config/initializers/f_foreman_settings_provisioning.rb:53
 msgid ""
 "Time in minutes installation tokens should be valid for, 0 to disable token ge"
 "neration"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:50
+#: ../config/initializers/f_foreman_settings_provisioning.rb:55
 msgid "Installation token lifetime"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:53
+#: ../config/initializers/f_foreman_settings_provisioning.rb:58
 msgid "Time in seconds before SSH provisioning times out"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:55
+#: ../config/initializers/f_foreman_settings_provisioning.rb:60
 msgid "SSH timeout"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:58
+#: ../config/initializers/f_foreman_settings_provisioning.rb:63
 msgid ""
 "The IP address that should be used for the console listen address when provisi"
 "oning new virtual machines via Libvirt"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:60
+#: ../config/initializers/f_foreman_settings_provisioning.rb:65
 msgid "Libvirt default console address"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:63
+#: ../config/initializers/f_foreman_settings_provisioning.rb:68
 msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:65
+#: ../config/initializers/f_foreman_settings_provisioning.rb:70
 msgid "Update IP from built request"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:68
+#: ../config/initializers/f_foreman_settings_provisioning.rb:73
 msgid ""
 "Foreman will use the short hostname instead of the FQDN for creating new virtu"
 "al machines"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:70
+#: ../config/initializers/f_foreman_settings_provisioning.rb:75
 msgid "Use short name for VMs"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:73
+#: ../config/initializers/f_foreman_settings_provisioning.rb:78
 msgid ""
 "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup m"
 "acro and DNS record conflict validation"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:75
+#: ../config/initializers/f_foreman_settings_provisioning.rb:80
 msgid "DNS timeout"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:78
+#: ../config/initializers/f_foreman_settings_provisioning.rb:83
 msgid ""
 "Foreman will delete virtual machine if provisioning script ends with non zero "
 "exit code"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:80
+#: ../config/initializers/f_foreman_settings_provisioning.rb:85
 msgid "Clean up failed deployment"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:83
+#: ../config/initializers/f_foreman_settings_provisioning.rb:88
 msgid ""
 "Random gives unique names, MAC-based are longer but stable (and only works wit"
 "h bare-metal)"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:85
+#: ../config/initializers/f_foreman_settings_provisioning.rb:90
 msgid "Type of name generator"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:89
+#: ../config/initializers/f_foreman_settings_provisioning.rb:94
 msgid ""
 "Default PXE menu item in global template - 'local', 'discovery' or custom, use"
 " blank for template default"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:91
+#: ../config/initializers/f_foreman_settings_provisioning.rb:96
 msgid "Default PXE global template entry"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:94
+#: ../config/initializers/f_foreman_settings_provisioning.rb:99
 msgid ""
 "Default PXE menu item in local template - 'local', 'force_local_chain_hd0' or "
 "custom, use blank for template default"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:96
+#: ../config/initializers/f_foreman_settings_provisioning.rb:101
 msgid "Default PXE local template entry"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:99
+#: ../config/initializers/f_foreman_settings_provisioning.rb:104
 msgid "Intermediate iPXE script for unattended installations"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:101
+#: ../config/initializers/f_foreman_settings_provisioning.rb:106
 msgid "iPXE intermediate script"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:105
+#: ../config/initializers/f_foreman_settings_provisioning.rb:110
 msgid ""
 "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will b"
 "e deleted on Compute Resource. When disabled, VMs are unlinked when the host i"
@@ -14999,109 +15030,109 @@ msgid ""
 " imported back to Foreman again. This does not automatically power off the VM"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:107
+#: ../config/initializers/f_foreman_settings_provisioning.rb:112
 msgid "Destroy associated VM on host delete"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:110
+#: ../config/initializers/f_foreman_settings_provisioning.rb:115
 msgid ""
 "Maximum amount of keys in structured subtree, statistics stored in foreman::dr"
 "opped_subtree_facts"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:112
+#: ../config/initializers/f_foreman_settings_provisioning.rb:117
 msgid "Maximum structured facts"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:115
+#: ../config/initializers/f_foreman_settings_provisioning.rb:120
 msgid "Global Registration template"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:117
+#: ../config/initializers/f_foreman_settings_provisioning.rb:122
 msgid "Default Global registration template"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:120
+#: ../config/initializers/f_foreman_settings_provisioning.rb:125
 msgid ""
 "Default 'Host initial configuration' template, automatically assigned when a n"
 "ew operating system is created"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:122
+#: ../config/initializers/f_foreman_settings_provisioning.rb:127
 msgid "Default 'Host initial configuration' template"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:125
+#: ../config/initializers/f_foreman_settings_provisioning.rb:130
 msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:127
+#: ../config/initializers/f_foreman_settings_provisioning.rb:132
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:131
+#: ../config/initializers/f_foreman_settings_provisioning.rb:136
 msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:133
+#: ../config/initializers/f_foreman_settings_provisioning.rb:138
 msgid "CoreOS Transpiler Command Arguments"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:136
+#: ../config/initializers/f_foreman_settings_provisioning.rb:141
 msgid "Full path to Fedora CoreOS transpiler (fcct)"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:138
+#: ../config/initializers/f_foreman_settings_provisioning.rb:143
 msgid "Fedora CoreOS Transpiler Command"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:142
+#: ../config/initializers/f_foreman_settings_provisioning.rb:147
 msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:144
+#: ../config/initializers/f_foreman_settings_provisioning.rb:149
 msgid "Fedora CoreOS Transpiler Command Arguments"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:145
+#: ../config/initializers/f_foreman_settings_provisioning.rb:150
 msgid "Invalid ct location, use settings.yaml for arbitrary location"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:146
+#: ../config/initializers/f_foreman_settings_provisioning.rb:151
 msgid "Invalid fcct location, use settings.yaml for arbitrary location"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:153
+#: ../config/initializers/f_foreman_settings_provisioning.rb:158
 msgid ""
 "Global default %s template. This template gets deployed to all configured TFTP"
 " servers. It will not be affected by upgrades."
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:155
+#: ../config/initializers/f_foreman_settings_provisioning.rb:160
 msgid "Global default %s template"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:162
+#: ../config/initializers/f_foreman_settings_provisioning.rb:167
 msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:164
+#: ../config/initializers/f_foreman_settings_provisioning.rb:169
 msgid "Local boot %s template"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:175
+#: ../config/initializers/f_foreman_settings_provisioning.rb:180
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:177
+#: ../config/initializers/f_foreman_settings_provisioning.rb:182
 msgid "Manage PuppetCA"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:180
+#: ../config/initializers/f_foreman_settings_provisioning.rb:185
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
-#: ../config/initializers/f_foreman_settings_provisioning.rb:182
+#: ../config/initializers/f_foreman_settings_provisioning.rb:187
 msgid "Use UUID for certificates"
 msgstr ""
 
@@ -15180,53 +15211,53 @@ msgstr ""
 msgid "BIOS version"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:8
+#: ../db/seeds.d/160-mail_notifications.rb:11
 msgid "Puppet summary"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:9
+#: ../db/seeds.d/160-mail_notifications.rb:12
 #: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:18
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:122
 msgid "Welcome"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:11
+#: ../db/seeds.d/160-mail_notifications.rb:14
 msgid "Host built"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:12
+#: ../db/seeds.d/160-mail_notifications.rb:15
 msgid "Tester"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:13
+#: ../db/seeds.d/160-mail_notifications.rb:16
 msgid "Puppet error state"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:18
+#: ../db/seeds.d/160-mail_notifications.rb:21
 msgid "A summary of eventful configuration management reports"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:26
+#: ../db/seeds.d/160-mail_notifications.rb:30
 msgid "A mail a user receives upon account creation"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:34
+#: ../db/seeds.d/160-mail_notifications.rb:38
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:43
+#: ../db/seeds.d/160-mail_notifications.rb:48
 msgid "A notification when a host finishes building"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:51
+#: ../db/seeds.d/160-mail_notifications.rb:56
 msgid "A test message to check the email configuration is working"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:60
+#: ../db/seeds.d/160-mail_notifications.rb:65
 msgid "A notification when a host reports a configuration error"
 msgstr ""
 
-#: ../db/seeds.d/160-mail_notifications.rb:74
+#: ../db/seeds.d/160-mail_notifications.rb:79
 msgid "Unable to create mail notification: %s"
 msgstr ""
 
@@ -15641,13 +15672,16 @@ msgstr ""
 msgid "Create Bookmark"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:171
+#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:52
+msgid "Invalid Status"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:178
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/index.js:71
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:27
 #: ../webpack/assets/javascripts/react_app/components/common/charts/AreaChart/AreaChartPropTypes.js:35
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:250
 #: ../webpack/assets/javascripts/react_app/components/common/charts/DonutChart/index.js:121
-#: ../webpack/assets/javascripts/react_app/components/common/charts/LineChart/index.js:84
 msgid "No data available"
 msgstr ""
 
@@ -16552,39 +16586,39 @@ msgid "Host Status Overview"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:146
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:165
 msgid ""
 "Select {taxonomy} to add hosts to. This change may affect all your selected ho"
 "sts."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:162
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:187
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:181
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:206
 msgid "Change organization"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:162
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:187
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:181
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:206
 msgid "Change location"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:176
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:220
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:195
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:239
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/disassociate/BulkDisassociateModal.js:39
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/disassociate/BulkDisassociateModal.js:147
 msgid "Selected hosts"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:200
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:219
 msgid "Select organization"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:200
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/assignTaxonomy/BulkAssignTaxonomyModal.js:219
 msgid "Select location"
 msgstr ""
 
@@ -16908,7 +16942,7 @@ msgid "Log in to your account"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:41
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:25
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:36
 msgid "Password"
 msgstr ""
 
@@ -16978,7 +17012,7 @@ msgid "Select all"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:197
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:198
 msgid "Create new"
 msgstr ""
 
@@ -17023,42 +17057,42 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:4
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:5
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:7
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:37
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:49
 msgid "Weak"
 msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:6
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:35
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:47
 msgid "Too short"
 msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:9
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:39
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:51
 msgid "Normal"
 msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:10
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:40
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:52
 msgid "Strong"
 msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:11
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:41
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:53
 msgid "Very strong"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:48
-msgid "Verify"
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:29
+msgid "Passwords do not match"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:52
-msgid "Passwords do not match"
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:60
+msgid "Verify"
 msgstr ""
 
 #:
@@ -17077,12 +17111,12 @@ msgid "Reset search"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:107
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:106
 msgid "Not set"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:108
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:107
 msgid "Empty"
 msgstr ""
 
@@ -17092,7 +17126,12 @@ msgid "This setting is defined in the configuration file %s and is read-only."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingValue.js:41
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingValue.js:40
+msgid "This setting is read-only."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingValue.js:43
 msgid "Default: %s"
 msgstr ""
 
@@ -17111,6 +17150,21 @@ msgstr ""
 msgid ""
 "This setting is encrypted. Empty input field is displayed instead of the setti"
 "ng value."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:18
+msgid "Report %s is now being generated, the download will start once it's done."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:26
+msgid "Your report will be automatically compressed."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:29
+msgid "Your report will be automatically compressed if it exceeds %s MiB."
 msgstr ""
 
 #:
@@ -17272,11 +17326,6 @@ msgid "Chosen options"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/SearchInput/index.js:40
-msgid "filter..."
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:153
 msgid "Bar chart"
 msgstr ""
@@ -17292,32 +17341,7 @@ msgid "Specified value is higher than recommended maximum %s%s"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:47
-msgid "Error! "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:48
-msgid "Warning! "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/integration.test.js:41
-msgid "Form was successfully created."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:121
-msgid "Invalid status"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/validators.js:5
-msgid "is too long (maximum is %s characters)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/table/components/TableSelectionCell.js:27
+#: ../webpack/assets/javascripts/react_app/components/common/table/components/TableSelectionCell.js:38
 msgid "Select row"
 msgstr ""
 
@@ -17448,7 +17472,7 @@ msgid "Clear all"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/notifications/components/NotificationListItems.js:45
+#: ../webpack/assets/javascripts/react_app/components/notifications/components/NotificationListItems.js:51
 msgid "Hide this notification"
 msgstr ""
 
@@ -17731,14 +17755,14 @@ msgid "Generating ..."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:20
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:21
 msgid ""
 "There was an error while generating the command, see the logs for more informa"
 "tion."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:27
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:28
 msgid "Registration command"
 msgstr ""
 

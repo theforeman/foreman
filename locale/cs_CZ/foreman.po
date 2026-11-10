@@ -1970,9 +1970,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr "Zkopírovat do schránky"
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr ""
-
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
@@ -2804,6 +2801,9 @@ msgstr "Vypnuto"
 msgid "Disabled alerts"
 msgstr ""
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr ""
 
@@ -3045,6 +3045,9 @@ msgstr ""
 
 msgid "Enable Caching"
 msgstr "Zapnout ukládání do mezipaměti"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr ""
 
 msgid "Enable Notifications"
 msgstr "Zapnout oznamování"
@@ -3506,6 +3509,11 @@ msgstr ""
 msgid "Failed to set console: %s"
 msgstr "Nepodařilo se nastavit konzoli: %s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
 msgstr[0] ""
@@ -3942,6 +3950,9 @@ msgstr "Adresa brány"
 msgid "General"
 msgstr "Obecné"
 
+msgid "General description of the hardware model"
+msgstr ""
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr ""
 
@@ -4138,6 +4149,9 @@ msgid "Hardware Models"
 msgstr "Modely hardware"
 
 msgid "Hardware model"
+msgstr ""
+
+msgid "Hardware model name"
 msgstr ""
 
 msgid "Hardware models"
@@ -6447,11 +6461,17 @@ msgstr ""
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr ""
 
+msgid "Name of the hardware model"
+msgstr ""
+
 msgid "Name of the host group"
 msgstr ""
 
 msgid "Name of the parameter"
 msgstr "Název parametru"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr ""
 
 msgid "Name of the table"
 msgstr ""
@@ -6725,6 +6745,9 @@ msgstr ""
 msgid "No free ports available for websockify, try again later"
 msgstr ""
 
+msgid "No global parameters found"
+msgstr ""
+
 msgid "No history found"
 msgstr "Nenalezena žádná historie"
 
@@ -6754,6 +6777,9 @@ msgstr "Nejsou vybrány žádné stroje"
 
 msgid "No hosts were found with that id, name or query filter"
 msgstr "Pro takový identifikátor, název nebo dotazovací filtr nebyly nalezeni žádní hostitelé"
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "V uplynulém týdnu neobdrženy žádné zajímavé výkazy"
@@ -7254,6 +7280,12 @@ msgstr ""
 msgid "Optional Input Validator"
 msgstr "Volitelné ověřování zadání"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr ""
 
@@ -7371,6 +7403,9 @@ msgstr ""
 msgid "PBKDF2 password cost"
 msgstr ""
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "POAP PXE template"
 msgstr ""
 
@@ -7432,8 +7467,14 @@ msgstr ""
 msgid "Parameter Details"
 msgstr "Podrobnosti parametru"
 
+msgid "Parameter name is required"
+msgstr ""
+
 msgid "Parameter value"
 msgstr "Hodnota parametru"
+
+msgid "Parameter value is required"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parametry"
@@ -8285,6 +8326,9 @@ msgstr ""
 msgid "Report Templates"
 msgstr "Šablony výkazů"
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr ""
+
 msgid "Report completed"
 msgstr "Výkaz dokončen"
 
@@ -8305,6 +8349,9 @@ msgstr ""
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "Výkaz nenalezen, ověřte, že jste použili správný identifikátor výkazu (job_id)"
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
+msgstr ""
 
 msgid "Report templates"
 msgstr ""
@@ -8623,9 +8670,6 @@ msgstr "SSH klíče pro: %s"
 msgid "SSH timeout"
 msgstr "Časový limit SSH"
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr ""
-
 msgid "SSL CA file"
 msgstr ""
 
@@ -8778,6 +8822,12 @@ msgstr "Vybrat umístění"
 
 msgid "Select Organization"
 msgstr "Vybrat organizaci"
+
+msgid "Select a global parameter"
+msgstr ""
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr ""
 
 msgid "Select a period"
 msgstr "Vybrat periodu"
@@ -8958,6 +9008,9 @@ msgstr ""
 msgid "Set IP addresses for %s"
 msgstr "Nastavit IP adresu pro %s"
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr ""
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr ""
 
@@ -8968,6 +9021,19 @@ msgid "Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. S
 msgstr ""
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
+msgstr ""
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameters"
 msgstr ""
 
 msgid "Set the current location context for the request"
@@ -9476,6 +9542,9 @@ msgid "Status"
 msgstr "Stav"
 
 msgid "Status %s does not exist."
+msgstr ""
+
+msgid "Stop impersonation"
 msgstr ""
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
@@ -11447,6 +11516,9 @@ msgstr "Hodnota"
 msgid "Value for required input '%s' was not specified"
 msgstr ""
 
+msgid "Value for the host parameter override"
+msgstr ""
+
 msgid "Value to use when there is no match."
 msgstr "Hodnota kterou použít, pokud není nalezena žádná shoda."
 
@@ -11467,6 +11539,9 @@ msgstr "Výrobce"
 
 msgid "Vendor class"
 msgstr "Třída výrobce"
+
+msgid "Vendor class of the hardware model"
+msgstr ""
 
 msgid "Verify"
 msgstr "Ověřit"
@@ -11778,6 +11853,9 @@ msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Ve Formean je možné přidat k uživateli veřejné části SSH klíčů."
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12302,6 +12380,9 @@ msgstr "není platné: %s"
 msgid "is locked for user modifications."
 msgstr "je uzamčeno pro úpravy uživateli."
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "není platná MAC adresa"
 
@@ -12398,6 +12479,9 @@ msgstr "je třeba, aby byl platný regulární výraz"
 msgid "must be an array"
 msgstr "je třeba, aby bylo pole"
 
+msgid "must be between 0 and 512 MiB"
+msgstr ""
+
 msgid "must be boolean"
 msgstr "je třeba, aby bylo typu boolean"
 
@@ -12436,6 +12520,9 @@ msgstr "je třeba, aby obsahovalo platné názvy strojů"
 
 msgid "must end with /v2 or /v3"
 msgstr "je třeba, aby končila na /v2 nebo /v3"
+
+msgid "must not include a CIDR prefix"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "nemůže obsahovat tečky"

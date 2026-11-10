@@ -123,9 +123,9 @@ msgstr "%s a été dissocié de la VM"
 
 msgid "%s host does not support power management."
 msgid_plural "%s hosts do not support power management."
-msgstr[0] "L'hôte %s ne prend pas en charge la gestion de l'alimentation."
-msgstr[1] "Les hôtes %s ne prennent pas en charge la gestion de l'alimentation."
-msgstr[2] "Les hôtes %s ne prennent pas en charge la gestion de l'alimentation."
+msgstr[0] "%s L'hôte ne prend pas en charge la gestion de l'alimentation."
+msgstr[1] "%s Les hôtes ne prennent pas en charge la gestion de l'alimentation."
+msgstr[2] "%s Les hôtes ne prennent pas en charge la gestion de l'alimentation."
 
 msgid "%s host is selected for power state change"
 msgstr "%s L'hôte est sélectionné pour un changement d'état d'alimentation."
@@ -993,10 +993,10 @@ msgid "Assign a host to the smart proxy"
 msgstr "Assigner un hôte au proxy smart"
 
 msgid "Assign location"
-msgstr "Attribuer un emplacement"
+msgstr "Attribuer l'emplacement"
 
 msgid "Assign organization"
-msgstr "Attribuer une organisation"
+msgstr "Attribuer l'organisation"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -1664,7 +1664,7 @@ msgid "Change owner"
 msgstr "Changer le propriétaire"
 
 msgid "Change power state"
-msgstr "Changer l'état de l'alimentation."
+msgstr "Modifier l'état de l'alimentation"
 
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "Changer le groupe d’hôtes de{hosts} Certains hôtes peuvent déjà faire partie du groupe d'hôtes que vous avez choisi."
@@ -2028,9 +2028,6 @@ msgstr "Copie"
 
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papiers"
-
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr "Les versions du noyau et du proxy ne correspondent pas: foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 
 msgid "CoreOS Transpiler Command"
 msgstr "Commande CoreOS Transpiler"
@@ -2588,7 +2585,7 @@ msgid "Default verification mode"
 msgstr "Mode de vérification par défaut"
 
 msgid "Default: %s"
-msgstr "par défaut : %s"
+msgstr "Par défaut : %s"
 
 msgid "Defaults to image size if left blank"
 msgstr "Si blanc, la taille de l'image est utilisée"
@@ -2863,6 +2860,9 @@ msgstr "Désactivé"
 msgid "Disabled alerts"
 msgstr "Alertes désactivées"
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr "La désactivation de LDAPS efface tous les certificats d'autorité de certification précédemment configurés."
+
 msgid "Disabling Safe mode"
 msgstr "Désactivation du mode sans échec"
 
@@ -2873,7 +2873,7 @@ msgid "Disassociate Hosts"
 msgstr "Dissocier les hôtes des VM"
 
 msgid "Disassociate compute resources"
-msgstr "Dissocier des ressources d'ordinateur"
+msgstr "Dissocier les ressources de calcul"
 
 msgid "Disassociate host"
 msgstr "Dissocier l'hôte"
@@ -3105,6 +3105,9 @@ msgstr "Activer%s ?"
 
 msgid "Enable Caching"
 msgstr "Activer la mise en cache"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr "Activez LDAPS. Sa désactivation efface tout certificat d'autorité de certification précédemment configuré."
 
 msgid "Enable Notifications"
 msgstr "Activer les notifications"
@@ -3539,9 +3542,9 @@ msgstr "Impossible de redémarrer %s."
 
 msgid "Failed to rebuild configuration for %s host"
 msgid_plural "Failed to rebuild configuration for %s hosts"
-msgstr[0] "Impossible de reconstruire la configuration pour%s hôte"
-msgstr[1] "Impossible de reconstruire la configuration pour%s hôtes"
-msgstr[2] "Impossible de reconstruire la configuration pour%s hôtes"
+msgstr[0] "Impossible de reconstruire la configuration pour %s hôte"
+msgstr[1] "Impossible de reconstruire la configuration pour %s hôtes"
+msgstr[2] "Impossible de reconstruire la configuration pour %s hôtes"
 
 msgid "Failed to refresh the cache."
 msgstr "Échec de l'actualisation du cache."
@@ -3550,7 +3553,7 @@ msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Échec de suppression de certificats pour %{name}: %{e}"
 
 msgid "Failed to render template '%{t}', error: %{e}"
-msgstr "Impossible de produire un modèle ’%{t}', erreur: %{e}"
+msgstr "Impossible de produire un modèle ’%{t}', erreur %{e}"
 
 msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
 msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
@@ -3573,11 +3576,17 @@ msgstr "N'a pas pu définir les IP via IPAM pour %{name}: %{e}"
 msgid "Failed to set console: %s"
 msgstr "Échec de création de la console : %s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] "Échec de la définition du paramètre pour%s hôte"
+msgstr[1] "Échec de la définition du paramètre pour%s hôtes"
+msgstr[2] "Échec de la définition du paramètre pour%s hôtes"
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
-msgstr[0] "La tentative de modification de l'état d'alimentation de l'hôte %s a échoué."
-msgstr[1] "La tentative de modification de l'état d'alimentation des hôtes %s a échoué."
-msgstr[2] "La tentative de modification de l'état d'alimentation de(s) hôte(s) %s a échoué."
+msgstr[0] "Échec de la définition de l'état d'alimentation pour%s hôte."
+msgstr[1] "Échec de la définition de l'état d'alimentation pour%s hôtes."
+msgstr[2] "Échec de la définition de l'état d'alimentation pour%s hôtes."
 
 msgid "Failed to set power state for %s."
 msgstr "Échec du changement d'état d'alimentation électrique pour %s."
@@ -3593,9 +3602,9 @@ msgstr "Échec de la mise à jour d'une instance %{compute_resource} de compute 
 
 msgid "Failed to update notifications for %s host"
 msgid_plural "Failed to update notifications for %s hosts"
-msgstr[0] "Échec de la mise à jour des notifications pour%s hôte"
-msgstr[1] "Échec de la mise à jour des notifications pour%s hôtes"
-msgstr[2] "Échec de la mise à jour des notifications pour%s hôtes"
+msgstr[0] "Échec de la mise à jour des notifications pour %s hôte"
+msgstr[1] "Échec de la mise à jour des notifications pour %s hôtes"
+msgstr[2] "Échec de la mise à jour des notifications pour %s hôtes"
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "Impossible de valider %{host} : %{error}"
@@ -3734,7 +3743,7 @@ msgid "Fix on mismatch"
 msgstr "Fix avec mismatch"
 
 msgid "Fix organization on mismatch"
-msgstr "Corriger l'organisation en cas d'inadéquation."
+msgstr "Corriger l'organisation en cas de décalage"
 
 msgid "Fixed IP"
 msgstr "IP fixe"
@@ -3815,7 +3824,7 @@ msgid "Foreman UUID"
 msgstr "UUID de Foreman"
 
 msgid "Foreman Upgrade"
-msgstr "Mise à niveau de Forman"
+msgstr "Mise à niveau de Foreman"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman permet de définir une hiérarchie d'héritage de paramètres, où les paramètres globaux sont accessibles depuis n'importe quel manifeste."
@@ -4013,6 +4022,9 @@ msgstr "Adresse de la passerelle"
 
 msgid "General"
 msgstr "Général"
+
+msgid "General description of the hardware model"
+msgstr "Description générale du modèle matériel"
 
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Description synthétique à des fins pratiques. Par exemple, ce type de matériel a besoin d'une configuration BIOS spécifique"
@@ -4212,6 +4224,9 @@ msgstr "Modèles de matériel"
 msgid "Hardware model"
 msgstr "Modèle du matériel"
 
+msgid "Hardware model name"
+msgstr "Nom du modèle matériel"
+
 msgid "Hardware models"
 msgstr "Modèles de matériel"
 
@@ -4246,7 +4261,7 @@ msgid "Hide all values for this parameter."
 msgstr "Masquer toutes les valeurs de ce paramètre."
 
 msgid "Hide this notification"
-msgstr "Cacher cette notification"
+msgstr "Masquer cette notification"
 
 msgid "Hide this value"
 msgstr "Masquer cette valeur"
@@ -4831,7 +4846,7 @@ msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "ID du groupe d'hôtes auquel réaffecter les hôtes"
 
 msgid "ID of the owner to reassign the hosts to"
-msgstr "ID du propriétaire auquel réaffecter les hôtes"
+msgstr "Identifiant du propriétaire auquel réaffecter les hôtes"
 
 msgid "ID of the user"
 msgstr "ID de l'utilisateur"
@@ -5480,7 +5495,7 @@ msgid "Keybind"
 msgstr "Keybind"
 
 msgid "Kind"
-msgstr "Genre"
+msgstr "Type"
 
 msgid "LDAP Documentation"
 msgstr "Documentation LDAP"
@@ -6032,7 +6047,7 @@ msgid "Location fact"
 msgstr "Fact d'emplacement"
 
 msgid "Location is set to %s"
-msgstr "L'emplacement est défini sur %s"
+msgstr "L'emplacement est défini sur  %s"
 
 msgid "Location parameters"
 msgstr "Paramètres d'emplacement"
@@ -6530,11 +6545,17 @@ msgstr "Nom de l'OpenID Connect Audience qui est utilisé pour l'authentificatio
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr "Nom de la source d'auth externe depuis laquelle les utilisateurs inconnus externes (voir authorize_login_delegation) doivent être créés (laisser vide pour empêcher l'auto création)."
 
+msgid "Name of the hardware model"
+msgstr "Nom du modèle de matériel"
+
 msgid "Name of the host group"
 msgstr "Nom du groupe d'hôtes"
 
 msgid "Name of the parameter"
 msgstr "Nom du paramètre"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr "Nom du paramètre à définir sur les hôtes sélectionnés"
 
 msgid "Name of the table"
 msgstr "Nom de la table"
@@ -6808,6 +6829,9 @@ msgstr "Aucun modèle trouvé pour cet hôte, faites en sorte d'en définir au m
 msgid "No free ports available for websockify, try again later"
 msgstr "Aucun port disponible pour websockify, veuillez réessayer ultérieurement"
 
+msgid "No global parameters found"
+msgstr "Aucun paramètre global trouvé"
+
 msgid "No history found"
 msgstr "Aucun historique trouvé"
 
@@ -6837,6 +6861,9 @@ msgstr "Aucun hôte sélectionné"
 
 msgid "No hosts were found with that id, name or query filter"
 msgstr "Aucun hôte trouvé avec cet ID, ce nom ou filtre de requête"
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
+msgstr "Aucun hôte n'a été mis à jour. Les hôtes ne possédant pas déjà ce paramètre ont été ignorés."
 
 msgid "No interesting reports received in the last week"
 msgstr "Aucun rapport pertinent reçu cette dernière semaine"
@@ -6911,7 +6938,7 @@ msgid "No reports"
 msgstr "Aucun rapports"
 
 msgid "No results found"
-msgstr "Aucun résultat"
+msgstr "Aucun résultat trouvé"
 
 msgid "No results found for %s"
 msgstr "Aucun résultat trouvé pour %s"
@@ -7016,7 +7043,7 @@ msgid "Nothing to add"
 msgstr "Rien à ajouter"
 
 msgid "Nothing to do."
-msgstr "Rien à ajouter"
+msgstr "Rien à ajouter."
 
 msgid "Nothing to select."
 msgstr "Rien à sélectionner."
@@ -7343,6 +7370,12 @@ msgstr "Opérateurs"
 msgid "Optional Input Validator"
 msgstr "Validateur d'entrée optionnel"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "Certificat(s) d'autorité de certification (CA) optionnel(s) au format PEM utilisé(s) pour vérifier les connexions TLS via ce proxy. Si ce champ est défini, seuls ces certificats sont approuvés et le magasin de certificats de confiance du système n'est pas utilisé. Laissez ce champ vide pour utiliser le magasin de certificats de confiance du système. Dans les déploiements conteneurisés, le magasin de certificats de confiance du conteneur est utilisé ; il peut donc être nécessaire de fournir explicitement le(s) certificat(s) d'autorité de certification ici."
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "Certificat(s) d'autorité de certification (CA) optionnel(s) au format PEM utilisé(s) pour vérifier le serveur LDAP lorsque LDAPS est activé. Si ce champ est défini, seuls ces certificats sont approuvés et le magasin de certificats de confiance du système n'est pas utilisé. Laissez ce champ vide pour utiliser le magasin de certificats de confiance du système. Dans les déploiements conteneurisés, le magasin de certificats de confiance du conteneur est utilisé ; il peut donc être nécessaire de fournir explicitement le(s) certificat(s) d'autorité de certification ici."
+
 msgid "Optional array of log hashes"
 msgstr "Facultatif : tableau des hachages de journaux"
 
@@ -7377,7 +7410,7 @@ msgid "Organization fact"
 msgstr "Fact d'organisation"
 
 msgid "Organization is set to %s"
-msgstr "L'organisation est configurée pour %s"
+msgstr "L'organisation est prête à %s"
 
 msgid "Organization parameters"
 msgstr "Paramètres d'organisation"
@@ -7460,6 +7493,9 @@ msgstr "PBKDF2 SHA1"
 msgid "PBKDF2 password cost"
 msgstr "Coût du mot de passe PBKDF2"
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "Certificat(s) d'autorité de certification (CA) au format PEM utilisé(s) pour la vérification LDAPS. Si ce champ est renseigné, seuls ces certificats sont considérés comme fiables et le magasin de certificats de confiance du système n'est pas utilisé. Laissez ce champ vide pour utiliser le magasin de certificats de confiance du système. Dans les déploiements conteneurisés, le magasin de certificats de confiance du conteneur est utilisé ; il peut donc être nécessaire de fournir explicitement le(s) certificat(s) d'autorité de certification ici."
+
 msgid "POAP PXE template"
 msgstr "Modèle POAP PXE"
 
@@ -7521,8 +7557,14 @@ msgstr "Le paramètre%{name} n'est pas défini dans la sortie ENC de l'hôte %{h
 msgid "Parameter Details"
 msgstr "Détails du paramètre"
 
+msgid "Parameter name is required"
+msgstr "Le nom du paramètre est obligatoire."
+
 msgid "Parameter value"
 msgstr "Valeur du paramètre"
+
+msgid "Parameter value is required"
+msgstr "La valeur du paramètre est requise."
 
 msgid "Parameters"
 msgstr "Paramètres"
@@ -7848,7 +7890,7 @@ msgid "Power action is required"
 msgstr "Une action d’alimentation est nécessaire"
 
 msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
-msgstr "Action d'alimentation à effectuer (démarrer, arrêter, éteindre, redémarrer, réinitialiser, soft, cycle)"
+msgstr "Action d'alimentation à effectuer (démarrage, arrêt, mise hors tension, redémarrage, réinitialisation, cycle logiciel)"
 
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "L’alimentation a pu être définie sur \"%s\""
@@ -7998,7 +8040,7 @@ msgid "Provisioning template"
 msgstr "Modèle d'attribution"
 
 msgid "Provisioning template IDs"
-msgstr "IDs des modèles de provisionnement"
+msgstr "IDs des modèles d'attribution"
 
 msgid "Provisioning templates"
 msgstr "Modèles d'attribution"
@@ -8201,9 +8243,9 @@ msgstr "Reconstruire uniquement la configuration de provisionnement"
 
 msgid "Rebuilt configuration for %s host"
 msgid_plural "Rebuilt configuration for %s hosts"
-msgstr[0] "Configuration reconstruite pour%s hôte"
-msgstr[1] "Configuration reconstruite pour%s hôtes"
-msgstr[2] "Configuration reconstruite pour%s hôtes"
+msgstr[0] "Configuration reconstruite pour %s hôte"
+msgstr[1] "Configuration reconstruite pour %s hôtes"
+msgstr[2] "Configuration reconstruite pour %s hôtes"
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr "La réception de données vm pour l'hôte '%{host}' depuis la ressource de calcul utilisée '%{compute_resource}' a échoué : '%{exception}'."
@@ -8383,6 +8425,9 @@ msgstr "Statut du rapport"
 msgid "Report Templates"
 msgstr "Modèles de rapport"
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr "Seuil de compression automatique du rapport (Mio)"
+
 msgid "Report completed"
 msgstr "Rapport terminé"
 
@@ -8403,6 +8448,9 @@ msgstr "Le rapport est prêt à être téléchargé"
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "Rapport non trouvé, veuillez vous assurer que vous avez utilisé le job_id correct"
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
+msgstr "Les rapports dont la taille dépasse cette limite (en Mio) sont automatiquement compressés avec gzip avant d'être enregistrés. Indiquez 0 pour une compression systématique. La valeur maximale est 512."
 
 msgid "Report templates"
 msgstr "Modèles de rapport"
@@ -8567,7 +8615,7 @@ msgstr[2] "Enregistrement inverse DNS IPv4"
 
 msgid "Reverse IPv6 DNS record"
 msgid_plural "Reverse IPv6 DNS records"
-msgstr[0] "Enregistrement inverse DNS IPv6"
+msgstr[0] "Enregistrement inverse DNS IPv6 "
 msgstr[1] "Enregistrement inverse DNS IPv6"
 msgstr[2] "Enregistrement inverse DNS IPv6"
 
@@ -8723,9 +8771,6 @@ msgstr "Clés SSH pour : %s"
 msgid "SSH timeout"
 msgstr "Délai d'attente SSH"
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr "Certificat CA SSL à utiliser si l'authentification est requise."
-
 msgid "SSL CA file"
 msgstr "Fichier CA SSL"
 
@@ -8879,6 +8924,12 @@ msgstr "Sélectionner un emplacement"
 msgid "Select Organization"
 msgstr "Choisir une organisation"
 
+msgid "Select a global parameter"
+msgstr "Sélectionnez un paramètre global"
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr "Sélectionnez un paramètre global et une valeur. Les hôtes disposant déjà de ce paramètre seront mis à jour ; les autres recevront une nouvelle valeur de remplacement."
+
 msgid "Select a period"
 msgstr "Choisir une période"
 
@@ -8976,7 +9027,7 @@ msgid "Select users"
 msgstr "Choisir les utilisateurs"
 
 msgid "Select {taxonomy} to add hosts to. This change may affect all your selected hosts."
-msgstr "Selectionner {taxonomy} pour y ajouter des hôtes. Ce changement risque d’affecter tous vos hôtes sélectionnés."
+msgstr "Selectionner{taxonomy} pour y ajouter des hôtes. Ce changement risque d’affecter tous vos hôtes sélectionnés."
 
 msgid "Selectable values for user inputs"
 msgstr "Valeurs sélectionnables pour les entrées utilisateur"
@@ -9059,6 +9110,9 @@ msgstr "Définit le paramètre 'host_registration_remote_execution' pour l'hôte
 msgid "Set IP addresses for %s"
 msgstr "Définir adresses IP pour %s"
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr "Définir une substitution de paramètre d'hôte sur plusieurs hôtes"
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr "Définir un mot de passe généré aléatoirement pour la connexion à l'affichage VNC"
 
@@ -9070,6 +9124,21 @@ msgstr "Définissez un proxy HTTP(S) pour toutes les connexions HTTP(S) sortante
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr "Définir les noms d'hôtes auxquels les requêtes ne doivent pas être transmises par proxy. Les requêtes à l'hôte local sont exclues par défaut."
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] "Définir le paramètre '%{name} ' sur %{count} hôte"
+msgstr[1] "Définir le paramètre '%{name} ' sur %{count} hôtes"
+msgstr[2] "Définir le paramètre '%{name} ' sur %{count} hôtes"
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] "Définir le paramètre '%{name} ' sur %{count} Les hôtes ne possédant pas déjà ce paramètre ont été ignorés."
+msgstr[1] "Définir le paramètre '%{name} ' sur %{count} Les hôtes qui ne possédaient pas déjà ce paramètre ont été ignorés."
+msgstr[2] "Définir le paramètre '%{name} ' sur %{count} Les hôtes qui ne possédaient pas déjà ce paramètre ont été ignorés."
+
+msgid "Set parameters"
+msgstr "Définir les paramètres"
 
 msgid "Set the current location context for the request"
 msgstr "Définir le contexte de localisation actuel de la demande"
@@ -9580,6 +9649,9 @@ msgstr "Statut"
 
 msgid "Status %s does not exist."
 msgstr "Les statuts %s n'existent pas."
+
+msgid "Stop impersonation"
+msgstr "Cessez l'usurpation d'identité"
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr "Ne pas mettre à jour l'adresse IP ni l'adresse MAC depuis les facts (l'option s'applique à toutes les interfaces)"
@@ -10316,7 +10388,7 @@ msgid "The order in which matchers keys are processed, first match wins.<br> You
 msgstr "L'ordre dans lequel les clés de correspondance (matchers) sont parcourues, la première correspondance gagne<br>.Vous pouvez utiliser plusieurs attributs comme clés de Matchers, par exemple, l'ordre suivant <code>hostgroup,environment</code> s’attendrait à une correspondance <code>hostgroup,environment = example-group,production</code>"
 
 msgid "The organization ID to assign the hosts to"
-msgstr "L'ID de l'organisation à laquelle affecter les hôtes"
+msgstr "L'identifiant de l'organisation auquel attribuer les hôtes"
 
 msgid "The password is currently set by %s."
 msgstr "Le mot de passe est actuellement défini par %s."
@@ -11214,13 +11286,13 @@ msgstr "Tous les hôtes ont été mis à jour."
 
 msgid "Updated host: Disassociated from compute resource"
 msgid_plural "Updated hosts: Disassociated from compute resource"
-msgstr[0] "Hôte mis à jour : Dissociés de la ressource d'ordinateur."
-msgstr[1] "Hôtes mis à jour : Dissociés de la ressource d'ordinateur."
-msgstr[2] "Hôtes mis à jour : Dissociés de la ressource d'ordinateur."
+msgstr[0] "Hôte mis à jour : dissocié de la ressource de calcul"
+msgstr[1] "Hôtes mis à jour : dissociés de la ressource de calcul"
+msgstr[2] "Hôtes mis à jour : dissociés de la ressource de calcul"
 
 msgid "Updated host: changed owner"
 msgid_plural "Updated hosts: changed owner"
-msgstr[0] "Mise à jour de l'hôte : le propriétaire a changé"
+msgstr[0] "Hôte mis à jour : propriétaire modifié"
 msgstr[1] "Mise à jour des hôtes : le propriétaire a changé"
 msgstr[2] "Mise à jour des hôtes : le propriétaire a changé"
 
@@ -11411,7 +11483,7 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 msgid "Username for EC2, VMware, OpenStack. Access Key for EC2."
-msgstr "Nom d'utilisateur pour EC2, VMware, OpenStack. Clé d'accès pour EC2."
+msgstr "Nom d'utilisateur pour EC2, VMware et OpenStack. Clé d'accès pour EC2."
 
 msgid "Username to use if authentication is required."
 msgstr "Nom d'utilisateur à utiliser si l'authentification est requise."
@@ -11560,6 +11632,9 @@ msgstr "Valeur"
 msgid "Value for required input '%s' was not specified"
 msgstr "La valeur requise pour l'entrée '%s' n'a pas été donnée"
 
+msgid "Value for the host parameter override"
+msgstr "Valeur de remplacement du paramètre hôte"
+
 msgid "Value to use when there is no match."
 msgstr "Valeur à utiliser quand il n'y a pas de concordance."
 
@@ -11580,6 +11655,9 @@ msgstr "Vendeur"
 
 msgid "Vendor class"
 msgstr "Famille de produits du fournisseur"
+
+msgid "Vendor class of the hardware model"
+msgstr "Classe du fournisseur du modèle matériel"
 
 msgid "Verify"
 msgstr "Vérifier"
@@ -11910,6 +11988,9 @@ msgstr "Vous pouvez ajouter des clés publiques SSH à un utilisateur dans Forem
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
 msgstr "Vous pouvez contacter l'équipe The Foremann sur le réseau %{Matrix}. Si vous avez besoin de support, merci de visiter #theforeman:matrix.org. Pour la partie développement, veuillez vous rendre sur #theforeman-dev:matrix.org."
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
+msgstr "Vous pouvez uniquement mettre à jour les paramètres déjà présents sur les hôtes sélectionnés. Les hôtes ne possédant pas ce paramètre seront ignorés."
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr "Vous pouvez sélectionner l'un des modes IPAM pris en charge par le protocole IP sélectionné :"
@@ -12269,7 +12350,7 @@ msgid "for Libvirt and VMware only"
 msgstr "seulement pour Libvirt et VMware"
 
 msgid "for Libvirt only"
-msgstr "Pour Libvirt seulement"
+msgstr "Pour Libvirt uniquement"
 
 msgid "for OpenStack (v3) only"
 msgstr "seulement pour OpenStack (v3)"
@@ -12433,6 +12514,9 @@ msgstr "%s est invalide"
 msgid "is locked for user modifications."
 msgstr "est verrouillé pour les modifications utilisateur."
 
+msgid "is not a valid CA certificate"
+msgstr "n'est pas un certificat d'autorité de certification valide"
+
 msgid "is not a valid MAC address"
 msgstr "n'est pas une adresse MAC valide"
 
@@ -12528,6 +12612,9 @@ msgstr "doit être une expression régulière valide"
 msgid "must be an array"
 msgstr "doit être un tableau"
 
+msgid "must be between 0 and 512 MiB"
+msgstr "doit être compris entre 0 et 512 Mio"
+
 msgid "must be boolean"
 msgstr "doit être un booléen"
 
@@ -12566,6 +12653,9 @@ msgstr "doit contenir des noms d'hôte valides"
 
 msgid "must end with /v2 or /v3"
 msgstr "doit se terminer par /v2 ou /v3"
+
+msgid "must not include a CIDR prefix"
+msgstr "ne doit pas inclure de préfixe CIDR"
 
 msgid "must not include periods"
 msgstr "ne doit pas contenir de caractères point"
@@ -12817,7 +12907,7 @@ msgid "these hosts for a build operation on next boot"
 msgstr "ces hôtes pour une installation au prochain redémarrage"
 
 msgid "type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix."
-msgstr "Le type d'adhésion au groupe à utiliser, applicable uniquement lorsque server_type est posix, free_ipa ou netiq. L'option rfc4519 est uniquement applicable lorsque server_type est posix."
+msgstr "Type d'appartenance à un groupe à utiliser, applicable uniquement lorsque server_type est posix, free_ipa ou netiq. L'option rfc4519 est applicable uniquement lorsque server_type est posix."
 
 msgid "type of the LDAP server"
 msgstr "Type de serveur LDAP"
@@ -12850,7 +12940,7 @@ msgid "unspecified"
 msgstr "non spécifié"
 
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"
-msgstr "Utiliser les netgroups NIS au lieu des groupes POSIX, applicable uniquement lorsque server_type est posix ou free_ipa. Déprécié en faveur de ldap_group_membership = nis_netgroups"
+msgstr "Utilisez les groupes réseau NIS au lieu des groupes POSIX, applicable uniquement lorsque server_type est posix ou free_ipa. Déprécié ; privilégiez ldap_group_membership = nis_netgroups."
 
 msgid "use if you want update locked templates"
 msgstr "à utiliser si vous voulez mettre à jour les modèles verrouillés"

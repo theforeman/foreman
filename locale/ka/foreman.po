@@ -1966,9 +1966,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr "ბუფერში კოპირება"
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr "ბირთვისა და პროქსის ვერსიები არ ემთხვევა: Foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-
 msgid "CoreOS Transpiler Command"
 msgstr "CoreOS-ის ტრანსპილერის ბრძანება"
 
@@ -2800,6 +2797,9 @@ msgstr "გამორთულია"
 msgid "Disabled alerts"
 msgstr "გამორთული გაფრთხლებები"
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr "უსაფრთხო რეჟიმის გამორთვა"
 
@@ -3041,6 +3041,9 @@ msgstr ""
 
 msgid "Enable Caching"
 msgstr "ქეშინგის ჩართვა"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr ""
 
 msgid "Enable Notifications"
 msgstr "გაფრთხილებების ჩართვა"
@@ -3504,6 +3507,11 @@ msgstr "IP-ების IPAM-ით დაყენების შეცდო�
 msgid "Failed to set console: %s"
 msgstr "კონსოლის დაყენების შეცდომა: %s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
 msgstr[0] ""
@@ -3940,6 +3948,9 @@ msgstr "ნაგულისხმები რაუტერის მის�
 msgid "General"
 msgstr "მთავარი"
 
+msgid "General description of the hardware model"
+msgstr ""
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "შეიყვანეთ სასარგებლო აღწერა. მაგალითად აპარატურის ტიპი, რომელსაც BIOS-ის სპეციალური პარამეტრები სჭირდება"
 
@@ -4137,6 +4148,9 @@ msgstr "აპარატურის მოდელები"
 
 msgid "Hardware model"
 msgstr "აპარატურის მოდელი"
+
+msgid "Hardware model name"
+msgstr ""
 
 msgid "Hardware models"
 msgstr "აპარატურული მოდელები"
@@ -6445,11 +6459,17 @@ msgstr ""
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr ""
 
+msgid "Name of the hardware model"
+msgstr ""
+
 msgid "Name of the host group"
 msgstr "ჰოსტების ჯგუფის სახელი"
 
 msgid "Name of the parameter"
 msgstr "პარამეტრის სახელი"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr ""
 
 msgid "Name of the table"
 msgstr "ცხრილის სახელი"
@@ -6723,6 +6743,9 @@ msgstr "ამ ჰოსტის დასრულების შაბლო
 msgid "No free ports available for websockify, try again later"
 msgstr "Websockify-სთვის თავისუფალი პორტები ხელმიუწვდომელია. მოგვიანებით სცადეთ"
 
+msgid "No global parameters found"
+msgstr ""
+
 msgid "No history found"
 msgstr "ისტორიის გარეშე"
 
@@ -6752,6 +6775,9 @@ msgstr "ჰოსტები მონიშნული არაა"
 
 msgid "No hosts were found with that id, name or query filter"
 msgstr "მითითებული ID-ით, სახელით ან საძებნი სტრიქონით ჰოსტები ნაპოვნი არაა"
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "გასულ კვირაში საინტერესო ანგარიშები არ მოგსვლიათ"
@@ -7254,6 +7280,12 @@ msgstr "ოპერატორები"
 msgid "Optional Input Validator"
 msgstr "შეყვანის არასავალდებულო შემოწმება"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr "ჟურნალის ჰეშებს არასავალდებულო მასივი"
 
@@ -7371,6 +7403,9 @@ msgstr "PBKDF2 SHA1"
 msgid "PBKDF2 password cost"
 msgstr "PBKDF2 პაროლის ფასი"
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "POAP PXE template"
 msgstr "POAP PXE -ის შაბლონი"
 
@@ -7432,8 +7467,14 @@ msgstr ""
 msgid "Parameter Details"
 msgstr "პარამეტრის დეტალები"
 
+msgid "Parameter name is required"
+msgstr ""
+
 msgid "Parameter value"
 msgstr "პარამეტრის მნიშვნელობა"
+
+msgid "Parameter value is required"
+msgstr ""
 
 msgid "Parameters"
 msgstr "პარამეტრები"
@@ -8287,6 +8328,9 @@ msgstr "ანგარიშის სტატუსი"
 msgid "Report Templates"
 msgstr "ანგარშის შაბლონები"
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr ""
+
 msgid "Report completed"
 msgstr "ანგარიში დასრულდა"
 
@@ -8307,6 +8351,9 @@ msgstr "ანგარიში მზადაა გადმოსაწე�
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "ანგარიში არ არსებობს. დარწმუნდით, რომ სწორ job_id-ს იყენებთ"
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
+msgstr ""
 
 msgid "Report templates"
 msgstr "ანგარშის შაბლონები"
@@ -8625,9 +8672,6 @@ msgstr "SSH გასაღებები: %s"
 msgid "SSH timeout"
 msgstr "SSH-ის ლოდინის ვადა"
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr ""
-
 msgid "SSL CA file"
 msgstr "SSL CA ფაილი"
 
@@ -8780,6 +8824,12 @@ msgstr "მდებარეობის არჩევა"
 
 msgid "Select Organization"
 msgstr "აირჩიეთ ორგანიზაცია"
+
+msgid "Select a global parameter"
+msgstr ""
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr ""
 
 msgid "Select a period"
 msgstr "აირჩიეთ დროის შუალედი"
@@ -8960,6 +9010,9 @@ msgstr "დააყენეთ \"host_registration_remote_execution\" პა�
 msgid "Set IP addresses for %s"
 msgstr "%s-ის P მისამართების დაყენება"
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr ""
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr "VNC-ზე შემთხვევითი პაროლის დაყენება"
 
@@ -8970,6 +9023,19 @@ msgid "Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. S
 msgstr ""
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
+msgstr ""
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameters"
 msgstr ""
 
 msgid "Set the current location context for the request"
@@ -9479,6 +9545,9 @@ msgstr "სტატუსი"
 
 msgid "Status %s does not exist."
 msgstr "სტატუსი არ არსებობს: %s."
+
+msgid "Stop impersonation"
+msgstr ""
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr "IP და MAC მისმართების მნიშვნელობების ფაქტებიდან განახლების შეწყვეტა (მოჰყვება ყველა ინტერფეისი)"
@@ -11451,6 +11520,9 @@ msgstr "მნიშვნელობა"
 msgid "Value for required input '%s' was not specified"
 msgstr "შეყვანისთვის \"%s\" საჭიროა მნიშვნელობა, რომელიც არ მიგითითებიათ"
 
+msgid "Value for the host parameter override"
+msgstr ""
+
 msgid "Value to use when there is no match."
 msgstr "მნიშვნელობა, რომელიც გამოიყენება, როცა დამთხვევები არაა."
 
@@ -11471,6 +11543,9 @@ msgstr "მომწოდებელი"
 
 msgid "Vendor class"
 msgstr "მომწოდებლის კლასი"
+
+msgid "Vendor class of the hardware model"
+msgstr ""
 
 msgid "Verify"
 msgstr "სემოწმება"
@@ -11788,6 +11863,9 @@ msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Foreman-ით შეგიძლიათ მომხმარებელს SSH გასაღებები დაუმატოთ."
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12312,6 +12390,9 @@ msgstr "არასწორია: %s"
 msgid "is locked for user modifications."
 msgstr "დაბლოკილია მომხმარებლის მიერ ცვლილებებისთვის."
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "არ წარმოადგენს სწორ MAC მისამართს"
 
@@ -12406,6 +12487,9 @@ msgstr "უნდა წარმოადგენდეს სწორ რე
 msgid "must be an array"
 msgstr "უნდა წარმოადგენდეს მასივს"
 
+msgid "must be between 0 and 512 MiB"
+msgstr ""
+
 msgid "must be boolean"
 msgstr "უნდა წარმოადგენდეს ლოგიკურ ნიშვნელობას"
 
@@ -12444,6 +12528,9 @@ msgstr "უნდა შეიცავდეს ჰოსტების სწ
 
 msgid "must end with /v2 or /v3"
 msgstr "/v2 -ით ან /v3 -ით უნდა მთავრდებოდეს"
+
+msgid "must not include a CIDR prefix"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "წერტილებს არ უნდა შეიცავდეს"

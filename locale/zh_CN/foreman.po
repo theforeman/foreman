@@ -1953,9 +1953,6 @@ msgstr "复制"
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr "核心和代理版本不匹配。foreman: %{foreman_version}，foreman-proxy: %{proxy_version}"
-
 msgid "CoreOS Transpiler Command"
 msgstr "CoreOS Transpiler 命令"
 
@@ -2002,7 +1999,7 @@ msgid "Could not find %{association} with name: %{name}"
 msgstr "找不到 %{association} 名称：%{name}"
 
 msgid "Could not find %{migration_name} migration in %{destination}"
-msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移"
+msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移 "
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr "找不到名称为 \"%s\" 的置备模板，请创建一个。"
@@ -2787,6 +2784,9 @@ msgstr "禁用"
 msgid "Disabled alerts"
 msgstr "禁用的警报"
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr "禁用 LDAPS 会清除之前设置的任何 CA 证书。"
+
 msgid "Disabling Safe mode"
 msgstr "禁用安全模式"
 
@@ -3027,6 +3027,9 @@ msgstr "启用 %s?"
 
 msgid "Enable Caching"
 msgstr "启用缓存"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr "启用 LDAPS。禁用它会清除之前设置的任何 CA 证书。"
 
 msgid "Enable Notifications"
 msgstr "啟用通知"
@@ -3485,6 +3488,10 @@ msgstr "无法通过 IPAM 为 %{name} 设置 IP：%{e}"
 msgid "Failed to set console: %s"
 msgstr "设置控制台失败：%s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] "为 %s 主机设置参数失败"
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
 msgstr[0] "为 %s 主机设置电源状态失败。"
@@ -3922,6 +3929,9 @@ msgstr "网关地址"
 msgid "General"
 msgstr "常规"
 
+msgid "General description of the hardware model"
+msgstr "硬件模型的一般描述"
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "一般的有用信息，例如这种硬件需要特殊的BIOS设置"
 
@@ -4119,6 +4129,9 @@ msgstr "硬件型号"
 
 msgid "Hardware model"
 msgstr "硬件型号"
+
+msgid "Hardware model name"
+msgstr "硬件模型名称"
 
 msgid "Hardware models"
 msgstr "硬件型号"
@@ -5084,7 +5097,7 @@ msgid "Inherit from host parameter"
 msgstr "从主机参数继承"
 
 msgid "Inherit parent (%s)"
-msgstr "继承上级（%s）"
+msgstr "继承父级（%s）"
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "如果没有设置则从子网 VLAN ID 继承"
@@ -6434,11 +6447,17 @@ msgstr "用于身份验证的 OpenID Connect Audience 的名称。对于Keycloak
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr "外部认证源名称，可用来创建未知外部认证的用户（请查看 authorize_login_delegation），保持为未设置以防止自动创建。如果为空，代表不会自动创建。"
 
+msgid "Name of the hardware model"
+msgstr "硬件模型的名称"
+
 msgid "Name of the host group"
 msgstr "主机组名称"
 
 msgid "Name of the parameter"
 msgstr "参数名称"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr "在所选主机上设置的参数名称"
 
 msgid "Name of the table"
 msgstr "表的名称"
@@ -6712,6 +6731,9 @@ msgstr "没有找到这个主机的完成模板，请确定在 %s 设置中至�
 msgid "No free ports available for websockify, try again later"
 msgstr "没有端口可用于 websockify，请稍后再试"
 
+msgid "No global parameters found"
+msgstr "没有找到全局参数"
+
 msgid "No history found"
 msgstr "没有发现历史信息"
 
@@ -6741,6 +6763,9 @@ msgstr "未选择主机"
 
 msgid "No hosts were found with that id, name or query filter"
 msgstr "未找到符合此 id、名称或者查询过滤器的主机"
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
+msgstr "没有更新主机。没有此参数的主机会被跳过。"
 
 msgid "No interesting reports received in the last week"
 msgstr "上周没有收到任何需要查看的报告"
@@ -7089,7 +7114,7 @@ msgid "Oh no! Something went wrong while submitting the form, the server returne
 msgstr "在提交表单时出现一些错误，服务器返回以下错误： %s"
 
 msgid "Ok"
-msgstr "好"
+msgstr "Ok"
 
 msgid "Omit"
 msgstr "省略"
@@ -7245,6 +7270,12 @@ msgstr "Operators"
 msgid "Optional Input Validator"
 msgstr "可选的输入验证程序"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "用于通过此代理验证 TLS 连接的可选的 PEM 编码 CA 证书。当设置时，只有这些证书是可信的，且不会使用系统信任存储。在容器化部署中，会使用容器的信任存储，因此可能需要在此处显式地提供 CA 证书。"
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "可选的 PEM 编码的 CA 证书，用于在启用 LDAPS 时验证 LDAP 服务器。设置后，只有这些证书是可信的，且不会使用系统信任存储。在容器化部署中，会使用容器的信任存储，因此可能需要在此处显式地提供 CA 证书。"
+
 msgid "Optional array of log hashes"
 msgstr "日志哈希的自选阵列"
 
@@ -7362,6 +7393,9 @@ msgstr "PBKDF2 SHA1"
 msgid "PBKDF2 password cost"
 msgstr "PBKDF2 密码成本"
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr "用于 LDAPS 验证的 PEM 编码的 CA 证书。当设置时，只信任这些证书，且不会使用系统信任存储。在容器化部署中，会使用容器的信任存储，因此可能需要在此处显式地提供 CA 证书。"
+
 msgid "POAP PXE template"
 msgstr "POAP PXE 模板"
 
@@ -7423,8 +7457,14 @@ msgstr "未在主机 %{host} ENC 输出中设置参数 %{name}，解析在步骤
 msgid "Parameter Details"
 msgstr "参数详情"
 
+msgid "Parameter name is required"
+msgstr "参数名称是必需的"
+
 msgid "Parameter value"
 msgstr "参数值"
+
+msgid "Parameter value is required"
+msgstr "参数值是必需的"
 
 msgid "Parameters"
 msgstr "参数"
@@ -8275,6 +8315,9 @@ msgstr "报告状态"
 msgid "Report Templates"
 msgstr "报告模板"
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr "报告自动 gzip 阈值(MiB)"
+
 msgid "Report completed"
 msgstr "报告完成"
 
@@ -8295,6 +8338,9 @@ msgstr "报告已准备好下载"
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "找不到报告，请确保您使用了正确的 job_id"
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
+msgstr "报告结果（以 MiB 为单位）在存储之前使用 gzip 自动压缩。设置为 0 表示始终压缩。最大值为 512。"
 
 msgid "Report templates"
 msgstr "报告模板"
@@ -8611,9 +8657,6 @@ msgstr "%s 的 SSH 密钥"
 msgid "SSH timeout"
 msgstr "SSH 超时"
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr "需要身份验证时要使用的 SSL CA。"
-
 msgid "SSL CA file"
 msgstr "SSL CA 文件"
 
@@ -8766,6 +8809,12 @@ msgstr "选择位置"
 
 msgid "Select Organization"
 msgstr "选择机构"
+
+msgid "Select a global parameter"
+msgstr "选择全局参数"
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr "选择全局参数和值。已具有此参数的主机将会更新；其他将获得新主机覆盖。"
 
 msgid "Select a period"
 msgstr "选择一个时期"
@@ -8945,6 +8994,9 @@ msgstr "为主机设置 'host_registration_remote_execution' 参数。如果将�
 msgid "Set IP addresses for %s"
 msgstr "为 %s 设置 IP 地址"
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr "在多个主机上设置主机参数覆盖"
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr "在 VNC 显示连接上设置随机生成的密码"
 
@@ -8956,6 +9008,17 @@ msgstr "为来自 Foreman 的所有传出 HTTP(S) 连接设置 HTTP(s) 代理。
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr "设置请求不需要被代理的主机名。到本地主机的请求会被默认排除。"
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] "在 %{count} 主机上设置参数 '%{name}'"
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] "在 %{count} 主机上设置参数 '%{name}'。没有此参数的主机会被跳过。"
+
+msgid "Set parameters"
+msgstr "设置参数"
 
 msgid "Set the current location context for the request"
 msgstr "设置请求的当前位置上下文"
@@ -9462,6 +9525,9 @@ msgstr "状态"
 
 msgid "Status %s does not exist."
 msgstr "状态%s不存在。"
+
+msgid "Stop impersonation"
+msgstr "停止模拟"
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr "停止更新来自 fact 中的 IP 地址和 MAC 值（会影响所有接口）"
@@ -11430,6 +11496,9 @@ msgstr "值"
 msgid "Value for required input '%s' was not specified"
 msgstr "所需的输入 '%s' 的值未指定"
 
+msgid "Value for the host parameter override"
+msgstr "主机参数覆盖的值"
+
 msgid "Value to use when there is no match."
 msgstr "未发现匹配时使用的值。"
 
@@ -11450,6 +11519,9 @@ msgstr "供应商"
 
 msgid "Vendor class"
 msgstr "供应商类别"
+
+msgid "Vendor class of the hardware model"
+msgstr "硬件模型的供应商类"
 
 msgid "Verify"
 msgstr "验证"
@@ -11778,6 +11850,9 @@ msgstr "您可以给 Foreman 中的用户添加 SSH 公钥。"
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
 msgstr "您可以在 %{Matrix} 上找到 Foreman。对于常规支持，请访问 #theforeman:matrix.org，对于特定的开发，请访问 #theforeman-dev:matrix.org。"
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
+msgstr "您只能更新所选主机上已存在的参数。没有此参数的主机会被跳过。"
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr "您可以选择所选 IP 协议支持的 IPAM 模式之一："
@@ -12301,6 +12376,9 @@ msgstr "无效：%s"
 msgid "is locked for user modifications."
 msgstr "已被锁定，以防用户修改。"
 
+msgid "is not a valid CA certificate"
+msgstr "不是有效的 CA 证书"
+
 msgid "is not a valid MAC address"
 msgstr "不是有效的 MAC 地址"
 
@@ -12394,6 +12472,9 @@ msgstr "必须是有效的 regexp"
 msgid "must be an array"
 msgstr "必须是数组"
 
+msgid "must be between 0 and 512 MiB"
+msgstr "必须在 0 到 512 MiB 之间"
+
 msgid "must be boolean"
 msgstr "必须是布尔"
 
@@ -12432,6 +12513,9 @@ msgstr "必须包含有效的主机名"
 
 msgid "must end with /v2 or /v3"
 msgstr "必须以 /v2 或 /v3 结尾"
+
+msgid "must not include a CIDR prefix"
+msgstr "不得包含 CIDR 前缀"
 
 msgid "must not include periods"
 msgstr "不得有句号"

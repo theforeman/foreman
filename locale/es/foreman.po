@@ -2015,9 +2015,6 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr "Copiar al portapapeles"
 
-msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-msgstr "Las versiones del núcleo y del proxy no coinciden. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
-
 msgid "CoreOS Transpiler Command"
 msgstr "Comando del transpilador de CoreOS"
 
@@ -2849,6 +2846,9 @@ msgstr "Deshabilitado"
 msgid "Disabled alerts"
 msgstr "Alertas desactivadas"
 
+msgid "Disabling LDAPS clears any previously set CA certificate(s)."
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr "Desactivar el modo seguro"
 
@@ -3091,6 +3091,9 @@ msgstr ""
 
 msgid "Enable Caching"
 msgstr "Habilitar el caché"
+
+msgid "Enable LDAPS. Disabling it clears any previously set CA certificate(s)."
+msgstr ""
 
 msgid "Enable Notifications"
 msgstr "Habilitar notificaciones"
@@ -3555,6 +3558,11 @@ msgstr "No se pudieron configurar las IP a través de IPAM para %{name}: %{e}"
 msgid "Failed to set console: %s"
 msgstr "Falló al configurar consola: %s"
 
+msgid "Failed to set parameter for %s host"
+msgid_plural "Failed to set parameter for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s host."
 msgid_plural "Failed to set power state for %s hosts."
 msgstr[0] ""
@@ -3993,6 +4001,9 @@ msgstr "Dirección de puerta de enlace"
 msgid "General"
 msgstr "General"
 
+msgid "General description of the hardware model"
+msgstr ""
+
 msgid "General useful description, for example this kind of hardware needs a special BIOS setup"
 msgstr "Descripción general de utilidad, por ejemplo este tipo de hardware necesita una configuración especial de BIOS"
 
@@ -4190,6 +4201,9 @@ msgstr "Modelos de hardware"
 
 msgid "Hardware model"
 msgstr "Modelo del hardware"
+
+msgid "Hardware model name"
+msgstr ""
 
 msgid "Hardware models"
 msgstr "Modelos de hardware"
@@ -6509,11 +6523,17 @@ msgstr "Nombre de la audiencia de OpenID Connect que se está usando para la aut
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr "Nombre de la fuente de autenticación externa donde se deben crear los usuarios externos desconocidos (ver authorize_login_delegation), (mantenerlo no asignado para evitar la creación automática)"
 
+msgid "Name of the hardware model"
+msgstr ""
+
 msgid "Name of the host group"
 msgstr "Nombre del grupo de hosts"
 
 msgid "Name of the parameter"
 msgstr "Nombre del parámetro"
+
+msgid "Name of the parameter to set on the selected hosts"
+msgstr ""
 
 msgid "Name of the table"
 msgstr "Nombre de la tabla"
@@ -6787,6 +6807,9 @@ msgstr "No se han encontrado plantillas de finalizado para este host, asegúrese
 msgid "No free ports available for websockify, try again later"
 msgstr "No hay puertos libres disponibles para websockify, intente de nuevo más tarde."
 
+msgid "No global parameters found"
+msgstr ""
+
 msgid "No history found"
 msgstr "No se encontró historial"
 
@@ -6816,6 +6839,9 @@ msgstr "Ningún host seleccionado"
 
 msgid "No hosts were found with that id, name or query filter"
 msgstr "No se hallaron hosts con ese ID, nombre o filtro de consulta"
+
+msgid "No hosts were updated. Hosts that did not already have this parameter were skipped."
+msgstr ""
 
 msgid "No interesting reports received in the last week"
 msgstr "No se han recibido informes interesantes en la última semana"
@@ -7321,6 +7347,12 @@ msgstr "Operadores"
 msgid "Optional Input Validator"
 msgstr "Validador de entrada opcional"
 
+msgid "Optional PEM-encoded CA certificate(s) used to verify TLS connections through this proxy. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
+msgid "Optional PEM-encoded CA certificate(s) used to verify the LDAP server when LDAPS is enabled. When set, only these certificates are trusted and the system trust store is not used. Leave blank to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "Optional array of log hashes"
 msgstr "Array opcional de hash de registro"
 
@@ -7438,6 +7470,9 @@ msgstr "PBKDF2 SHA1"
 msgid "PBKDF2 password cost"
 msgstr "Coste de la contraseña PBKDF2"
 
+msgid "PEM-encoded CA certificate(s) used for LDAPS verification. When set, only these certificates are trusted and the system trust store is not used. Leave empty to use the system trust store. In containerized deployments, the container's trust store is used, so the CA certificate(s) may need to be provided here explicitly."
+msgstr ""
+
 msgid "POAP PXE template"
 msgstr "Plantilla PXE POAP"
 
@@ -7499,8 +7534,14 @@ msgstr "El parámetro %{name} no está configurado en el host %{host} Salida ENC
 msgid "Parameter Details"
 msgstr "Detalles del parámetro"
 
+msgid "Parameter name is required"
+msgstr ""
+
 msgid "Parameter value"
 msgstr "Valor del parámetro"
+
+msgid "Parameter value is required"
+msgstr ""
 
 msgid "Parameters"
 msgstr "Parámetros"
@@ -8358,6 +8399,9 @@ msgstr "Estado de informe"
 msgid "Report Templates"
 msgstr "Plantillas de reporte"
 
+msgid "Report auto gzip threshold (MiB)"
+msgstr ""
+
 msgid "Report completed"
 msgstr "Informe completado"
 
@@ -8378,6 +8422,9 @@ msgstr "El informe está listo para ser descargado"
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "Informe no encontrado, asegúrese de que ha utilizado el job_id correcto"
+
+msgid "Report results above this size (in MiB) are automatically compressed with gzip before storage. Set to 0 to always compress. Maximum value is 512."
+msgstr ""
 
 msgid "Report templates"
 msgstr "Plantillas de reporte"
@@ -8698,9 +8745,6 @@ msgstr "Claves SSH para: %s"
 msgid "SSH timeout"
 msgstr "Tiempo de espera de SSH"
 
-msgid "SSL CA Certificate to use if authentication is required."
-msgstr ""
-
 msgid "SSL CA file"
 msgstr "Archivo SSL CA"
 
@@ -8853,6 +8897,12 @@ msgstr "Seleccionar ubicación"
 
 msgid "Select Organization"
 msgstr "Seleccionar organización"
+
+msgid "Select a global parameter"
+msgstr ""
+
+msgid "Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override."
+msgstr ""
 
 msgid "Select a period"
 msgstr "Seleccionar un período"
@@ -9034,6 +9084,9 @@ msgstr "Establezca el parámetro 'host_registration_remote_execution' para el ho
 msgid "Set IP addresses for %s"
 msgstr "Configurar direcciones IP para %s"
 
+msgid "Set a host parameter override on multiple hosts"
+msgstr ""
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr "Definir una contraseña generada en forma aleatoria en la conexión de la pantalla de VNC"
 
@@ -9045,6 +9098,19 @@ msgstr ""
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr "Definir nombres de hosts para los que las solicitudes no tendrán proxy. Las solicitudes al host local se excluyen de manera predeterminada."
+
+msgid "Set parameter '%{name}' on %{count} host"
+msgid_plural "Set parameter '%{name}' on %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameter '%{name}' on %{count} host. Hosts that did not already have this parameter were skipped."
+msgid_plural "Set parameter '%{name}' on %{count} hosts. Hosts that did not already have this parameter were skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Set parameters"
+msgstr ""
 
 msgid "Set the current location context for the request"
 msgstr "Establecer el contexto actual de la ubicación para la solicitud"
@@ -9554,6 +9620,9 @@ msgstr "Estado"
 
 msgid "Status %s does not exist."
 msgstr "Estado %s no existe."
+
+msgid "Stop impersonation"
+msgstr ""
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr "Dejar de actualizar los valores de las direcciones IP y MAC de los hechos (afecta a todas las interfaces)"
@@ -11530,6 +11599,9 @@ msgstr "Valor"
 msgid "Value for required input '%s' was not specified"
 msgstr "No se especificó el valor para la entrada requerida '%s'."
 
+msgid "Value for the host parameter override"
+msgstr ""
+
 msgid "Value to use when there is no match."
 msgstr "Valor a utilizar cuando no existen coincidencias"
 
@@ -11550,6 +11622,9 @@ msgstr "Vendedor"
 
 msgid "Vendor class"
 msgstr "Clase de proveedor"
+
+msgid "Vendor class of the hardware model"
+msgstr ""
 
 msgid "Verify"
 msgstr "Verificar"
@@ -11877,6 +11952,9 @@ msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Puede agregar claves públicas SSH a un usuario de Foreman."
 
 msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
+
+msgid "You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12401,6 +12479,9 @@ msgstr "Es inválida"
 msgid "is locked for user modifications."
 msgstr "se encuentra bloqueado para modificaciones por parte del usuario."
 
+msgid "is not a valid CA certificate"
+msgstr ""
+
 msgid "is not a valid MAC address"
 msgstr "No es una dirección MAC válida"
 
@@ -12496,6 +12577,9 @@ msgstr "debe ser un regexp válido"
 msgid "must be an array"
 msgstr "debe ser un array"
 
+msgid "must be between 0 and 512 MiB"
+msgstr ""
+
 msgid "must be boolean"
 msgstr "debe ser booleano"
 
@@ -12534,6 +12618,9 @@ msgstr "debe contener nombres de host válidos"
 
 msgid "must end with /v2 or /v3"
 msgstr "debe terminar con /v2 o /v3"
+
+msgid "must not include a CIDR prefix"
+msgstr ""
 
 msgid "must not include periods"
 msgstr "no debe incluir puntos"
