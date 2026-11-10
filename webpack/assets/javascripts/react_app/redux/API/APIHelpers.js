@@ -97,10 +97,10 @@ export const parseAPIError = input => {
     if (HTML_BODY.test(body)) {
       const fallback =
         axiosError?.message ||
-        (status ? `Request failed with status code ${status}` : '');
+        (status ? `Request failed with status code ${status}` : undefined);
       return {
         ...empty,
-        message: fallback || undefined,
+        message: fallback,
         messages: fallback ? [fallback] : [],
         status,
         body,
