@@ -1855,6 +1855,9 @@ msgstr "%s での設定管理エラー"
 msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr "設定管理概要レポート - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 
+msgid "Configuration file that controls the setting, if any"
+msgstr ""
+
 msgid "Configuration rebuild failed for: %s."
 msgstr "設定の再ビルドに失敗しました: %s。"
 
@@ -2870,6 +2873,12 @@ msgid "Displaying %{num_audits} of %{total_audits} audit"
 msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
 msgstr[0] "監査 %{num_audits} / %{total_audits} 件を表示中"
 
+msgid "Do not send if there is nothing to report"
+msgstr ""
+
+msgid "Do not send the notification when there is nothing to report. Relevant only for summary notifications"
+msgstr ""
+
 msgid "Do you really want to revoke Access Token?"
 msgstr "アクセストークンを取り消してもよろしいですか?"
 
@@ -3161,9 +3170,6 @@ msgstr "リソースの作成中のエラー: %s"
 msgid "Error while trying to update resource: %s"
 msgstr "リソースの更新中のエラー: %s"
 
-msgid "Error! "
-msgstr "エラー! "
-
 msgid "Error:"
 msgstr "エラー:"
 
@@ -3386,6 +3392,9 @@ msgstr "%{hostname} の保留中のビルドの取り消しに失敗しました
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "%{host} が %{device} から起動する設定に失敗しました: %{e}"
+
+msgid "Failed to connect to %{address} after %{timeout} seconds"
+msgstr ""
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
 msgstr "%{name} のレルムエントリーの作成に失敗しました: %{e}"
@@ -3804,6 +3813,9 @@ msgstr "Foreman のアップグレード"
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman は、新規ホストのプロビジョニング時に証明書の署名を自動化します"
 
+msgid "Foreman will block unattended requests from an IP address after this number of requests within 5 minutes. Set to 0 to disable unattended protection"
+msgstr ""
+
 msgid "Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"
 msgstr "この回数ログインの試みに失敗した場合、Foreman は IP アドレスからのユーザーログインを 5 分間ブロックします。0 に設定すると総当たり攻撃からの保護が無効になります"
 
@@ -3860,9 +3872,6 @@ msgstr "値"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ForemanRegister::RegistrationFacet|Jwt secret"
 msgstr "Jwt シークレット"
-
-msgid "Form was successfully created."
-msgstr "フォームが正常に作成されました"
 
 msgid "Forums"
 msgstr "フォーラム"
@@ -4928,9 +4937,6 @@ msgstr "テンプレートで形式を選択できる場合には、任意の形
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr "この設定に予想される値の一覧がある場合は、これには値の一覧が含まれます。"
 
-msgid "If this setting needs to be changed in file, it will have the file path."
-msgstr "この設定をファイルで変更する必要がある場合は、ファイルパスがあります。"
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "これが Foreman 自体のエラーであると思われる場合は、新規の問題として提出してください"
 
@@ -5220,6 +5226,9 @@ msgstr "%{assoc} の選択が無効です。少なくとも 1 つ以上選択し
 msgid "Invalid HTTP(S) URL"
 msgstr "無効な HTTP(S) URL"
 
+msgid "Invalid Status"
+msgstr ""
+
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}' の '%{arch}' アーキテクチャーが無効です"
 
@@ -5261,9 +5270,6 @@ msgstr "sendmail の場所が無効です。任意の場所に settings.yaml を
 
 msgid "Invalid smart-proxy id"
 msgstr "無効な smart-proxy ID"
-
-msgid "Invalid status"
-msgstr "無効なステータス"
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "無効なタグ。キーおよび値のプロパティーのあるマップの配列である必要があります"
@@ -6340,6 +6346,9 @@ msgstr "不一致レポート"
 
 msgid "Missing BMC feature associated with %s."
 msgstr "%s に関連付けられた BMC 機能がありません。"
+
+msgid "Missing SSH credentials: provide key_data or password"
+msgstr ""
 
 msgid "Missing a permission to edit parent %s"
 msgstr "親 %s を編集するパーミッションがありません"
@@ -8303,6 +8312,9 @@ msgstr "レポート"
 
 msgid "Report \"%s\" is ready to download"
 msgstr "レポート \"%s\" のダウンロードの準備ができました"
+
+msgid "Report %s is now being generated, the download will start once it's done."
+msgstr ""
 
 msgid "Report Metrics"
 msgstr "レポートメトリクス"
@@ -10433,6 +10445,9 @@ msgstr "これはレンダリングされるテンプレートの行数を減ら
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "ホスト、ファクト、レポートすべてが <b>削除されるので</b>、しばらく時間がかかる可能性があります。%sこの動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
 
+msgid "This notification cannot be skipped when empty"
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr "これは、<code><%</code> の機能と同じですが、テンプレートが実行されると、コード出力がテンプレートに挿入されます。これは変数の置き換えに便利です。以下に例を示します:"
 
@@ -10459,6 +10474,9 @@ msgstr "この設定は、設定ファイル %s で定義され、読み取り�
 
 msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
 msgstr "この設定は暗号化されています。設定値の代わりに空の入力フィールドが表示されます。"
+
+msgid "This setting is read-only."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "このテンプレートはロックされており、削除することができません。"
@@ -10912,6 +10930,9 @@ msgstr "Smart Proxy からの指定ホストの割り当て解除"
 
 msgid "Unattended URL"
 msgstr "自動 URL"
+
+msgid "Unattended attempts limit"
+msgstr ""
 
 msgid "Unauthorized. You do not have the required permission %s."
 msgstr "不正アクセス。必要なパーミッション %s がありません。"
@@ -11599,9 +11620,6 @@ msgstr "警告のステータス"
 msgid "Warning!"
 msgstr "警告!"
 
-msgid "Warning! "
-msgstr "警告! "
-
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] "警告! これにより、ユーザー %{number} から %{name} が削除されます。実行してもよろしいですか?"
@@ -11933,6 +11951,12 @@ msgstr "新規のパーソナルアクセストークン"
 msgid "Your host has finished building:"
 msgstr "ホストでビルドが完了しました:"
 
+msgid "Your report will be automatically compressed if it exceeds %s MiB."
+msgstr ""
+
+msgid "Your report will be automatically compressed."
+msgstr ""
+
 msgid "Your session has expired, please login again"
 msgstr "セッションの有効期限が切れました。再度ログインしてください"
 
@@ -12200,9 +12224,6 @@ msgstr "%s ロールのフィルター"
 msgid "filter results"
 msgstr "結果のフィルタリング"
 
-msgid "filter..."
-msgstr "フィルタリング..."
-
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "AzureRm の場合。例: 'eastus' および EC2 のみ。EC2 GovCloud リージョンには '%s' を使用します"
 
@@ -12401,9 +12422,6 @@ msgstr "無効です"
 msgid "is not valid."
 msgstr "無効です。"
 
-msgid "is too long (maximum is %s characters)"
-msgstr "長すぎます (最大値は %s 文字です)"
-
 msgid "is too long (maximum is 254 characters)"
 msgstr "長すぎます (最大値は 254 文字です)"
 
@@ -12523,6 +12541,9 @@ msgstr "英数字またはアンダースコア文字のみ含めることがで
 
 msgid "must provide a provider"
 msgstr "プロバイダーを指定する必要があります"
+
+msgid "must provide a template"
+msgstr ""
 
 msgid "must set host and port"
 msgstr "ホストとポートを設定する必要があります"
@@ -12772,6 +12793,9 @@ msgstr "LDAP サーバーのタイプ"
 
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr "%{os} を実行中の %{host} の %{type} テンプレートが見つかりません"
+
+msgid "unable to find public template with name %{name}"
+msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "保留中ではない証明書に署名できません"

@@ -1849,6 +1849,9 @@ msgstr "%s의 구성 관리 오류"
 msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr "구성 관리 요약 보고서 - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 
+msgid "Configuration file that controls the setting, if any"
+msgstr ""
+
 msgid "Configuration rebuild failed for: %s."
 msgstr "다음으로 인해 구성을 다시 빌드하지 못했습니다: %s."
 
@@ -2864,6 +2867,12 @@ msgid "Displaying %{num_audits} of %{total_audits} audit"
 msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
 msgstr[0] "%{num_audits} / %{total_audits} 감사건 표시 중"
 
+msgid "Do not send if there is nothing to report"
+msgstr ""
+
+msgid "Do not send the notification when there is nothing to report. Relevant only for summary notifications"
+msgstr ""
+
 msgid "Do you really want to revoke Access Token?"
 msgstr "정말로 액세스 토큰을 취소하시겠습니까?"
 
@@ -3155,9 +3164,6 @@ msgstr "리소스를 생성하는 동안 오류가 발생했습니다: %s"
 msgid "Error while trying to update resource: %s"
 msgstr "리소스를 업데이트하는 동안 오류가 발생했습니다: %s"
 
-msgid "Error! "
-msgstr "오류!"
-
 msgid "Error:"
 msgstr "오류:"
 
@@ -3380,6 +3386,9 @@ msgstr "다음의 오류로, %{hostname}에 대해 보류 중인 빌드를 취�
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "%{device}에서 부팅하도록 %{host} 설정에 실패했습니다: %{e}"
+
+msgid "Failed to connect to %{address} after %{timeout} seconds"
+msgstr ""
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
 msgstr "%{name}'의 영역 항목 생성에 실패했습니다: %{e}"
@@ -3798,6 +3807,9 @@ msgstr "Foreman 업그레이드"
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman은 새 호스트의 프로비저닝에서 인증서 서명을 자동화합니다 "
 
+msgid "Foreman will block unattended requests from an IP address after this number of requests within 5 minutes. Set to 0 to disable unattended protection"
+msgstr ""
+
 msgid "Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"
 msgstr "Foreman은 5분 동안 이 횟수의 로그인 시도 실패 후 IP 주소에서 사용자 로그인을 차단합니다. bruteforce 보호를 사용하지 않으려면 0으로 설정하십시오."
 
@@ -3854,9 +3866,6 @@ msgstr "값"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ForemanRegister::RegistrationFacet|Jwt secret"
 msgstr "Jwt 시크릿"
-
-msgid "Form was successfully created."
-msgstr "양식이 성공적으로 생성되었습니다."
 
 msgid "Forums"
 msgstr "포럼"
@@ -4919,9 +4928,6 @@ msgstr "템플릿에서 형식 선택을 지원하는 경우, 사용자는 원�
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr "이 설정에 가능한 값 목록이 있으면 값 목록이 포함됩니다."
 
-msgid "If this setting needs to be changed in file, it will have the file path."
-msgstr "파일에서 이 설정을 변경해야 하는 경우, 파일 경로가 있습니다."
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "이것이 Foreman 자체의 오류라고 생각되시면 새로운 문제로 제출하십시오"
 
@@ -5205,6 +5211,9 @@ msgstr "%{assoc} 선택이 잘못되었습니다. 사용자 중 최소 하나 �
 msgid "Invalid HTTP(S) URL"
 msgstr "잘못된 HTTP(S) URL"
 
+msgid "Invalid Status"
+msgstr ""
+
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}'에 대한 '%{arch}' 아키텍처가 잘못되었습니다."
 
@@ -5246,9 +5255,6 @@ msgstr "송신 메일 위치가 잘못되었습니다. 임의 위치에 settings
 
 msgid "Invalid smart-proxy id"
 msgstr "잘못된 스마트-프록시 id"
-
-msgid "Invalid status"
-msgstr "잘못된 상태"
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "잘못된 태그입니다. 키 및 값 속성이 있는 맵의 배열이어야 합니다."
@@ -6325,6 +6331,9 @@ msgstr "불일치 보고서 "
 
 msgid "Missing BMC feature associated with %s."
 msgstr "%s와 관련된 BMC 기능이 누락되었습니다."
+
+msgid "Missing SSH credentials: provide key_data or password"
+msgstr ""
 
 msgid "Missing a permission to edit parent %s"
 msgstr "상위 %s를 편집할 수 있는 권한이 없습니다."
@@ -8281,6 +8290,9 @@ msgstr "보고서 "
 
 msgid "Report \"%s\" is ready to download"
 msgstr "\"%s\" 보고서를 다운로드할 준비가 되었습니다."
+
+msgid "Report %s is now being generated, the download will start once it's done."
+msgstr ""
 
 msgid "Report Metrics"
 msgstr "보고서 메트릭스 "
@@ -10411,6 +10423,9 @@ msgstr "이것은 렌더링된 템플릿에서 Ruby 구문이 허용하는 줄 �
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "모든 호스트, 팩트 및 보고서가 모두 <b>삭제되므로</b> 시간이 좀 걸릴 수 있습니다. %s 이 동작은 \"호스트 삭제 시 연관된 VM 삭제\" 글로벌 설정을 통해 변경할 수 있습니다."
 
+msgid "This notification cannot be skipped when empty"
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr "이는 다음과 동일한 기능을 제공합니다.<code><%</code> 하지만 템플릿이 실행되면 코드 출력이 템플릿에 삽입됩니다. 이는 변수 대체에 유용합니다. 예를 들어:"
 
@@ -10437,6 +10452,9 @@ msgstr "이 설정은 구성 파일%s에 정의되어 있으며 읽기 전용입
 
 msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
 msgstr "이 설정은 암호화되어 있습니다. 설정 값 대신 빈 입력 필드가 표시됩니다."
+
+msgid "This setting is read-only."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "템플릿이 잠겨 있어 삭제할 수 없습니다. "
@@ -10886,6 +10904,9 @@ msgstr "지정된 호스트를 스마트 프록시에서 할당 해제"
 
 msgid "Unattended URL"
 msgstr "자동 URL"
+
+msgid "Unattended attempts limit"
+msgstr ""
 
 msgid "Unauthorized. You do not have the required permission %s."
 msgstr "승인되지 않았습니다. 필요한 권한 %s이(가) 없습니다."
@@ -11573,9 +11594,6 @@ msgstr "경고 상태"
 msgid "Warning!"
 msgstr "경고!"
 
-msgid "Warning! "
-msgstr "경고! "
-
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] "경고! %{number} 사용자에서 %{name}가 제거됩니다. 확실합니까?"
@@ -11898,6 +11916,12 @@ msgstr "새 개인 액세스 토큰"
 msgid "Your host has finished building:"
 msgstr "호스트에서 빌드가 완료되었습니다:"
 
+msgid "Your report will be automatically compressed if it exceeds %s MiB."
+msgstr ""
+
+msgid "Your report will be automatically compressed."
+msgstr ""
+
 msgid "Your session has expired, please login again"
 msgstr "세션이 만료되었습니다. 다시 로그인하십시오 "
 
@@ -12165,9 +12189,6 @@ msgstr "%s 역할 필터 "
 msgid "filter results"
 msgstr "필터 결과"
 
-msgid "filter..."
-msgstr "필터..."
-
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "AzureRm의 경우, 예: 'eastus' 및 EC2만 가능. EC2 GovCloud 영역에 %s 사용할 것"
 
@@ -12366,9 +12387,6 @@ msgstr "유효하지 않습니다."
 msgid "is not valid."
 msgstr "유효하지 않습니다."
 
-msgid "is too long (maximum is %s characters)"
-msgstr "너무 깁니다(최대값은%s 문자)"
-
 msgid "is too long (maximum is 254 characters)"
 msgstr "너무 깁니다 (최대 254자)"
 
@@ -12488,6 +12506,9 @@ msgstr "영 숫자 또는 밑줄 문자만 포함해야 합니다."
 
 msgid "must provide a provider"
 msgstr "공급자를 지정해야 합니다 "
+
+msgid "must provide a template"
+msgstr ""
 
 msgid "must set host and port"
 msgstr "호스트 및 포트를 설정해야 합니다 "
@@ -12737,6 +12758,9 @@ msgstr "LDAP 서버 유형"
 
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr "%{os}를 실행하는 %{host}에 대한 %{type} 템플릿을 찾을 수 없음"
+
+msgid "unable to find public template with name %{name}"
+msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "보류 중이 아닌 인증서에 서명할 수 없습니다 "

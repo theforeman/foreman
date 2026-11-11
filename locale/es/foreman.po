@@ -1919,6 +1919,9 @@ msgstr "Error de administración de configuración en %s"
 msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr "Informe de resumen de la gestión de la configuración - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 
+msgid "Configuration file that controls the setting, if any"
+msgstr ""
+
 msgid "Configuration rebuild failed for: %s."
 msgstr "La reconstrucción de la configuración falló para: %s."
 
@@ -2936,6 +2939,12 @@ msgstr[0] "Mostrando %{num_audits} de %{total_audits} auditoría"
 msgstr[1] "Mostrando %{num_audits} de %{total_audits} auditorías"
 msgstr[2] "Mostrando %{num_audits} de %{total_audits} auditorías"
 
+msgid "Do not send if there is nothing to report"
+msgstr ""
+
+msgid "Do not send the notification when there is nothing to report. Relevant only for summary notifications"
+msgstr ""
+
 msgid "Do you really want to revoke Access Token?"
 msgstr "¿Realmente quieres revocar el Access Token?"
 
@@ -3227,9 +3236,6 @@ msgstr "Error al intentar crear el recurso: %s"
 msgid "Error while trying to update resource: %s"
 msgstr "Error al intentar actualizar el recurso: %s"
 
-msgid "Error! "
-msgstr "Error"
-
 msgid "Error:"
 msgstr ""
 
@@ -3456,6 +3462,9 @@ msgstr "Fallo en la cancelación de la construcción pendiente para %{hostname} 
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "No se ha podido configurar %{host} para arrancar desde %{device}: %{e}"
+
+msgid "Failed to connect to %{address} after %{timeout} seconds"
+msgstr ""
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
 msgstr "Fallo al crear %{name}'s realm entry: %{e}"
@@ -3878,6 +3887,9 @@ msgstr ""
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman automatizará la firma de certificados tras el aprovisionamiento de un nuevo host"
 
+msgid "Foreman will block unattended requests from an IP address after this number of requests within 5 minutes. Set to 0 to disable unattended protection"
+msgstr ""
+
 msgid "Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"
 msgstr "Foreman bloqueará el inicio de sesión del usuario después de esta cantidad de intentos de inicio de sesión fallidos durante 5 minutos desde la dirección IP infractora. Configure 0 para deshabilitar la protección de fuerza bruta"
 
@@ -3934,9 +3946,6 @@ msgstr "ForemanInternal|Value"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ForemanRegister::RegistrationFacet|Jwt secret"
 msgstr "ForemanRegister::RegistrationFacet|Jwt secret"
-
-msgid "Form was successfully created."
-msgstr "El formulario se ha creado con éxito."
 
 msgid "Forums"
 msgstr "Foros"
@@ -5006,9 +5015,6 @@ msgstr "Si la plantilla admite la selección de formato, el usuario puede elegir
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr "Si este ajuste tiene una lista de valores posibles, esto incluye la lista de los valores."
 
-msgid "If this setting needs to be changed in file, it will have the file path."
-msgstr "Si este ajuste debe ser cambiado en el archivo, tendrá la ruta del archivo."
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "Si cree que esto es un error de Foreman, por favor, reporte una incidencia con"
 
@@ -5298,6 +5304,9 @@ msgstr "Selección %{assoc} inválida. Debe seleccionar, al menos, uno de los su
 msgid "Invalid HTTP(S) URL"
 msgstr "URL HTTP(S) no válida"
 
+msgid "Invalid Status"
+msgstr ""
+
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "Arquitectura inválida '%{arch}' para '%{os}'"
 
@@ -5339,9 +5348,6 @@ msgstr "Ubicación inválida de sendmail, utilice settings.yaml para una ubicaci
 
 msgid "Invalid smart-proxy id"
 msgstr "ID de proxy inteligente inválido"
-
-msgid "Invalid status"
-msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr "Etiquetas no válidas, debe ser un array de mapas con propiedades de clave y valor"
@@ -6418,6 +6424,9 @@ msgstr "Informe de discordancias"
 
 msgid "Missing BMC feature associated with %s."
 msgstr "Falta la función BMC asociada a %s."
+
+msgid "Missing SSH credentials: provide key_data or password"
+msgstr ""
 
 msgid "Missing a permission to edit parent %s"
 msgstr "Falta un permiso para editar %s principal"
@@ -8389,6 +8398,9 @@ msgstr "Informe"
 
 msgid "Report \"%s\" is ready to download"
 msgstr "El informe \"%s\" está listo para ser descargado"
+
+msgid "Report %s is now being generated, the download will start once it's done."
+msgstr ""
 
 msgid "Report Metrics"
 msgstr "Métrica de informe"
@@ -10536,6 +10548,9 @@ msgstr "Se utiliza para reducir el número de líneas, cuando la sintaxis de Rub
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "Esto puede demorar un tiempo, ya que también se <b>eliminarán</b> todos los hosts, eventos e informes. %s Este comportamiento se puede cambiar a través del ajuste global \"Destruir máquina virtual asociada con la eliminación del host\"."
 
+msgid "This notification cannot be skipped when empty"
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr "Esto proporciona la misma funcionalidad que <code><%</code> pero cuando la plantilla se ejecuta, la salida de código se inserta en la plantilla. Esto es útil para la sustitución de variables, por ejemplo:"
 
@@ -10562,6 +10577,9 @@ msgstr "Esta configuración se define en el archivo de configuración '%{filenam
 
 msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
 msgstr "Este ajuste está codificado. Se muestra un campo de entrada vacío en lugar del valor del ajuste."
+
+msgid "This setting is read-only."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "La plantilla está bloqueada y no puede eliminarse"
@@ -11015,6 +11033,9 @@ msgstr "Desasignar un host determinado del proxy inteligente"
 
 msgid "Unattended URL"
 msgstr "URL desatendida"
+
+msgid "Unattended attempts limit"
+msgstr ""
 
 msgid "Unauthorized. You do not have the required permission %s."
 msgstr "No autorizado. No tiene los permisos necesarios %s."
@@ -11704,9 +11725,6 @@ msgstr "Estados de advertencia"
 msgid "Warning!"
 msgstr "¡Advertencia!"
 
-msgid "Warning! "
-msgstr "¡Advertencia! "
-
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] "¡Advertencia! Esto eliminará %{name} de %{number} usuario. ¿Está seguro de que desea continuar?"
@@ -12038,6 +12056,12 @@ msgstr "Su nuevo token de acceso personal"
 msgid "Your host has finished building:"
 msgstr "Su host ha terminado de construirse:"
 
+msgid "Your report will be automatically compressed if it exceeds %s MiB."
+msgstr ""
+
+msgid "Your report will be automatically compressed."
+msgstr ""
+
 msgid "Your session has expired, please login again"
 msgstr "La sesión ha expirado, por favor, reconéctese"
 
@@ -12305,9 +12329,6 @@ msgstr "filtro para la función %s "
 msgid "filter results"
 msgstr "filtrar resultados"
 
-msgid "filter..."
-msgstr "filtrar..."
-
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "para AzureRm, por ejemplo, 'eastus' y sólo para EC2. Use '%s' para la región GovCloud del EC2"
 
@@ -12506,9 +12527,6 @@ msgstr "no es válido"
 msgid "is not valid."
 msgstr "no es válido"
 
-msgid "is too long (maximum is %s characters)"
-msgstr "es demasiado largo (el máximo es %s caracteres)"
-
 msgid "is too long (maximum is 254 characters)"
 msgstr "es demasiado largo (el máximo es 254 caracteres)"
 
@@ -12630,6 +12648,9 @@ msgstr "debe contener solo caracteres alfanuméricos o guiones bajos"
 
 msgid "must provide a provider"
 msgstr " debe proporcionar un proveedor"
+
+msgid "must provide a template"
+msgstr ""
 
 msgid "must set host and port"
 msgstr " debe configurar un host  y un puerto"
@@ -12879,6 +12900,9 @@ msgstr "tipo de servidor LDAP"
 
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr "no se puede encontrar la plantilla de %{type} para %{host} que se está ejecutando{os}"
+
+msgid "unable to find public template with name %{name}"
+msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "no se ha podido firmar un certificado no-pendiente"

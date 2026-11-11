@@ -1862,6 +1862,9 @@ msgstr ""
 msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 msgstr ""
 
+msgid "Configuration file that controls the setting, if any"
+msgstr ""
+
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
@@ -2878,6 +2881,12 @@ msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Do not send if there is nothing to report"
+msgstr ""
+
+msgid "Do not send the notification when there is nothing to report. Relevant only for summary notifications"
+msgstr ""
+
 msgid "Do you really want to revoke Access Token?"
 msgstr ""
 
@@ -3169,9 +3178,6 @@ msgstr ""
 msgid "Error while trying to update resource: %s"
 msgstr ""
 
-msgid "Error! "
-msgstr ""
-
 msgid "Error:"
 msgstr ""
 
@@ -3396,6 +3402,9 @@ msgid "Failed to cancel pending build for %{hostname} with the following errors:
 msgstr ""
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
+msgstr ""
+
+msgid "Failed to connect to %{address} after %{timeout} seconds"
 msgstr ""
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
@@ -3815,6 +3824,9 @@ msgstr ""
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
+msgid "Foreman will block unattended requests from an IP address after this number of requests within 5 minutes. Set to 0 to disable unattended protection"
+msgstr ""
+
 msgid "Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"
 msgstr ""
 
@@ -3870,9 +3882,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "ForemanRegister::RegistrationFacet|Jwt secret"
-msgstr ""
-
-msgid "Form was successfully created."
 msgstr ""
 
 msgid "Forums"
@@ -4938,9 +4947,6 @@ msgstr ""
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr ""
 
-msgid "If this setting needs to be changed in file, it will have the file path."
-msgstr ""
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 
@@ -5224,6 +5230,9 @@ msgstr ""
 msgid "Invalid HTTP(S) URL"
 msgstr ""
 
+msgid "Invalid Status"
+msgstr ""
+
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
 
@@ -5264,9 +5273,6 @@ msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
 msgstr ""
 
 msgid "Invalid smart-proxy id"
-msgstr ""
-
-msgid "Invalid status"
 msgstr ""
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
@@ -6343,6 +6349,9 @@ msgid "Mismatches Report"
 msgstr ""
 
 msgid "Missing BMC feature associated with %s."
+msgstr ""
+
+msgid "Missing SSH credentials: provide key_data or password"
 msgstr ""
 
 msgid "Missing a permission to edit parent %s"
@@ -8303,6 +8312,9 @@ msgid "Report"
 msgstr ""
 
 msgid "Report \"%s\" is ready to download"
+msgstr ""
+
+msgid "Report %s is now being generated, the download will start once it's done."
 msgstr ""
 
 msgid "Report Metrics"
@@ -10442,6 +10454,9 @@ msgstr ""
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
+msgid "This notification cannot be skipped when empty"
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr ""
 
@@ -10467,6 +10482,9 @@ msgid "This setting is defined in the configuration file %s and is read-only."
 msgstr ""
 
 msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
+msgstr ""
+
+msgid "This setting is read-only."
 msgstr ""
 
 msgid "This template is locked and may not be removed."
@@ -10917,6 +10935,9 @@ msgid "Unassign a given host from the smart proxy"
 msgstr ""
 
 msgid "Unattended URL"
+msgstr ""
+
+msgid "Unattended attempts limit"
 msgstr ""
 
 msgid "Unauthorized. You do not have the required permission %s."
@@ -11607,9 +11628,6 @@ msgstr ""
 msgid "Warning!"
 msgstr ""
 
-msgid "Warning! "
-msgstr ""
-
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] ""
@@ -11925,6 +11943,12 @@ msgstr ""
 msgid "Your host has finished building:"
 msgstr ""
 
+msgid "Your report will be automatically compressed if it exceeds %s MiB."
+msgstr ""
+
+msgid "Your report will be automatically compressed."
+msgstr ""
+
 msgid "Your session has expired, please login again"
 msgstr ""
 
@@ -12192,9 +12216,6 @@ msgstr ""
 msgid "filter results"
 msgstr "filter results"
 
-msgid "filter..."
-msgstr ""
-
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr ""
 
@@ -12393,9 +12414,6 @@ msgstr ""
 msgid "is not valid."
 msgstr ""
 
-msgid "is too long (maximum is %s characters)"
-msgstr ""
-
 msgid "is too long (maximum is 254 characters)"
 msgstr ""
 
@@ -12515,6 +12533,9 @@ msgid "must only contain alphanumeric or underscore characters"
 msgstr ""
 
 msgid "must provide a provider"
+msgstr ""
+
+msgid "must provide a template"
 msgstr ""
 
 msgid "must set host and port"
@@ -12764,6 +12785,9 @@ msgid "type of the LDAP server"
 msgstr ""
 
 msgid "unable to find %{type} template for %{host} running %{os}"
+msgstr ""
+
+msgid "unable to find public template with name %{name}"
 msgstr ""
 
 msgid "unable to sign a non pending certificate"
