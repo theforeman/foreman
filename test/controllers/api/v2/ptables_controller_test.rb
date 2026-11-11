@@ -273,4 +273,16 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'b', Ptable.unscoped.find_by_name(ptable.name).template
   end
+
+  test 'routes revision URLs before ptable IDs' do
+    options = { :controller => 'api/v2/ptables', :action => 'revision', :apiv => 'v2', :format => 'json' }
+    assert_recognizes options, '/api/v2/ptables/revision'
+    assert_recognizes options, '/api/ptables/revision'
+  end
+
+  test 'preserves ptable IDs containing periods' do
+    options = { :controller => 'api/v2/ptables', :action => 'show', :id => 'disk.layout', :apiv => 'v2', :format => 'json' }
+    assert_recognizes options, '/api/v2/ptables/disk.layout'
+    assert_recognizes options, '/api/ptables/disk.layout'
+  end
 end
