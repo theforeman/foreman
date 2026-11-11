@@ -1,5 +1,3 @@
-import React from 'react';
-import { shallow } from 'enzyme';
 import { initMockStore } from './testInitialReduxStore';
 import { rtlHelpers } from './rtlTestHelpers';
 
@@ -49,31 +47,6 @@ export const mockWindowLocation = ({ href }) => {
 
 export const classFunctionUnitTest = (obj, func, objThis, args) =>
   obj.prototype[func].apply(objThis, args);
-
-/**
- * Shallow render a component multipile times with fixtures
- * @param  {ReactComponent} Component Component to shallow-render
- * @param  {Object}         fixtures  key=fixture description, value=props to apply
- * @return {Object}                   key=fixture description, value=shallow-rendered component
- */
-export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
-  Object.entries(fixtures).map(([description, props]) => ({
-    description,
-    component: shallow(<Component {...props} />),
-  }));
-
-/**
- * Test a component with fixtures and snapshots
- * @param  {function(): *} Component Component to test
- * @param  {Object}         fixtures  key=fixture description, value=props to apply
- */
-export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(
-    Component,
-    fixtures
-  ).forEach(({ description, component }) =>
-    it(description, () => expect(component).toMatchSnapshot())
-  );
 
 const resolveDispatch = async (action, depth) => {
   // if it is async action and we are allowed to go deeper
