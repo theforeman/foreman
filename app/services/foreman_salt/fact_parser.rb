@@ -3,13 +3,15 @@ module ForemanSalt
     attr_reader :facts
 
     def operatingsystem
-      os = Operatingsystem.find_by_attributes(**os_hash).first || Operatingsystem.new(os_hash)
-      if os.new_record?
+      Operatingsystem.find_or_create_by_attributes(os_hash) do
+        os = Operatingsystem.new(os_hash)
         os.deduce_family
         os.release_name = facts[:oscodename] || facts[:lsb_distrib_codename]
-        os.save
+        os.save!
+        os
       end
-      os if os.persisted?
+    rescue ActiveRecord::RecordInvalid
+      nil
     end
 
     def architecture
