@@ -43,7 +43,6 @@
         "@babel/eslint-",
         "@storybook/",
         "@testing-library/",
-        "enzyme",
         "eslint",
         "jest-",
         "stylelint"
