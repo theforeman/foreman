@@ -364,6 +364,36 @@ module Hostext
           assert_equal Host.count, result.count
         end
       end
+
+      context 'search by name with ^ operator' do
+        setup do
+          @fqdn_host = FactoryBot.create(:host, :managed)
+          @short_name = @fqdn_host.name.split('.').first
+          @bare_host = FactoryBot.create(:host, :managed, :without_orchestration)
+          @bare_host.update_columns(name: 'shortrex-bare', managed: false)
+          @bare_host = Host::Managed.find(@bare_host.id)
+        end
+
+        test 'name ^ matches hosts by short hostname of an fqdn' do
+          results = Host::Managed.search_for("name ^ (#{@short_name})")
+
+          assert_includes results, @fqdn_host
+          refute_includes results, @bare_host
+        end
+
+        test 'name ^ matches short and fqdn tokens in one list' do
+          results = Host::Managed.search_for("name ^ (#{@short_name}, #{@bare_host.name})")
+
+          assert_includes results, @fqdn_host
+          assert_includes results, @bare_host
+        end
+
+        test 'name = still matches full host name' do
+          results = Host::Managed.search_for("name = #{@fqdn_host.name}")
+
+          assert_equal [@fqdn_host], results.to_a
+        end
+      end
     end
   end
 end

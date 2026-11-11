@@ -11,7 +11,7 @@ module Hostext
       belongs_to :search_users, :class_name => 'User', :foreign_key => :owner_id
       belongs_to :usergroups, :class_name => 'Usergroup', :foreign_key => :owner_id
 
-      scoped_search :on => :name,          :complete_value => true, :default_order => true
+      scoped_search :on => :name,          :complete_value => true, :default_order => true, :ext_method => :search_by_host_name
       scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
       scoped_search :on => :created_at,    :complete_value => true, :only_explicit => true
       scoped_search :on => :comment,       :complete_value => true
@@ -183,6 +183,38 @@ module Hostext
         'NOT LIKE' => 'LIKE',
         'NOT ILIKE' => 'ILIKE',
       }.freeze
+
+      def search_by_host_name(_key, operator, value)
+        sql_operator = operator.strip
+        if sql_operator == 'IN' || sql_operator == 'NOT IN'
+          negated = sql_operator == 'NOT IN'
+          values = value.split(',').map(&:strip).reject(&:empty?)
+          return {conditions: negated ? '1 = 1' : '1 = 0'} if values.empty?
+
+          clauses = values.map do |name|
+            quoted = connection.quote(name)
+            if name.include?('.')
+              "hosts.name = #{quoted}"
+            else
+              short_match_clause(quoted)
+            end
+          end
+
+          combined = clauses.map { |clause| "(#{clause})" }.join(' OR ')
+          condition = negated ? "NOT (#{combined})" : combined
+          return {conditions: condition}
+        end
+
+        {conditions: sanitize_sql_for_conditions(["hosts.name #{sql_operator} ?", value_to_sql(sql_operator, value)])}
+      end
+
+      def short_match_clause(quoted_short_name)
+        if connection.adapter_name.downcase.include?('postgres')
+          "hosts.name = #{quoted_short_name} OR split_part(hosts.name, '.', 1) = #{quoted_short_name}"
+        else
+          "hosts.name = #{quoted_short_name} OR hosts.name LIKE CONCAT(#{quoted_short_name}, '.%')"
+        end
+      end
 
       def search_by_hostgroup_and_descendants(key, operator, value)
         sql_operator = operator.strip
