@@ -112,9 +112,6 @@ Foreman::Application.routes.draw do
         resources :hosts, :except => [:new, :edit]
         resources :hostgroups, :except => [:new, :edit]
         resources :media, :except => [:new, :edit]
-        resources :ptables, :except => [:new, :edit] do
-          get :revision, :on => :collection
-        end
         resources :architectures, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
@@ -123,17 +120,25 @@ Foreman::Application.routes.draw do
         resources :template_inputs, :only => [:index, :show, :create, :destroy, :update]
       end
 
-      resources :ptables, :except => [:new, :edit] do
-        resources :locations, :only => [:index, :show]
-        resources :organizations, :only => [:index, :show]
+      resources :ptables, :only => [:index, :create] do
+        collection do
+          get :revision
+          post :import
+        end
         member do
+          # Keep dotted IDs on standard member routes without constraining children.
+          constraints(:id => /[^\/]+/) do
+            get :show
+            patch :update
+            put :update
+            delete :destroy
+          end
           post :clone
           get :export
         end
-        collection do
-          post :import
-        end
 
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         resources :operatingsystems, :except => [:new, :edit]
       end
 

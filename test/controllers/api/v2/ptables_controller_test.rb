@@ -18,6 +18,57 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     end
   end
 
+  test 'preserves ptable update and destroy routes for dotted IDs' do
+    prefixes = %w[/api/v2 /api]
+    { :patch => 'update', :put => 'update', :delete => 'destroy' }.each do |method, action|
+      options = { :controller => 'api/v2/ptables', :action => action,
+                  :id => 'disk.layout', :apiv => 'v2', :format => 'json' }
+      prefixes.each do |prefix|
+        assert_recognizes options, { :path => "#{prefix}/ptables/disk.layout", :method => method }
+      end
+    end
+  end
+
+  test 'preserves ptable collection and custom member routes' do
+    prefixes = %w[/api/v2 /api]
+    suffixes = ['', '.json']
+    requests = [[:get, '', 'index', nil], [:post, '', 'create', nil],
+                [:post, '/import', 'import', nil], [:post, '/1/clone', 'clone', '1'],
+                [:get, '/1/export', 'export', '1']]
+    requests.each do |method, path, action, id|
+      options = { :controller => 'api/v2/ptables', :action => action, :apiv => 'v2', :format => 'json' }
+      options[:id] = id if id
+      prefixes.product(suffixes).each do |prefix, suffix|
+        assert_recognizes options, { :path => "#{prefix}/ptables#{path}#{suffix}", :method => method }
+      end
+    end
+  end
+
+  test 'preserves nested operating system actions' do
+    prefixes = %w[/api/v2 /api]
+    suffixes = ['', '.json']
+    requests = [[:get, '', 'index', nil], [:post, '', 'create', nil],
+                [:patch, '/2', 'update', '2'], [:put, '/2', 'update', '2'],
+                [:delete, '/2', 'destroy', '2']]
+    requests.each do |method, path, action, id|
+      options = { :controller => 'api/v2/operatingsystems', :action => action,
+                  :ptable_id => '1', :apiv => 'v2', :format => 'json' }
+      options[:id] = id if id
+      prefixes.product(suffixes).each do |prefix, suffix|
+        assert_recognizes options, { :path => "#{prefix}/ptables/1/operatingsystems#{path}#{suffix}", :method => method }
+      end
+    end
+  end
+
+  test 'preserves ptable URL helpers' do
+    helpers = @routes.url_helpers
+    assert_equal '/api/ptables/disk.layout', helpers.api_ptable_path('disk.layout', :apiv => nil)
+    assert_equal '/api/v2/ptables/disk.layout', helpers.api_ptable_path('disk.layout', :apiv => 'v2')
+    assert_equal '/api/ptables/revision', helpers.revision_api_ptables_path(:apiv => nil)
+    assert_equal '/api/ptables/1/operatingsystems/2',
+      helpers.api_ptable_operatingsystem_path(:ptable_id => 1, :id => 2, :format => :json, :apiv => nil)
+  end
+
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   def setup
