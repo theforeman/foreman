@@ -13,6 +13,7 @@ class ForemanSeeder
   def initialize
     @seeds = (foreman_seeds + plugin_seeds).sort_by { |seed| seed.split("/").last }
     @hashed_files = @seeds + templates
+    @smart_proxy_features = Foreman::Plugin.registered_smart_proxy_features
   end
 
   def foreman_seeds
@@ -31,6 +32,7 @@ class ForemanSeeder
 
   def hash
     hashes = @hashed_files.collect { |seed| Digest::SHA256.file(seed).base64digest }
+    hashes << Digest::SHA256.base64digest(@smart_proxy_features.join("\0"))
     Digest::SHA256.base64digest(hashes.join)
   end
 

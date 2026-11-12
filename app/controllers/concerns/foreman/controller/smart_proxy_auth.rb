@@ -12,11 +12,34 @@ module Foreman::Controller::SmartProxyAuth
       skip_before_action :set_taxonomy, :only => actions, :raise => false
       skip_before_action :session_expiry, :update_activity_time, :only => actions
       before_action(:only => actions) { require_smart_proxy_or_login(options[:features]) }
-      attr_reader :detected_proxy
+    end
+
+    def add_registered_smart_proxy_filters
+      options = { :if => :registered_smart_proxy_action?, :raise => false }
+      skip_before_action :require_login, :check_user_enabled, **options
+      skip_before_action :authorize, **options
+      skip_before_action :verify_authenticity_token, **options
+      skip_before_action :set_taxonomy, **options
+      skip_before_action :session_expiry, :update_activity_time, **options
+      before_action :require_registered_smart_proxy_or_login, :if => :registered_smart_proxy_action?
     end
   end
 
+  attr_reader :detected_proxy
+
   private
+
+  def registered_smart_proxy_features
+    @registered_smart_proxy_features ||= Foreman::Plugin.smart_proxy_features_for(controller_path, action_name)
+  end
+
+  def registered_smart_proxy_action?
+    registered_smart_proxy_features.present?
+  end
+
+  def require_registered_smart_proxy_or_login
+    require_smart_proxy_or_login(registered_smart_proxy_features)
+  end
 
   # Permits registered Smart Proxies or a user with permission
   def require_smart_proxy_or_login(features = nil)
