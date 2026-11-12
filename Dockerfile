@@ -33,7 +33,7 @@ RUN \
   dnf install -y redhat-rpm-config git-core \
     gcc-c++ make bzip2 gettext tar \
     libxml2-devel libffi-devel libcurl-devel ruby-devel \
-    postgresql-devel && \
+    postgresql-devel libcap-devel && \
   dnf clean all
 
 ENV DATABASE_URL=nulldb://nohost
