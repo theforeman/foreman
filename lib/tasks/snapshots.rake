@@ -7,7 +7,7 @@ namespace :snapshots do
       exit
     end
 
-    require 'database_cleaner'
+    require 'database_cleaner/active_record'
     require 'factory_bot_rails'
 
     # don't advertise any plugins to prevent different results

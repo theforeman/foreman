@@ -38,7 +38,14 @@ module EncryptValue
       str_no_prefix = str.gsub(/^#{ENCRYPTION_PREFIX}/, "")
       str_decrypted = encryptor.decrypt_and_verify(str_no_prefix)
       str = str_decrypted
-    rescue ActiveSupport::MessageVerifier::InvalidSignature
+    # This encryptor uses the default (non-AEAD) cipher, aes-256-cbc. Rails
+    # >= 7.1 changed decrypt_and_verify to always raise
+    # MessageEncryptor::InvalidMessage for a corrupt/tampered message,
+    # regardless of cipher; non-AEAD ciphers used to raise
+    # MessageVerifier::InvalidSignature instead, since they relied on an
+    # internal MessageVerifier for integrity checking (rails/rails#47326).
+    # Rescue both so this keeps degrading gracefully instead of raising.
+    rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveSupport::MessageEncryptor::InvalidMessage
       puts_and_logs("At least one field decryption failed, check ENCRYPTION_KEY") unless defined?(@@decrypt_err_reported) && @@decrypt_err_reported
       @@decrypt_err_reported = true
     end
