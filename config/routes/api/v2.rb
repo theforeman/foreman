@@ -112,6 +112,9 @@ Foreman::Application.routes.draw do
         resources :hosts, :except => [:new, :edit]
         resources :hostgroups, :except => [:new, :edit]
         resources :media, :except => [:new, :edit]
+        resources :ptables, :except => [:new, :edit] do
+          get :revision, :on => :collection
+        end
         resources :architectures, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
@@ -120,7 +123,7 @@ Foreman::Application.routes.draw do
         resources :template_inputs, :only => [:index, :show, :create, :destroy, :update]
       end
 
-      resources :ptables, :except => [:new, :edit], :constraints => { :id => /[^\/]+/ } do
+      resources :ptables, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
         resources :organizations, :only => [:index, :show]
         member do
@@ -128,7 +131,6 @@ Foreman::Application.routes.draw do
           get :export
         end
         collection do
-          get 'revision'
           post :import
         end
 

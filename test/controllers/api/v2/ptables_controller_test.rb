@@ -5,6 +5,19 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   include TemplateRevisionTest
   template_revision_tests :ptable, api: true
 
+  test 'preserves nested resource IDs and format suffixes' do
+    prefixes = %w[/api/v2 /api]
+    %w[locations organizations operatingsystems].each do |resource|
+      options = { :controller => "api/v2/#{resource}", :action => 'show', :ptable_id => '1',
+                  :id => 'review-site', :apiv => 'v2', :format => 'json' }
+      prefixes.each do |prefix|
+        path = "#{prefix}/ptables/1/#{resource}/review-site"
+        assert_recognizes options, path
+        assert_recognizes options, "#{path}.json"
+      end
+    end
+  end
+
   valid_attrs = { :name => 'ptable_test', :layout => 'd-i partman-auto/disk' }
 
   def setup
