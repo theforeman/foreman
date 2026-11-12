@@ -45,12 +45,18 @@ module CommonParametersHelper
     html_class = "form-control no-stretch"
     html_class += " masked-input" if hidden
 
+    display_value = if hidden
+                      f.object.safe_value
+                    else
+                      f.object.value_before_type_cast
+                    end
+
     input = f.text_area(field, options.merge(:disabled => disabled,
       :class => html_class,
       :rows => 1,
       :id => dom_id(f.object) + '_value',
       :placeholder => _("Value"),
-      :value => f.object.value_before_type_cast))
+      :value => display_value))
 
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
   end
