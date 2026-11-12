@@ -1,6 +1,19 @@
 require 'test_helper'
+require 'open3'
+require 'rbconfig'
 
 class ForemanLoggingTest < ActiveSupport::TestCase
+  def test_loads_syslog_without_rails_initialization
+    stdout, stderr, status = Open3.capture3(
+      { 'RUBYOPT' => nil },
+      RbConfig.ruby, '-rbundler/setup', '-I', Rails.root.join('lib').to_s,
+      '-rforeman/logging', '-e', 'puts Syslog::Constants::LOG_LOCAL6'
+    )
+
+    assert status.success?, stderr
+    assert_equal Syslog::Constants::LOG_LOCAL6.to_s, stdout.strip
+  end
+
   def test_configure_once
     assert_raises RuntimeError do
       Foreman::Logging.configure({})
