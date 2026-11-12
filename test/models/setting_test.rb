@@ -184,7 +184,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("foreman_url")
     setting.value = "##"
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "foreman_url must have proper format" do
@@ -192,14 +192,14 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "foreman_url cannot be blank" do
     setting = Setting.create(name: 'foreman_url', value: 'http://test.example.org')
     setting.value = ""
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "unattended_url must have a valid format" do
@@ -207,7 +207,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name('unattended_url')
     setting.value = "##"
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "unattended_url must have proper format" do
@@ -215,7 +215,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.find_by_name("foreman_url")
     setting.value = "random_string"
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "login_delegation_logout_url must have proper format or be blank" do
@@ -227,7 +227,7 @@ class SettingTest < ActiveSupport::TestCase
     assert setting.save
     setting.value = "random value"
     refute setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "URL must be valid and scheme must be one of http and https", setting.errors[:value].first
   end
 
   test "libvirt_default_console_address must have proper IP format" do
@@ -424,7 +424,7 @@ class SettingTest < ActiveSupport::TestCase
       setting = Setting.find_or_create_by(attrs)
 
       refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
-      assert_includes setting.errors[:value], "Invalid HTTP(S) URL"
+      assert_includes setting.errors[:value], "URL must be valid and scheme must be one of http and https"
     end
     test 'no error when URL is invalid and the setting is not http_proxy' do
       url = 'http://example.com/hello world'
