@@ -235,6 +235,16 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     assert_equal Feature.all.pluck(:name).flatten.sort, response['features'].map { |x| x['name'] }.sort
   end
 
+  test "should return unprocessable entity when no proxy features are running" do
+    ProxyAPI::V2::Features.any_instance.stubs(:features).returns({})
+
+    put :refresh, params: { :id => smart_proxies(:one).to_param }
+
+    assert_response :unprocessable_entity
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_includes response['error']['full_messages'], 'No features found on this proxy, please make sure you enable at least one feature'
+  end
+
   test "should return errors during smart proxy refresh" do
     proxy = smart_proxies(:one)
     errors = ActiveModel::Errors.new(Host::Managed.new)
