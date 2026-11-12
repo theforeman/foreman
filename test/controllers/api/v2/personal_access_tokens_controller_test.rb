@@ -14,6 +14,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   def setup
     @user = FactoryBot.create(:user)
     @personal_access_token = FactoryBot.create(:personal_access_token, :user => @user)
+    FactoryBot.create(:permission, :name => 'create_personal_access_tokens', :resource_type => 'PersonalAccessToken')
   end
 
   test "should get index" do
@@ -56,6 +57,87 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   end
 
   context 'with non-admin user' do
+    it 'allows creating a token for itself without create permission' do
+      caller = FactoryBot.create(:user)
+
+      assert_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: caller.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal caller.id, response['user_id']
+      assert response['token_value'].present?
+    end
+
+    it 'does not create a token for a user it cannot edit' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'personal_access_tokens', nil, caller)
+
+      assert_no_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+      refute_includes @response.body, 'token_value'
+    end
+
+    it 'does not create a token for another user without create permission' do
+      caller = FactoryBot.create(:user)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_no_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :forbidden
+      refute_includes @response.body, 'token_value'
+    end
+
+    it 'creates a token for a user it can edit with create permission' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'personal_access_tokens', nil, caller)
+      setup_user('edit', 'users', nil, caller)
+
+      assert_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal @user.id, response['user_id']
+      assert response['token_value'].present?
+    end
+
+    it 'creates a token for a user in its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      setup_user('create', 'personal_access_tokens', nil, caller)
+      setup_user('edit', 'users', "id = #{@user.id}", caller)
+
+      assert_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :created
+      response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal @user.id, response['user_id']
+      assert response['token_value'].present?
+    end
+
+    it 'does not create a token for a user outside its edit_users filter' do
+      caller = FactoryBot.create(:user)
+      allowed_user = FactoryBot.create(:user)
+      setup_user('create', 'personal_access_tokens', nil, caller)
+      setup_user('edit', 'users', "id = #{allowed_user.id}", caller)
+
+      assert_no_difference('PersonalAccessToken.count') do
+        post :create, params: { personal_access_token: valid_attrs, user_id: @user.id }, session: set_session_user(caller)
+      end
+
+      assert_response :not_found
+      refute_includes @response.body, 'token_value'
+    end
+
     it 'allows to revoke his token' do
       setup_user('edit', 'users', nil, @user)
       setup_user('revoke', 'personal_access_tokens', nil, @user)

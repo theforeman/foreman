@@ -34,6 +34,8 @@ module Api
       param_group :personal_access_token, :as => :create
 
       def create
+        return not_found unless find_authorized_user(:edit_users)
+
         @personal_access_token = PersonalAccessToken.new(personal_access_token_params.merge(:user => @user))
         @token_value = @personal_access_token.generate_token
         process_response @personal_access_token.save
