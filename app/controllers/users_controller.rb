@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   before_action      :verify_active_session, :only => :login
 
   def index
-    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page], :per_page => params[:per_page])
+    @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups, :avatar_attachment => :blob).paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   def new
@@ -69,6 +69,23 @@ class UsersController < ApplicationController
       process_success
     else
       process_error
+    end
+  end
+
+  def avatar
+    @user = find_resource
+    if @user.avatar.attached?
+      send_data @user.avatar.download,
+        :type => @user.avatar.content_type,
+        :disposition => 'inline',
+        :filename => @user.avatar.filename.to_s
+    elsif (path = @user.legacy_avatar_path)
+      content_type = Marcel::MimeType.for(path)
+      return head :not_found unless ['image/jpeg', 'image/png'].include?(content_type)
+
+      send_file path, :type => content_type, :disposition => 'inline'
+    else
+      head :not_found
     end
   end
 
@@ -267,6 +284,12 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def action_permission
+    return 'view' if params[:action] == 'avatar'
+
+    super
+  end
 
   def find_resource(permission = :view_users)
     editing_self? ? User.find(User.current.id) : User.authorized(permission).except_hidden.find(params[:id])
