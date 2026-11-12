@@ -2079,6 +2079,190 @@ class HostTest < ActiveSupport::TestCase
   end
 
   context "search hosts by parameter" do
+    test "can search parameter names with a list including inherited names" do
+      direct_host = FactoryBot.create(:host)
+      parent = FactoryBot.create(:hostgroup)
+      child = FactoryBot.create(:hostgroup, :parent => parent)
+      inherited_host = FactoryBot.create(:host, :hostgroup => child)
+      other_host = FactoryBot.create(:host)
+      FactoryBot.create(:host_parameter, :host => direct_host, :name => 'list-first')
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => parent, :name => 'list-second')
+
+      result_ids = Host.search_for('params_name ^ " list-first, list-second "').pluck(:id)
+
+      assert_same_elements [direct_host.id, inherited_host.id], result_ids
+      refute_includes result_ids, other_host.id
+      assert_empty Host.search_for('params_name ^ "list-missing-one,list-missing-two"')
+    end
+
+    test "negated parameter name lists retain any matching parameter semantics" do
+      Parameter.delete_all
+      excluded_host = FactoryBot.create(:host)
+      empty_host = FactoryBot.create(:host)
+      mixed_host = FactoryBot.create(:host)
+      parent = FactoryBot.create(:hostgroup)
+      child = FactoryBot.create(:hostgroup, :parent => parent)
+      inherited_host = FactoryBot.create(:host, :hostgroup => child)
+      FactoryBot.create(:host_parameter, :host => excluded_host, :name => 'list-excluded')
+      FactoryBot.create(:host_parameter, :host => mixed_host, :name => 'list-excluded')
+      FactoryBot.create(:host_parameter, :host => mixed_host, :name => 'list-outside')
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => parent, :name => 'list-outside')
+
+      result_ids = Host.search_for('params_name !^ "list-excluded, list-also-excluded"').pluck(:id)
+
+      assert_same_elements [mixed_host.id, inherited_host.id], result_ids
+      refute_includes result_ids, excluded_host.id
+      refute_includes result_ids, empty_host.id
+    end
+
+    test "parameter name lists include global parameters" do
+      Parameter.delete_all
+      host = FactoryBot.create(:host)
+      FactoryBot.create(:common_parameter, :name => 'list-global')
+
+      assert_includes Host.search_for('params_name ^ "list-global,list-missing"'), host
+      assert_empty Host.search_for('params_name !^ "list-global,list-missing"')
+      assert_includes Host.search_for('params_name !^ "list-missing,list-another"'), host
+    end
+
+    test "parameter name presence accounts for direct and inherited parameters" do
+      Parameter.delete_all
+      empty_host = FactoryBot.create(:host, :hostgroup => nil)
+      direct_host = FactoryBot.create(:host)
+      FactoryBot.create(:host_parameter, :host => direct_host)
+      matching_hosts = [direct_host]
+      [:hostgroup, :organization, :location].each do |owner_type|
+        parent = FactoryBot.create(owner_type)
+        child = FactoryBot.create(owner_type, :parent => parent)
+        matching_hosts << FactoryBot.create(:host, owner_type => child)
+        FactoryBot.create("#{owner_type}_parameter".to_sym, owner_type => parent)
+      end
+
+      present_ids = Host.search_for('set? params_name').pluck(:id)
+      absent_ids = Host.search_for('null? params_name').pluck(:id)
+
+      matching_hosts.each do |host|
+        assert_includes present_ids, host.id
+        refute_includes absent_ids, host.id
+      end
+      refute_includes present_ids, empty_host.id
+      assert_includes absent_ids, empty_host.id
+      assert_same_elements Host.pluck(:id), present_ids + absent_ids
+    end
+
+    test "parameter name presence includes interface and operating system parameters" do
+      Parameter.delete_all
+      domain_host = FactoryBot.create(:host, :managed)
+      subnet_host = FactoryBot.create(:host, :managed, :with_subnet)
+      os_host = FactoryBot.create(:host, :managed)
+      empty_host = FactoryBot.create(:host, :hostgroup => nil)
+      FactoryBot.create(:domain_parameter, :domain => domain_host.domain)
+      FactoryBot.create(:subnet_parameter, :subnet => subnet_host.subnet)
+      FactoryBot.create(:os_parameter, :operatingsystem => os_host.operatingsystem)
+
+      present_ids = Host.search_for('set? params_name').pluck(:id)
+      absent_ids = Host.search_for('null? params_name').pluck(:id)
+
+      [domain_host, subnet_host, os_host].each do |host|
+        assert_includes present_ids, host.id
+        refute_includes absent_ids, host.id
+      end
+      refute_includes present_ids, empty_host.id
+      assert_includes absent_ids, empty_host.id
+      assert_same_elements Host.pluck(:id), present_ids + absent_ids
+    end
+
+    test "parameter name presence includes global parameters" do
+      Parameter.delete_all
+      FactoryBot.create(:host)
+      FactoryBot.create(:common_parameter)
+
+      assert_same_elements Host.pluck(:id), Host.search_for('set? params_name').pluck(:id)
+      assert_empty Host.search_for('null? params_name')
+    end
+
+    test "parameter name presence handles no parameters and orphaned owners" do
+      Parameter.delete_all
+      FactoryBot.create(:host, :hostgroup => nil)
+
+      assert_empty Host.search_for('set? params_name')
+      assert_same_elements Host.pluck(:id), Host.search_for('null? params_name').pluck(:id)
+
+      GroupParameter.new(:name => 'orphaned-name', :value => 'value').save!(:validate => false)
+
+      assert_empty Host.search_for('set? params_name')
+      assert_same_elements Host.pluck(:id), Host.search_for('null? params_name').pluck(:id)
+    end
+
+    test "can search hosts by global parameter name" do
+      hosts = FactoryBot.create_list(:host, 2)
+      parameter = FactoryBot.create(:common_parameter)
+
+      results = Host.search_for(%{params_name = "#{parameter.name}"})
+
+      hosts.each { |host| assert_includes results, host }
+    end
+
+    test "can search hosts by inherited parameter name" do
+      hostgroup = FactoryBot.create(:hostgroup)
+      host = FactoryBot.create(:host, :hostgroup => hostgroup)
+      other_host = FactoryBot.create(:host, :hostgroup => nil)
+      parameter = FactoryBot.create(:hostgroup_parameter, :hostgroup => hostgroup)
+
+      results = Host.search_for(%{params_name = "#{parameter.name}"})
+
+      assert_includes results, host
+      refute_includes results, other_host
+    end
+
+    test "can search hosts by inherited taxonomy parameter name" do
+      [:organization, :location].each do |taxonomy_type|
+        parent = FactoryBot.create(taxonomy_type)
+        child = FactoryBot.create(taxonomy_type, :parent => parent)
+        host = FactoryBot.create(:host, taxonomy_type => child)
+        other_host = FactoryBot.create(:host, taxonomy_type => FactoryBot.create(taxonomy_type))
+        parameter = FactoryBot.create("#{taxonomy_type}_parameter".to_sym, taxonomy_type => parent)
+
+        results = Host.search_for(%{params_name = "#{parameter.name}"})
+
+        assert_includes results, host
+        refute_includes results, other_host
+      end
+    end
+
+    test "batches broad parameter name searches by owner type" do
+      matching_hosts = []
+      [:hostgroup, :organization, :location].each do |owner_type|
+        2.times do
+          parent = FactoryBot.create(owner_type)
+          child = FactoryBot.create(owner_type, :parent => parent)
+          matching_hosts << FactoryBot.create(:host, owner_type => child)
+          3.times do |index|
+            FactoryBot.create("#{owner_type}_parameter".to_sym,
+              owner_type => parent,
+              :name => "batch-search-#{index}")
+          end
+        end
+      end
+      FactoryBot.create(:host)
+
+      result_ids = nil
+      assert_sql_queries(7, /SELECT .* FROM "(?:parameters|hostgroups|taxonomies)"/) do
+        result_ids = Host.search_for('params_name ~ "batch-search"').pluck(:id)
+      end
+
+      assert_same_elements matching_hosts.map(&:id), result_ids
+    end
+
+    test "can search hosts by domain and subnet parameter names" do
+      host = FactoryBot.create(:host, :managed, :with_subnet)
+      FactoryBot.create(:domain_parameter, :domain => host.domain, :name => 'interface-search-domain')
+      FactoryBot.create(:subnet_parameter, :subnet => host.subnet, :name => 'interface-search-subnet')
+
+      assert_includes Host.search_for('params_name = "interface-search-domain"'), host
+      assert_includes Host.search_for('params_name = "interface-search-subnet"'), host
+    end
+
     test "can search hosts by params" do
       host = FactoryBot.create(:host, :with_parameter)
       parameter = host.parameters.first
@@ -2194,9 +2378,9 @@ class HostTest < ActiveSupport::TestCase
   test "Correctly find hosts with overridden parameter values" do
     host1 = FactoryBot.create(:host)
     host2 = FactoryBot.create(:host)
-    parameter1 = FactoryBot.create(:parameter)
+    parameter_name = FactoryBot.build(:parameter).name
 
-    host1_param = FactoryBot.create(:host_parameter, name: parameter1.name, value: "different", host: host1)
+    host1_param = FactoryBot.create(:host_parameter, name: parameter_name, value: "different", host: host1)
     host2_param = FactoryBot.create(:host_parameter, name: 'test_param2', value: "xxx", host: host2)
 
     results = Host.search_for(%{params_name = "#{host1_param.name}"})
