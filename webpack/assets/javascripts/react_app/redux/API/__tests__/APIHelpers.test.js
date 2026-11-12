@@ -170,6 +170,22 @@ describe('parseAPIError', () => {
     expect(parsed.message).toBe('is taken, cannot delete');
   });
 
+  it('prefers top-level errors over merged body.error summary', () => {
+    expect(
+      getAPIErrorMessage({
+        error: { message: 'Validation failed', full_messages: ['Validation failed'] },
+        errors: ['Name is taken'],
+      })
+    ).toBe('Name is taken');
+
+    const parsed = parseAPIError({
+      error: { message: 'Validation failed' },
+      errors: { name: ['is taken'] },
+    });
+    expect(parsed.fieldErrors).toEqual({ name: ['is taken'] });
+    expect(parsed.message).toBe('is taken');
+  });
+
   it('falls back to Axios message for HTML bodies', () => {
     const error = axiosError(
       500,

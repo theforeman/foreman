@@ -42,6 +42,17 @@ Use the helpers in `webpack/assets/javascripts/react_app/redux/API/APIHelpers.js
 
 `parseAPIError(null)` returns an empty skeleton (empty `messages`, `{}` fieldErrors) so callers can read properties without extra guards.
 
+== Field priority inside JSON bodies
+
+When the unwrapped body is a JSON object, the parser walks known keys in this order (first match wins):
+
+. `message` / `displayMessage` (Katello-style summary)
+. `errors` as an array (JSON:API or string list)
+. `errors` as a field hash (validation map)
+. `error` (Foreman v2: `full_messages`, nested `error.errors`, `message`, string `error`)
+
+Top-level `errors` is checked before `error` so granular validation is not hidden behind a merged summary when both are present.
+
 == API middleware and toasts
 
 In `apiRequest`, optional `errorToast` works in two ways:

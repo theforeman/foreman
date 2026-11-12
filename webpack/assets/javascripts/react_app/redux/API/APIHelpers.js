@@ -122,29 +122,10 @@ export const parseAPIError = input => {
     };
   }
 
-  const errorObj = body.error;
   let messages = [];
   let fieldErrors = {};
 
-  if (errorObj && typeof errorObj === 'object') {
-    messages = asArray(errorObj.full_messages)
-      .filter(Boolean)
-      .map(String);
-    if (!messages.length && errorObj.message) {
-      messages = [String(errorObj.message)];
-      if (errorObj.details) messages.push(String(errorObj.details));
-    }
-    const {
-      fieldErrors: nestedFieldErrors,
-      messages: nestedMessages,
-    } = flattenFieldErrors(errorObj.errors);
-    fieldErrors = nestedFieldErrors;
-    if (!messages.length) messages = nestedMessages;
-  } else if (typeof errorObj === 'string' && errorObj) {
-    messages = [errorObj];
-  }
-
-  if (!messages.length && (body.message || body.displayMessage)) {
+  if (body.message || body.displayMessage) {
     messages = asArray(body.message || body.displayMessage)
       .filter(Boolean)
       .map(String);
@@ -161,13 +142,37 @@ export const parseAPIError = input => {
     }
   }
 
-  if (!messages.length && body.errors && typeof body.errors === 'object') {
+  if (
+    !messages.length &&
+    body.errors &&
+    typeof body.errors === 'object' &&
+    !Array.isArray(body.errors)
+  ) {
     const {
       messages: flattenedMessages,
       fieldErrors: flattenedFieldErrors,
     } = flattenFieldErrors(body.errors);
     messages = flattenedMessages;
     fieldErrors = { ...fieldErrors, ...flattenedFieldErrors };
+  }
+
+  const errorObj = body.error;
+  if (!messages.length && errorObj && typeof errorObj === 'object') {
+    messages = asArray(errorObj.full_messages)
+      .filter(Boolean)
+      .map(String);
+    if (!messages.length && errorObj.message) {
+      messages = [String(errorObj.message)];
+      if (errorObj.details) messages.push(String(errorObj.details));
+    }
+    const {
+      fieldErrors: nestedFieldErrors,
+      messages: nestedMessages,
+    } = flattenFieldErrors(errorObj.errors);
+    fieldErrors = nestedFieldErrors;
+    if (!messages.length) messages = nestedMessages;
+  } else if (!messages.length && typeof errorObj === 'string' && errorObj) {
+    messages = [errorObj];
   }
 
   if (!messages.length && axiosError?.message) {
