@@ -234,7 +234,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome, :statuses],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:host_template, :hostgroup_template],
-                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :templates, :enc, :inherited_parameters],
+                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :templates, :enc, :inherited_parameters, :bulk_scope_hash],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :"api/v2/host_statuses" => [:index],
                                      :locations =>  [:mismatches],
