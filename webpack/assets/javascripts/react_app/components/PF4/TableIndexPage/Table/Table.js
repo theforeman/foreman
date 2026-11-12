@@ -8,6 +8,7 @@ import {
   Tbody,
   Td,
   ActionsColumn,
+  InnerScrollContainer,
 } from '@patternfly/react-table';
 import { noop } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
@@ -16,6 +17,7 @@ import Pagination from '../../../Pagination';
 import { DeleteModal } from './DeleteModal';
 import EmptyPage from '../../../../routes/common/EmptyPage';
 import { getColumnHelpers } from './helpers';
+import { ColumnCells, ColumnHeaders } from './ColumnCells';
 import { RowSelectTd as DefaultRowSelectTd } from '../RowSelectTd';
 
 export const Table = ({
@@ -46,6 +48,7 @@ export const Table = ({
   onExpandAll,
   areAllRowsExpanded,
   ouiaId,
+  hasInnerScroll,
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -109,6 +112,113 @@ export const Table = ({
     ].filter(Boolean);
   };
   const RowSelectTd = rowSelectTd === noop ? DefaultRowSelectTd : rowSelectTd;
+  const table = (
+    <PFTable
+      variant="compact"
+      ouiaId={ouiaId}
+      isStriped
+      isExpandable={childrenOutsideTbody}
+    >
+      <Thead>
+        <Tr ouiaId="table-header">
+          {childrenOutsideTbody && (
+            <Th
+              aria-label="expansion-header"
+              key="expansion-th"
+              expand={
+                onExpandAll && {
+                  areAllExpanded: areAllRowsExpanded,
+                  onToggle: onExpandAll,
+                }
+              }
+            />
+          )}
+          {showCheckboxes && (
+            <Th aria-label="checkbox-header" key="checkbox-th" />
+          )}
+          <ColumnHeaders
+            columns={columns}
+            columnNamesKeys={columnNamesKeys}
+            keysToColumnNames={keysToColumnNames}
+            columnsToSortParams={columnsToSortParams}
+            pfSortParams={pfSortParams}
+          />
+        </Tr>
+      </Thead>
+      {childrenOutsideTbody ? children : null}
+      <Tbody>
+        {isPending && results.length === 0 && (
+          <Tr ouiaId="table-loading">
+            <Td colSpan={100}>
+              <EmptyPage
+                message={{
+                  type: 'loading',
+                  text: __('Loading...'),
+                }}
+              />
+            </Td>
+          </Tr>
+        )}
+        {!customEmptyState &&
+          !isPending &&
+          results.length === 0 &&
+          !errorMessage && (
+            <Tr ouiaId="table-empty">
+              <Td colSpan={100}>
+                <EmptyPage
+                  message={{
+                    type: 'empty',
+                    text: emptyMessage,
+                    action: emptyAction,
+                  }}
+                />
+              </Td>
+            </Tr>
+          )}
+        {customEmptyState}
+        {errorMessage && (
+          <Tr ouiaId="table-error">
+            <Td colSpan={100}>
+              <EmptyPage message={{ type: 'error', text: errorMessage }} />
+            </Td>
+          </Tr>
+        )}
+        {!childrenOutsideTbody &&
+          (children ||
+            results.map(result => {
+              const rowActions = actions(result);
+              return (
+                <Tr
+                  key={result[idColumn] || result.id}
+                  ouiaId={`table-row-${result[idColumn] || result.id}`}
+                  isClickable
+                >
+                  {showCheckboxes && (
+                    <RowSelectTd
+                      rowData={result}
+                      selectOne={selectOne}
+                      isSelected={isSelected}
+                      isSelectable={isSelectable}
+                      idColumnName={idColumn}
+                    />
+                  )}
+                  <ColumnCells
+                    columns={columns}
+                    columnNamesKeys={columnNamesKeys}
+                    keysToColumnNames={keysToColumnNames}
+                    result={result}
+                  />
+                  <Td isActionCell>
+                    {rowActions.length ? (
+                      <ActionsColumn items={rowActions} />
+                    ) : null}
+                  </Td>
+                </Tr>
+              );
+            }))}
+      </Tbody>
+    </PFTable>
+  );
   return (
     <>
       <DeleteModal
@@ -118,123 +228,11 @@ export const Table = ({
         url={url}
         refreshData={refreshData}
       />
-      <PFTable
-        variant="compact"
-        ouiaId={ouiaId}
-        isStriped
-        isExpandable={childrenOutsideTbody}
-      >
-        <Thead>
-          <Tr ouiaId="table-header">
-            {childrenOutsideTbody && (
-              <Th
-                aria-label="expansion-header"
-                key="expansion-th"
-                expand={
-                  onExpandAll && {
-                    areAllExpanded: areAllRowsExpanded,
-                    onToggle: onExpandAll,
-                  }
-                }
-              />
-            )}
-            {showCheckboxes && (
-              <Th aria-label="checkbox-header" key="checkbox-th" />
-            )}
-            {columnNamesKeys.map(k => (
-              <Th
-                key={k}
-                modifier="wrap"
-                textCenter={columns[k]?.textCenter}
-                sort={
-                  Object.values(columnsToSortParams).includes(k) &&
-                  pfSortParams(keysToColumnNames[k])
-                }
-                aria-label={keysToColumnNames[k]}
-              >
-                {columns[k].title}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        {childrenOutsideTbody ? children : null}
-        <Tbody>
-          {isPending && results.length === 0 && (
-            <Tr ouiaId="table-loading">
-              <Td colSpan={100}>
-                <EmptyPage
-                  message={{
-                    type: 'loading',
-                    text: __('Loading...'),
-                  }}
-                />
-              </Td>
-            </Tr>
-          )}
-          {!customEmptyState &&
-            !isPending &&
-            results.length === 0 &&
-            !errorMessage && (
-              <Tr ouiaId="table-empty">
-                <Td colSpan={100}>
-                  <EmptyPage
-                    message={{
-                      type: 'empty',
-                      text: emptyMessage,
-                      action: emptyAction,
-                    }}
-                  />
-                </Td>
-              </Tr>
-            )}
-          {customEmptyState}
-          {errorMessage && (
-            <Tr ouiaId="table-error">
-              <Td colSpan={100}>
-                <EmptyPage message={{ type: 'error', text: errorMessage }} />
-              </Td>
-            </Tr>
-          )}
-          {!childrenOutsideTbody &&
-            (children ||
-              results.map(result => {
-                const rowActions = actions(result);
-                return (
-                  <Tr
-                    key={result[idColumn] || result.id}
-                    ouiaId={`table-row-${result[idColumn] || result.id}`}
-                    isClickable
-                  >
-                    {showCheckboxes && (
-                      <RowSelectTd
-                        rowData={result}
-                        selectOne={selectOne}
-                        isSelected={isSelected}
-                        isSelectable={isSelectable}
-                        idColumnName={idColumn}
-                      />
-                    )}
-                    {columnNamesKeys.map(k => (
-                      <Td
-                        key={k}
-                        dataLabel={keysToColumnNames[k]}
-                        textCenter={columns[k]?.textCenter}
-                      >
-                        {columns[k].wrapper
-                          ? columns[k].wrapper(result)
-                          : result[k]}
-                      </Td>
-                    ))}
-                    <Td isActionCell>
-                      {rowActions.length ? (
-                        <ActionsColumn items={rowActions} />
-                      ) : null}
-                    </Td>
-                  </Tr>
-                );
-              }))}
-        </Tbody>
-      </PFTable>
+      {hasInnerScroll ? (
+        <InnerScrollContainer>{table}</InnerScrollContainer>
+      ) : (
+        table
+      )}
       {results.length > 0 && !errorMessage && bottomPagination}
     </>
   );
@@ -272,6 +270,7 @@ Table.propTypes = {
   onExpandAll: PropTypes.func,
   areAllRowsExpanded: PropTypes.bool,
   ouiaId: PropTypes.string,
+  hasInnerScroll: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -296,4 +295,5 @@ Table.defaultProps = {
   onExpandAll: null,
   areAllRowsExpanded: false,
   ouiaId: 'table',
+  hasInnerScroll: false,
 };
