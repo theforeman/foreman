@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# A newer host pg_dump can emit SQL unsupported by an older test server.
+# Reuse the service image without installing or replacing host PostgreSQL tools.
+: "${FOREMAN_POSTGRES_IMAGE:?Set FOREMAN_POSTGRES_IMAGE to the test service image}"
+: "${GITHUB_WORKSPACE:?Set GITHUB_WORKSPACE to the checkout directory}"
+
+exec docker run --rm --pull=never --network=host \
+  --user "$(id -u):$(id -g)" \
+  --volume "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
+  --workdir "$PWD" \
+  --env PGHOST --env PGPORT --env PGUSER --env PGPASSWORD \
+  --env PGDATABASE --env PGSSLMODE \
+  "$FOREMAN_POSTGRES_IMAGE" pg_dump "$@"
