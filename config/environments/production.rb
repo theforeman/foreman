@@ -1,4 +1,6 @@
 Foreman::Application.configure do |app|
+  require Rails.root.join('lib/foreman/active_storage_config').to_s
+
   # Settings specified here will take precedence over those in config/application.rb.
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -9,7 +11,7 @@ Foreman::Application.configure do |app|
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
-  config.active_storage.service = :local
+  config.active_storage.service = Foreman::ActiveStorageConfig.new(SETTINGS).service
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
