@@ -68,3 +68,12 @@ export function authSourceSelected(param) {
   const id = param.selectedOptions[0].textContent;
   $('#password').toggle(id === 'INTERNAL');
 }
+
+// Toggles only the trailing " *" on the mail label
+export function toggleMailRequired(checkbox) {
+  const emailLabel = document.querySelector('label[for="mail"]');
+  if (!emailLabel) return;
+
+  const label = emailLabel.textContent.replace(/\s*\*$/, '');
+  emailLabel.textContent = checkbox.checked ? `${label} *` : label;
+}
