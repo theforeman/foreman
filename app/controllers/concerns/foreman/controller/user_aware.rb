@@ -1,6 +1,6 @@
 module Foreman::Controller::UserAware
   extend ActiveSupport::Concern
-  include Foreman::Controller::UserSelfEditing
+  include Foreman::Controller::AuthorizedUser
 
   included do
     before_action :find_user
@@ -18,9 +18,5 @@ module Foreman::Controller::UserAware
     else
       @user = User.find(params[:user_id])
     end
-  end
-
-  def editing_self_params
-    super.merge(:user_id => params[:user_id])
   end
 end
