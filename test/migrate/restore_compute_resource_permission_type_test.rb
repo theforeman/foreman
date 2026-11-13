@@ -30,6 +30,8 @@ class RestoreComputeResourcePermissionTypeTest < ActiveSupport::TestCase
       :role => role,
       :permissions => [compute_permission]
     )
+    miscellaneous_filter.update_column(:taxonomy_search, nil)
+    compute_filter.update_column(:taxonomy_search, nil)
     Filtering.create!(:filter => miscellaneous_filter, :permission => view_permission)
     Filtering.create!(:filter => compute_filter, :permission => view_permission)
 
