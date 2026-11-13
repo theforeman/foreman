@@ -52,9 +52,10 @@ test_on:
 set default=<%= host_param('default_grub_install_entry') || 0 %>
 set timeout=<%= host_param('loader_timeout') || 10 %>
 
+<%= snippet('pxegrub2_boot_paths') -%>
 menuentry '<%= template_name %>' {
-  <%= linuxcmd %> <%= @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
-  <%= initrdcmd %> <%= @initrd %>
+  <%= linuxcmd %> $foreman_kernel <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> $foreman_initrd
 }
 
 <%
@@ -68,8 +69,8 @@ if subnet && subnet.httpboot
 -%>
 <% if proxy_http_port -%>
 menuentry '<%= template_name %> EFI HTTP' --id efi_http {
-  <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
-  <%= initrdcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @initrd %>
+  <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel_httpboot || @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @initrd_httpboot || @initrd %>
 }
 <% else -%>
 # Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry
@@ -77,8 +78,8 @@ menuentry '<%= template_name %> EFI HTTP' --id efi_http {
 
 <% if proxy_https_port -%>
 menuentry '<%= template_name %> EFI HTTPS' --id efi_https {
-  <%= linuxcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
-  <%= initrdcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @initrd %>
+  <%= linuxcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @kernel_httpboot || @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @initrd_httpboot || @initrd %>
 }
 <% else -%>
 # Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry

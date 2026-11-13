@@ -44,6 +44,7 @@ Medium.without_auditing do
       :name => "Ubuntu mirror",
       :os_family => "Debian",
       :path => "http://archive.ubuntu.com/ubuntu",
+      :boot_path => "https://releases.ubuntu.com",
     },
     {
       :name => "RancherOS mirror",

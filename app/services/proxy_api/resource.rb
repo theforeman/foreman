@@ -87,11 +87,11 @@ module ProxyAPI
     end
 
     # Perform POST operation with the supplied payload on the supplied path
-    def post(payload, path = "")
+    def post(payload, path = "", headers = {})
       logger.debug("POST request payload: #{payload}")
       with_logger do
         telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'post') do
-          resource[path].post payload
+          resource[path].post payload, headers
         end
       end
     end

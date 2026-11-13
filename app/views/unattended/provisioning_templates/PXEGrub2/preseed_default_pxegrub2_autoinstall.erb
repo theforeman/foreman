@@ -31,9 +31,10 @@ test_on:
 set default=0
 set timeout=<%= host_param('loader_timeout') || 10 %>
 
+<%= snippet('pxegrub2_boot_paths') -%>
 menuentry '<%= template_name %>' {
-  linux<%= efi_suffix %> <%= @kernel %> root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall', variables: {add_userdata_quotes: true}).strip %>
-  initrd<%= efi_suffix %> <%= @initrd %>
+  linux<%= efi_suffix %> $foreman_kernel root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall', variables: {add_userdata_quotes: true}).strip %>
+  initrd<%= efi_suffix %> $foreman_initrd
 }
 
 <%= snippet_if_exists(template_name + " custom menu") %>

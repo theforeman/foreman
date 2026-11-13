@@ -3,9 +3,11 @@
 set default=0
 set timeout=10
 
+set foreman_kernel=boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
+set foreman_initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
 menuentry 'Kickstart default PXEGrub2' {
-  linux boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.example.com/unattended/provision kssendmac ks.sendmac ip=::::snapshot-ipv4-6-dhcp-el7::auto6 nameserver=2001:db8:42::8 nameserver=2001:db8:42::4 fips=1
-  initrd boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
+  linux $foreman_kernel  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.example.com/unattended/provision kssendmac ks.sendmac ip=::::snapshot-ipv4-6-dhcp-el7::auto6 nameserver=2001:db8:42::8 nameserver=2001:db8:42::4 fips=1
+  initrd $foreman_initrd
 }
 
 # Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry

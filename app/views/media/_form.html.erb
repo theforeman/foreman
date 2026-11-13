@@ -16,6 +16,8 @@
       <%= text_f f, :name %>
       <%= text_f f, :path, :size => "col-md-8", :help_block => _("The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
           for example <em>http://mirror.centos.org/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.").html_safe %>
+      <%= text_f f, :boot_path, :size => "col-md-8", :label => _("BootPath"),
+        :help_block => _("Optional URL prefix for downloading boot files. When blank, the medium path is used. The same path variables are supported.") %>
         <span id="nfs-section" <%= display?(!required_nfs?) %>>
           <%= text_f f, :media_path,  :size => "col-md-8", :help_inline => _("The NFS path to the media.") %>
           <%= text_f f, :config_path, :size => "col-md-8", :help_inline => _("The NFS path to the jumpstart control files.") %>
@@ -27,4 +29,3 @@
     <%= submit_or_cancel f %>
   </div>
 <% end %>
-
