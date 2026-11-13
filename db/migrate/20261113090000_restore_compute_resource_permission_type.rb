@@ -37,11 +37,17 @@ class RestoreComputeResourcePermissionType < ActiveRecord::Migration[7.0]
     return unless filter
 
     groups = filtering_rows(filter_id).group_by { |row| row.last }
-    return if groups.size < 2
+    return if groups.empty?
+
+    if groups.size == 1
+      filter.update_column(:taxonomy_search, taxonomy_search_for(filter.role_id, groups.keys.first))
+      return
+    end
 
     retained_type = groups.keys.min_by do |resource_type|
       [-groups.fetch(resource_type).size, resource_type.nil? ? 0 : 1, resource_type.to_s]
     end
+    filter.update_column(:taxonomy_search, taxonomy_search_for(filter.role_id, retained_type))
 
     groups.each do |resource_type, rows|
       next if resource_type == retained_type
@@ -60,21 +66,32 @@ class RestoreComputeResourcePermissionType < ActiveRecord::Migration[7.0]
   end
 
   def find_or_create_filter(source, resource_type)
+    taxonomy_search = taxonomy_search_for(source.role_id, resource_type)
     candidates = MigrationFilter.where(
       :role_id => source.role_id,
-      :search => source.search,
-      :taxonomy_search => source.taxonomy_search
+      :search => source.search
     ).where.not(:id => source.id).order(:id)
 
     candidates.each do |candidate|
-      return candidate if resource_types(candidate.id) == [resource_type]
+      next unless resource_types(candidate.id) == [resource_type]
+
+      candidate.update_column(:taxonomy_search, taxonomy_search) unless candidate.taxonomy_search == taxonomy_search
+      return candidate
     end
 
     MigrationFilter.create!(
       :role_id => source.role_id,
       :search => source.search,
-      :taxonomy_search => source.taxonomy_search
+      :taxonomy_search => taxonomy_search
     )
+  end
+
+  def taxonomy_search_for(role_id, resource_type)
+    filter = Filter.new
+    filter.role = Role.find(role_id)
+    filter.resource_type = resource_type
+    filter.enforce_inherited_taxonomies
+    filter.taxonomy_search
   end
 
   def resource_types(filter_id)

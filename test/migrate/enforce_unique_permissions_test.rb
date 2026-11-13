@@ -44,7 +44,8 @@ class EnforceUniquePermissionsTest < ActiveSupport::TestCase
       incorrect = PermissionRecord.find_by!(:name => 'view_compute_resources')
       incorrect.update_column(:resource_type, nil)
       canonical = PermissionRecord.create!(:name => incorrect.name, :resource_type => 'ComputeResource')
-      role = FactoryBot.create(:role)
+      organization = FactoryBot.create(:organization)
+      role = FactoryBot.create(:role, :organizations => [organization])
       miscellaneous_permission = Permission.find_by!(:name => 'access_dashboard')
       compute_permission = Permission.find_by!(:name => 'create_compute_resources')
       miscellaneous_filter = FactoryBot.create(
@@ -57,8 +58,6 @@ class EnforceUniquePermissionsTest < ActiveSupport::TestCase
         :role => role,
         :permissions => [compute_permission]
       )
-      miscellaneous_filter.update_column(:taxonomy_search, nil)
-      compute_filter.update_column(:taxonomy_search, nil)
       FilteringRecord.create!(:filter_id => miscellaneous_filter.id, :permission_id => canonical.id)
       FilteringRecord.create!(:filter_id => compute_filter.id, :permission_id => incorrect.id)
 
@@ -73,6 +72,7 @@ class EnforceUniquePermissionsTest < ActiveSupport::TestCase
         FilteringRecord.where(:filter_id => compute_filter.id).pluck(:permission_id).sort
       assert_equal [nil], miscellaneous_filter.reload.permissions.pluck(:resource_type).uniq
       assert_equal ['ComputeResource'], compute_filter.reload.permissions.pluck(:resource_type).uniq
+      assert_equal "(organization_id ^ (#{organization.id}))", compute_filter.reload.taxonomy_search
     end
 
     test 'raises when conflicting permission types have no canonical definition' do
