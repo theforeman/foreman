@@ -403,7 +403,7 @@ class Host::Managed < Host::Base
     # If no OTP is set, then this is probably a rebuild
     if otp.blank?
       logger.info "Setting realm for host #{name}"
-      set_realm :rebuild => true
+      return false unless set_realm(:rebuild => true)
       save!
     else
       true
