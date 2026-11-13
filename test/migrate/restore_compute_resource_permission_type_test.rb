@@ -2,6 +2,7 @@ require 'test_helper'
 require Rails.root.join('db/migrate/20261113090000_restore_compute_resource_permission_type.rb')
 
 class RestoreComputeResourcePermissionTypeTest < ActiveSupport::TestCase
+  MigrationFilter = RestoreComputeResourcePermissionType::MigrationFilter
   MigrationFiltering = RestoreComputeResourcePermissionType::MigrationFiltering
 
   let(:migration) { RestoreComputeResourcePermissionType.new }
