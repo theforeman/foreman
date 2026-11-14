@@ -14,14 +14,13 @@ const getStatuses = hostName => dispatch => {
 
 export const forgetStatus = (hostName, { label, id }) => dispatch => {
   const successToast = () => `Status ${label} has been removed`;
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/hosts/${hostName}/forget_status?status=${id}`);
   dispatch(
     APIActions.post({
       url: foremanUrl(url),
       key: CLEAR_STATUS_KEY,
       successToast,
-      errorToast,
+      errorToast: true,
       handleSuccess: () => dispatch(getStatuses(hostName)),
     })
   );
