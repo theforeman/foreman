@@ -22,7 +22,7 @@ class Authorizer
     return true if user.admin?
 
     if subject.nil?
-      user.permissions.exists?(:name => permission)
+      user.allowed_to_in_taxonomy_scope?(permission)
     else
       return collection_cache_lookup(subject, permission) if cache
 

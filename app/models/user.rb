@@ -443,6 +443,16 @@ class User < ApplicationRecord
     cached_roles.detect { |role| role.allowed_to?(action) }.present?
   end
 
+  def allowed_to_in_taxonomy_scope?(action)
+    return false if disabled?
+    return true if admin?
+    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
+      action = Foreman::AccessControl.normalize_path_hash(action)
+      return true if editing_self?(action)
+    end
+    cached_roles.detect { |role| role.allowed_to_in_taxonomy_scope?(action) }.present?
+  end
+
   def logged?
     true
   end
