@@ -143,6 +143,20 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
       assert_response :not_found
     end
 
+    test 'user can view only interfaces of permitted hosts' do
+      domain = FactoryBot.create(:domain)
+      host1 = FactoryBot.create(:host, :managed, domain: domain)
+      host2 = FactoryBot.create(:host, :managed, domain: domain)
+
+      setup_user 'view', 'hosts', "name = #{host1.name}"
+      setup_user 'view', 'domains'
+      get :index, params: { :domain_id => domain.id }, session: set_session_user
+      assert_response :success
+      body = JSON.parse(@response.body)
+      assert_equal host1.name, body['results'][0]['host_name']
+      assert_equal 0, body['results'].count { |nic| nic['host_name'] == host2.name }
+    end
+
     test 'user with hostgroup-scoped view_hosts can view its interfaces' do
       @host.update(:hostgroup => FactoryBot.create(:hostgroup))
       setup_user 'view', 'hosts', "hostgroup_title = #{@host.hostgroup.title}"
