@@ -100,6 +100,10 @@ module Api
         Nic::Base
       end
 
+      def resource_scope
+        resource_class.where(host: Host.authorized(:view_hosts)).merge(super)
+      end
+
       def convert_type
         if params[:action] != 'update' || params[:interface].has_key?(:type)
           params[:interface][:type] = InterfaceTypeMapper.map(params[:interface][:type])
