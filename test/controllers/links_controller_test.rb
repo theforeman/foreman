@@ -68,6 +68,25 @@ class LinksControllerTest < ActionController::TestCase
       assert_response :not_found
     end
 
+    test '#documentation_url does not allow userinfo injection via section' do
+      get :show, params: {
+        type: 'manual',
+        root_url: 'https://theforeman.org',
+        section: '@evil.example',
+      }
+
+      assert_response :not_found
+    end
+
+    test '#documentation_url still allows an at sign in the section fragment' do
+      get :show, params: {
+        type: 'manual',
+        section: '@readme-anchor',
+      }
+
+      assert_redirected_to 'https://theforeman.org/manuals/nightly/index.html#@readme-anchor'
+    end
+
     test '#plugin_documentation_url returns foreman docs url for a plugin with a version and a given section' do
       get :show, params: {
         type: 'plugin_manual',
