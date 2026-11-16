@@ -68,7 +68,13 @@ class LookupKey < ApplicationRecord
   end
 
   def reject_invalid_lookup_values(attributes)
-    attributes[:match].empty?
+    match = attributes[:match].to_s
+    return true if match.empty?
+
+    match.split(KEY_DELM).all? do |segment|
+      attribute, value = segment.split(EQ_DELM, 2)
+      attribute.blank? && value.blank?
+    end
   end
 
   def lookup_values_attributes=(attributes_collection)

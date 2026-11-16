@@ -53,8 +53,8 @@ class LookupValue < ApplicationRecord
 
     match.split(LookupKey::KEY_DELM).map do |m|
       split_match = m.split(LookupKey::EQ_DELM)
-      matcher_attribute = split_match.first.downcase.strip
-      matcher_value = (split_match.count > 1) ? split_match.last.strip : ""
+      matcher_attribute = split_match.first.to_s.downcase.strip
+      matcher_value = (split_match.count > 1) ? split_match.last.to_s.strip : ""
       [matcher_attribute, matcher_value].join(LookupKey::EQ_DELM)
     end.join(LookupKey::KEY_DELM)
   end
@@ -89,6 +89,13 @@ class LookupValue < ApplicationRecord
   end
 
   def sanitize_match
+    return true unless match.present?
+
+    missing_attribute = match.split(LookupKey::KEY_DELM).any? do |segment|
+      attribute, _value = segment.split(LookupKey::EQ_DELM, 2)
+      attribute.blank?
+    end
+    errors.add(:match, _("must include an attribute")) if missing_attribute
     self.match = self.class.normalize_match(match)
   end
 

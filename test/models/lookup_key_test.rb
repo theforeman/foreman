@@ -279,6 +279,17 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
   end
 
+  test "ignores a matcher row whose attribute and value are blank" do
+    as_admin do
+      key = FactoryBot.create(:lookup_key, :boolean, :override => true, :path => "hostgroup\nfqdn")
+      assert key.update(:lookup_values_attributes => {
+        'new_blank' => { :match => '=', :value => false },
+        'new_real' => { :match => 'hostgroup=Common', :value => false },
+      })
+      assert_equal ['hostgroup=Common'], key.reload.lookup_values.map(&:match)
+    end
+  end
+
   test "can create lookup key with long default_value" do
     as_user :one do
       lookup_key = FactoryBot.build(:lookup_key, override: true, default_value: 'a' * 280)
