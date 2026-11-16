@@ -142,6 +142,18 @@ class LookupValueTest < ActiveSupport::TestCase
     refute value.save
   end
 
+  test "blank matcher attribute is invalid and does not raise" do
+    value = LookupValue.new(:value => true, :match => "=", :lookup_key_id => boolean_lookup_key.id)
+    refute_valid value
+    assert_equal "must include an attribute", value.errors[:match].first
+  end
+
+  test "matcher value without an attribute is invalid" do
+    value = LookupValue.new(:value => true, :match => "=example.com", :lookup_key_id => boolean_lookup_key.id)
+    refute_valid value
+    assert_includes value.errors[:match], "must include an attribute"
+  end
+
   test "lookup value will be rejected for invalid key" do
     value = LookupValue.new(:value => true, :match => "hostgroup=", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
