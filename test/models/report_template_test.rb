@@ -22,4 +22,19 @@ class ReportTemplateTest < ActiveSupport::TestCase
     EOT
     assert report_with_macro.supports_format_selection?
   end
+
+  test "default 'Host - Registered Content Hosts' template does not eager-load has_many associations" do
+    template_path = Rails.root.join('app/views/unattended/report_templates/host_-_registered_content_hosts.erb')
+    content = File.read(template_path)
+
+    load_hosts_call = content[/load_hosts\(.*?\)\.each_record/m]
+    refute_nil load_hosts_call, "expected to find a load_hosts(...).each_record call in the template"
+
+    # includes: on a has_many can silently become an eager_load JOIN (SAT-50727)
+    includes_clause = load_hosts_call[/includes:\s*\[([^\]]*)\]/, 1] || ''
+
+    refute_includes includes_clause, ':interfaces'
+    refute_includes includes_clause, ':applicable_errata'
+    refute_includes includes_clause, ':operatingsystem'
+  end
 end
