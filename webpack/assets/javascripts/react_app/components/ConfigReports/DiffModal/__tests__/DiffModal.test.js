@@ -70,7 +70,9 @@ describe('DiffModal', () => {
     it('opens modal when createDiff is dispatched', () => {
       const { store } = rtlHelpers.renderWithStore(<ConnectedDiffModal />);
 
-      store.dispatch(createDiff(diffModalMock.diff, diffModalMock.title));
+      act(() => {
+        store.dispatch(createDiff(diffModalMock.diff, diffModalMock.title));
+      });
 
       expect(screen.getByText('log1')).toBeInTheDocument();
       expect(screen.getByRole('dialog')).toBeInTheDocument();

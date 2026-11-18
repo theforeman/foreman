@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { rtlHelpers } from '../../common/rtlTestHelpers';
@@ -17,14 +17,16 @@ const openModal = (options = {}) => {
   const renderResult = rtlHelpers.renderWithStore(<ConfirmModal />);
   const { store } = renderResult;
 
-  store.dispatch(
-    openConfirmModal({
-      ...defaultModalOptions,
-      onConfirm,
-      onCancel,
-      ...options,
-    })
-  );
+  act(() => {
+    store.dispatch(
+      openConfirmModal({
+        ...defaultModalOptions,
+        onConfirm,
+        onCancel,
+        ...options,
+      })
+    );
+  });
 
   return { store, onConfirm, onCancel };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import InlineEdit from '../InlineEdit';
 
@@ -11,17 +11,25 @@ const defaultProps = {
   attribute,
 };
 
+const enterEditMode = getByLabelText => {
+  act(() => {
+    fireEvent.click(getByLabelText(`edit ${attribute}`));
+  });
+};
+
 test('Passed function is called after editing and clicking submit for text input', async () => {
   const mockEdit = jest.fn();
   const { getByLabelText } = render(
     <InlineEdit {...defaultProps} onSave={mockEdit} />
   );
 
-  getByLabelText(`edit ${attribute}`).click();
+  enterEditMode(getByLabelText);
   fireEvent.change(getByLabelText(`${attribute} text input`), {
     target: { value: actualValue },
   });
-  getByLabelText(`submit ${attribute}`).click();
+  act(() => {
+    fireEvent.click(getByLabelText(`submit ${attribute}`));
+  });
 
   await waitFor(() => expect(mockEdit.mock.calls).toHaveLength(1));
   expect(mockEdit.mock.calls[0][0]).toBe(actualValue); // first arg
@@ -33,11 +41,13 @@ test('Passed function is called after editing and clicking submit for text area'
     <InlineEdit {...defaultProps} textArea={true} onSave={mockEdit} />
   );
 
-  getByLabelText(`edit ${attribute}`).click();
+  enterEditMode(getByLabelText);
   fireEvent.change(getByLabelText(`${attribute} text area`), {
     target: { value: actualValue },
   });
-  getByLabelText(`submit ${attribute}`).click();
+  act(() => {
+    fireEvent.click(getByLabelText(`submit ${attribute}`));
+  });
 
   await waitFor(() => expect(mockEdit.mock.calls).toHaveLength(1));
   expect(mockEdit.mock.calls[0][0]).toBe(actualValue); // first arg
@@ -49,7 +59,7 @@ test('Passed function is called after editing and hitting enter', async () => {
     <InlineEdit {...defaultProps} onSave={mockEdit} />
   );
 
-  getByLabelText(`edit ${attribute}`).click();
+  enterEditMode(getByLabelText);
   const textInputLabel = `${attribute} text input`;
   fireEvent.change(getByLabelText(textInputLabel), {
     target: { value: actualValue },
@@ -71,14 +81,16 @@ test('input is set back to original value after clearing', () => {
   expect(getByLabelText(`${attribute} text value`)).toHaveTextContent(
     actualValue
   );
-  getByLabelText(`edit ${attribute}`).click();
+  enterEditMode(getByLabelText);
   // Update text input
   fireEvent.change(getByLabelText(`${attribute} text input`), {
     target: { value },
   });
   expect(getByLabelText(`${attribute} text input`)).toHaveValue(value);
   // Clear text
-  getByLabelText(`clear ${attribute}`).click();
+  act(() => {
+    fireEvent.click(getByLabelText(`clear ${attribute}`));
+  });
   // Original value is still showing even though it's been edited
   expect(getByLabelText(`${attribute} text value`)).toHaveTextContent(
     actualValue
