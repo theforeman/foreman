@@ -10,6 +10,7 @@ class UnattendedController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   before_action :permissions_check, if: -> { preview? }, only: [:host_template, :hostgroup_template]
+  before_action :check_unattended_attempts
   before_action :set_admin_user, unless: -> { preview? }
   before_action :load_host_details, only: [:host_template, :built, :failed]
 
@@ -79,6 +80,14 @@ class UnattendedController < ApplicationController
 
   def permissions_check
     deny_access unless User.current.allowed_to?(:view_provisioning_templates)
+  end
+
+  def check_unattended_attempts
+    protection = ::Foreman::UnattendedProtection.new(request_ip: request.remote_ip)
+    return unless protection.rate_limited?
+
+    protection.log_rate_limited
+    head :too_many_requests
   end
 
   def render_error(message, options)
@@ -170,18 +179,12 @@ class UnattendedController < ApplicationController
     host_finder = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params)
     @host = host_finder.search
     @host_search_paths = host_finder.search_paths
-    @provided_token = host_finder.presented_token
   end
 
   def verify_found_host(needs_token = true)
-    # In preview/spoof mode the request is already authenticated (require_login
-    # plus view_provisioning_templates), so we don't demand a provisioning token
-    # from the operator previewing an in-build host's template.
     host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
                                                                              for_host_template: (action_name == 'host_template'),
-                                                                             search_paths: @host_search_paths,
-                                                                             token: @provided_token,
-                                                                             needs_token: needs_token && !preview?)
+                                                                             search_paths: @host_search_paths)
 
     if host_verifier.valid?
       logger.debug "Found #{@host}"
