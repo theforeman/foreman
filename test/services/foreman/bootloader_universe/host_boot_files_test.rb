@@ -234,4 +234,13 @@ class Foreman::BootloaderUniverse::HostBootFilesTest < ActiveSupport::TestCase
 
     assert_equal Digest::SHA256.hexdigest('https://boot.example.test/centos/10/x86_64/images/boot.iso'), plan[:source_digest]
   end
+
+  test 'falls back to legacy boot files when the operating system name is not a valid universe path' do
+    @os = Redhat.new(name: 'Red Hat Enterprise Linux', major: '9')
+    @host.stubs(:operatingsystem).returns(@os)
+    ProxyAPI::TFTP.expects(:new).never
+
+    assert_nil Foreman::BootloaderUniverse::HostBootFiles.new(@host).call
+    assert_nil Foreman::BootloaderUniverse::HostBootFiles.new(@host).plan
+  end
 end

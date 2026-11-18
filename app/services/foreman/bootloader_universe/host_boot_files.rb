@@ -96,7 +96,9 @@ module Foreman
         plan[:installation_iso] = iso[:source] if iso
 
         { boot_files: plan, proxies: proxies, iso: iso }
-      rescue URI::InvalidURIError
+      rescue URI::InvalidURIError, ::Foreman::Exception
+        # An operating system without a valid universe path (for example one
+        # with spaces in its name) falls back to the legacy boot file handling.
         nil
       end
 
