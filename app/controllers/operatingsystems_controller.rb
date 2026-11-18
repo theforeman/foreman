@@ -17,7 +17,10 @@ class OperatingsystemsController < ApplicationController
     ).call
     accepted = result[:results].count { |entry| entry[:accepted] }
     failed = result[:results].reject { |entry| entry[:accepted] }
-    warnings = Array(result[:warnings]) + failed.map { |entry| "#{entry[:smart_proxy_id]} (#{entry[:architecture]}): #{entry[:error]}" }
+    warnings = Array(result[:warnings]) + failed.map do |entry|
+      _('%{proxy} (%{architecture}): %{error}') %
+        { proxy: entry[:smart_proxy_id], architecture: entry[:architecture], error: entry[:error] }
+    end
     if warnings.any?
       warning(warnings.join('; '))
     elsif accepted.positive?

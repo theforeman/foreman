@@ -66,6 +66,20 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       assert_nil flash[:success]
     end
 
+    test 'reports a rejected proxy request with its proxy and architecture' do
+      operatingsystem = operatingsystems(:redhat)
+      result = {
+        warnings: [],
+        results: [{ smart_proxy_id: 42, architecture: 'x86_64', accepted: false, request_count: 0, error: 'Not Found' }],
+      }
+      Foreman::BootloaderUniverse::Download.any_instance.expects(:call).returns(result)
+
+      post :sync_boot_files, params: { id: operatingsystem.id, source: { type: 'medium', id: 7 } }, session: set_session_user
+
+      assert_redirected_to operatingsystems_path
+      assert_equal '42 (x86_64): Not Found', flash[:warning]
+    end
+
     test 'create valid' do
       Operatingsystem.any_instance.stubs(:valid?).returns(true)
       post :create, params: { :operatingsystem => {:name => "MyOS"} }, session: set_session_user

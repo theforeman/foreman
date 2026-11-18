@@ -13,9 +13,9 @@ module Foreman
         def initialize(operatingsystem, source)
           @operatingsystem = operatingsystem
           @medium = ::Medium.authorized(:view_media).find_by(id: source[:id])
-          raise InvalidRequest, N_('Installation medium was not found or is not visible') unless @medium
+          raise InvalidRequest, _('Installation medium was not found or is not visible') unless @medium
           unless @operatingsystem.media.exists?(@medium.id)
-            raise InvalidRequest, N_('Installation medium is not associated with this operating system')
+            raise InvalidRequest, _('Installation medium is not associated with this operating system')
           end
         end
 
@@ -64,7 +64,7 @@ module Foreman
       def call
         source = resolve_source
         architectures = source.architectures
-        raise InvalidRequest, N_('No supported architecture is associated with this operating system') if architectures.empty?
+        raise InvalidRequest, _('No supported architecture is associated with this operating system') if architectures.empty?
 
         plans = architectures.map do |architecture|
           prefix = begin
@@ -79,7 +79,7 @@ module Foreman
             # bare_message drops the error code and class prefixes, this is a user-facing error.
             raise InvalidRequest, e.bare_message
           end
-          raise InvalidRequest, N_('This operating system has no bootloader universe recipe') if universe_requests.empty?
+          raise InvalidRequest, _('This operating system has no bootloader universe recipe') if universe_requests.empty?
 
           [architecture, universe_requests]
         end
@@ -136,7 +136,7 @@ module Foreman
         {
           operatingsystem_id: operatingsystem.id,
           source: source.description,
-          warnings: unavailable_sources.map { |url| N_('Boot file not available, download will fail: %{url}') % { url: url } },
+          warnings: unavailable_sources.map { |url| _('Boot file not available, download will fail: %{url}') % { url: url } },
           results: results,
         }
       end
@@ -148,7 +148,7 @@ module Foreman
         when 'medium'
           MediumSource.new(operatingsystem, source_params)
         else
-          raise InvalidRequest, N_('Unsupported boot file source')
+          raise InvalidRequest, _('Unsupported boot file source')
         end
       end
 
@@ -186,28 +186,28 @@ module Foreman
                     scope.to_a.select { |proxy| self.class.universe_capable?(proxy, operatingsystem) }
                   else
                     unless @smart_proxy_ids.is_a?(Array) && @smart_proxy_ids.any?
-                      raise InvalidRequest, N_('Select at least one TFTP Smart Proxy')
+                      raise InvalidRequest, _('Select at least one TFTP Smart Proxy')
                     end
                     ids = @smart_proxy_ids.map { |id| Integer(id) }.uniq
                     selected = scope.where(id: ids).to_a
-                    raise InvalidRequest, N_('A selected TFTP Smart Proxy was not found or is not visible') unless selected.size == ids.size
+                    raise InvalidRequest, _('A selected TFTP Smart Proxy was not found or is not visible') unless selected.size == ids.size
 
                     selected
                   end
-        raise InvalidRequest, N_('No compatible TFTP Smart Proxy is available') if proxies.empty?
+        raise InvalidRequest, _('No compatible TFTP Smart Proxy is available') if proxies.empty?
 
         proxies
       rescue ArgumentError, TypeError
-        raise InvalidRequest, N_('Smart Proxy IDs must be integers')
+        raise InvalidRequest, _('Smart Proxy IDs must be integers')
       end
 
       def validate_prefix!(prefix)
         uri = URI.parse(prefix)
         unless %w[http https ftp].include?(uri.scheme) && uri.host.present? && uri.query.nil? && uri.fragment.nil?
-          raise InvalidRequest, N_('Boot file source must be an HTTP, HTTPS, or FTP URL prefix')
+          raise InvalidRequest, _('Boot file source must be an HTTP, HTTPS, or FTP URL prefix')
         end
       rescue URI::InvalidURIError
-        raise InvalidRequest, N_('Boot file source URL is invalid')
+        raise InvalidRequest, _('Boot file source URL is invalid')
       end
     end
   end
