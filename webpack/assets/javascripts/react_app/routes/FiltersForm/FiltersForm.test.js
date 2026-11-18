@@ -205,14 +205,15 @@ describe('FiltersForm', () => {
       </Provider>
     );
 
-    await waitFor(() => screen.getByDisplayValue('test role for edit'));
-    expect(screen.getByLabelText(roleLabel).value).toBe(editProps.roleName);
-    expect(screen.getByLabelText(responseTypeLabel).value).toBe('_Host_');
-    expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
-    expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
-    expect(screen.queryAllByDisplayValue('os = CentOS')).toHaveLength(1);
-    expect(screen.queryAllByText('0 of 7 items selected')).toHaveLength(1); // unselected permissions
-    expect(screen.queryAllByText('0 of 2 items selected')).toHaveLength(1); // selected permissions
+    await waitFor(() => {
+      expect(screen.getByLabelText(roleLabel).value).toBe(editProps.roleName);
+      expect(screen.getByLabelText(responseTypeLabel).value).toBe('_Host_');
+      expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
+      expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
+      expect(screen.queryAllByDisplayValue('os = CentOS')).toHaveLength(1);
+      expect(screen.queryAllByText('0 of 7 items selected')).toHaveLength(1); // unselected permissions
+      expect(screen.queryAllByText('0 of 2 items selected')).toHaveLength(1); // selected permissions
+    });
   });
   it('new', async () => {
     render(
@@ -233,9 +234,11 @@ describe('FiltersForm', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('_Host_'));
     });
-    
-    expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
-    expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
+
+    await waitFor(() => {
+      expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
+      expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
+    });
     expect(screen.getByPlaceholderText('Search')).not.toBeDisabled();
 
     expect(screen.queryAllByText('Organizations')).toHaveLength(1);

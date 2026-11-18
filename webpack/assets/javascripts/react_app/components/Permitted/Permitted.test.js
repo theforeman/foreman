@@ -5,14 +5,11 @@ import Permitted from "./Permitted";
 import {
   invalidPermissionsArray,
   invalidPermissionString,
-  noPermissionPropWarning,
   permissionsArray,
   permissionString,
-  requiredPermissionsEmptyWarning,
-  requiredPermissionsTypeWarning,
   testString,
   unPermittedTestString,
-} from './Permitted.fixtures'
+} from './Permitted.fixtures';
 
 
 describe('Permitted', () => {
@@ -86,8 +83,12 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(noPermissionPropWarning)
-
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Warning: Failed %s type: %s%s',
+        'prop',
+        'The prop "requiredPermissions" must be set in Permitted.',
+        expect.stringContaining('Permitted')
+      );
     });
 
     it('when requiredPermissions is an empty array', () => {
@@ -96,8 +97,12 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(requiredPermissionsEmptyWarning)
-
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Warning: Failed %s type: %s%s',
+        'prop',
+        'requiredPermissions can not be an empty array.',
+        expect.stringContaining('Permitted')
+      );
     });
 
     it('when requiredPermissions is the wrong type', () => {
@@ -106,8 +111,9 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(requiredPermissionsTypeWarning)
-
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Invalid prop `requiredPermissions`')
+      );
     });
 
   })

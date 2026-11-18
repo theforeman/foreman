@@ -13,7 +13,15 @@ const dependencies = {
 }; // Use shared dependencies from foreman node_modules and not plugin node_modules to avoid jest errors due to multiple instances of same package
 
 const moduleNameMapper = {};
+const moduleMapperExclusions = new Set([
+  // Jest 26 pins pretty-format@26 (default export). @testing-library/dom@9 needs
+  // pretty-format@27+ (prettyFormat.format). Forcing the root copy breaks RTL errors.
+  'pretty-format',
+]);
 Object.keys(dependencies).forEach(dep => {
+  if (moduleMapperExclusions.has(dep)) {
+    return;
+  }
   moduleNameMapper[`^${dep}$`] = path.resolve(nodeModules, dep);
 });
 
