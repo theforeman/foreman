@@ -331,6 +331,8 @@ Naming/MethodName:
     - 'app/models/concerns/orchestration/puppet_ca.rb'
     - 'app/models/concerns/orchestration/ssh_provision.rb'
     - 'app/models/concerns/orchestration/tftp.rb'
+    - 'app/models/concerns/orchestration/tftp/legacy.rb'
+    - 'app/models/concerns/orchestration/tftp/universe.rb'
     - 'app/models/host/managed.rb'
     - 'app/models/hostgroup.rb'
     - 'app/services/proxy_api/tftp.rb'
