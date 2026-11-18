@@ -689,6 +689,14 @@ class UnattendedControllerTest < ActionController::TestCase
         assert_includes @response.body, 'iPXE default local boot'
       end
 
+      test 'should fill in the parameters of an ipxe error message' do
+        host.update_column(:operatingsystem_id, nil)
+        get :host_template, params: { kind: 'iPXE', mac: host.mac }, session: set_session_user
+        assert_response :conflict
+        assert_includes @response.body, "echo unattended: #{host.name}'s operating system is missing"
+        refute_includes @response.body, '%{'
+      end
+
       test 'should render the ipxe local template' do
         FactoryBot.create(
           :provisioning_template,
