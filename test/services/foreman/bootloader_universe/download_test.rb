@@ -36,12 +36,24 @@ class Foreman::BootloaderUniverse::DownloadTest < ActiveSupport::TestCase
   end
 
   test 'ubuntu uses the separate releases prefix for its archive and ISO' do
-    os = Debian.new(name: 'Ubuntu', major: '22.04')
+    os = Debian.new(name: 'Ubuntu', major: '26', minor: '04')
     requests = os.bootloader_universe_requests(source_prefix: 'https://releases.ubuntu.com/', architecture: @architecture)
 
-    assert_equal 'https://releases.ubuntu.com/22.04/ubuntu-22.04-netboot-amd64.tar.gz', requests.first.fetch(:extract).fetch(:source)
-    assert_equal 'https://releases.ubuntu.com/22.04/ubuntu-22.04-live-server-amd64.iso', requests.second.fetch(:source)
-    assert_equal 'bootloader-universe/pxegrub2/ubuntu/22.04/x86_64/boot.iso', requests.second.fetch(:destination)
+    assert_equal 'https://releases.ubuntu.com/26.04/ubuntu-26.04-netboot-amd64.tar.gz', requests.first.fetch(:extract).fetch(:source)
+    assert_equal 'https://releases.ubuntu.com/26.04/ubuntu-26.04-live-server-amd64.iso', requests.second.fetch(:source)
+    assert_equal 'bootloader-universe/pxegrub2/ubuntu/26.04/x86_64/boot.iso', requests.second.fetch(:destination)
+  end
+
+  test 'ubuntu releases without netboot archives are not managed by the universe' do
+    os = Debian.new(name: 'Ubuntu', major: '24', minor: '04', release_name: 'noble')
+    proxy = mock('proxy')
+    proxy.stubs(:has_feature?).with('TFTP').returns(true)
+    proxy.stubs(:has_capability?).returns(true)
+
+    assert_empty os.bootloader_universe_archive_types
+    assert_empty os.bootloader_universe_requests(source_prefix: 'https://releases.ubuntu.com', architecture: @architecture)
+    assert_nil os.bootloader_universe_boot_files(@architecture)
+    assert_not Foreman::BootloaderUniverse::Download.universe_capable?(proxy, os)
   end
 
   test 'proxy archive capabilities match the operating system recipe' do

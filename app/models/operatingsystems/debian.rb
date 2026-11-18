@@ -2,7 +2,7 @@ class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
   def bootloader_universe_boot_files(architecture)
-    return nil unless architecture.name == 'x86_64'
+    return nil unless architecture.name == 'x86_64' && bootloader_universe_supported?
 
     directory = bootloader_universe_directory(architecture)
     { kernel: "#{directory}/linux", initrd: "#{directory}/initrd.gz" }
@@ -13,11 +13,13 @@ class Debian < Operatingsystem
   end
 
   def bootloader_universe_archive_types
+    return [] unless bootloader_universe_supported?
+
     guess_os == 'ubuntu' ? [:tgz, :iso] : [:tgz]
   end
 
   def bootloader_universe_requests(source_prefix:, architecture:)
-    return [] unless architecture.name == 'x86_64'
+    return [] unless architecture.name == 'x86_64' && bootloader_universe_supported?
 
     directory = bootloader_universe_directory(architecture)
     boot_files = bootloader_universe_boot_files(architecture)
@@ -101,6 +103,16 @@ class Debian < Operatingsystem
   end
 
   private
+
+  # Ubuntu publishes netboot tarballs starting with release 25.10. Older releases
+  # only ship the live server ISO, so their boot files cannot be managed this way.
+  def bootloader_universe_supported?
+    return true unless guess_os == 'ubuntu'
+
+    Gem::Version.new(release.to_s) >= Gem::Version.new('25.10')
+  rescue ArgumentError
+    false
+  end
 
   def debian_bootloader_requests(source_prefix, directory, grub, boot_files)
     shim = "#{directory}/shimx64.efi"
