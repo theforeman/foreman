@@ -76,7 +76,8 @@ module Foreman
           universe_requests = begin
             operatingsystem.bootloader_universe_requests(source_prefix: prefix, architecture: architecture)
           rescue Foreman::Exception => e
-            raise InvalidRequest, e.message
+            # bare_message drops the error code and class prefixes, this is a user-facing error.
+            raise InvalidRequest, e.bare_message
           end
           raise InvalidRequest, N_('This operating system has no bootloader universe recipe') if universe_requests.empty?
 

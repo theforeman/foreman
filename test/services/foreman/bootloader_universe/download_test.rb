@@ -204,6 +204,19 @@ class Foreman::BootloaderUniverse::DownloadTest < ActiveSupport::TestCase
     assert result[:results].sole[:accepted]
   end
 
+  test 'recipe failures are reported without internal exception codes' do
+    os = Debian.new(name: 'Ubuntu With Spaces', major: '26', minor: '04', release_name: 'resolute')
+    service = Foreman::BootloaderUniverse::Download.new(operatingsystem: os, source: { type: 'medium', id: 7 })
+    source = mock('source')
+    source.stubs(description: { type: 'medium', id: 7 }, architectures: [@architecture],
+      prefix_for: 'https://mirror.example.test')
+    service.stubs(:resolve_source).returns(source)
+
+    error = assert_raises(Foreman::BootloaderUniverse::Download::InvalidRequest) { service.call }
+
+    assert_equal 'Invalid operating system universe path', error.message
+  end
+
   private
 
   def service_with_source(prefix: 'https://mirror.example.test')
