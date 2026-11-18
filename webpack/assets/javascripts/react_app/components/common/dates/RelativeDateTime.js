@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedRelative, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { isoCompatibleDate } from '../../../common/helpers';
 
 const RelativeDateTime = (props, context) => {
@@ -15,15 +15,15 @@ const RelativeDateTime = (props, context) => {
       year: 'numeric',
     });
 
-    /* eslint-disable react/style-prop-object */
+    const relativeTime = context.intl.formatRelative(isoDate, {
+      style: 'numeric',
+    });
+
     return (
       <span title={title}>
-        <FormattedRelative value={isoDate} style="numeric">
-          {children}
-        </FormattedRelative>
+        {children ? children(relativeTime) : relativeTime}
       </span>
     );
-    /* eslint-enable react/style-prop-object */
   }
 
   return <span>{defaultValue}</span>;

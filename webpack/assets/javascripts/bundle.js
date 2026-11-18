@@ -1,5 +1,6 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
+import { installReactDefaultPropsConsoleFilter } from './react_app/common/reactDefaultPropsConsoleFilter';
 import Cookies from 'js-cookie';
 import jstz from 'jstz';
 import ipaddr from 'ipaddr.js';
@@ -30,6 +31,8 @@ import * as lookupKeys from './foreman_lookup_keys';
 import './react_app/common/MountingService';
 import './foreman_overrides';
 import './bundle_novnc';
+
+installReactDefaultPropsConsoleFilter();
 
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {

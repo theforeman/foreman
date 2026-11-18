@@ -1,17 +1,25 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import React from 'react';
 import { AwaitedMount } from './AwaitedMount';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
+const REACT_ROOT_KEY = '_foremanReactRoot';
+
+function getReactRoot(container) {
+  if (!container[REACT_ROOT_KEY]) {
+    container[REACT_ROOT_KEY] = createRoot(container);
+  }
+  return container[REACT_ROOT_KEY];
+}
+
 function mountNode(component, reactNode, data, flattenData) {
-  ReactDOM.render(
+  getReactRoot(reactNode).render(
     <AwaitedMount
       component={component}
       data={data}
       flattenData={flattenData}
-    />,
-    reactNode
+    />
   );
 }
 
@@ -53,6 +61,14 @@ class ReactComponentElement extends HTMLElement {
 
   connectedCallback() {
     this._render();
+  }
+
+  disconnectedCallback() {
+    const root = this[REACT_ROOT_KEY];
+    if (root) {
+      root.unmount();
+      delete this[REACT_ROOT_KEY];
+    }
   }
 
   _render() {
