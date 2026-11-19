@@ -155,8 +155,8 @@ class Setting < ApplicationRecord
 
     end
     if errors.present?
-      raise Foreman::SettingValueException.new(N_("Error parsing value for setting '%(name)s': %(error)s"),
-        { 'name' => name, 'error' => errors.full_messages.join(", ") })
+      raise Foreman::SettingValueException.new(N_("Error parsing value for setting '%{name}': %{error}"),
+        { name: name, error: errors.full_messages.join(", ") })
     end
     true
   end

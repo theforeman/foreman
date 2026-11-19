@@ -316,10 +316,11 @@ class SettingTest < ActiveSupport::TestCase
   def check_parsed_value_failure(settings_type, string_value)
     setting = Setting.new(name: "foo")
     setting.stubs(settings_type: settings_type)
-    assert_raises Foreman::SettingValueException do
+    exception = assert_raises Foreman::SettingValueException do
       setting.parse_string_value(string_value)
     end
 
+    assert_match(/\AError parsing value for setting 'foo': /, exception.bare_message)
     assert_nil setting.value
     assert setting.errors[:value].join(";").include?("is invalid")
   end
