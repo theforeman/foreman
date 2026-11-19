@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextContent, Text, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 
 import PageLayout from '../../common/PageLayout/PageLayout';
 import Slot from '../../../components/common/Slot';
@@ -12,14 +12,14 @@ import DocumentationFooter from './components/DocumentationFooter';
 const UpgradePage = () => (
   <PageLayout header={__('Foreman upgrade')} searchable={false}>
     <>
-      <TextContent>
-        <Text ouiaId="upgrade-page-top-msg" component={TextVariants.p}>
+      <Content>
+        <Content ouiaId="upgrade-page-top-msg" component={ContentVariants.p}>
           {__(
             'Stay secure, supported, and up-to-date by upgrading to the latest version of Foreman.' +
               ' Access new features, critical updates, and enhanced compatibility with minimal disruption.'
           )}
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
       <br />
       <br />
       <Slot id="upgrade-page-upgrade-docs">

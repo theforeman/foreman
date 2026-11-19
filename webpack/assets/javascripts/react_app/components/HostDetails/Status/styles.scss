@@ -12,33 +12,33 @@
 
 .host-status-icon-container {
   .disabled {
-    color: var(--pf-v5-global--disabled-color--200);
+    color: var(--pf-t--global--icon--color--disabled);
 
-    .pf-v5-c-icon {
+    .pf-v6-c-icon {
       margin-right: 4px;
     }
   }
 
   .status-success {
-    color: var(--pf-v5-global--success-color--100);
+    color: var(--pf-t--global--icon--color--status--success--default);
 
-    .pf-v5-c-icon {
+    .pf-v6-c-icon {
       margin-right: 4px;
     }
   }
 
   .status-error {
-    color: var(--pf-v5-global--danger-color--100);
+    color: var(--pf-t--global--icon--color--status--danger--default);
 
-    .pf-v5-c-icon {
+    .pf-v6-c-icon {
       margin-right: 4px;
     }
   }
 
   .status-warning {
-    color: var(--pf-v5-global--warning-color--100);
+    color: var(--pf-t--global--icon--color--status--warning--default);
 
-    .pf-v5-c-icon {
+    .pf-v6-c-icon {
       margin-right: 4px;
     }
   }

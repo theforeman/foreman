@@ -17,7 +17,7 @@ const getLocationSelect = () =>
   screen.getByRole('combobox', { name: /Location/i });
 
 const getHelpButtonForSelect = select =>
-  within(select.closest('.pf-v5-c-form__group')).getByRole('button');
+  within(select.closest('.pf-v6-c-form__group')).getByRole('button');
 
 const renderWithProvider = (props = {}) => {
   const defaultProps = {

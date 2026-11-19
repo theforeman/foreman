@@ -14,20 +14,13 @@ import {
   MenuList,
   Split,
   SplitItem,
-  TextContent,
-  Text,
-  Icon,
+  Content,
 } from '@patternfly/react-core';
-import {
-  Dropdown,
-  DropdownItem,
-  KebabToggle,
-} from '@patternfly/react-core/deprecated';
-import { UndoIcon } from '@patternfly/react-icons';
 import { Table } from '../PF4/TableIndexPage/Table/Table';
 import { translate as __ } from '../../common/I18n';
 import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
 import { ActionKebab } from './ActionKebab';
+import { LegacyUIKebab } from './LegacyUIKebab';
 import { HOSTS_API_PATH, API_REQUEST_KEY } from '../../routes/Hosts/constants';
 import { selectKebabItems } from './Selectors';
 import {
@@ -440,50 +433,17 @@ const HostsIndex = () => {
     getActionsFunc: coreRowKebabItems,
   });
 
-  const [legacyUIKebabOpen, setLegacyUIKebabOpen] = useState(false);
-  const legacyUIKebab = (
-    <Dropdown
-      ouiaId="legacy-ui-kebab"
-      id="legacy-ui-kebab"
-      position="right"
-      toggle={
-        <KebabToggle
-          aria-label="legacy-ui-kebab-toggle"
-          id="legacy-ui-kebab-toggle"
-          onToggle={(_event, val) => setLegacyUIKebabOpen(val)}
-        />
-      }
-      isOpen={legacyUIKebabOpen}
-      isPlain
-      dropdownItems={[
-        <DropdownItem
-          component="a"
-          ouiaId="legacy-ui-link-dropdown-item"
-          key="legacy-ui-link-dropdown-item"
-          href="/hosts"
-          icon={
-            <Icon>
-              <UndoIcon />
-            </Icon>
-          }
-        >
-          {__('Legacy UI')}
-        </DropdownItem>,
-      ]}
-    />
-  );
-
   const hostsIndexHeader = (
     <Flex
       alignItems={{ default: 'alignItemsCenter' }}
       justifyContent={{ default: 'justifyContentSpaceBetween' }}
     >
       <FlexItem>
-        <TextContent>
-          <Text ouiaId="host-header-text" component="h1">
+        <Content>
+          <Content ouiaId="host-header-text" component="h1">
             {__('Hosts')}
-          </Text>
-        </TextContent>
+          </Content>
+        </Content>
       </FlexItem>
       <FlexItem align={{ default: 'alignRight' }}>
         <Split hasGutter>
@@ -533,7 +493,9 @@ const HostsIndex = () => {
               {__('Create')}
             </Button>
           </SplitItem>
-          <SplitItem>{legacyUIKebab}</SplitItem>
+          <SplitItem>
+            <LegacyUIKebab />
+          </SplitItem>
         </Split>
       </FlexItem>
     </Flex>

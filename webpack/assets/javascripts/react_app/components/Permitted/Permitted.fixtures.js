@@ -8,6 +8,6 @@ export const invalidPermissionsArray = [invalidPermissionString, "some_other_per
 
 // Console warnings
 export const noPermissionPropWarning =
-         'Warning: Failed prop type: The prop \"requiredPermissions\" must be set in Permitted.\n    in Permitted';
-export const requiredPermissionsEmptyWarning = "Warning: Failed prop type: requiredPermissions can not be an empty array.\n    in Permitted"
+         'Warning: Failed prop type: The prop \"requiredPermissions\" must be set in Permitted.';
+export const requiredPermissionsEmptyWarning = "Warning: Failed prop type: requiredPermissions can not be an empty array."
 export const requiredPermissionsTypeWarning = "Warning: Failed prop type: Invalid prop `requiredPermissions` of type `string` supplied to `Permitted`, expected `array`."

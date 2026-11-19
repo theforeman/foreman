@@ -6,7 +6,7 @@ import GlobalStatusIcon from './GlobalStatusIcon';
 const StatusSkeleton = () => (
   <GridItem sm={12} xl2={6}>
     {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components, @theforeman/rules/prefer-pf-props */}
-    <Card ouiaId="status-card-skeleton" className="pf-v5-c-alert pf-m-success">
+    <Card ouiaId="status-card-skeleton" className="pf-v6-c-alert pf-m-success">
       <CardHeader
         onExpand={() => {}}
         toggleButtonProps={{

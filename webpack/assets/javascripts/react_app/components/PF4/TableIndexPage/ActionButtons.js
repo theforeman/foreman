@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@patternfly/react-core';
 import {
+  Button,
   Dropdown,
-  KebabToggle,
   DropdownItem,
-} from '@patternfly/react-core/deprecated';
+  DropdownList,
+  MenuToggle,
+} from '@patternfly/react-core';
+import { EllipsisVIcon } from '@patternfly/react-icons';
+import { createMenuLinkComponent } from '../../common/MenuLink';
+
+const actionToItemProps = ({ href, onClick, ...attributes } = {}) =>
+  href
+    ? { component: createMenuLinkComponent(href, attributes), onClick }
+    : { onClick, ...attributes };
 
 /**
  * Generate a button or a dropdown of buttons
@@ -31,25 +39,34 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
       {buttons.length > 0 && (
         <Dropdown
           ouiaId="action-buttons-dropdown"
-          toggle={
-            <KebabToggle
-              aria-label="toggle action dropdown"
-              onToggle={(_event, val) => setIsOpen(val)}
-            />
-          }
           isOpen={isOpen}
-          isPlain
-          dropdownItems={buttons.map(button => (
-            <DropdownItem
-              ouiaId={`${button.title}-dropdown-item`}
-              key={button.title}
-              title={button.title}
-              {...button.action}
-            >
-              {button.icon} {button.title}
-            </DropdownItem>
-          ))}
-        />
+          onSelect={() => setIsOpen(false)}
+          onOpenChange={newIsOpen => setIsOpen(newIsOpen)}
+          toggle={toggleRef => (
+            <MenuToggle
+              ref={toggleRef}
+              variant="plain"
+              aria-label="toggle action dropdown"
+              isExpanded={isOpen}
+              onClick={() => setIsOpen(!isOpen)}
+              icon={<EllipsisVIcon />}
+            />
+          )}
+        >
+          <DropdownList>
+            {buttons.map(button => (
+              <DropdownItem
+                ouiaId={`${button.title}-dropdown-item`}
+                key={button.title}
+                title={button.title}
+                icon={button.icon}
+                {...actionToItemProps(button.action)}
+              >
+                {button.title}
+              </DropdownItem>
+            ))}
+          </DropdownList>
+        </Dropdown>
       )}
     </>
   );

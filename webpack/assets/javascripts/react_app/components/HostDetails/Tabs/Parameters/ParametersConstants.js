@@ -15,3 +15,6 @@ export const typeOptions = [
   'yaml',
   'json',
 ];
+
+// placeholder option of the boolean value select; choosing it clears the value
+export const BOOLEAN_PLACEHOLDER = 'select';

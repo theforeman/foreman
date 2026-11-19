@@ -16,7 +16,7 @@ import { sprintf, translate as __ } from '../../../../../common/I18n';
 const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
   <FormGroup
     label={__('Install packages')}
-    labelIcon={
+    labelHelp={
       <LabelIcon
         text={__(
           'Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`.'

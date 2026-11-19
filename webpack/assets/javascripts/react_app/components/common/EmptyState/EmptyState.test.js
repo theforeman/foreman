@@ -40,13 +40,13 @@ describe('Default Empty State', () => {
     expect(docLink).toHaveAttribute('rel', 'external noreferrer noopener');
 
     // Test action button - PatternFly Button renders as <a> with button classes
-    const actionButton = screen.getByText('action-title');
+    const actionButton = screen.getByText('action-title').closest('a');
     expect(actionButton).toBeInTheDocument();
     expect(actionButton).toHaveAttribute(
       'data-ouia-component-id',
       'empty-state-action-button'
     );
-    expect(actionButton).toHaveClass('pf-v5-c-button', 'pf-m-primary');
+    expect(actionButton).toHaveClass('pf-v6-c-button', 'pf-m-primary');
   });
 
   it('should render secondary actions', () => {
@@ -63,7 +63,7 @@ describe('Default Empty State', () => {
       '[data-ouia-component-id="empty-state-action-button"]'
     );
     expect(primaryButton).toBeInTheDocument();
-    expect(primaryButton).toHaveClass('pf-v5-c-button', 'pf-m-primary');
+    expect(primaryButton).toHaveClass('pf-v6-c-button', 'pf-m-primary');
     expect(primaryButton).toHaveTextContent('action-title');
 
     // Test secondary action
@@ -71,7 +71,7 @@ describe('Default Empty State', () => {
       '[data-ouia-component-id="empty-state-secondary-action-button"]'
     );
     expect(secondaryButton).toBeInTheDocument();
-    expect(secondaryButton).toHaveClass('pf-v5-c-button', 'pf-m-secondary');
+    expect(secondaryButton).toHaveClass('pf-v6-c-button', 'pf-m-secondary');
     expect(secondaryButton).toHaveTextContent('action-title');
   });
 
@@ -80,7 +80,7 @@ describe('Default Empty State', () => {
       <DefaultEmptyState {...props} action={action} />
     );
 
-    const actionButton = screen.getByText('action-title');
+    const actionButton = screen.getByText('action-title').closest('a');
     fireEvent.click(actionButton);
     expect(push).toHaveBeenCalledWith('action-url');
   });
@@ -263,5 +263,24 @@ describe('Empty State Pattern', () => {
     const helpLink = screen.getByRole('link', { name: 'help guide' });
     expect(helpLink).toBeInTheDocument();
     expect(helpLink).toHaveAttribute('href', 'https://help.example.com');
+  });
+});
+
+describe('EmptyStatePattern icon placement', () => {
+  it('renders the icon above the title, as in PF5', () => {
+    rtlHelpers.renderWithStore(
+      <EmptyStatePattern
+        header="Printers"
+        description="Nothing here"
+        icon={<span data-testid="custom-icon" />}
+      />
+    );
+    const iconNode = screen.getByTestId('custom-icon');
+    const title = screen.getByRole('heading', { name: 'Printers' });
+    // eslint-disable-next-line no-bitwise
+    const iconIsBeforeTitle =
+      iconNode.compareDocumentPosition(title) &
+      Node.DOCUMENT_POSITION_FOLLOWING;
+    expect(iconIsBeforeTitle).toBeTruthy();
   });
 });

@@ -59,7 +59,7 @@ describe('FormField', () => {
       document.querySelector('.form-group.has-warning')
     ).toBeInTheDocument();
     expect(
-      document.querySelector('.pf-v5-c-helper-text__item.pf-m-warning')
+      document.querySelector('.pf-v6-c-helper-text__item.pf-m-warning')
     ).toBeInTheDocument();
   });
 

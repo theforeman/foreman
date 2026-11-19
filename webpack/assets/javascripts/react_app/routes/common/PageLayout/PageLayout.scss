@@ -1,12 +1,12 @@
 #page-layout-title-section,
 #page-layout-toolbar-section,
 #page-layout-content-section {
-  padding-left: var(--pf-v5-global--spacer--lg);
-  padding-right: var(--pf-v5-global--spacer--lg);
+  padding-left: var(--pf-t--global--spacer--lg);
+  padding-right: var(--pf-t--global--spacer--lg);
 }
 
 #page-layout-title-section {
-  padding-bottom: var(--pf-v5-global--spacer--md);
+  padding-bottom: var(--pf-t--global--spacer--md);
 }
 
 #page-layout-toolbar-section {
@@ -17,19 +17,19 @@
     }
 
     .table-toolbar-actions {
-      padding-left: var(--pf-v5-global--spacer--md);
+      padding-left: var(--pf-t--global--spacer--md);
     }
   }
 
-  .pf-v5-c-toolbar__group {
+  .pf-v6-c-toolbar__group {
     flex-grow: 1;
 
-    &.pf-m-align-right {
+    &.pf-m-align-end {
       justify-content: flex-end;
     }
   }
 
-  .pf-v5-c-toolbar__content {
+  .pf-v6-c-toolbar__content {
     padding: 0;
   }
 }
@@ -40,9 +40,9 @@
 }
 
 #page-layout-toolbar-section:not(#page-layout-title-section ~ #page-layout-toolbar-section) {
-  padding-left: var(--pf-v5-global--spacer--lg);
-  padding-right: var(--pf-v5-global--spacer--lg);
-  padding-bottom: var(--pf-v5-global--spacer--md);
+  padding-left: var(--pf-t--global--spacer--lg);
+  padding-right: var(--pf-t--global--spacer--lg);
+  padding-bottom: var(--pf-t--global--spacer--md);
 
   #page-layout-toolbar {
     padding-top: 0;

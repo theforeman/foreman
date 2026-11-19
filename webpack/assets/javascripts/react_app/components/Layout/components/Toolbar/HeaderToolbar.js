@@ -38,7 +38,7 @@ const HeaderToolbar = ({
           isLoading={isLoading}
         />
       </ToolbarGroup>
-      <ToolbarGroup align={{ default: 'alignRight' }}>
+      <ToolbarGroup align={{ default: 'alignEnd' }}>
         <ToolbarItem>
           <NotificationsContextWrapper>
             <NotificationIcon />

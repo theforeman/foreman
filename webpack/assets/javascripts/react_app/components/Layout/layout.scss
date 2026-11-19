@@ -13,7 +13,7 @@
 
 .collapsed-nav {
   #react-app-root {
-    main.pf-v5-c-page__main {
+    main.pf-v6-c-page__main {
       padding-left: 0;
     }
   }
@@ -24,7 +24,7 @@
 }
 
 #page-sidebar {
-  .pf-v5-c-nav__item.hidden-nav-lg {
+  .pf-v6-c-nav__item.hidden-nav-lg {
     display: none;
 
     @media (max-width: $header-max-width) {
@@ -49,79 +49,47 @@
     pointer-events: none;
   }
 
-  .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable .pf-v5-c-nav__list::before {
+  .pf-v6-c-nav__item .pf-v6-c-nav__item.pf-m-expandable .pf-v6-c-nav__list::before {
     border: 0;
   }
 
-  .pf-v5-c-nav__item.pf-m-expandable::before {
-    z-index: var(--pf-v5-c-page__sidebar--ZIndex);
+  .pf-v6-c-nav__item.pf-m-expandable::before {
+    z-index: var(--pf-v6-c-page__sidebar--ZIndex);
   }
 
-  .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable::before {
+  .pf-v6-c-nav__item .pf-v6-c-nav__item.pf-m-expandable::before {
     // in small screens, the expandable items have css to add a second border
     border-bottom: none;
   }
   
-  .pf-m-expandable>.pf-v5-c-nav__link{
+  .pf-m-expandable>.pf-v6-c-nav__link{
     text-align: left;
   }
 
   .navigation-search-menu {
-    .pf-v5-c-menu__item {
+    .pf-v6-c-menu__item {
       padding: 5px;
 
-      .pf-v5-c-menu__item-description {
+      .pf-v6-c-menu__item-description {
         word-break: break-word;
       }
     }
 
     min-width: 0;
     margin: 0;
-
-    --pf-v5-c-menu--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
-    --pf-v5-c-menu__list-item--Color: var(--pf-v5-global--Color--100);
-    --pf-v5-c-menu__list-item--BackgroundColor: transparent;
-    --pf-v5-c-menu__list-item--hover--BackgroundColor: var(
-      --pf-v5-global--BackgroundColor--200
-    );
-    --pf-v5-c-menu__list-item--focus-within--Color: var(--pf-v5-global--palette--blue-400);
-    --pf-v5-c-menu__list-item--focus-within--BackgroundColor: var(
-      --pf-v5-global--BackgroundColor--200
-    );
-
-    --pf-v5-c-menu__item-description--Color: var(--pf-v5-global--Color--200);
-    --pf-v5-c-menu__list-item--hover--Color: unset;
   }
 
   #navigation-search {
-    width:calc(#{var(--pf-v5-c-page__sidebar--Width)} - 10px);
+    width:calc(#{var(--pf-v6-c-page__sidebar--Width)} - 10px);
     margin-left: 5px;
 
-    .pf-v5-c-button.pf-m-control {
+    .pf-v6-c-button.pf-m-control {
       display: none;
     }
   }
 }
 
-#foreman-page .pf-v5-c-masthead {
+#foreman-page .pf-v6-c-masthead {
   background-repeat: no-repeat;
   background-size: cover;
-
-  .pf-v5-c-toolbar__item {
-    .pf-v5-c-context-selector__menu {
-      top: auto;
-    }
-
-    .pf-v5-c-context-selector {
-      &.pf-m-expanded,
-      &:hover {
-        background: rgba(255, 255, 255, 0.24);
-      }
-    }
-
-    .pf-v5-c-context-selector__toggle::before {
-      border-width: 0;
-    }
-  }
-  
 }

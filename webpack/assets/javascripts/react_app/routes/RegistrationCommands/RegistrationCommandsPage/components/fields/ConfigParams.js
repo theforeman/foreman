@@ -37,7 +37,7 @@ const ConfigParams = ({
     <>
       <FormGroup
         label={__('Setup REX')}
-        labelIcon={
+        labelHelp={
           <LabelIcon
             text={__(
               'Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level.'
@@ -62,7 +62,7 @@ const ConfigParams = ({
       <FormGroup
         label={__('Setup Insights')}
         fieldId="registration_setup_insights"
-        labelIcon={
+        labelHelp={
           <LabelIcon
             text={__(
               'If set to `Yes`, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level.'

@@ -1,34 +1,34 @@
 import React from 'react';
 import { PlusIcon } from '@patternfly/react-icons';
-import { Spinner, Icon } from '@patternfly/react-core';
 import {
-  DropdownItem,
+  Divider,
   DropdownGroup,
-  DropdownSeparator,
-} from '@patternfly/react-core/deprecated';
+  DropdownItem,
+  DropdownList,
+  Spinner,
+} from '@patternfly/react-core';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
 import './bookmarks.scss';
 
 export const addBookmarkItem = setModalOpen => (
-  <DropdownGroup key="create-bookmark">
-    <DropdownItem
-      ouiaId="new-bookmark-dropdown-item"
-      key="newBookmark"
-      id="newBookmark"
-      onClick={setModalOpen}
-    >
-      <Icon>
-        <PlusIcon />
-      </Icon>{' '}
-      {__('Bookmark this search')}
-    </DropdownItem>
-    <DropdownSeparator
-      ouiaId="new-bookmark-dropdown-separator"
-      key="separator"
-    />
-  </DropdownGroup>
+  <React.Fragment key="create-bookmark">
+    <DropdownGroup>
+      <DropdownList>
+        <DropdownItem
+          ouiaId="new-bookmark-dropdown-item"
+          key="newBookmark"
+          id="newBookmark"
+          icon={<PlusIcon />}
+          onClick={setModalOpen}
+        >
+          {__('Bookmark this search')}
+        </DropdownItem>
+      </DropdownList>
+    </DropdownGroup>
+    <Divider />
+  </React.Fragment>
 );
 
 const pendingItem = (
@@ -38,7 +38,7 @@ const pendingItem = (
     className="loader-root"
     isDisabled
   >
-    <Spinner size="xs" aria-label="loading bookmarks" />
+    <Spinner size="sm" aria-label="loading bookmarks" />
   </DropdownItem>
 );
 
@@ -90,32 +90,30 @@ export const savedBookmarksItems = ({
   errors,
 }) => (
   <DropdownGroup key="saved bookmarks" label={__('Saved Bookmarks')}>
-    {[
-      status === STATUS.PENDING && [pendingItem],
-      status === STATUS.RESOLVED && [
-        bookmarksList({ bookmarks, onBookmarkClick }),
-      ],
-      status === STATUS.ERROR && [errorItem(errors)],
-    ].filter(item => item)}
+    <DropdownList>
+      {status === STATUS.PENDING && pendingItem}
+      {status === STATUS.RESOLVED &&
+        bookmarksList({ bookmarks, onBookmarkClick })}
+      {status === STATUS.ERROR && errorItem(errors)}
+    </DropdownList>
   </DropdownGroup>
 );
 
 export const manageBookmarksItem = ({ onClick, documentationUrl }) => (
-  <DropdownGroup key="manage bookmarks">
-    <DropdownSeparator
-      ouiaId="manage-bookmarks-dropdown-separator"
-      key="separator"
-    />
-
-    <DropdownItem
-      ouiaId="manage-bookmarks-dropdown-item"
-      key="manageBookmarks"
-      id="manageBookmarks"
-      onClick={onClick}
-    >
-      {__('Manage Bookmarks')}
-    </DropdownItem>
-
-    <DocumentationUrl href={documentationUrl} />
-  </DropdownGroup>
+  <React.Fragment key="manage bookmarks">
+    <Divider />
+    <DropdownGroup>
+      <DropdownList>
+        <DropdownItem
+          ouiaId="manage-bookmarks-dropdown-item"
+          key="manageBookmarks"
+          id="manageBookmarks"
+          onClick={onClick}
+        >
+          {__('Manage Bookmarks')}
+        </DropdownItem>
+        <DocumentationUrl href={documentationUrl} />
+      </DropdownList>
+    </DropdownGroup>
+  </React.Fragment>
 );

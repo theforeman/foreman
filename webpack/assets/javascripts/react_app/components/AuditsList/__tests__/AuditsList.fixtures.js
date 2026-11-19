@@ -139,7 +139,7 @@ export const AuditsProps = {
       allowed_actions: [
         {
           title: 'Host details',
-          css_class: 'pf-v5-c-button pf-m-primary pf-m-small pf-v5-u-float-right',
+          css_class: 'pf-v6-c-button pf-m-primary pf-m-small pf-v6-u-float-inline-end',
           url: '/hosts/host-foo.example.com',
         },
       ],

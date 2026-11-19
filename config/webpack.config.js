@@ -22,12 +22,21 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 const dependencies = packageJson.dependencies || {};
 const devDependencies = packageJson.devDependencies || {};
 const allDependencies = { ...dependencies, ...devDependencies };
+// Some packages (e.g. @patternfly/react-icons 6) ship a nested dist/esm/package.json
+// without a version, so webpack cannot detect the shared module version on its own.
+const installedVersion = dep => {
+  const depPackageJson = path.resolve(root, 'node_modules', dep, 'package.json');
+  return fs.existsSync(depPackageJson)
+    ? JSON.parse(fs.readFileSync(depPackageJson, 'utf8')).version
+    : undefined;
+};
 const shared = isPlugin => {
   const sharedArr = Object.keys(allDependencies).map(dep => ({
     [dep]: {
       eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
       singleton: true,
       requiredVersion: allDependencies[dep],
+      version: installedVersion(dep),
       import: isPlugin ? false : dep,
     },
   }));
@@ -267,10 +276,15 @@ const coreConfig = function() {
       dependOn: 'vendor',
     },
     vendor: vendorEntry,
-    vendorStyles: path.join(
-      root,
-      'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'
-    ),
+    // PF6 CSS after the PF3/bootstrap styles so PF6 wins equal-specificity ties
+    vendorStyles: [
+      path.join(
+        root,
+        'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'
+      ),
+      require.resolve('@patternfly/patternfly/patternfly.css'),
+      require.resolve('@patternfly/patternfly/patternfly-addons.css'),
+    ],
   };
   config.output = {
     path: path.join(root, 'public', 'webpack'),
@@ -299,9 +313,12 @@ const coreConfig = function() {
   config.plugins = plugins;
   var rules = config.module.rules;
 
+  // vendor styles (vendor-core.scss and the compiled PF6 CSS added after it in
+  // the vendorStyles entry) are extracted into vendorStyles.css
+  const vendorStylesRegex = /vendor-core|@patternfly[\\/]patternfly[\\/]patternfly(-addons)?\.css$/i;
   rules.push({
     test: /\.(sa|sc|c)ss$/,
-    exclude: /vendor-core/i,
+    exclude: vendorStylesRegex,
     use: [
       {
         loader: 'style-loader',
@@ -315,7 +332,7 @@ const coreConfig = function() {
     ],
   });
   rules.push({
-    test: /vendor-core/i,
+    test: vendorStylesRegex,
     use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
   });
   config.module.rules = rules;

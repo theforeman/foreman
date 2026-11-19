@@ -1,15 +1,16 @@
 .vmware-storage-container {
-  .pf-v5-c-expandable-section__toggle-text {
-    font-size: var(--pf-v5-global--FontSize--md);
+  // PF6 renders the section toggle as a link button directly in the section
+  .pf-v6-c-expandable-section > .pf-v6-c-button {
+    --pf-v6-c-button--FontSize: var(--pf-t--global--font--size--md);
   }
 
-  .pf-v5-c-menu-toggle {
+  .pf-v6-c-menu-toggle {
     width: 80%;
     max-width: 880px;
   }
 
   .disks-container {
-    padding-top: var(--pf-v5-global--spacer--md);
+    padding-top: var(--pf-t--global--spacer--md);
 
     .disk-form-status-container {
       align-self: center;

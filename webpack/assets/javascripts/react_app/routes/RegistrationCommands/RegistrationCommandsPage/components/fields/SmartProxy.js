@@ -32,7 +32,7 @@ const SmartProxy = ({
     <FormGroup
       label={__('Smart proxy')}
       fieldId="reg_smart_proxy"
-      labelIcon={
+      labelHelp={
         <LabelIcon
           text={__(
             'Only smart proxies with enabled `Templates` and `Registration` features are displayed.'

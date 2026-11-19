@@ -182,7 +182,7 @@ const BookmarkForm = ({
           ouiaId="isPublic-checkbox"
           id="isPublic-checkbox"
           label={__('Public')}
-          isLabelBeforeButton
+          labelPosition="start"
           isLabelWrapped
           isChecked={isPublic}
           onChange={handleIsPublicChange}

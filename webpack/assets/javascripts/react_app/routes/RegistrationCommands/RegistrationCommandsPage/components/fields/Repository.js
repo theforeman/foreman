@@ -34,7 +34,7 @@ const Repository = ({ repoData, handleRepoData, isLoading }) => {
       <FormGroup
         label={__('Repositories')}
         fieldId="reg_repo"
-        labelIcon={
+        labelHelp={
           <LabelIcon
             text={__(
               'Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary.'

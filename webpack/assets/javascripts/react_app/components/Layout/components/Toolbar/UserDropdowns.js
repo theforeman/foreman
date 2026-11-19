@@ -1,68 +1,70 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Divider,
   Dropdown,
-  DropdownToggle,
   DropdownItem,
-  DropdownSeparator,
-} from '@patternfly/react-core/deprecated';
-import { Icon } from '@patternfly/react-core';
+  DropdownList,
+  MenuToggle,
+} from '@patternfly/react-core';
 import { UserAltIcon } from '@patternfly/react-icons';
 
 import { userPropType } from '../../LayoutHelper';
 import { translate as __ } from '../../../../common/I18n';
+import { createMenuLinkComponent } from '../../../common/MenuLink';
 
 const UserDropdowns = ({ user, notificationUrl, instanceTitle, ...props }) => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-
-  const onDropdownToggle = newUserDropdownOpen => {
-    setUserDropdownOpen(newUserDropdownOpen);
-  };
-  const onDropdownSelect = () => {
-    setUserDropdownOpen(userDropdownOpen);
-  };
   const userInfo = user.current_user;
+  const menuItems = user.user_dropdown?.[0]?.children;
 
-  const userDropdownItems = user.user_dropdown[0].children.map((item, i) =>
-    item.type === 'divider' ? (
-      <DropdownSeparator ouiaId="user-dropdown-separator" key={i} />
-    ) : (
-      <DropdownItem
-        ouiaId={`user-dropdown-item-${i}`}
-        key={i}
-        className="user_menuitem"
-        href={item.url}
-        {...item.html_options}
-      >
-        {__(item.name)}
-      </DropdownItem>
-    )
+  const userDropdownItems = useMemo(
+    () =>
+      (menuItems || []).map((item, index) =>
+        item.type === 'divider' ? (
+          <Divider component="li" key={index} />
+        ) : (
+          <DropdownItem
+            ouiaId={`user-dropdown-item-${index}`}
+            key={index}
+            // keeps html_options (e.g. data-method="post" for Log Out) on the <a>
+            component={createMenuLinkComponent(
+              item.url,
+              item.html_options,
+              'user_menuitem'
+            )}
+          >
+            {__(item.name)}
+          </DropdownItem>
+        )
+      ),
+    [menuItems]
   );
 
   return (
     userInfo && (
       <Dropdown
         ouiaId="user-info-dropdown"
-        isPlain
-        position="right"
-        onSelect={onDropdownSelect}
+        popperProps={{ position: 'right' }}
+        onSelect={() => setUserDropdownOpen(false)}
+        onOpenChange={isOpen => setUserDropdownOpen(isOpen)}
         isOpen={userDropdownOpen}
-        toggle={
-          <DropdownToggle
+        toggle={toggleRef => (
+          <MenuToggle
+            ref={toggleRef}
             ouiaId="user-dropdown-toggle"
-            onToggle={(_event, newUserDropdownOpen) =>
-              onDropdownToggle(newUserDropdownOpen)
-            }
+            variant="plainText"
+            icon={<UserAltIcon />}
+            isExpanded={userDropdownOpen}
+            onClick={() => setUserDropdownOpen(!userDropdownOpen)}
           >
-            <Icon className="user-icon">
-              <UserAltIcon />
-            </Icon>
             {userInfo.name}
-          </DropdownToggle>
-        }
-        dropdownItems={userDropdownItems}
+          </MenuToggle>
+        )}
         {...props}
-      />
+      >
+        <DropdownList>{userDropdownItems}</DropdownList>
+      </Dropdown>
     )
   );
 };

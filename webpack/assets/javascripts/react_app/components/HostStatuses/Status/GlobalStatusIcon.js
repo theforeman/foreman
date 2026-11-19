@@ -19,7 +19,7 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
       return (
         <Icon
           style={{
-            color: 'var(--pf-v5-global--success-color--100)',
+            color: 'var(--pf-t--global--icon--color--status--success--default)',
             ...style,
           }}
           {...props}
@@ -31,7 +31,7 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
       return (
         <Icon
           style={{
-            color: 'var(--pf-v5-global--warning-color--100)',
+            color: 'var(--pf-t--global--icon--color--status--warning--default)',
             ...style,
           }}
           {...props}
@@ -43,7 +43,7 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
       return (
         <Icon
           style={{
-            color: 'var(--pf-v5-global--danger-color--100)',
+            color: 'var(--pf-t--global--icon--color--status--danger--default)',
             ...style,
           }}
           {...props}
@@ -55,7 +55,7 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
       return (
         <Icon
           style={{
-            color: 'var(--pf-v5-global--info-color--200)',
+            color: 'var(--pf-t--global--icon--color--status--info--default)',
             ...style,
           }}
           {...props}

@@ -1,8 +1,8 @@
 .table-index-page {
-  .pf-v5-c-toolbar__group {
+  .pf-v6-c-toolbar__group {
     flex-grow: 1;
 
-    &.pf-m-align-right {
+    &.pf-m-align-end {
       justify-content: flex-end;
     }
 
@@ -12,7 +12,7 @@
     }
   }
 
-  .pf-v5-c-table tr.pf-m-clickable {
+  .pf-v6-c-table tr.pf-m-clickable {
     cursor: default;
   }
 }

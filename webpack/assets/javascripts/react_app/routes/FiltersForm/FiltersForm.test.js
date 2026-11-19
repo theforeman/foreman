@@ -228,7 +228,7 @@ describe('FiltersForm', () => {
     expect(screen.queryAllByText('access_dashboard')).toHaveLength(1);
     expect(screen.queryAllByText('view_hosts')).toHaveLength(0);
     act(() => {
-      fireEvent.click(screen.getByLabelText('resource type toggle'));
+      fireEvent.click(screen.getByLabelText('Resource type toggle'));
     });
     await act(async () => {
       fireEvent.click(screen.getByText('_Host_'));

@@ -4,7 +4,10 @@ import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-import { rtlHelpers } from '../../../../common/rtlTestHelpers';
+import {
+  flushPatternflyTimers,
+  rtlHelpers,
+} from '../../../../common/rtlTestHelpers';
 import API from '../../../../redux/API/API';
 import RegistrationCommandsPage from '../index';
 import { formData } from './fixtures';
@@ -63,6 +66,8 @@ describe('RegistrationCommandsPage', () => {
 
   it('shows only the current organization and location as options', async () => {
     renderPage();
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
     await waitForFormData();
 
     expect(
@@ -98,6 +103,8 @@ describe('RegistrationCommandsPage', () => {
 
   it('generates a registration command', async () => {
     renderPage();
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
     await waitForFormData();
 
     const generateButton = screen.getByRole('button', { name: 'Generate' });

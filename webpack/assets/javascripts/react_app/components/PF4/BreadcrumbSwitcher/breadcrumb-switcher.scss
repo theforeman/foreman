@@ -1,16 +1,15 @@
 .pf4-breadcrumb-switcher-popover {
-  .pf-v5-c-pagination,
-  .pf-v5-c-pagination.pf-m-bottom .pf-v5-c-options-menu,
-  .pf-v5-c-pagination.pf-m-bottom .pf-v5-c-pagination__nav,
-  .pf-v5-c-menu__list,
-  .pf-v5-c-menu__list-item{
+  .pf-v6-c-pagination,
+  .pf-v6-c-pagination.pf-m-bottom .pf-v6-c-pagination__nav,
+  .pf-v6-c-menu__list,
+  .pf-v6-c-menu__list-item{
     visibility: unset;
   }
 
-  .pf-v5-c-menu__footer {
+  .pf-v6-c-menu__footer {
     padding: 0;
 
-    .pf-v5-c-pagination {
+    .pf-v6-c-pagination {
       padding: 0;
       justify-content: center;
     }

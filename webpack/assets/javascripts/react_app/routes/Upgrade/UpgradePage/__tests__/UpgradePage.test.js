@@ -17,12 +17,16 @@ describe('UpgradePage', () => {
     expect(screen.getByText(/Foreman upgrade/i)).toBeInTheDocument();
 
     // Button from DocumentationCard
-    const docsLinkBtn = screen.getByText(/View upgrade documentation/i);
+    const docsLinkBtn = screen.getByRole('link', {
+      name: /View upgrade documentation/i,
+    });
     expect(docsLinkBtn).toBeInTheDocument();
     expect(docsLinkBtn).toHaveAttribute('href', '/links/upgrade/documentation');
 
     // Button from DocumentationFooter
-    const helpLinkBtn = screen.getByText(/Visit the community forum/i);
+    const helpLinkBtn = screen.getByRole('link', {
+      name: /Visit the community forum/i,
+    });
     expect(helpLinkBtn).toBeInTheDocument();
     expect(helpLinkBtn).toHaveAttribute('href', '/links/support');
   });

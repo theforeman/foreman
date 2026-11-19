@@ -76,7 +76,7 @@ export const ParametersTable = ({
     <>
       <Toolbar ouiaId="parameters-table-toolbar">
         <ToolbarContent>
-          <ToolbarItem variant="search-filter">
+          <ToolbarItem>
             <SearchInput
               placeholder={__('Find by name')}
               value={search}

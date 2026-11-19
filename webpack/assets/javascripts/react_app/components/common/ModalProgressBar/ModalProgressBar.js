@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Progress } from '@patternfly/react-core';
+import { Progress } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import './ModalProgressBar.scss';
 

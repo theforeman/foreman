@@ -1,51 +1,40 @@
 @import './colors.scss';
 
 .foreman-theme {
-  .pf-v5-c-page__sidebar {
-    --pf-v5-c-page__sidebar--Width: 250px;
-    --pf-v5-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+  .pf-v6-c-page__sidebar {
+    --pf-v6-c-page__sidebar--Width: 250px;
+    --pf-v6-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
 
-    #navigation-search .pf-v5-c-text-input-group {
-      background-color: var(--pf-v5-global--palette--white);
+    #navigation-search .pf-v6-c-text-input-group {
+      background-color: var(--pf-t--global--background--color--primary--default);
 
-      .pf-v5-c-text-input-group__icon{
-        color: var(--pf-v5-global--palette--black-500);
+      .pf-v6-c-text-input-group__icon{
+        color: var(--pf-t--global--icon--color--subtle);
       }
 
-      .pf-v5-c-text-input-group__text-input {
-        color: var(--pf-v5-global--palette--black-1000);
+      .pf-v6-c-text-input-group__text-input {
+        color: var(--pf-t--global--text--color--regular);
 
         &::placeholder {
-          color: var(--pf-v5-global--palette--black-500);
+          color: var(--pf-t--global--text--color--placeholder);
         }
 
         ::placeholder {
-          color: var(--pf-v5-global--palette--black-500);
+          color: var(--pf-t--global--text--color--placeholder);
         }
       }
     }
   }
 
-  .pf-v5-c-nav__link {
-    --pf-v5-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
-    --pf-v5-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-v5-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
-    --pf-v5-c-nav__link--focus--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
-    --pf-v5-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-v5-c-nav__link--after--BorderColor: #f0f0f0;
-    --pf-v5-c-nav__link--before--BorderColor: #f0f0f0;
-    --pf-v5-c-nav__link--Color: #{$navbar-default-link-color};
-  }
-
-  .pf-v5-c-nav__subnav {
-    --pf-v5-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-  }
-
-  .pf-v5-c-nav__item {
-    --pf-v5-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
-  }
-
-  .pf-v5-c-notification-badge {
-    --pf-v5-c-notification-badge--m-read--m-expanded--after--BackgroundColor: var(--pf-v5-global--palette--blue-500);
+  // PF6 nav is light; keep foreman's dark sidebar readable in every link state
+  .pf-v6-c-nav__link {
+    --pf-v6-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    --pf-v6-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-v6-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
+    --pf-v6-c-nav__link--Color: #{$navbar-default-link-color};
+    --pf-v6-c-nav__link--hover--Color: #{$navbar-default-link-color};
+    --pf-v6-c-nav__link--m-current--Color: #{$navbar-default-link-color};
+    --pf-v6-c-nav__link-icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-nav__link-icon--hover--Color: #{$navbar-default-link-color};
   }
 }

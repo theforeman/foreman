@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import {
   Breadcrumb as PfBreadcrumb,
   BreadcrumbItem,
-  TextContent,
-  Text,
+  Content,
   Truncate,
 } from '@patternfly/react-core';
 import './Breadcrumbs.scss';
@@ -19,11 +18,11 @@ const Breadcrumb = ({
 }) => {
   if (isTitle) {
     return (
-      <TextContent>
-        <Text ouiaId="breadcrumb_title" component="h1">
+      <Content>
+        <Content ouiaId="breadcrumb_title" component="h1">
           {items[0].caption}
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
     );
   }
 

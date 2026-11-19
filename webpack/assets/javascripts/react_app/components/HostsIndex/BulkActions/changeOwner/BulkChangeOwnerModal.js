@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Modal,
   Button,
-  TextContent,
-  Text,
+  Content,
   Select,
   SelectOption,
   SelectList,
   SelectGroup,
   MenuToggle,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import {
@@ -163,8 +162,8 @@ const BulkChangeOwnerModal = ({
       key="bulk-change-owner-modal"
       ouiaId="bulk-change-owner-modal"
     >
-      <TextContent>
-        <Text ouiaId="bulk-change-owner-options">
+      <Content>
+        <Content component="p" ouiaId="bulk-change-owner-options">
           {selectAllHostsMode ? (
             <FormattedMessage
               id="bulk-change-owner-warning-message-all"
@@ -183,10 +182,12 @@ const BulkChangeOwnerModal = ({
               }}
             />
           )}
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
       {userStatus === STATUS.RESOLVED && usergroupStatus === STATUS.RESOLVED && (
         <Select
+          // render inside the modal; a body portal gets aria-hidden by the open Modal
+          popperProps={{ appendTo: 'inline' }}
           id="single-grouped-select"
           isOpen={ownerSelectOpen}
           selected={ownerId}

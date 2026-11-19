@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { flushPatternflyTimers } from '../../../../common/rtlTestHelpers';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -49,9 +50,12 @@ describe('BulkPowerStateModal', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('Select power state'));
     });
+    await flushPatternflyTimers();
+    // role query: the option must be reachable by assistive tech inside the modal
     await act(async () => {
-      fireEvent.click(screen.getByText('Start'));
+      fireEvent.click(screen.getByRole('option', { name: 'Start' }));
     });
+    await flushPatternflyTimers();
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /apply/i }));
     });

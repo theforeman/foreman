@@ -16,24 +16,26 @@ html {
 }
 
 body {
-  font-family: var(--pf-v5-global--FontFamily--text);
-  font-size: var(--pf-v5-global--FontSize--sm);
-  font-weight: var(--pf-v5-global--FontWeight--normal);
-  line-height: var(--pf-v5-global--LineHeight--md);
+  font-family: var(--pf-t--global--font--family--body);
+  font-size: var(--pf-t--global--font--size--sm);
+  font-weight: var(--pf-t--global--font--weight--body--default);
+  line-height: var(--pf-t--global--font--line-height--body);
   text-align: left;
-  --pf-v5-c-page--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
+}
+
+// keep pages white: Rails pages render directly on the page background, not in
+// cards. PF6 declares this variable on .pf-v6-c-page itself, so set it there.
+body .pf-v6-c-page {
+  --pf-v6-c-page--BackgroundColor: var(--pf-t--global--background--color--primary--default);
 }
 
 a {
-  font-weight: var(--pf-v5-global--link--FontWeight);
-  color: var(--pf-v5-global--link--Color);
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
+  color: var(--pf-t--global--text--color--link--default);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
 
   &:hover {
-    --pf-v5-global--link--Color: var(--pf-v5-global--link--Color--hover);
-    --pf-v5-global--link--TextDecoration: var(
-      --pf-v5-global--link--TextDecoration--hover
-    );
+    color: var(--pf-t--global--text--color--link--hover);
+    text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
   }
 }
 
@@ -58,11 +60,11 @@ a {
   }
 }
 
-.pf-v5-c-alert {
-  line-height: var(--pf-v5-global--LineHeight--md);
+.pf-v6-c-alert {
+  line-height: var(--pf-t--global--font--line-height--body);
 
   h4 {
     margin: 0;
-    line-height: var(--pf-v5-global--LineHeight--md);
+    line-height: var(--pf-t--global--font--line-height--body);
   }
 }

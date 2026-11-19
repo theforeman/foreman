@@ -42,7 +42,7 @@ describe('Personal access token modal', () => {
     const nameField = screen.getByLabelText('personal access token name input');
     const dateField = screen.getByLabelText('expiration date picker');
     const timeField = screen.getByLabelText('expiration time picker');
-    const confirmButton = screen.getByText('Confirm');
+    const confirmButton = screen.getByRole('button', { name: 'Confirm' });
 
     await act(async () => {
       fireEvent.change(nameField, {

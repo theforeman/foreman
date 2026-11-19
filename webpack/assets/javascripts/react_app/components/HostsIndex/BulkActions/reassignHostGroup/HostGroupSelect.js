@@ -67,13 +67,12 @@ const HostGroupSelect = ({
           {...(!inputValue ? { style: { display: 'none' } } : {})}
         >
           <Button
+            icon={<TimesIcon aria-hidden />}
             variant="plain"
             onClick={onClearButtonClick}
             aria-label="Clear input value"
             ouiaId="hostgroup-select-clear-button"
-          >
-            <TimesIcon aria-hidden />
-          </Button>
+          />
         </TextInputGroupUtilities>
       </TextInputGroup>
     </MenuToggle>
@@ -83,6 +82,8 @@ const HostGroupSelect = ({
     <div style={{ marginTop: '1em' }}>
       <h3>{headerText}</h3>
       <Select
+        // render inside the modal; a body portal gets aria-hidden by the open Modal
+        popperProps={{ appendTo: 'inline' }}
         id="typeahead-select"
         isOpen={isOpen}
         selected={selected}

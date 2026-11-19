@@ -54,10 +54,11 @@ const DiskForm = ({
               'aria-label': 'Storage pod select',
               ouiaId: 'select-storage-pod',
             }}
-            selectOptions={Object.entries(storagePods || {}).map(
+            initialOptions={Object.entries(storagePods || {}).map(
               ([key, value]) => ({
                 content: value,
                 value: key,
+                selected: key === storagePod,
               })
             )}
             noOptionsFoundMessage={filter =>
@@ -69,7 +70,6 @@ const DiskForm = ({
             onSelect={(_ev, selectedValue) => {
               updateStoragePod(selectedValue);
             }}
-            selected={storagePod}
             className="storage-pod"
             key="storagePodsSelect"
             placeholder=""
@@ -90,10 +90,11 @@ const DiskForm = ({
               ouiaId: 'select-datastore',
             }}
             isDisabled={vmExists}
-            selectOptions={Object.entries(datastores || {}).map(
+            initialOptions={Object.entries(datastores || {}).map(
               ([key, value]) => ({
                 content: value,
                 value: key,
+                selected: key === datastore,
               })
             )}
             noOptionsFoundMessage={filter =>
@@ -105,7 +106,6 @@ const DiskForm = ({
             onSelect={(_ev, selectedValue) => {
               updateDatastore(selectedValue);
             }}
-            selected={datastore}
             className="datastore"
             key="datastoresSelect"
             placeholder=""
@@ -157,7 +157,7 @@ const DiskForm = ({
       <FormGroup
         hasNoPaddingTop
         label={__('Thin provision')}
-        labelIcon={
+        labelHelp={
           <LabelIcon
             text={__(
               'Allocates disk space on demand as data is written, rather than reserving the full size upfront. Saves storage space but may have slightly lower write performance on first access.'
@@ -179,7 +179,7 @@ const DiskForm = ({
       <FormGroup
         hasNoPaddingTop
         label={__('Eager zero')}
-        labelIcon={
+        labelHelp={
           <LabelIcon
             text={__(
               'Pre-allocates and zeros all disk blocks at creation time. Provides the best write performance but takes longer to create and reserves the full disk size immediately.'

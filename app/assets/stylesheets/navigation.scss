@@ -19,10 +19,30 @@
   }
 }
 
-#foreman-page .pf-v5-c-masthead  {
-  background: var(--pf-v5-c-masthead--BackgroundColor) image-url('navbar.png');
+#foreman-page .pf-v6-c-masthead  {
+  background: var(--pf-v6-c-masthead--BackgroundColor) image-url('navbar.png');
 
-  .user-icon {
-    margin-right: 10px;
+  // navbar.png is dark, while PF6 styles masthead content for light backgrounds
+  .pf-v6-c-menu-toggle {
+    --pf-v6-c-menu-toggle--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle--hover--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle--expanded--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle--m-plain--Color: #{$navbar-default-link-color};
+  }
+
+  .pf-v6-c-masthead__toggle .pf-v6-c-button {
+    --pf-v6-c-button--m-plain--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--m-plain--hover--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--m-plain--m-clicked--Color: #{$navbar-default-link-color};
+  }
+
+  // NotificationBadge is a stateful button; its read state uses the base colors
+  #notification-badge {
+    --pf-v6-c-button--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--hover--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--m-clicked--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button__icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--hover__icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--m-clicked__icon--Color: #{$navbar-default-link-color};
   }
 }

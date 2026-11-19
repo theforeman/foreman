@@ -78,7 +78,7 @@ describe('ConfirmModal integration', () => {
       expect(
         screen
           .getByRole('dialog')
-          .querySelector('.pf-v5-c-modal-box__title-icon')
+          .querySelector('.pf-v6-c-modal-box__title-icon')
       ).toBeInTheDocument();
       expect(screen.getByText('Warning alert:')).toBeInTheDocument();
     });

@@ -61,6 +61,8 @@ const TaxonomySelect = ({
         id={`select-${taxonomy}`}
         ouiaId={`select-${taxonomy}`}
         shouldFocusToggleOnSelect
+        // render inside the modal; a body portal gets aria-hidden by the open Modal
+        popperProps={{ appendTo: 'inline' }}
         {...selectProps}
       >
         {children}

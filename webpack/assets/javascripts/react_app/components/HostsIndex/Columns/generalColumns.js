@@ -2,14 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
-import {
-  Button,
-  Icon,
-  Popover,
-  TextContent,
-  TextList,
-  TextListItem,
-} from '@patternfly/react-core';
+import { Button, Icon, Popover, Content } from '@patternfly/react-core';
 import { UserIcon, UsersIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import { foremanUrl } from '../../../common/helpers';
@@ -40,24 +33,23 @@ const generalColumns = [
         <Popover
           id="host-index-global-status-tooltip"
           bodyContent={
-            <TextContent>
-              <TextList isPlain>
+            <Content>
+              <Content component="ul" isPlainList>
                 {statuses.map((status, index) => (
-                  <TextListItem key={`status-list-${index}`}>
+                  <Content component="li" key={`status-list-${index}`}>
                     {status}
-                  </TextListItem>
+                  </Content>
                 ))}
-              </TextList>
-            </TextContent>
+              </Content>
+            </Content>
           }
         >
           <Button
+            icon={<GlobalStatusIcon status={globalStatus} />}
             variant="plain"
             ouiaId="plain-button-popover"
             style={{ padding: 0 }}
-          >
-            <GlobalStatusIcon status={globalStatus} />
-          </Button>
+          />
         </Popover>
         <Link to={`hosts/${name}`}>{displayName}</Link>
       </span>
@@ -121,7 +113,12 @@ const generalColumns = [
         hostDetails?.owner_type !== 'User' ? UsersIcon : UserIcon;
       return (
         <TableText>
-          <Icon style={{ color: '#2B9AF3', marginRight: '5px' }}>
+          <Icon
+            style={{
+              color: 'var(--pf-t--global--icon--color--brand--default)',
+              marginRight: '5px',
+            }}
+          >
             <OwnerIcon />
           </Icon>
           {hostDetails?.owner_name}

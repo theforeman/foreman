@@ -39,11 +39,13 @@ module.exports = [
    */
   'patternfly-react',
   '@patternfly/react-core',
+  '@patternfly/react-core/deprecated',
   '@patternfly/react-icons',
   '@patternfly/react-table',
+  '@patternfly/react-table/deprecated',
   '@patternfly/react-tokens',
   '@patternfly/react-styles',
-  '@patternfly/react-charts',
+  '@patternfly/react-charts/victory',
   '@patternfly/react-templates',
 
   /**

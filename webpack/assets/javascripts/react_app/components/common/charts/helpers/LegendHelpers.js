@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChartLabel, ChartPoint } from '@patternfly/react-charts';
+import { ChartLabel, ChartPoint } from '@patternfly/react-charts/victory';
 import { chart_color_black_500 as chartColorBlack500 } from '@patternfly/react-tokens';
 import './LegendHelpers.scss';
 import { MS_PER_SECOND } from '../../../../constants';

@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { rtlHelpers } from '../../../../common/rtlTestHelpers';
+import { flushPatternflyTimers, rtlHelpers } from '../../../../common/rtlTestHelpers';
 
 import EditorNavbar from '../EditorNavbar';
 import { editorOptions, showBooleans } from '../../Editor.fixtures';
@@ -31,6 +31,8 @@ describe('EditorNavbar', () => {
 
   it('renders editor tabs', async () => {
     renderNavbar();
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Editor' })).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Changes' })).toBeInTheDocument();
@@ -39,6 +41,8 @@ describe('EditorNavbar', () => {
 
   it('disables changes tab when there is no diff', async () => {
     renderNavbar({ isDiff: false });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Changes' })).toHaveAttribute(
       'aria-disabled',
@@ -56,6 +60,8 @@ describe('EditorNavbar', () => {
       selectedView: 'preview',
       isRendering: true,
     });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     userEvent.click(await screen.findByRole('tab', { name: 'Editor' }));
     userEvent.click(screen.getByRole('tab', { name: 'Changes' }));
@@ -68,6 +74,8 @@ describe('EditorNavbar', () => {
 
   it('shows host filter on preview tab', async () => {
     renderNavbar({ selectedView: 'preview' });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(
       await screen.findByPlaceholderText('Filter Host...')
@@ -76,6 +84,8 @@ describe('EditorNavbar', () => {
 
   it('shows preview loading spinner', async () => {
     renderNavbar({ selectedView: 'preview', isLoading: true });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     await screen.findByRole('tab', { name: 'Preview' });
 

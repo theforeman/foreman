@@ -70,7 +70,7 @@ const OperatingSystem = ({
   return (
     <FormGroup
       label={__('Operating system')}
-      labelIcon={
+      labelHelp={
         <LabelIcon
           text={__(
             'Required for registration without subscription manager. Can be specified by host group.'

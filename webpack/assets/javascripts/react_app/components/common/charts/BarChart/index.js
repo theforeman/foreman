@@ -9,7 +9,7 @@ import {
   ChartTooltip,
   ChartVoronoiContainer,
   getTheme,
-} from '@patternfly/react-charts';
+} from '@patternfly/react-charts/victory';
 import { Icon } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { noop } from '../../../../common/helpers';
@@ -95,7 +95,7 @@ const BarChart = ({
     if (datum?.color) return datum.color;
     const index = getDatumIndex(datum);
     if (!colorScale.length) {
-      return 'var(--pf-v5-global--Color--100)';
+      return 'var(--pf-t--global--text--color--regular)';
     }
     return colorScale[index % colorScale.length];
   };

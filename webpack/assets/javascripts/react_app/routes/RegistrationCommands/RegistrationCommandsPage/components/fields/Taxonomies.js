@@ -23,7 +23,7 @@ const Taxonomies = ({
     <FormGroup
       label="Organization"
       fieldId="reg_organization"
-      labelIcon={
+      labelHelp={
         <LabelIcon
           text={__(
             'If no organization is set, the default organization of the user is assumed.'
@@ -50,7 +50,7 @@ const Taxonomies = ({
     <FormGroup
       label="Location"
       fieldId="reg_location"
-      labelIcon={
+      labelHelp={
         <LabelIcon
           text={__(
             'If no location is set, the default location of the user is assumed.'

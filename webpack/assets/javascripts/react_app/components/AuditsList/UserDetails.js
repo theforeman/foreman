@@ -19,7 +19,7 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
 
   if (isAuditLogin) {
     return (
-      <span className="pf-v5-u-font-weight-bold pf-v5-u-font-size-sm">
+      <span className="pf-v6-u-font-weight-bold pf-v6-u-font-size-sm">
         <Tooltip content={title}>
           <a {...linkProps}>{UserDisplayName}</a>
         </Tooltip>
@@ -31,7 +31,7 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
   }
 
   return (
-    <span className="pf-v5-u-font-weight-bold pf-v5-u-font-size-sm">
+    <span className="pf-v6-u-font-weight-bold pf-v6-u-font-size-sm">
       <Tooltip content={title}>
         <a {...linkProps}>{UserDisplayName}</a>
       </Tooltip>

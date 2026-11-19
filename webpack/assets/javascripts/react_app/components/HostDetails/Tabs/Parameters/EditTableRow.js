@@ -20,14 +20,15 @@ import {
   HelperTextItem,
   Icon,
 } from '@patternfly/react-core';
-import {
-  SelectVariant,
-  Select,
-  SelectOption,
-} from '@patternfly/react-core/deprecated';
+import { SimpleSelect } from '@patternfly/react-templates';
 import { APIActions } from '../../../../redux/API';
 import { sprintf, translate as __ } from '../../../../common/I18n';
-import { HOST_PARAM, columnNames, typeOptions } from './ParametersConstants';
+import {
+  BOOLEAN_PLACEHOLDER,
+  HOST_PARAM,
+  columnNames,
+  typeOptions,
+} from './ParametersConstants';
 import { updateHost } from '../../ActionsBar/actions';
 import { RowActions } from './RowActions';
 
@@ -42,8 +43,6 @@ export const EditParametersTableRow = ({
   const [name, setName] = useState(param.name);
   const [type, setType] = useState(param.parameter_type);
   const [value, setValue] = useState(param.value);
-  const [selectIsOpen, setSelectIsOpen] = useState(false);
-  const [selectValueIsOpen, setSelectValueIsOpen] = useState(false);
   const [isHide, setIsHide] = useState(param['hidden_value?']);
 
   const dispatch = useDispatch();
@@ -90,18 +89,21 @@ export const EditParametersTableRow = ({
     }
   };
 
-  const onSelect = (event, selection, isPlaceholder) => {
-    if (isPlaceholder) clearSelection();
-    else {
-      setValue(selection);
-      setSelectValueIsOpen(false);
-    }
-  };
+  const onBooleanSelect = (_event, selection) =>
+    setValue(selection === BOOLEAN_PLACEHOLDER ? '' : selection);
 
-  const clearSelection = () => {
-    setValue('');
-    setSelectValueIsOpen(false);
-  };
+  const typeSelectOptions = typeOptions.map(option => ({
+    value: option,
+    content: option,
+    selected: option === type,
+  }));
+  const booleanSelectOptions = [BOOLEAN_PLACEHOLDER, 'true', 'false'].map(
+    option => ({
+      value: option,
+      content: option,
+      selected: option === value?.toString(),
+    })
+  );
 
   return (
     <Tr ouiaId={`edit-parameters-table-row-${rowIndex}`} key={rowIndex}>
@@ -136,42 +138,29 @@ export const EditParametersTableRow = ({
         </Form>
       </Td>
       <Td dataLabel={columnNames.type}>
-        <Select
+        <SimpleSelect
           ouiaId={`edit-parameters-table-row-type-${rowIndex}`}
-          variant={SelectVariant.single}
-          aria-label={`Select ${param.name} type`}
-          onToggle={(_event, val) => setSelectIsOpen(val)}
-          selections={type}
-          isOpen={selectIsOpen}
-          onSelect={(event, selection) => {
-            setSelectIsOpen(false);
-            setType(selection);
-          }}
-        >
-          {typeOptions.map((option, index) => (
-            <SelectOption key={index} value={option} />
-          ))}
-        </Select>
+          toggleWidth="100%"
+          toggleProps={{ 'aria-label': `Select ${param.name} type` }}
+          initialOptions={typeSelectOptions}
+          onSelect={(_event, selection) => setType(selection)}
+        />
       </Td>
       <Td dataLabel={columnNames.value}>
         <>
           {type === 'boolean' ? (
-            <Select
+            <SimpleSelect
               ouiaId={`edit-parameters-table-row-boolean-${rowIndex}`}
-              variant={SelectVariant.single}
-              aria-label={`Select ${param.name} value`}
-              selections={value?.toString()}
-              onToggle={(_event, val) => setSelectValueIsOpen(val)}
-              isOpen={selectValueIsOpen}
-              onSelect={onSelect}
-            >
-              <SelectOption value="select" isPlaceholder />
-              <SelectOption value="true" />
-              <SelectOption value="false" />
-            </Select>
+              toggleWidth="100%"
+              toggleProps={{ 'aria-label': `Select ${param.name} value` }}
+              placeholder={BOOLEAN_PLACEHOLDER}
+              initialOptions={booleanSelectOptions}
+              onSelect={onBooleanSelect}
+            />
           ) : (
             <TextArea
-              ouiaId={`edit-parameters-table-row-value-${rowIndex}`}
+              // PF6 TextArea has no ouiaId prop; keep the QE hook as a plain attribute
+              data-ouia-component-id={`edit-parameters-table-row-value-${rowIndex}`}
               aria-label={`${param.name} value text`}
               value={typeof value === 'object' ? JSON.stringify(value) : value}
               onChange={(_event, val) => setValue(val)}
@@ -196,6 +185,11 @@ export const EditParametersTableRow = ({
           <>
             <Tooltip content={__('Cancel')}>
               <Button
+                icon={
+                  <Icon>
+                    <TimesIcon />
+                  </Icon>
+                }
                 ouiaId={`edit-parameters-table-row-cancel-${rowIndex}`}
                 aria-label={`cancel ${param.name} edit`}
                 variant="plain"
@@ -205,14 +199,15 @@ export const EditParametersTableRow = ({
                   setType(param.parameter_type);
                   setValue(param.value);
                 }}
-              >
-                <Icon>
-                  <TimesIcon />
-                </Icon>
-              </Button>
+              />
             </Tooltip>
             <Tooltip content={__('Submit edit')}>
               <Button
+                icon={
+                  <Icon>
+                    <CheckIcon />
+                  </Icon>
+                }
                 ouiaId={`edit-parameters-table-row-submit-${rowIndex}`}
                 aria-label={`submit ${param.name} edit`}
                 variant="plain"
@@ -221,11 +216,7 @@ export const EditParametersTableRow = ({
                   onSubmit();
                 }}
                 isDisabled={name.includes(' ')}
-              >
-                <Icon>
-                  <CheckIcon />
-                </Icon>
-              </Button>
+              />
             </Tooltip>
           </>
         </Td>

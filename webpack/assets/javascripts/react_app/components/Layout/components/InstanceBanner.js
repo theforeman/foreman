@@ -47,7 +47,7 @@ export const InstanceBanner = ({ data }) => {
     instance && (
       <Banner
         isSticky
-        style={{ '--pf-v5-c-banner--BackgroundColor': instanceColor }}
+        style={{ '--pf-v6-c-banner--BackgroundColor': instanceColor }}
         className="instance-banner"
       >
         <div

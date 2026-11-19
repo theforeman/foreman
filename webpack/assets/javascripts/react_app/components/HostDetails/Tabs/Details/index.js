@@ -26,7 +26,7 @@ const DetailsTab = ({ response, status, hostName }) => {
     : __('Expand all cards');
 
   return (
-    <PageSection className="host-details-cards-section">
+    <PageSection hasBodyWrapper={false} className="host-details-cards-section">
       <div className="host-details-tab-item details-tab">
         <Flex style={{ marginBottom: '1rem' }}>
           <FlexItem align={{ default: 'alignLeft' }}>

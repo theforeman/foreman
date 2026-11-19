@@ -12,20 +12,21 @@
   }
 }
 
-#data-toolbar.pf-v5-c-toolbar {
+#data-toolbar.pf-v6-c-toolbar {
   // Override for unupdated plugins that use unupdated foreman CSS
   display: grid;
   justify-content: normal;
 }
 
-#foreman-page .pf-v5-c-masthead__brand {
+#foreman-page .pf-v6-c-masthead__brand {
   padding-right: 15px;
 
-  &:hover {
+  // PF6 MastheadBrand is a div; the link is the MastheadLogo inside it
+  .pf-v6-c-masthead__logo:hover {
     text-decoration: none;
   }
 
-  .pf-v5-c-brand {
+  .pf-v6-c-brand {
     height: 34px;
   }
 

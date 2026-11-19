@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, ModalVariant, Checkbox } from '@patternfly/react-core';
+import { Button, Checkbox } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { translate as __ } from '../../common/I18n';
 import { closeConfirmModal, selectConfirmModal } from './slice';
 

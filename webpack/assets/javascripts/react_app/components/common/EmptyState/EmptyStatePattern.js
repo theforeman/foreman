@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import {
   EmptyState,
   EmptyStateVariant,
   EmptyStateBody,
   EmptyStateActions,
-  EmptyStateHeader,
   EmptyStateFooter,
   Icon,
 } from '@patternfly/react-core';
@@ -13,6 +14,20 @@ import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 import { iconMapper } from '../Icon/IconMapper';
 import './EmptyState.scss';
+
+const resolveIcon = icon => {
+  const iconElement = (typeof icon === 'string' ? iconMapper(icon) : icon) || (
+    <PlusCircleIcon size="2x" />
+  );
+  // Wrap icon in Icon component if it's not already wrapped
+  if (
+    React.isValidElement(iconElement) &&
+    iconElement.type?.displayName !== 'Icon'
+  ) {
+    return <Icon>{iconElement}</Icon>;
+  }
+  return iconElement;
+};
 
 const EmptyStatePattern = props => {
   const {
@@ -48,25 +63,30 @@ const EmptyStatePattern = props => {
     );
   };
 
-  const EmptyStateIcon = () => {
-    let iconElement = typeof icon === 'string' ? iconMapper(icon) : icon;
-    iconElement = iconElement || <PlusCircleIcon size="2x" />;
-    // Wrap icon in Icon component if it's not already wrapped
-    if (
-      React.isValidElement(iconElement) &&
-      iconElement.type?.displayName !== 'Icon'
-    ) {
-      return <Icon>{iconElement}</Icon>;
-    }
-    return iconElement;
-  };
+  // PF6 renders EmptyState's `icon` above the title; children go below it
+  const EmptyStateIcon = useMemo(() => {
+    const iconElement = resolveIcon(icon);
+    const ForemanEmptyStateIcon = ({ className, ...iconProps }) => (
+      <span
+        className={classNames('empty-state-icon', className)}
+        {...iconProps}
+      >
+        {iconElement}
+      </span>
+    );
+    ForemanEmptyStateIcon.propTypes = { className: PropTypes.string };
+    ForemanEmptyStateIcon.defaultProps = { className: undefined };
+    return ForemanEmptyStateIcon;
+  }, [icon]);
 
   return (
-    <EmptyState variant={variant} className="foreman-empty-state">
-      <span className="empty-state-icon">
-        <EmptyStateIcon />
-      </span>
-      <EmptyStateHeader titleText={<>{header}</>} headingLevel="h5" />
+    <EmptyState
+      headingLevel="h5"
+      icon={EmptyStateIcon}
+      titleText={<>{header}</>}
+      variant={variant}
+      className="foreman-empty-state"
+    >
       <EmptyStateBody>
         <div className="empty-state-description">{description}</div>
         <DocumentationBlock />

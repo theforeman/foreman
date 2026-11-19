@@ -3,16 +3,14 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
-  Modal,
-  ModalVariant,
   Button,
   Form,
   FormGroup,
   TextInput,
-  TextContent,
-  Text,
+  Content,
   Alert,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { TypeaheadSelect } from '@patternfly/react-templates';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __, sprintf } from '../../../../common/I18n';
@@ -96,8 +94,9 @@ const BulkEditParametersModal = ({
       (commonParameters?.results || []).map(param => ({
         content: param.name,
         value: param.name,
+        selected: param.name === parameterName,
       })),
-    [commonParameters]
+    [commonParameters, parameterName]
   );
 
   const isSubmitting = updateStatus === STATUS.PENDING;
@@ -138,8 +137,8 @@ const BulkEditParametersModal = ({
         </Button>,
       ]}
     >
-      <TextContent className="pf-v5-u-mb-md">
-        <Text component="p" ouiaId="bulk-set-parameters-hosts-count">
+      <Content className="pf-v6-u-mb-md">
+        <Content component="p" ouiaId="bulk-set-parameters-hosts-count">
           <FormattedMessage
             id="bulk-set-parameters-description"
             defaultMessage="Set a host parameter override on {boldCount} selected {count, plural, one {host} other {hosts}}."
@@ -148,24 +147,24 @@ const BulkEditParametersModal = ({
               boldCount: <strong>{selectedCount}</strong>,
             }}
           />
-        </Text>
+        </Content>
         {canCreateParameters && (
-          <Text
+          <Content
             component="small"
-            className="pf-v5-u-color-200"
+            className="pf-v6-u-text-color-subtle"
             ouiaId="bulk-set-parameters-explanation"
           >
             {__(
               'Select a global parameter and a value. Hosts that already have this parameter will be updated; others will get a new host override.'
             )}
-          </Text>
+          </Content>
         )}
-      </TextContent>
+      </Content>
       {!canCreateParameters && (
         <Alert
           variant="info"
           isInline
-          className="pf-v5-u-mb-md"
+          className="pf-v6-u-mb-md"
           title={__(
             'You can only update parameters that already exist on the selected hosts. Hosts that do not have this parameter will be skipped.'
           )}
@@ -181,8 +180,7 @@ const BulkEditParametersModal = ({
           >
             <TypeaheadSelect
               id="bulk-set-parameter-name"
-              selected={parameterName}
-              selectOptions={selectOptions}
+              initialOptions={selectOptions}
               placeholder={__('Select a global parameter')}
               noOptionsFoundMessage={filter =>
                 filter

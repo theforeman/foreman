@@ -40,7 +40,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
     <FormGroup
       label={__('Token life time')}
       fieldId="reg_token_life_time_input"
-      labelIcon={
+      labelHelp={
         <LabelIcon text={__('Expiration of the authorization token.')} />
       }
     >

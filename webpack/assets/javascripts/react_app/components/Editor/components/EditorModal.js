@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import PropTypes from 'prop-types';
 
 import EditorView from './EditorView';

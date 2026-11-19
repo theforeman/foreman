@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { rtlHelpers } from '../../../common/rtlTestHelpers';
+import { flushPatternflyTimers, rtlHelpers } from '../../../common/rtlTestHelpers';
 
 import Editor from '../Editor';
 import { editorOptions } from '../Editor.fixtures';
@@ -23,6 +23,8 @@ const renderEditor = (props = {}) => {
 describe('Editor', () => {
   it('renders editor tabs', async () => {
     renderEditor();
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Editor' })).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Changes' })).toBeInTheDocument();
@@ -31,6 +33,8 @@ describe('Editor', () => {
 
   it('calls initializeEditor on mount', async () => {
     const { initializeEditor } = renderEditor();
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     await screen.findByRole('tab', { name: 'Editor' });
 
@@ -45,6 +49,8 @@ describe('Editor', () => {
 
   it('selects the input tab by default', async () => {
     renderEditor({ selectedView: 'input' });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Editor' })).toHaveAttribute(
       'aria-selected',
@@ -54,6 +60,8 @@ describe('Editor', () => {
 
   it('selects the diff tab when diff view is active', async () => {
     renderEditor({ selectedView: 'diff' });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Changes' })).toHaveAttribute(
       'aria-selected',
@@ -63,6 +71,8 @@ describe('Editor', () => {
 
   it('selects the preview tab when preview view is active', async () => {
     renderEditor({ selectedView: 'preview', isRendering: true });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Preview' })).toHaveAttribute(
       'aria-selected',
@@ -76,6 +86,8 @@ describe('Editor', () => {
       data: { ...editorOptions.data, template: 'old template' },
       value: 'new value',
     });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByRole('tab', { name: 'Changes' })).toHaveAttribute(
       'aria-selected',
@@ -92,6 +104,8 @@ describe('Editor', () => {
       renderedEditorValue: 'old rendered value',
       value: 'current value',
     });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     expect(await screen.findByText('Preview is outdated.')).toBeInTheDocument();
     expect(
@@ -114,6 +128,8 @@ describe('Editor', () => {
         safemodeRenderPath: '/safemode/path',
       },
     });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     userEvent.click(
       await screen.findByRole('button', { name: 'Preview' })
@@ -130,6 +146,8 @@ describe('Editor', () => {
     const dismissErrorToast = jest.fn();
 
     renderEditor({ dismissErrorToast, showError: true, errorText: 'Preview failed' });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     userEvent.click(await screen.findByRole('button', { name: /Close/i }));
 
@@ -138,6 +156,8 @@ describe('Editor', () => {
 
   it('renders the hidden value textarea when editable', async () => {
     renderEditor({ readOnly: false, value: 'editor value' });
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     await screen.findByRole('tab', { name: 'Editor' });
 
@@ -154,6 +174,8 @@ describe('Editor', () => {
         value="editor value"
       />
     );
+    // let PF6 Tabs/Popper zero-delay timers run before the test unmounts
+    await flushPatternflyTimers();
 
     await screen.findByRole('tab', { name: 'Editor' });
     expect(screen.getByDisplayValue('editor value')).toBeInTheDocument();
@@ -166,6 +188,7 @@ describe('Editor', () => {
         value="editor value"
       />
     );
+    await flushPatternflyTimers();
 
     expect(screen.queryByDisplayValue('editor value')).not.toBeInTheDocument();
   });

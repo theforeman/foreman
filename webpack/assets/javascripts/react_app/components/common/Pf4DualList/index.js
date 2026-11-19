@@ -1,5 +1,5 @@
 import React from 'react';
-import { DualListSelector } from '@patternfly/react-core';
+import { DualListSelector } from '@patternfly/react-core/deprecated';
 import { translate as __ } from '../../../common/I18n';
 
 export const Pf4DualList = props => (

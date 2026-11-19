@@ -68,7 +68,7 @@ const ModelForm = ({ initialValues, handleSubmit, isSubmitting }) => {
       </FormGroup>
       <FormGroup
         label={__('Hardware model')}
-        labelIcon={<LabelIcon text={HARDWARE_MODEL_HELP} />}
+        labelHelp={<LabelIcon text={HARDWARE_MODEL_HELP} />}
       >
         <TextInput
           id="model_hardware_model"
@@ -81,7 +81,7 @@ const ModelForm = ({ initialValues, handleSubmit, isSubmitting }) => {
       </FormGroup>
       <FormGroup
         label={__('Vendor class')}
-        labelIcon={<LabelIcon text={VENDOR_CLASS_HELP} />}
+        labelHelp={<LabelIcon text={VENDOR_CLASS_HELP} />}
       >
         <TextInput
           id="model_vendor_class"
@@ -92,7 +92,7 @@ const ModelForm = ({ initialValues, handleSubmit, isSubmitting }) => {
           onChange={handleChange('vendor_class')}
         />
       </FormGroup>
-      <FormGroup label={__('Info')} labelIcon={<LabelIcon text={INFO_HELP} />}>
+      <FormGroup label={__('Info')} labelHelp={<LabelIcon text={INFO_HELP} />}>
         <TextArea
           id="model_info"
           name="model_info"

@@ -7,16 +7,17 @@ import { HelpIcon } from '@patternfly/react-icons';
 const LabelIcon = ({ text }) => (
   <Popover bodyContent={text}>
     <Button
+      icon={
+        <Icon isInline>
+          <HelpIcon />
+        </Icon>
+      }
       ouiaId="label-icon-help"
       variant="plain"
       aria-label="Help"
       onClick={e => e.preventDefault()}
       isInline
-    >
-      <Icon isInline>
-        <HelpIcon />
-      </Icon>
-    </Button>
+    />
   </Popover>
 );
 

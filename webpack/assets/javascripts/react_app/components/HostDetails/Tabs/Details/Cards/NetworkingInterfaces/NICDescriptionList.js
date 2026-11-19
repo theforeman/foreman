@@ -44,12 +44,11 @@ const NICDescriptionList = ({ status, foremanInterface }) => {
   const [isExpanded, setIsExpanded] = useState(primary);
   return (
     <Accordion className="interface-accordion">
-      <AccordionItem>
+      <AccordionItem isExpanded={isExpanded}>
         <AccordionToggle
           onClick={() => {
             setIsExpanded(curr => !curr);
           }}
-          isExpanded={isExpanded}
         >
           <Grid>
             <GridItem span={7} className="interface-name">
@@ -74,7 +73,7 @@ const NICDescriptionList = ({ status, foremanInterface }) => {
             </GridItem>
           </Grid>
         </AccordionToggle>
-        <AccordionContent isHidden={!isExpanded}>
+        <AccordionContent>
           <DescriptionList isCompact>
             <DescriptionListGroup>
               <DescriptionListTerm>{__('FQDN')}</DescriptionListTerm>

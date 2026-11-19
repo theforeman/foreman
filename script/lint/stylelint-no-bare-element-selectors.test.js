@@ -105,7 +105,7 @@ describe(ruleName, async () => {
       expectNoWarning('.parent { div { color: red; } }'));
 
     it('PF class selector', () =>
-      expectNoWarning('.pf-v5-c-button { color: red; }'));
+      expectNoWarning('.pf-v6-c-button { color: red; }'));
 
     it('universal selector', () =>
       expectNoWarning('* { box-sizing: border-box; }'));

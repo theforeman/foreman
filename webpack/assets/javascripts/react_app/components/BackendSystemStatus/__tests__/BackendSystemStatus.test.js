@@ -78,7 +78,7 @@ describe('BackendSystemStatus', () => {
     expect(screen.getByText('502 Bad Gateway')).toBeInTheDocument();
     
     // Warning icon due to failures
-    const warningIcon = container.querySelector('.pf-v5-c-icon__content.pf-m-warning');
+    const warningIcon = container.querySelector('.pf-v6-c-icon__content.pf-m-warning');
     expect(warningIcon).toBeInTheDocument();
     
     // CSS classes
@@ -93,7 +93,7 @@ describe('BackendSystemStatus', () => {
   it('shows success status when all services are OK', () => {
     const { container } = render(<BackendSystemStatus ping={mockPingDataAllOK} />);
     
-    const successIcon = container.querySelector('.pf-v5-c-icon__content.pf-m-success');
+    const successIcon = container.querySelector('.pf-v6-c-icon__content.pf-m-success');
     expect(successIcon).toBeInTheDocument();
   });
 

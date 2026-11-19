@@ -47,7 +47,7 @@ const Layout = ({
       <FlexItem grow={{ default: 'grow' }} style={{ minHeight: 0 }}>
         <Page
           mainContainerId="foreman-main-container"
-          header={
+          masthead={
             <Header
               data={data}
               onNavToggle={onNavToggle}

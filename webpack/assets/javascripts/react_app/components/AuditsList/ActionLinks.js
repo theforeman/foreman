@@ -15,7 +15,7 @@ const ActionLinks = ({ allowedActions }) => (
           key={index}
           href={url}
           isDisabled={disabled}
-          className="pf-v5-u-float-right"
+          className="pf-v6-u-float-inline-end"
         >
           {name || title}
         </Button>

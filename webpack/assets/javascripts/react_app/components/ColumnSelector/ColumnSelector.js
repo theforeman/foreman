@@ -4,11 +4,10 @@ import {
   Button,
   InputGroup,
   InputGroupItem,
-  Modal,
-  ModalVariant,
   TreeView,
   Icon,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { ColumnsIcon } from '@patternfly/react-icons';
 import { cloneDeep } from 'lodash';
 import { translate as __ } from '../../common/I18n';

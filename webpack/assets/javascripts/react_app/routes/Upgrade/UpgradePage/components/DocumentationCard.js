@@ -14,7 +14,7 @@ import { translate as __ } from '../../../../common/I18n';
 import { getUpgradeURL } from '../../../../common/helpers';
 
 const DocumentationCard = () => (
-  <Card isFlat ouiaId="upgrade-docs-documentation-card">
+  <Card ouiaId="upgrade-docs-documentation-card">
     <CardTitle component="h4">{__('Upgrade documentation')}</CardTitle>
     <CardBody>
       {__(

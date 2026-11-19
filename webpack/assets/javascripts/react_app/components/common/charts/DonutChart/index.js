@@ -4,7 +4,7 @@ import {
   ChartDonut,
   ChartThemeColor,
   ChartTooltip,
-} from '@patternfly/react-charts';
+} from '@patternfly/react-charts/victory';
 import { Icon } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { getDonutChartConfig } from '../../../../../services/charts/DonutChartService';

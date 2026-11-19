@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { EyeIcon } from '@patternfly/react-icons';
-import {
-  Tooltip,
-  TooltipPosition,
-  Modal,
-  ModalVariant,
-  Button,
-  Icon,
-} from '@patternfly/react-core';
+import { Tooltip, TooltipPosition, Button, Icon } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
@@ -27,16 +21,17 @@ const ImpersonateIcon = props => {
         position={TooltipPosition.bottom}
       >
         <Button
+          icon={
+            <Icon className="blink-image">
+              <EyeIcon />
+            </Icon>
+          }
           ouiaId="stop-impersonation-icon"
           variant="plain"
           className="nav-item-iconic stop-impersonation-icon"
           onClick={toggleModal}
           aria-label={__('Stop impersonation')}
-        >
-          <Icon className="blink-image">
-            <EyeIcon />
-          </Icon>
-        </Button>
+        />
       </Tooltip>
       <Modal
         ouiaId="impersonate-modal"

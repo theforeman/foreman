@@ -161,7 +161,7 @@ const DateTimePicker = ({
         <InputGroup>
           {/* Simulates a DatePicker input */}
           {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components */}
-          <InputGroupItem className="pf-v5-c-date-picker__input pf-v5-c-date-picker">
+          <InputGroupItem className="pf-v6-c-date-picker__input pf-v6-c-date-picker">
             <TextInput
               ouiaId="datetime-picker-input"
               type="text"
@@ -182,13 +182,12 @@ const DateTimePicker = ({
           </InputGroupItem>
           <InputGroupItem className="date-picker-input-item">
             <Button
+              icon={<OutlinedCalendarAltIcon />}
               ouiaId="toggle-calendar-button"
               variant="control"
               aria-label="Toggle date picker"
               onClick={onToggleCalendar}
-            >
-              <OutlinedCalendarAltIcon />
-            </Button>
+            ></Button>
           </InputGroupItem>
           <InputGroupItem className="date-picker-input-item">
             <TimePicker

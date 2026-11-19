@@ -7,11 +7,10 @@ import {
   CardHeader,
   Flex,
   FlexItem,
-  Modal,
-  ModalVariant,
   Spinner,
   Icon,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import {
   ErrorCircleOIcon,
   ExclamationCircleIcon,

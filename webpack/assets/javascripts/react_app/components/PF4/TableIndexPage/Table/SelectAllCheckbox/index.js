@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Dropdown,
-  DropdownToggle,
-  DropdownToggleCheckbox,
   DropdownItem,
-} from '@patternfly/react-core/deprecated';
+  DropdownList,
+  MenuToggle,
+  MenuToggleCheckbox,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../../../../common/I18n';
 import { noop } from '../../../../../common/helpers';
 
@@ -94,7 +95,6 @@ const SelectAllCheckbox = ({
       <DropdownItem
         key="select-none"
         ouiaId="select-none"
-        component="button"
         isDisabled={selectedCount === 0}
         onClick={handleSelectNone}
       >
@@ -106,7 +106,6 @@ const SelectAllCheckbox = ({
       <DropdownItem
         key="select-default"
         ouiaId="select-default"
-        component="button"
         isDisabled={totalCount === 0}
         onClick={handleSelectDefault}
       >
@@ -120,7 +119,6 @@ const SelectAllCheckbox = ({
         key="select-all"
         id="all"
         ouiaId="select-all"
-        component="button"
         isDisabled={totalCount === 0 || areAllRowsSelected}
         onClick={handleSelectAll}
       >
@@ -133,30 +131,36 @@ const SelectAllCheckbox = ({
 
   return (
     <Dropdown
-      toggle={
-        <DropdownToggle
-          onToggle={onSelectAllDropdownToggle}
+      isOpen={isSelectAllDropdownOpen}
+      onOpenChange={isOpen => setSelectAllDropdownOpen(isOpen)}
+      id="selection-checkbox"
+      ouiaId="selection-checkbox"
+      toggle={toggleRef => (
+        <MenuToggle
+          ref={toggleRef}
           id="select-all-checkbox-dropdown-toggle"
           ouiaId="select-all-checkbox-dropdown-toggle"
+          aria-label={__('Select all options')}
+          isExpanded={isSelectAllDropdownOpen}
+          onClick={onSelectAllDropdownToggle}
           splitButtonItems={[
-            <DropdownToggleCheckbox
+            <MenuToggleCheckbox
               key="table-select-all-checkbox"
+              id="table-select-all-checkbox"
               ouiaId="select-all-checkbox-dropdown-toggle-checkbox"
               aria-label="Select all"
-              onChange={(_event, checked) => onSelectAllCheckboxChange(checked)}
+              onChange={checked => onSelectAllCheckboxChange(checked)}
               isChecked={selectionToggle}
               isDisabled={totalCount === 0 && selectedCount === 0}
             >
               {selectedCount > 0 && `${selectedCount} selected`}
-            </DropdownToggleCheckbox>,
+            </MenuToggleCheckbox>,
           ]}
         />
-      }
-      isOpen={isSelectAllDropdownOpen}
-      dropdownItems={selectAllDropdownItems}
-      id="selection-checkbox"
-      ouiaId="selection-checkbox"
-    />
+      )}
+    >
+      <DropdownList>{selectAllDropdownItems}</DropdownList>
+    </Dropdown>
   );
 };
 

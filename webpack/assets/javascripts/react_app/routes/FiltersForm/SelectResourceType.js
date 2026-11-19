@@ -1,14 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup } from '@patternfly/react-core';
-import {
-  Select,
-  SelectOption,
-  SelectVariant,
-} from '@patternfly/react-core/deprecated';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import { EMPTY_RESOURCE_TYPE } from './FiltersFormConstants';
 import { translate as __ } from '../../common/I18n';
+import { FilterTypeaheadSelect } from './FilterTypeaheadSelect';
 
 export const SelectResourceType = ({
   type,
@@ -42,47 +38,26 @@ export const SelectResourceType = ({
     '/permissions/show_resource_types_with_translations',
     apiOption
   );
-  const [isOpen, setIsOpen] = useState(false);
+  const allTypes = [EMPTY_RESOURCE_TYPE, ...types];
+  const onTypeSelect = typeName => {
+    const selectedType = allTypes.find(option => option.name === typeName);
+    setType(selectedType);
+    setIsGranular(Boolean(selectedType.granular));
+    setAutocompleteQuery('');
+  };
   return (
     <FormGroup label={__('Resource Type')} isRequired>
-      <Select
+      <FilterTypeaheadSelect
         ouiaId="resource-type-select"
-        className="without_select2"
-        maxHeight="45vh"
-        variant={SelectVariant.typeahead}
-        typeAheadAriaLabel="Select a resource type"
-        onToggle={(_event, val) => setIsOpen(val)}
-        selections={type.translation}
-        isOpen={isOpen}
-        aria-labelledby="resource type"
-        onSelect={() => {
-          setIsOpen(false);
-        }}
-        toggleAriaLabel="resource type toggle"
-      >
-        {[
-          <SelectOption
-            onClick={() => {
-              setType(EMPTY_RESOURCE_TYPE);
-              setIsGranular(false);
-              setAutocompleteQuery('');
-            }}
-            key={EMPTY_RESOURCE_TYPE.name}
-            value={EMPTY_RESOURCE_TYPE.translation}
-          />,
-          ...types.map(option => (
-            <SelectOption
-              onClick={() => {
-                setType(option);
-                setIsGranular(option.granular);
-                setAutocompleteQuery('');
-              }}
-              key={option.name}
-              value={option.translation}
-            />
-          )),
-        ]}
-      </Select>
+        inputAriaLabel={__('Select a resource type')}
+        toggleAriaLabel={__('Resource type toggle')}
+        options={allTypes.map(option => ({
+          value: option.name,
+          label: option.translation,
+        }))}
+        selectedLabel={type.translation}
+        onSelect={onTypeSelect}
+      />
     </FormGroup>
   );
 };

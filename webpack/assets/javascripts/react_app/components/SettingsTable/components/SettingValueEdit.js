@@ -188,7 +188,7 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       flexWrap={{ default: 'nowrap' }}
       spaceItems={{ default: 'spaceItemsNone' }}
     >
-      <FlexItem className="pf-u-max-width-100 pf-v5-u-w-100">
+      <FlexItem className="pf-u-max-width-100 pf-v6-u-w-100">
         <FormGroup fieldId="setting-input">
           {inputField}
           <FormHelperText>
@@ -209,27 +209,29 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
         >
           <FlexItem>
             <Button
+              icon={
+                <Icon>
+                  <TimesIcon />
+                </Icon>
+              }
               onClick={() => updateSetting(setting.value)}
               variant="plain"
               isDisabled={loading}
               ouiaId="cancel-edit-btn"
-            >
-              <Icon>
-                <TimesIcon />
-              </Icon>
-            </Button>
+            />
           </FlexItem>
           <FlexItem>
             <Button
+              icon={
+                <Icon>
+                  <CheckIcon />
+                </Icon>
+              }
               onClick={() => handleSubmit()}
               variant="plain"
               isDisabled={loading}
               ouiaId="submit-edit-btn"
-            >
-              <Icon>
-                <CheckIcon />
-              </Icon>
-            </Button>
+            />
           </FlexItem>
         </Flex>
       </FlexItem>
