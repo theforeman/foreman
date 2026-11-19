@@ -38,10 +38,12 @@ class SettingPresenterTest < ActiveSupport::TestCase
       end
     end
 
-    context 'set explicit nil value' do
-      it 'returns explicitly set nil value' do
+    context 'resetting a value to nil' do
+      let(:initial_value) { 30 }
+
+      it 'returns default' do
         presenter.value = nil
-        assert_equal presenter.value, nil
+        assert_equal default, presenter.value
       end
     end
 

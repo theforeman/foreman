@@ -3,7 +3,7 @@ require 'test_helper'
 class BaseSubscriberTest < ActionView::TestCase
   subject { ::Foreman::BaseSubscriber }
 
-  let(:event_name) { :my_event }
+  let(:event_name) { 'my_event' }
   let(:started) { Time.parse('17.12.2019 12:00') }
   let(:finished) { Time.parse('17.12.2019 12:01') }
   let(:unique_id) { 'b22021c7711ecaf4ed61' }
@@ -14,14 +14,13 @@ class BaseSubscriberTest < ActionView::TestCase
   test '.call' do
     assert_respond_to subject, 'call'
 
-    subscriber = ActiveSupport::Notifications.subscribe event_name, subject
-
     subject.any_instance.expects(:call).with do |event|
       event.name == event_name && event.payload == payload
     end
 
-    ActiveSupport::Notifications.instrument(event_name, payload)
-    ActiveSupport::Notifications.unsubscribe(subscriber)
+    ActiveSupport::Notifications.subscribed(subject, event_name) do
+      ActiveSupport::Notifications.instrument(event_name, payload)
+    end
   end
 
   test '#call' do
