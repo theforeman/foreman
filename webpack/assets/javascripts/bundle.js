@@ -1,10 +1,10 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
-import { installReactDefaultPropsConsoleFilter } from './react_app/common/reactDefaultPropsConsoleFilter';
 import Cookies from 'js-cookie';
 import jstz from 'jstz';
 import ipaddr from 'ipaddr.js';
 import diff from 'diff';
+import { installReactDefaultPropsConsoleFilter } from './react_app/common/reactDefaultPropsConsoleFilter';
 
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';

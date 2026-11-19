@@ -15,11 +15,7 @@ function getReactRoot(container) {
 
 function mountNode(component, reactNode, data, flattenData) {
   getReactRoot(reactNode).render(
-    <AwaitedMount
-      component={component}
-      data={data}
-      flattenData={flattenData}
-    />
+    <AwaitedMount component={component} data={data} flattenData={flattenData} />
   );
 }
 

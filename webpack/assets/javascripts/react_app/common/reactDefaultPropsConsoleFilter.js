@@ -12,11 +12,12 @@ const reactDevConsoleNoisePatterns = [
 const isReactDevConsoleNoise = (message, ...args) =>
   [message, ...args].some(part => {
     const text =
+      // eslint-disable-next-line no-nested-ternary
       typeof part === 'string'
         ? part
         : part instanceof Error
-          ? part.message
-          : '';
+        ? part.message
+        : '';
     return reactDevConsoleNoisePatterns.some(pattern => text.includes(pattern));
   });
 
@@ -41,7 +42,10 @@ export const handleReactDefaultPropsConsoleError = (message, ...args) => {
 };
 
 export const installReactDefaultPropsConsoleFilter = () => {
-  if (typeof console === 'undefined' || console.error.__foremanDefaultPropsFilter) {
+  if (
+    typeof console === 'undefined' ||
+    console.error.__foremanDefaultPropsFilter
+  ) {
     return;
   }
 
