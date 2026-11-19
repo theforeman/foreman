@@ -40,7 +40,7 @@ test_on:
   options << 'ramdisk_size=1500000'
   options << 'fsck.mode=skip'
   options << 'autoinstall'
-  options << "url=http://#{@preseed_server}#{image_path}"
+  options << "url=#{@installation_iso || "http://#{@preseed_server}#{image_path}"}"
   options << 'cloud-config-url=/dev/null'
   if @add_userdata_quotes
     options << "\"#{userdata_option}\""
