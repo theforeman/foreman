@@ -8,6 +8,7 @@ import {
   NavExpandable,
   NavItemSeparator,
 } from '@patternfly/react-core';
+import history from '../../history';
 import { getCurrentPath, cleanNavPath } from './LayoutHelper';
 import { NavigationSearch } from './NavigationSearch';
 import {
@@ -30,14 +31,30 @@ const Navigation = ({
 }) => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   useEffect(() => {
-    const handleLocationChange = () => {
+    const unlisten = history.listen(() => {
       setCurrentPath(window.location.pathname);
-    };
-    window.addEventListener('popstate', handleLocationChange);
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-    };
+    });
+
+    return () => unlisten();
   }, []);
+
+  const pathOnly = value => (value || '').split('?')[0];
+  const path = pathOnly(currentPath);
+  const matchedMenuHref = items
+    .flatMap(item => item.subItems)
+    .reduce((best, subItem) => {
+      const href = pathOnly(subItem.href);
+      if (
+        href &&
+        href !== '/' &&
+        (path === href || path.startsWith(`${href}/`)) &&
+        href.length > best.length
+      ) {
+        return href;
+      }
+      return best;
+    }, '');
+  const activeMenuHref = matchedMenuHref || (path === '/' ? '/' : '');
 
   const onMouseOver = index => {
     if (navigationActiveItem !== index) {
@@ -45,7 +62,7 @@ const Navigation = ({
     }
   };
 
-  const pathFragment = path => path.split('?')[0];
+  const pathFragment = value => value.split('?')[0];
   const subItemToItemMap = {};
 
   items.forEach(item => {
@@ -90,7 +107,7 @@ const Navigation = ({
               groups[currIndex].groupItems.push({
                 ...sub,
                 isActive:
-                  (currentPath && currentPath === sub.href?.split('?')[0]) ||
+                  (activeMenuHref && pathOnly(sub.href) === activeMenuHref) ||
                   isCurrentLocation ||
                   isCurrentOrganization,
               });
