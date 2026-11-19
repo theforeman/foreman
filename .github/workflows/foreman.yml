@@ -71,6 +71,10 @@ jobs:
         postgresql: ${{ fromJson(needs.setup_matrix.outputs.matrix).postgresql }}
         task:
           - 'test:units'
+          - 'test:unit_extras'
+          - 'test:jobs'
+          - 'test:services'
+          - 'test:migrations'
           - 'test:functionals'
           - 'test:graphql'
           - 'webpack:compile test:integration apipie:cache'
