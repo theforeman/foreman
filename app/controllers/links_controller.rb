@@ -5,6 +5,10 @@ class LinksController < ApplicationController
   def show
     permitted = params.permit(:type, :section, :chapter, :flavor, :root_url)
     url = external_url(type: permitted[:type], options: permitted)
+    unless allowed_redirect?(url)
+      logger.warn "Denied access to forbidden redirect url: #{url}"
+      return not_found
+    end
     redirect_to(url, allow_other_host: true)
   end
 
@@ -47,11 +51,29 @@ class LinksController < ApplicationController
   def validate_root_url
     unless params[:root_url].nil?
       root_uri = URI.parse(params[:root_url])
-      unless SETTINGS[:trusted_redirect_domains].include?(root_uri.host) || SETTINGS[:trusted_redirect_domains].any? { |d| root_uri.host.end_with?(".#{d}") }
+      unless trusted_redirect_host?(root_uri.host)
         logger.warn "Denied access to forbidden root_url: #{params[:root_url]}"
         not_found
       end
     end
+  end
+
+  # The final URL is re-validated: validate_root_url ran on the raw
+  # root_url param, but the caller-controlled section/root_url get
+  # concatenated afterwards and an '@' can turn the trusted root into the
+  # userinfo of a different host (#40011). The feed type only interpolates
+  # the admin-controlled rss_url setting, so it stays exempt.
+  def allowed_redirect?(url)
+    return true if url.blank? || params[:type] == 'feed'
+    uri = URI.parse(url)
+    trusted_redirect_host?(uri.host)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def trusted_redirect_host?(host)
+    return false if host.nil?
+    SETTINGS[:trusted_redirect_domains].include?(host) || SETTINGS[:trusted_redirect_domains].any? { |d| host.end_with?(".#{d}") }
   end
 
   def foreman_org_path(sub_path)
