@@ -69,8 +69,8 @@ set domain <%= interface.domain.to_s %>
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
 <% if dns.present? -%>
-echo Trying to ping DNS: ${netX/dns}
-ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+echo Trying to ping DNS: ${dns}
+ping --count 1 ${dns} || echo Ping to DNS failed or ping command not available.
 <% end %>
 
 # Chainload from Foreman rather than embedding OS info here, so the behaviour
