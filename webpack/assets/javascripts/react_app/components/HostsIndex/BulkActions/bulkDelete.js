@@ -16,7 +16,6 @@ export const bulkDeleteHosts = ({
   onDeleteSuccess,
 }) => dispatch => {
   const successToast = () => sprintf(__('%s hosts deleted'), selectedCount);
-  const errorToast = ({ message }) => message;
   const queryParams = new URLSearchParams({
     search: bulkParams,
     ...bulkActionTaxonomyParams({ organizationId, locationId }),
@@ -59,7 +58,7 @@ export const bulkDeleteHosts = ({
             url,
             key: `BULK-HOSTS-DELETE`,
             successToast,
-            errorToast,
+            errorToast: true,
             handleSuccess,
           })
         ),

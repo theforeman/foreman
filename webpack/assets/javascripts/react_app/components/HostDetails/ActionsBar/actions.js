@@ -15,7 +15,6 @@ export const deleteHost = (
   { hostsIndexUrl, onDeleteSuccess }
 ) => dispatch => {
   const successToast = () => sprintf(__('Host %s deleted'), hostName);
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/api/hosts/${hostName}`);
 
   // TODO: Replace with a checkbox instead of a global setting for cascade host destroy
@@ -46,7 +45,7 @@ export const deleteHost = (
             url,
             key: `${hostName}-DELETE`,
             successToast,
-            errorToast,
+            errorToast: true,
             handleSuccess,
           })
         ),
@@ -79,14 +78,13 @@ export const updateHost = hostId => dispatch => {
 export const buildHost = hostId => dispatch => {
   const successToast = () =>
     sprintf(__('Host %s will be built next boot'), hostId);
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/hosts/${hostId}/setBuild`);
   dispatch(
     APIActions.put({
       url,
       key: `${hostId}_BUILD`,
       successToast,
-      errorToast,
+      errorToast: true,
       handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
@@ -95,14 +93,13 @@ export const buildHost = hostId => dispatch => {
 export const cancelBuild = (hostId, hostName) => dispatch => {
   const successToast = () =>
     sprintf(__('Canceled pending build for %s'), hostName);
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/hosts/${hostId}/cancelBuild`);
   dispatch(
     APIActions.get({
       url,
       key: `${hostId}_CANCEL_BUILD`,
       successToast,
-      errorToast,
+      errorToast: true,
       handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
