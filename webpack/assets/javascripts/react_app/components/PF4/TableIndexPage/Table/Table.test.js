@@ -159,8 +159,9 @@ describe('Table', () => {
       </Provider>
     );
     fireEvent.click(screen.getByLabelText('Kebab toggle'));
-    expect(screen.getByRole('none', { description: 'Delete' })).toHaveClass(
-      'pf-m-aria-disabled'
+    expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveAttribute(
+      'aria-disabled',
+      'true'
     );
     await act(async () => {
       jest.advanceTimersByTime(1000); // to handle pf4 table actions popover

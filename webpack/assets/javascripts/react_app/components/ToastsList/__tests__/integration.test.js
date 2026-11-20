@@ -24,7 +24,9 @@ describe('ToastsList', () => {
   it('shows a toast after addToast is dispatched', () => {
     const { store } = renderWithStore(<ToastsList />);
 
-    store.dispatch(addToast(toast));
+    act(() => {
+      store.dispatch(addToast(toast));
+    });
 
     expect(screen.getByText('message')).toBeInTheDocument();
   });
@@ -32,10 +34,14 @@ describe('ToastsList', () => {
   it('removes a toast after deleteToast is dispatched', () => {
     const { store } = renderWithStore(<ToastsList />);
 
-    store.dispatch(addToast(toast));
+    act(() => {
+      store.dispatch(addToast(toast));
+    });
     expect(screen.getByText('message')).toBeInTheDocument();
 
-    store.dispatch(deleteToast(toast.key));
+    act(() => {
+      store.dispatch(deleteToast(toast.key));
+    });
     expect(screen.queryByText('message')).not.toBeInTheDocument();
   });
 
@@ -52,7 +58,9 @@ describe('ToastsList', () => {
   it('removes a toast when the close button is clicked', () => {
     const { store } = renderWithStore(<ToastsList />);
 
-    store.dispatch(addToast(toast));
+    act(() => {
+      store.dispatch(addToast(toast));
+    });
     expect(screen.getByText('message')).toBeInTheDocument();
 
     userEvent.click(
@@ -65,14 +73,16 @@ describe('ToastsList', () => {
   it('shows a link when the toast has link data', () => {
     const { store } = renderWithStore(<ToastsList />);
 
-    store.dispatch(
-      addToast({
-        message: 'with link',
-        type: 'info',
-        key: 'link-toast',
-        link: { href: '/hosts', children: 'View hosts' },
-      })
-    );
+    act(() => {
+      store.dispatch(
+        addToast({
+          message: 'with link',
+          type: 'info',
+          key: 'link-toast',
+          link: { href: '/hosts', children: 'View hosts' },
+        })
+      );
+    });
 
     const link = screen.getByRole('link', { name: 'View hosts' });
     expect(link).toBeInTheDocument();
@@ -82,9 +92,11 @@ describe('ToastsList', () => {
   it('shows long messages in the body with a shortened title', () => {
     const { store } = renderWithStore(<ToastsList />);
 
-    store.dispatch(
-      addToast({ message: longMessage, type: 'error', key: 'long-toast' })
-    );
+    act(() => {
+      store.dispatch(
+        addToast({ message: longMessage, type: 'error', key: 'long-toast' })
+      );
+    });
 
     expect(screen.getByText('Error')).toBeInTheDocument();
     expect(screen.getByText(longMessage)).toBeInTheDocument();
@@ -102,9 +114,11 @@ describe('ToastsList', () => {
     it('removes a non-sticky toast after the timeout', () => {
       const { store } = renderWithStore(<ToastsList />);
 
-      store.dispatch(
-        addToast({ message: 'timed toast', type: 'success', key: 'timed' })
-      );
+      act(() => {
+        store.dispatch(
+          addToast({ message: 'timed toast', type: 'success', key: 'timed' })
+        );
+      });
       expect(screen.getByText('timed toast')).toBeInTheDocument();
 
       act(() => {
@@ -117,14 +131,16 @@ describe('ToastsList', () => {
     it('keeps a sticky toast after the timeout', () => {
       const { store } = renderWithStore(<ToastsList />);
 
-      store.dispatch(
-        addToast({
-          message: 'sticky toast',
-          type: 'error',
-          key: 'sticky',
-          sticky: true,
-        })
-      );
+      act(() => {
+        store.dispatch(
+          addToast({
+            message: 'sticky toast',
+            type: 'error',
+            key: 'sticky',
+            sticky: true,
+          })
+        );
+      });
       expect(screen.getByText('sticky toast')).toBeInTheDocument();
 
       act(() => {

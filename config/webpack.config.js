@@ -31,8 +31,26 @@ const shared = isPlugin => {
       import: isPlugin ? false : dep,
     },
   }));
+  const reactVersion =
+    dependencies.react || devDependencies.react;
   return [
     ...sharedArr,
+    {
+      'react/jsx-runtime': {
+        eager: !isPlugin,
+        singleton: true,
+        requiredVersion: reactVersion,
+        import: isPlugin ? false : 'react/jsx-runtime',
+      },
+    },
+    {
+      'react/jsx-dev-runtime': {
+        eager: !isPlugin,
+        singleton: true,
+        requiredVersion: reactVersion,
+        import: isPlugin ? false : 'react/jsx-dev-runtime',
+      },
+    },
     {
       /*
       have to use '@scalprum/core/index' in vendor.js entry otherwise we get
@@ -152,8 +170,14 @@ const commonConfig = function(buildName = 'core', tsConfig = 'tsconfig.json') {
           root,
           '/webpack/assets/javascripts/react_app'
         ),
-        'react/jsx-runtime': 'react/jsx-runtime.js', // for react-dnd
-        'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js', // for react-dnd
+        'react/jsx-runtime': path.resolve(
+          root,
+          'node_modules/react/jsx-runtime.js'
+        ),
+        'react/jsx-dev-runtime': path.resolve(
+          root,
+          'node_modules/react/jsx-dev-runtime.js'
+        ),
         'datatables.net': path.resolve(
           root,
           'node_modules/datatables.net/js/jquery.dataTables.js'

@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { useLocation } from 'react-router-dom';
 import { friendlySearchParam, useBulkSelect, useUrlParams } from './TableHooks';
 

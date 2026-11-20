@@ -1,4 +1,4 @@
-import { act } from '@testing-library/react-hooks';
+import { act, waitFor } from '@testing-library/react';
 import { useAPI } from './APIHooks';
 import APIHelper from '../../../redux/API/API';
 import { renderHookWithRedux } from '../testHelper';
@@ -13,24 +13,24 @@ jest.unmock('seamless-immutable');
 
 it('should use default url', async () => {
   APIHelper.get.mockResolvedValue(resultFromGOT);
-  const { result, waitForNextUpdate } = renderHookWithRedux(() =>
-    useAPI('get', '/lotr')
-  );
-  await waitForNextUpdate();
+  const { result } = renderHookWithRedux(() => useAPI('get', '/lotr'));
 
-  expect(result.current.response.results).toEqual(resultFromGOT.data.results);
+  await waitFor(() => {
+    expect(result.current.response.results).toEqual(resultFromGOT.data.results);
+  });
   expect(result.current.key).toBeDefined();
 });
 
 it('shuold use the given key', async () => {
   APIHelper.get.mockResolvedValue(resultsFromLOTR);
-  const { result, waitForNextUpdate } = renderHookWithRedux(() =>
+  const { result } = renderHookWithRedux(() =>
     useAPI('get', '/got', { key: API_TEST_KEY })
   );
   expect(result.current.response).toEqual({});
 
-  await waitForNextUpdate();
-  expect(result.current.key).toEqual(API_TEST_KEY);
+  await waitFor(() => {
+    expect(result.current.key).toEqual(API_TEST_KEY);
+  });
 });
 
 it('shuold update APIOptions', async () => {
@@ -47,5 +47,7 @@ it('shuold update APIOptions', async () => {
     }));
   });
 
-  expect(spy).toHaveBeenLastCalledWith('/lotr', {}, { a: 'updated param' });
+  await waitFor(() => {
+    expect(spy).toHaveBeenLastCalledWith('/lotr', {}, { a: 'updated param' });
+  });
 });
