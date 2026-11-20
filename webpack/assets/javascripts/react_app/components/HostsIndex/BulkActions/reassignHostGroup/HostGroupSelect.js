@@ -11,6 +11,7 @@ import {
 import { TimesIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../../common/I18n';
+import { appendMenuToOpenModal } from '../helpers';
 
 const HostGroupSelect = ({
   headerText,
@@ -82,8 +83,8 @@ const HostGroupSelect = ({
     <div style={{ marginTop: '1em' }}>
       <h3>{headerText}</h3>
       <Select
-        // render inside the modal; a body portal gets aria-hidden by the open Modal
-        popperProps={{ appendTo: 'inline' }}
+        // inside the open modal's backdrop: not hidden by the modal, not clipped by it
+        popperProps={{ appendTo: appendMenuToOpenModal }}
         id="typeahead-select"
         isOpen={isOpen}
         selected={selected}

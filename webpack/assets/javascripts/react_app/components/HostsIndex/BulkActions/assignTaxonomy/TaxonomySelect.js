@@ -5,6 +5,7 @@ import { Bullseye, Radio, Select, Tooltip, Icon } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../common/I18n';
 import './TaxonomySelect.css';
+import { appendMenuToOpenModal } from '../helpers';
 
 const TaxonomySelect = ({
   headerText,
@@ -61,8 +62,8 @@ const TaxonomySelect = ({
         id={`select-${taxonomy}`}
         ouiaId={`select-${taxonomy}`}
         shouldFocusToggleOnSelect
-        // render inside the modal; a body portal gets aria-hidden by the open Modal
-        popperProps={{ appendTo: 'inline' }}
+        // inside the open modal's backdrop: not hidden by the modal, not clipped by it
+        popperProps={{ appendTo: appendMenuToOpenModal }}
         {...selectProps}
       >
         {children}

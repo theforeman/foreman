@@ -12,6 +12,7 @@ import { InstanceBanner } from './components/InstanceBanner';
 import Header from './components/Toolbar/Header';
 import Navigation from './Navigation';
 import './layout.scss';
+import { noop } from '../../common/helpers';
 
 const Layout = ({
   items,
@@ -46,6 +47,9 @@ const Layout = ({
       </FlexItem>
       <FlexItem grow={{ default: 'grow' }} style={{ minHeight: 0 }}>
         <Page
+          // PF6 only marks an open sidebar as expanded (visible below 75rem)
+          // when Page tracks mobile view, which needs a resize handler
+          onPageResize={noop}
           mainContainerId="foreman-main-container"
           masthead={
             <Header

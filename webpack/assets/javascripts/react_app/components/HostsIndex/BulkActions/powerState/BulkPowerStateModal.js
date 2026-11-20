@@ -21,6 +21,7 @@ import {
   buildBulkRequestBody,
   failedHostsToastParams,
   bulkErrorToastParams,
+  appendMenuToOpenModal,
 } from '../helpers';
 import { addToast } from '../../../ToastsList/slice';
 
@@ -165,7 +166,7 @@ const BulkPowerStateModal = ({
           selected={selectedPowerState}
           onSelect={handleSelect}
           onOpenChange={open => setIsSelectOpen(open)}
-          popperProps={{ direction: 'down', appendTo: 'inline' }}
+          popperProps={{ direction: 'down', appendTo: appendMenuToOpenModal }}
           ouiaId="power-state-select"
           toggle={toggleRef => (
             <MenuToggle

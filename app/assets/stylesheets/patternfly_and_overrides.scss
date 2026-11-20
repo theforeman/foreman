@@ -348,6 +348,12 @@ span.btn-action.btn-primary a {
   margin-bottom: 0;
 }
 
+// PF6 resets hr margins inside :where() (no specificity), so bootstrap's
+// `hr { margin: 20px 0 }` wins and adds big gaps around every PF6 Divider
+hr.pf-v6-c-divider {
+  margin: 0;
+}
+
 label[class^='pf-v6'],
 [class^='pf-v6'] label {
   /* override  

@@ -17,49 +17,25 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
   switch (status) {
     case GLOBAL_STATUS_OK:
       return (
-        <Icon
-          style={{
-            color: 'var(--pf-t--global--icon--color--status--success--default)',
-            ...style,
-          }}
-          {...props}
-        >
+        <Icon status="success" style={style} {...props}>
           <CheckCircleIcon />
         </Icon>
       );
     case GLOBAL_STATUS_WARN:
       return (
-        <Icon
-          style={{
-            color: 'var(--pf-t--global--icon--color--status--warning--default)',
-            ...style,
-          }}
-          {...props}
-        >
+        <Icon status="warning" style={style} {...props}>
           <ExclamationTriangleIcon />
         </Icon>
       );
     case GLOBAL_STATUS_ERROR:
       return (
-        <Icon
-          style={{
-            color: 'var(--pf-t--global--icon--color--status--danger--default)',
-            ...style,
-          }}
-          {...props}
-        >
+        <Icon status="danger" style={style} {...props}>
           <ExclamationCircleIcon />
         </Icon>
       );
     default:
       return (
-        <Icon
-          style={{
-            color: 'var(--pf-t--global--icon--color--status--info--default)',
-            ...style,
-          }}
-          {...props}
-        >
+        <Icon status="info" style={style} {...props}>
           <QuestionCircleIcon />
         </Icon>
       );

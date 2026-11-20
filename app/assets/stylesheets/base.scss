@@ -26,6 +26,9 @@ html {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    // PF6 page sections set a 24px gap, which only takes effect here because
+    // this toolbar is a flex container; PF5 had none between title and actions
+    --pf-v6-c-page__main-section--RowGap: 0;
   }
 
   &.pf-v6-c-page {
@@ -56,14 +59,15 @@ body {
       'header header'
       'sidebar main';
     // PF6 draws the main container as an inset card (margins, border, radius);
-    // keep it flush with the sidebar and the window edge, as in PF5
+    // keep it flush with the sidebar and the window edge, as in PF5. The border
+    // widths need a unit: PF6 subtracts them from section padding in calc()
     --pf-v6-c-page__main-container--MarginInlineStart: 0;
     --pf-v6-c-page__main-container--MarginInlineEnd: 0;
     --pf-v6-c-page__main-container--MarginBlockEnd: 0;
-    --pf-v6-c-page__main-container--BorderBlockStartWidth: 0;
-    --pf-v6-c-page__main-container--BorderBlockEndWidth: 0;
-    --pf-v6-c-page__main-container--BorderInlineStartWidth: 0;
-    --pf-v6-c-page__main-container--BorderInlineEndWidth: 0;
+    --pf-v6-c-page__main-container--BorderBlockStartWidth: 0px;
+    --pf-v6-c-page__main-container--BorderBlockEndWidth: 0px;
+    --pf-v6-c-page__main-container--BorderInlineStartWidth: 0px;
+    --pf-v6-c-page__main-container--BorderInlineEndWidth: 0px;
     --pf-v6-c-page__main-container--BorderRadius: 0;
   }
 

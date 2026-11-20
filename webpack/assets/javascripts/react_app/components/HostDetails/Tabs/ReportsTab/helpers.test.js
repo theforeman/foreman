@@ -1,11 +1,11 @@
 import React from 'react';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   flushPatternflyTimers,
   rtlHelpers,
 } from '../../../../common/rtlTestHelpers';
-import { ActionFormatter } from './helpers';
+import { ActionFormatter, statusFormatter } from './helpers';
 
 const { renderWithStore } = rtlHelpers;
 
@@ -41,5 +41,32 @@ describe('ReportsTab ActionFormatter', () => {
     renderWithStore(<ActionCell report={{ id: 3, can_delete: false }} />);
     await openActions();
     expect(screen.getByRole('menuitem', { name: 'Delete' })).toBeDisabled();
+  });
+});
+
+describe('ReportsTab statusFormatter', () => {
+  const contentOf = container =>
+    container.querySelector('.pf-v6-c-icon .pf-v6-c-icon__content');
+
+  it.each([
+    ['failed', 'pf-m-danger'],
+    ['failed_restarts', 'pf-m-danger'],
+    ['applied', 'pf-m-success'],
+  ])('colors %s icons with %s', (statusName, modifier) => {
+    const { container } = render(
+      <div>{statusFormatter(statusName, { [statusName]: 2 })}</div>
+    );
+    expect(contentOf(container)).toHaveClass(modifier);
+  });
+
+  it('colors restarted icons orange', () => {
+    const { container } = render(
+      <div>{statusFormatter('restarted', { restarted: 2 })}</div>
+    );
+    expect(
+      container
+        .querySelector('.pf-v6-c-icon')
+        .style.getPropertyValue('--pf-v6-c-icon__content--Color')
+    ).toBe('var(--pf-t--global--color--nonstatus--orange--default)');
   });
 });

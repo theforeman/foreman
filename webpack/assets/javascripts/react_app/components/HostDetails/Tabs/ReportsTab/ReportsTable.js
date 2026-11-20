@@ -49,12 +49,7 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
     emptyState = (
       <EmptyState
         icon={
-          <Icon
-            style={{
-              color:
-                'var(--pf-t--global--icon--color--status--danger--default)',
-            }}
-          >
+          <Icon status="danger">
             <ExclamationCircleIcon />
           </Icon>
         }

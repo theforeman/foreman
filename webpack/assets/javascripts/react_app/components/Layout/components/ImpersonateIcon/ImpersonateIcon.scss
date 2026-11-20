@@ -27,11 +27,12 @@
     padding: 0;
   }
 
+  // PF6 Icon sets its content color itself; color it through its variable
   .nav-item-iconic .blink-image {
-    color: $color-pf-gold-200;
+    --pf-v6-c-icon__content--Color: #{$color-pf-gold-200};
   }
 
   .nav-item-iconic:hover .blink-image {
-    color: $color-pf-gold-200;
+    --pf-v6-c-icon__content--Color: #{$color-pf-gold-200};
   }
 }

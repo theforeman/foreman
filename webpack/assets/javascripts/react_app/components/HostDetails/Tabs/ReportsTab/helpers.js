@@ -24,15 +24,12 @@ import { openConfirmModal } from '../../../ConfirmModal';
 import { APIActions } from '../../../../redux/API';
 import { sprintf, translate as __ } from '../../../../common/I18n';
 import RelativeDateTime from '../../../common/dates/RelativeDateTime';
+import { ICON_CONTENT_COLOR_VARIABLE } from '../../../../constants';
 
 const statusMapper = {
   failed: amount => (
     <>
-      <Icon
-        style={{
-          color: 'var(--pf-t--global--icon--color--status--danger--default)',
-        }}
-      >
+      <Icon status="danger">
         <ExclamationCircleIcon />
       </Icon>
       {amount}
@@ -40,11 +37,7 @@ const statusMapper = {
   ),
   failed_restarts: amount => (
     <>
-      <Icon
-        style={{
-          color: 'var(--pf-t--global--icon--color--status--danger--default)',
-        }}
-      >
+      <Icon status="danger">
         <SyncAltIcon />
       </Icon>{' '}
       {amount}
@@ -54,7 +47,8 @@ const statusMapper = {
     <>
       <Icon
         style={{
-          color: 'var(--pf-t--global--color--nonstatus--orange--default)',
+          [ICON_CONTENT_COLOR_VARIABLE]:
+            'var(--pf-t--global--color--nonstatus--orange--default)',
         }}
       >
         <SyncAltIcon />
@@ -64,11 +58,7 @@ const statusMapper = {
   ),
   applied: amount => (
     <>
-      <Icon
-        style={{
-          color: 'var(--pf-t--global--icon--color--status--success--default)',
-        }}
-      >
+      <Icon status="success">
         <CheckCircleIcon />
       </Icon>{' '}
       {amount}

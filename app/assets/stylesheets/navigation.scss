@@ -34,6 +34,9 @@
     --pf-v6-c-button--m-plain--Color: #{$navbar-default-link-color};
     --pf-v6-c-button--m-plain--hover--Color: #{$navbar-default-link-color};
     --pf-v6-c-button--m-plain--m-clicked--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button__icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--hover__icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-button--m-clicked__icon--Color: #{$navbar-default-link-color};
   }
 
   // NotificationBadge is a stateful button; its read state uses the base colors
@@ -44,5 +47,13 @@
     --pf-v6-c-button__icon--Color: #{$navbar-default-link-color};
     --pf-v6-c-button--hover__icon--Color: #{$navbar-default-link-color};
     --pf-v6-c-button--m-clicked__icon--Color: #{$navbar-default-link-color};
+    // the read state (no unread notifications) uses a white control background
+    // in PF6, which hides the white icon; keep it transparent like PF5
+    --pf-v6-c-button--m-read--BackgroundColor: transparent;
+    --pf-v6-c-button--m-read--BorderColor: transparent;
+    --pf-v6-c-button--m-read--hover--BackgroundColor: var(--pf-t--global--background--color--action--plain--hover);
+    --pf-v6-c-button--m-read--hover--BorderColor: transparent;
+    --pf-v6-c-button--m-read--m-clicked--BackgroundColor: var(--pf-t--global--background--color--action--plain--clicked);
+    --pf-v6-c-button--m-read--m-clicked--BorderColor: transparent;
   }
 }

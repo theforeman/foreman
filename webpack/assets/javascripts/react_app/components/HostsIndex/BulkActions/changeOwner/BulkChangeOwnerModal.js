@@ -27,7 +27,11 @@ import {
   selectAPIStatus,
   selectAPIResponse,
 } from '../../../../redux/API/APISelectors';
-import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
+import {
+  buildBulkRequestBody,
+  bulkErrorToastParams,
+  appendMenuToOpenModal,
+} from '../helpers';
 
 const BulkChangeOwnerModal = ({
   isOpen,
@@ -186,8 +190,8 @@ const BulkChangeOwnerModal = ({
       </Content>
       {userStatus === STATUS.RESOLVED && usergroupStatus === STATUS.RESOLVED && (
         <Select
-          // render inside the modal; a body portal gets aria-hidden by the open Modal
-          popperProps={{ appendTo: 'inline' }}
+          // inside the open modal's backdrop: not hidden by the modal, not clipped by it
+          popperProps={{ appendTo: appendMenuToOpenModal }}
           id="single-grouped-select"
           isOpen={ownerSelectOpen}
           selected={ownerId}

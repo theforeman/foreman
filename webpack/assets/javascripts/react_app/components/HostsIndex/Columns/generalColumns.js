@@ -9,6 +9,7 @@ import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
 import GlobalStatusIcon from '../../HostStatuses/Status/GlobalStatusIcon';
+import { ICON_CONTENT_COLOR_VARIABLE } from '../../../constants';
 import './core.scss';
 
 const generalColumns = [
@@ -115,7 +116,8 @@ const generalColumns = [
         <TableText>
           <Icon
             style={{
-              color: 'var(--pf-t--global--icon--color--brand--default)',
+              [ICON_CONTENT_COLOR_VARIABLE]:
+                'var(--pf-t--global--icon--color--brand--default)',
               marginRight: '5px',
             }}
           >

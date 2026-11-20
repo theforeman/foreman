@@ -41,5 +41,11 @@
     --pf-v6-c-nav__link--m-current--Color: #{$navbar-default-link-color};
     --pf-v6-c-nav__link-icon--Color: #{$navbar-default-link-color};
     --pf-v6-c-nav__link-icon--hover--Color: #{$navbar-default-link-color};
+
+    // the browser's default (dark) focus ring is hard to see on the dark sidebar
+    &:focus-visible {
+      outline: var(--pf-t--global--border--width--strong) solid #{$navbar-default-link-color};
+      outline-offset: calc(-1 * var(--pf-t--global--border--width--strong));
+    }
   }
 }
