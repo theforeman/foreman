@@ -21,25 +21,13 @@ const isReactDevConsoleNoise = (message, ...args) =>
     return reactDevConsoleNoisePatterns.some(pattern => text.includes(pattern));
   });
 
-// React dev logging may emit the warning and companion stack lines separately.
-let defaultPropsFollowUpSuppressions = 0;
-
 /**
+ * Suppress only this call. React attaches a component stack as another
+ * argument on the same console.error, not as later calls.
  * @returns {'suppress'|null}
  */
-export const handleReactDefaultPropsConsoleError = (message, ...args) => {
-  if (defaultPropsFollowUpSuppressions > 0) {
-    defaultPropsFollowUpSuppressions -= 1;
-    return 'suppress';
-  }
-
-  if (!isReactDevConsoleNoise(message, args)) {
-    return null;
-  }
-
-  defaultPropsFollowUpSuppressions = 3;
-  return 'suppress';
-};
+export const handleReactDefaultPropsConsoleError = (message, ...args) =>
+  isReactDevConsoleNoise(message, ...args) ? 'suppress' : null;
 
 export const installReactDefaultPropsConsoleFilter = () => {
   if (

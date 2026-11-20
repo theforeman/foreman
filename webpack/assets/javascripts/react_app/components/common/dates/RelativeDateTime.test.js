@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RelativeDateTime from './RelativeDateTime';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
+import { intl } from '../../../common/I18n';
 
 describe('RelativeDateTime', () => {
   const date = new Date('2017-10-13 00:54:55 -1100');
@@ -42,5 +43,34 @@ describe('RelativeDateTime', () => {
     });
 
     expect(await screen.findByText('Created 15 days ago')).toBeInTheDocument();
+  });
+
+  it('updates the relative time as time passes', async () => {
+    jest.useFakeTimers('modern');
+    try {
+      const start = new Date();
+      const RecentRelativeDateTime = i18nProviderWrapperFactory(
+        start,
+        'UTC'
+      )(RelativeDateTime);
+
+      render(
+        <RecentRelativeDateTime date={new Date(start.getTime() - 1000)} />
+      );
+
+      await act(async () => {
+        await intl.ready;
+      });
+
+      expect(screen.getByText('1 second ago')).toBeInTheDocument();
+
+      act(() => {
+        jest.advanceTimersByTime(10000);
+      });
+
+      expect(screen.getByText('11 seconds ago')).toBeInTheDocument();
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });
