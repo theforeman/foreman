@@ -89,9 +89,7 @@ const BookmarkForm = ({
         },
         handleSuccess: setModalClosed,
         successToast: () => __('Bookmark created.'),
-        errorToast: ({ response }) =>
-          // eslint-disable-next-line camelcase
-          response?.data?.error?.full_messages?.[0] || response,
+        errorToast: true,
       })
     );
   };

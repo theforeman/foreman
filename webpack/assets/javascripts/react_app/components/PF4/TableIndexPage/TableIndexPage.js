@@ -20,6 +20,7 @@ import {
   getURIsearch,
 } from '../../../common/urlHelpers';
 import { translate as __ } from '../../../common/I18n';
+import { getAPIErrorMessage } from '../../../redux/API/APIHelpers';
 import { noop } from '../../../common/helpers';
 import Pagination from '../../Pagination';
 import { getControllerSearchProps, STATUS } from '../../../constants';
@@ -158,11 +159,7 @@ const TableIndexPage = ({
     setAPIOptions,
   } = response;
 
-  const errorMessage =
-    // eslint-disable-next-line camelcase
-    errorHttpResponse?.data?.error?.full_messages?.join(', ') ||
-    errorHttpResponse?.data?.error?.message ||
-    rawErrorMessage;
+  const errorMessage = getAPIErrorMessage(errorHttpResponse) || rawErrorMessage;
 
   const memoDefaultSearchProps = useMemo(
     () => getControllerSearchProps(controller),
