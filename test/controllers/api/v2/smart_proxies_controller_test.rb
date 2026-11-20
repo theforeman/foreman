@@ -100,7 +100,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
       post :create, params: { :smart_proxy => valid_attrs.merge(:url => '') }
     end
     assert_response :unprocessable_entity
-    assert_match 'URL must be valid and schema must be one of http and https', @response.body
+    assert_match 'URL must be valid and scheme must be one of http and https', @response.body
   end
 
   test "should update smart_proxy" do
@@ -179,7 +179,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   test "should not update smart_proxy with invalid url" do
     put :update, params: { :id => smart_proxies(:one).to_param, :smart_proxy => { :url => '' } }
     assert_response :unprocessable_entity
-    assert_match 'URL must be valid and schema must be one of http and https', @response.body
+    assert_match 'URL must be valid and scheme must be one of http and https', @response.body
   end
 
   test_attributes :pid => '872bf12e-736d-43d1-87cf-2923966b59d0'
