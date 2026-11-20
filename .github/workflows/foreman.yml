@@ -56,6 +56,8 @@ jobs:
     needs:
       - setup_matrix
       - rubocop
+    env:
+      FOREMAN_POSTGRES_IMAGE: postgres:${{ matrix.postgresql }}
     services:
       postgres:
         image: 'postgres:${{ matrix.postgresql }}'
@@ -84,6 +86,8 @@ jobs:
         run: echo "ARTIFACT_SUFFIX=$(echo 'ruby-${{ matrix.ruby }}-node-${{ matrix.node }}-pg-${{ matrix.postgresql }}-${{ matrix.task }}' | tr -cd '[:alnum:]-.')" >> "${GITHUB_ENV}"
       - name: "Check out Foreman"
         uses: actions/checkout@v7
+      - name: Use the test service PostgreSQL dump client
+        run: echo "$GITHUB_WORKSPACE/.github/scripts/postgresql" >> "$GITHUB_PATH"
       - name: "Set up Ruby ${{ matrix.ruby }}"
         uses: ruby/setup-ruby@v1
         with:
@@ -125,6 +129,7 @@ jobs:
         if: contains(matrix.task, 'external')
       - name: Prepare test env
         run: |
+          bundle exec ruby .github/scripts/test_pg_dump.rb
           bin/rake db:create
           bin/rake db:migrate
       - name: Run rake ${{ matrix.task }}
