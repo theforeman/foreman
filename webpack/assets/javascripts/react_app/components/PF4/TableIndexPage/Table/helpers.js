@@ -78,6 +78,23 @@ export const DEFAULT_USER_COLUMNS = [
 ];
 
 /**
+ * Picks one table's saved columns out of the table preferences index.
+ * The index returns 200 with an empty list when the user has no saved columns.
+ * @param {Object} response - API index body (`{ results: [...] }`)
+ * @param {string} tableName
+ * @returns {{ hasPreference: boolean, columns: Array|undefined }}
+ */
+export const tablePreferenceState = (response, tableName) => {
+  const match = response?.results?.find(
+    preference => preference.name === tableName
+  );
+  return {
+    hasPreference: Boolean(match),
+    columns: match?.columns,
+  };
+};
+
+/**
  * Filters column data by user preferences
  * @param {Array} columnNames - Array of column names from user preferences
  * @param {Object} allColumnData - Object with column sort params as keys and column objects as values

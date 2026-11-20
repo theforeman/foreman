@@ -1,5 +1,9 @@
 import React from 'react';
-import { getColumnLabel, getColumnHelpers } from './helpers';
+import {
+  getColumnLabel,
+  getColumnHelpers,
+  tablePreferenceState,
+} from './helpers';
 
 describe('getColumnLabel', () => {
   test('uses a string title', () => {
@@ -30,6 +34,42 @@ describe('getColumnLabel', () => {
   });
 });
 
+describe('tablePreferenceState', () => {
+  const response = {
+    results: [
+      { name: 'other', columns: ['a'] },
+      { name: 'hosts', columns: ['name', 'os_title'] },
+    ],
+  };
+
+  test('returns the columns for the matching table', () => {
+    expect(tablePreferenceState(response, 'hosts')).toEqual({
+      hasPreference: true,
+      columns: ['name', 'os_title'],
+    });
+  });
+
+  test('reports no preference when the table is absent', () => {
+    expect(tablePreferenceState(response, 'missing')).toEqual({
+      hasPreference: false,
+      columns: undefined,
+    });
+  });
+
+  test('reports no preference for an empty collection', () => {
+    expect(tablePreferenceState({ results: [] }, 'hosts')).toEqual({
+      hasPreference: false,
+      columns: undefined,
+    });
+  });
+
+  test('reports no preference when the response is missing', () => {
+    expect(tablePreferenceState(undefined, 'hosts')).toEqual({
+      hasPreference: false,
+      columns: undefined,
+    });
+  });
+});
 
 describe('getColumnHelpers', () => {
   test('maps keys to string labels even when title is a React node', () => {
