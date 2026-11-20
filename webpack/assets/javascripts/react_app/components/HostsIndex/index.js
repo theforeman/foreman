@@ -37,6 +37,7 @@ import {
 import SelectAllCheckbox from '../PF4/TableIndexPage/Table/SelectAllCheckbox';
 import {
   filterColumnDataByUserPreferences,
+  getCellModifier,
   getColumnHelpers,
   getPageStats,
 } from '../PF4/TableIndexPage/Table/helpers';
@@ -560,6 +561,7 @@ const HostsIndex = () => {
       >
         <Table
           ouiaId="hosts-index-table"
+          hasInnerScroll
           params={{
             ...paramsWithoutPerPage,
             page,
@@ -593,6 +595,8 @@ const HostsIndex = () => {
                 {columnNamesKeys.map(k => (
                   <Td
                     key={k}
+                    className={columns[k]?.className}
+                    modifier={getCellModifier(columns[k])}
                     dataLabel={keysToColumnNames[k]}
                     textCenter={columns[k]?.textCenter}
                   >
