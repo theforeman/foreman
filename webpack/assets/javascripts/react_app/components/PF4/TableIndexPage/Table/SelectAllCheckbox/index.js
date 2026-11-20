@@ -9,6 +9,7 @@ import {
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../../../common/I18n';
 import { noop } from '../../../../../common/helpers';
+import './SelectAllCheckbox.scss';
 
 const SelectAllCheckbox = ({
   selectNone,
@@ -139,6 +140,7 @@ const SelectAllCheckbox = ({
         <MenuToggle
           ref={toggleRef}
           id="select-all-checkbox-dropdown-toggle"
+          className="select-all-checkbox"
           ouiaId="select-all-checkbox-dropdown-toggle"
           aria-label={__('Select all options')}
           isExpanded={isSelectAllDropdownOpen}

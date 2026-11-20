@@ -57,6 +57,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
           <MenuToggle
             ref={toggleRef}
             className="taxonomy-dropdown-toggle"
+            variant="plainText"
             icon={currentTaxonomy ? undefined : anyIcon}
             isExpanded={isOpen}
             onClick={() => setIsOpen(!isOpen)}

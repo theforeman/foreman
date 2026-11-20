@@ -2,6 +2,8 @@ import React from 'react';
 import { screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { push } from 'connected-react-router';
+import { Icon } from '@patternfly/react-core';
+import { CubesIcon } from '@patternfly/react-icons';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import { rtlHelpers } from '../../../common/testHelpers';
 import { props, action } from './EmptyStateFixtures';
@@ -263,6 +265,36 @@ describe('Empty State Pattern', () => {
     const helpLink = screen.getByRole('link', { name: 'help guide' });
     expect(helpLink).toBeInTheDocument();
     expect(helpLink).toHaveAttribute('href', 'https://help.example.com');
+  });
+});
+
+describe('EmptyStatePattern icon size', () => {
+  // PF6 Icon pins its content to body-text size; an unwrapped icon inherits
+  // the empty state's large icon size, as it did with PF5
+  it('does not wrap a plain icon in the PF Icon component', () => {
+    const { container } = rtlHelpers.renderWithStore(
+      <EmptyStatePattern header="Printers" description="Nothing here" />
+    );
+    const emptyStateIcon = container.querySelector('.empty-state-icon');
+    expect(emptyStateIcon.querySelector('svg')).toBeInTheDocument();
+    expect(emptyStateIcon.querySelector('.pf-v6-c-icon')).toBeNull();
+  });
+
+  it('keeps an icon that the caller already sized with Icon', () => {
+    const { container } = rtlHelpers.renderWithStore(
+      <EmptyStatePattern
+        header="Printers"
+        description="Nothing here"
+        icon={
+          <Icon iconSize="xl">
+            <CubesIcon />
+          </Icon>
+        }
+      />
+    );
+    expect(
+      container.querySelector('.empty-state-icon .pf-v6-c-icon .pf-m-xl')
+    ).toBeInTheDocument();
   });
 });
 

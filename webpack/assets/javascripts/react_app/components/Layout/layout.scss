@@ -80,7 +80,7 @@
   }
 
   #navigation-search {
-    width:calc(#{var(--pf-v6-c-page__sidebar--Width)} - 10px);
+    width: calc(100% - 10px);
     margin-left: 5px;
 
     .pf-v6-c-button.pf-m-control {

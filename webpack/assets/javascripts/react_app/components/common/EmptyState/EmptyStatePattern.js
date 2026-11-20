@@ -8,26 +8,17 @@ import {
   EmptyStateBody,
   EmptyStateActions,
   EmptyStateFooter,
-  Icon,
 } from '@patternfly/react-core';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 import { iconMapper } from '../Icon/IconMapper';
 import './EmptyState.scss';
 
-const resolveIcon = icon => {
-  const iconElement = (typeof icon === 'string' ? iconMapper(icon) : icon) || (
-    <PlusCircleIcon size="2x" />
-  );
-  // Wrap icon in Icon component if it's not already wrapped
-  if (
-    React.isValidElement(iconElement) &&
-    iconElement.type?.displayName !== 'Icon'
-  ) {
-    return <Icon>{iconElement}</Icon>;
-  }
-  return iconElement;
-};
+// Render the icon element as is: PF6 Icon pins its content to body-text size,
+// while an unwrapped SVG inherits the empty state's large icon size (as with
+// PF5, whose Icon used 1em). Callers can still pass a pre-sized <Icon>.
+const resolveIcon = icon =>
+  (typeof icon === 'string' ? iconMapper(icon) : icon) || <PlusCircleIcon />;
 
 const EmptyStatePattern = props => {
   const {

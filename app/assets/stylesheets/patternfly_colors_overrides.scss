@@ -4,6 +4,11 @@
   .pf-v6-c-page__sidebar {
     --pf-v6-c-page__sidebar--Width: 250px;
     --pf-v6-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    // PF6 adds page insets around the sidebar; foreman's layout (e.g. the Rails
+    // content's 250px offset) expects the sidebar to fill exactly its width
+    --pf-v6-c-page__sidebar--MarginInlineEnd: 0;
+    --pf-v6-c-page__sidebar-body--PaddingInlineStart: 0;
+    --pf-v6-c-page__sidebar-body--PaddingInlineEnd: 0;
 
     #navigation-search .pf-v6-c-text-input-group {
       background-color: var(--pf-t--global--background--color--primary--default);
