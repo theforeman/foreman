@@ -78,6 +78,25 @@ describe('taxonomyAdded', () => {
   });
 });
 
+describe('toggleMailRequired', () => {
+  it('adds and removes only the required asterisk on the mail label', () => {
+    document.body.innerHTML = `
+      <label class="col-md-2 control-label" for="mail">Mail</label>
+      <input type="checkbox" id="user_mail_enabled" />
+    `;
+    const checkbox = document.getElementById('user_mail_enabled');
+    const label = document.querySelector('label[for="mail"]');
+
+    checkbox.checked = true;
+    users.toggleMailRequired(checkbox);
+    expect(label.textContent).toEqual('Mail *');
+
+    checkbox.checked = false;
+    users.toggleMailRequired(checkbox);
+    expect(label.textContent).toEqual('Mail');
+  });
+});
+
 describe('users Password', () => {
   // the following test is disabled. I wasn't able to simulate a change event on a select2 dropdown
   // eslint-disable-next-line jest/no-disabled-tests
