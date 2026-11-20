@@ -1,6 +1,30 @@
 require 'rake/testtask'
 
 namespace :test do
+  desc "Test Presenters, Subscribers and Validators"
+  Rake::TestTask.new(:unit_extras) do |t|
+    t.libs << "test"
+    t.pattern = ['test/{presenters,subscribers,validators}/**/*_test.rb']
+    t.verbose = true
+    t.warning = false
+  end
+
+  desc "Test Services"
+  Rake::TestTask.new(:services) do |t|
+    t.libs << "test"
+    t.pattern = ['test/services/**/*_test.rb']
+    t.verbose = true
+    t.warning = false
+  end
+
+  desc "Test Migrations"
+  Rake::TestTask.new(:migrations) do |t|
+    t.libs << "test"
+    t.pattern = ['test/migrate/**/*_test.rb']
+    t.verbose = true
+    t.warning = false
+  end
+
   desc "Test API"
   Rake::TestTask.new(:api) do |t|
     t.libs << "test"
