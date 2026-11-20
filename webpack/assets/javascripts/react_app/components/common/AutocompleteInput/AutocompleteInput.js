@@ -213,11 +213,11 @@ export const AutocompleteInputComponent = ({
           ))}
         </SelectList>
       </Select>
-      {validationStatus !== undefined && (
+      {/* only errors carry a message; PF6 HelperTextItem draws a status icon
+          for any non-default variant, even without text */}
+      {validationStatus === 'danger' && validationMsg && (
         <HelperText isLiveRegion>
-          <HelperTextItem variant={validationStatus}>
-            {validationMsg}
-          </HelperTextItem>
+          <HelperTextItem variant="error">{validationMsg}</HelperTextItem>
         </HelperText>
       )}
     </div>

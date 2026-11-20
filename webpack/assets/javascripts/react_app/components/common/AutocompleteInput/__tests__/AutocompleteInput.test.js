@@ -378,4 +378,41 @@ describe('AutocompleteInput RTL Tests', () => {
       expect(input).toHaveValue('true');
     });
   });
+
+  describe('Validation helper text', () => {
+    const helperItems = container =>
+      container.querySelectorAll('.pf-v6-c-helper-text__item');
+
+    test('shows no helper icon for a valid (success) field', () => {
+      const { container } = render(
+        <AutocompleteInput
+          {...defaultProps}
+          validationStatus="success"
+          validationMsg="Name is required"
+        />
+      );
+      expect(helperItems(container)).toHaveLength(0);
+    });
+
+    test('shows the error message with the error style', () => {
+      const { container } = render(
+        <AutocompleteInput
+          {...defaultProps}
+          validationStatus="error"
+          validationMsg="Name is required"
+        />
+      );
+      const items = helperItems(container);
+      expect(items).toHaveLength(1);
+      expect(items[0]).toHaveClass('pf-m-error');
+      expect(items[0]).toHaveTextContent('Name is required');
+    });
+
+    test('shows nothing for an error without a message', () => {
+      const { container } = render(
+        <AutocompleteInput {...defaultProps} validationStatus="error" />
+      );
+      expect(helperItems(container)).toHaveLength(0);
+    });
+  });
 });

@@ -21,6 +21,9 @@ body {
   font-weight: var(--pf-t--global--font--weight--body--default);
   line-height: var(--pf-t--global--font--line-height--body);
   text-align: left;
+  // links are not underlined until hover (as in PF5); PF6 components such as
+  // breadcrumbs and inline link buttons read this token
+  --pf-t--global--text-decoration--link--line--default: none;
 }
 
 // keep pages white: Rails pages render directly on the page background, not in
@@ -29,14 +32,43 @@ body .pf-v6-c-page {
   --pf-v6-c-page--BackgroundColor: var(--pf-t--global--background--color--primary--default);
 }
 
+// Plain links: no underline until hover (as in PF5). Hover only swaps these
+// variables, so components that set their own color and decoration (PF6
+// buttons rendered as <a>, nav and menu items) keep them on hover.
 a {
-  color: var(--pf-t--global--text--color--link--default);
-  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
+  --foreman-link--Color: var(--pf-t--global--text--color--link--default);
+  --foreman-link--TextDecorationLine: none;
+
+  color: var(--foreman-link--Color);
+  text-decoration-line: var(--foreman-link--TextDecorationLine);
 
   &:hover {
-    color: var(--pf-t--global--text--color--link--hover);
-    text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
+    --foreman-link--Color: var(--pf-t--global--text--color--link--hover);
+    --foreman-link--TextDecorationLine: underline;
   }
+}
+
+// PF3/bootstrap's `a:hover, a:focus { color }` outranks PF6 component classes,
+// so PF6 components rendered as <a> would take the PF3 link color on hover
+// (e.g. white primary button text turning dark blue); restore their own color
+a.pf-v6-c-button:is(:hover, :focus) {
+  color: var(--pf-v6-c-button--Color);
+}
+
+a.pf-v6-c-menu__item:is(:hover, :focus) {
+  color: var(--pf-v6-c-menu__item--Color);
+}
+
+a.pf-v6-c-breadcrumb__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-breadcrumb__link--Color);
+}
+
+a.pf-v6-c-tabs__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-tabs__link--Color);
+}
+
+a.pf-v6-c-nav__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-nav__link--Color);
 }
 
 /*

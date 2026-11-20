@@ -191,14 +191,18 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       <FlexItem className="pf-u-max-width-100 pf-v6-u-w-100">
         <FormGroup fieldId="setting-input">
           {inputField}
-          <FormHelperText>
-            <HelperText>
-              <HelperTextItem variant="error">
-                {errMsg}
+          {/* PF6 shows a status icon for variant="error" even without text,
+              so only render helper text when there is something to say */}
+          {(errMsg || setting.encrypted) && (
+            <FormHelperText>
+              <HelperText>
+                {errMsg && (
+                  <HelperTextItem variant="error">{errMsg}</HelperTextItem>
+                )}
                 {setting.encrypted && encryptedHelp}
-              </HelperTextItem>
-            </HelperText>
-          </FormHelperText>
+              </HelperText>
+            </FormHelperText>
+          )}
         </FormGroup>
       </FlexItem>
       <FlexItem>

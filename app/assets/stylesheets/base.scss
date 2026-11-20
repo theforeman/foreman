@@ -24,6 +24,9 @@ html {
   .rails-table-toolbar {
     padding-bottom: 0;
     display: flex;
+    // PF6 page sections are column flex containers; keep search and actions
+    // side by side as in PF5
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     // PF6 page sections set a 24px gap, which only takes effect here because
