@@ -25,6 +25,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             auth = Authorizer.new(@user)
 
             assert auth.can?(@permission.name.to_sym, nil, cache)
+            assert auth.can?(@permission.name, nil, cache)
             refute auth.can?(:view_domains, nil, cache)
           end
           test "permission without resource" do
@@ -32,6 +33,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             auth = Authorizer.new(@user)
 
             assert auth.can?(@permission.name.to_sym, nil, cache)
+            assert auth.can?(@permission.name, nil, cache)
             refute auth.can?(:view_domains, nil, cache)
           end
 
@@ -40,6 +42,42 @@ class AuthorizerTest < ActiveSupport::TestCase
             auth = Authorizer.new(FactoryBot.create(:user))
 
             refute auth.can?(@permission.name.to_sym, nil, cache)
+          end
+
+          test "limited by current organization" do
+            org_with_role = FactoryBot.create(:organization)
+            org_without_role = FactoryBot.create(:organization)
+            user = FactoryBot.create(:user, :organizations => [org_with_role, org_without_role])
+            role = FactoryBot.create(:role)
+            role.organization_ids = [org_with_role.id]
+            role.save!
+            user.roles << role
+            FactoryBot.create(:filter, :role => role, :permissions => [@permission])
+            user.reload
+            auth = Authorizer.new(user)
+
+            as_user user do
+              assert auth.can?(@permission.name.to_sym, nil, cache)
+              assert auth.can?(@permission.name, nil, cache)
+              assert user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+              assert user.allowed_to_in_taxonomy_scope?(@permission.name)
+
+              in_taxonomy org_with_role do
+                assert auth.can?(@permission.name.to_sym, nil, cache)
+                assert auth.can?(@permission.name, nil, cache)
+                assert user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+                assert user.allowed_to_in_taxonomy_scope?(@permission.name)
+              end
+
+              in_taxonomy org_without_role do
+                refute auth.can?(@permission.name.to_sym, nil, cache)
+                refute auth.can?(@permission.name, nil, cache)
+                refute user.allowed_to_in_taxonomy_scope?(@permission.name.to_sym)
+                refute user.allowed_to_in_taxonomy_scope?(@permission.name)
+                assert user.allowed_to?(@permission.name.to_sym)
+                assert user.allowed_to?(@permission.name)
+              end
+            end
           end
         end
 

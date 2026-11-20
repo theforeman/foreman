@@ -39,7 +39,7 @@ module Menu
     end
 
     def authorized?
-      User.current.allowed_to?(url_hash.slice(:controller, :action, :id))
+      User.current.allowed_to_in_taxonomy_scope?(url_hash.slice(:controller, :action, :id))
     rescue => error
       Foreman::Logging.exception("Error while evaluating permissions", error)
       false

@@ -15,6 +15,19 @@ class Api::V2::PingControllerTest < ActionController::TestCase
     assert_not results.empty?, 'Should response with ping results'
   end
 
+  test 'ping skips permission checks for a user without permissions' do
+    User.current = FactoryBot.create(:user)
+    Ping.stubs(:ping).returns({'foreman' => {database: true}})
+    get :ping
+    assert_response :success
+  end
+
+  test 'statuses still requires a permission' do
+    User.current = FactoryBot.create(:user)
+    get :statuses
+    assert_response :forbidden
+  end
+
   test 'should get statuses results' do
     statuses = {
       'foreman': {
