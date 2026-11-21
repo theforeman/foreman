@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+  echo "Usage: $0 INSTANCE" >&2
+  exit 64
+}
+
+[ "$#" -eq 1 ] || usage
+
+case "$1" in
+  ''|*[!A-Za-z0-9_-]*)
+    echo "Invalid worker instance: $1" >&2
+    exit 64
+    ;;
+esac
+
+exec sidekiq \
+  -e "${RAILS_ENV:-production}" \
+  -r /usr/share/foreman/extras/dynflow-sidekiq.rb \
+  -C "/etc/foreman/dynflow/$1.yml"
