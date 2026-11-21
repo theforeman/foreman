@@ -417,6 +417,18 @@ class HostgroupTest < ActiveSupport::TestCase
     refute results.include?(hg2)
   end
 
+  test "can search hostgroups by a list of parameter values" do
+    matching_hostgroups = FactoryBot.create_list(:hostgroup, 2)
+    other_hostgroup = FactoryBot.create(:hostgroup)
+
+    [*matching_hostgroups, other_hostgroup].zip(%w[alpha beta gamma]).each do |hostgroup, value|
+      FactoryBot.create(:hostgroup_parameter, :hostgroup => hostgroup, :name => 'list_search_param', :value => value)
+    end
+
+    results = Hostgroup.search_for('params.list_search_param ^ (alpha, beta)')
+    assert_same_elements matching_hostgroups, results
+  end
+
   private
 
   def setup_user(operation)
