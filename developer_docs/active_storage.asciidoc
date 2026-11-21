@@ -1,0 +1,55 @@
+= Active Storage
+
+Foreman loads Active Storage and uses private local disk storage in production
+by default, under `/var/lib/foreman/storage`. The database stores attachment
+metadata; the storage service holds the file contents. Both must be backed up.
+The generic Rails attachment routes are disabled. Each consumer must authorize
+downloads through its own controller.
+
+== Choosing S3-compatible storage
+
+Install the `aws-sdk-s3` runtime dependency and configure an existing private
+bucket in `config/settings.yaml`:
+
+[source,yaml]
+----
+:active_storage:
+  :service: s3
+  :s3:
+    :region: us-east-1
+    :bucket: foreman-production
+    :endpoint: https://object-storage.example.com
+    :force_path_style: true
+----
+
+Omit `endpoint` and `force_path_style` for the normal AWS endpoint. Credentials
+can use the AWS SDK credential chain, including instance or workload roles.
+Alternatively, set both `access_key_id` and `secret_access_key` under `s3`.
+Do not commit credentials to a repository or make the bucket public.
+
+The same configuration is available through environment variables:
+
+* `FOREMAN_ACTIVE_STORAGE_SERVICE`
+* `FOREMAN_ACTIVE_STORAGE_S3_REGION`
+* `FOREMAN_ACTIVE_STORAGE_S3_BUCKET`
+* `FOREMAN_ACTIVE_STORAGE_S3_ENDPOINT`
+* `FOREMAN_ACTIVE_STORAGE_S3_FORCE_PATH_STYLE`
+* `FOREMAN_ACTIVE_STORAGE_S3_ACCESS_KEY_ID`
+* `FOREMAN_ACTIVE_STORAGE_S3_SECRET_ACCESS_KEY`
+
+Restart web and worker processes with the same configuration and credentials.
+Disk storage remains the default; neither backend requires a Kubernetes-specific
+mode. S3 lets separately scheduled web and worker processes access the same
+durable attachments without sharing a writable application directory.
+
+== Existing data
+
+Changing the default service affects new blobs only. Existing Active Storage
+blobs retain their `service_name` and must remain readable through that service.
+Do not remove the old storage directory or its backup when changing backends.
+Legacy plugin files also need a consumer-specific migration; enabling Active
+Storage does not import them automatically.
+
+Before switching a populated deployment, plan a copy-and-verify migration and a
+maintenance window for writers. Retain the original files until the copied data
+has been verified and the deployment backup and recovery procedure updated.

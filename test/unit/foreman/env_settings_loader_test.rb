@@ -33,6 +33,13 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_CONNECT_TIMEOUT' => '30',
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_READ_TIMEOUT' => '0.2',
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => '0.2',
+        'FOREMAN_ACTIVE_STORAGE_SERVICE' => 's3',
+        'FOREMAN_ACTIVE_STORAGE_S3_ACCESS_KEY_ID' => 'access-key',
+        'FOREMAN_ACTIVE_STORAGE_S3_SECRET_ACCESS_KEY' => 'secret-key',
+        'FOREMAN_ACTIVE_STORAGE_S3_REGION' => 'us-east-1',
+        'FOREMAN_ACTIVE_STORAGE_S3_BUCKET' => 'foreman',
+        'FOREMAN_ACTIVE_STORAGE_S3_ENDPOINT' => 'https://object-storage.example.com',
+        'FOREMAN_ACTIVE_STORAGE_S3_FORCE_PATH_STYLE' => 'true',
       }
     end
 
@@ -80,6 +87,17 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
             connect_timeout: 30.0,
             read_timeout: 0.2,
             write_timeout: 0.2,
+          },
+        },
+        active_storage: {
+          service: 's3',
+          s3: {
+            access_key_id: 'access-key',
+            secret_access_key: 'secret-key',
+            region: 'us-east-1',
+            bucket: 'foreman',
+            endpoint: 'https://object-storage.example.com',
+            force_path_style: true,
           },
         },
       }
