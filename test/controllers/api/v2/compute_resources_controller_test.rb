@@ -33,6 +33,32 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert !show_response.empty?
   end
 
+  test "should create an OpenStack compute resource with Application Credentials" do
+    Foreman::Model::Openstack.any_instance.stubs(:setup_key_pair)
+    attrs = {
+      :name => 'openstack-application-credentials',
+      :provider => 'Openstack',
+      :url => 'https://openstack.example.com/v3/auth/tokens',
+      :authentication_type => 'application_credentials',
+      :application_credential_id => 'credential-id',
+      :application_credential_secret => 'application-secret',
+    }
+
+    post :create, params: { :compute_resource => attrs }
+
+    assert_response :created
+    compute_resource = Foreman::Model::Openstack.unscoped.find_by!(:name => attrs[:name])
+    assert_equal attrs[:authentication_type], compute_resource.authentication_type
+    assert_equal attrs[:application_credential_id], compute_resource.application_credential_id
+    assert_equal attrs[:application_credential_secret], compute_resource.password
+
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal attrs[:authentication_type], response['authentication_type']
+    assert_equal attrs[:application_credential_id], response['application_credential_id']
+    assert_not response.key?('application_credential_secret')
+    assert_not response.key?('password')
+  end
+
   test "should update compute resource" do
     skip_without_libvirt
     put :update, params: { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }

@@ -38,6 +38,9 @@ module Api
           param :region, String, :desc => N_("for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
           param :tenant, String, :desc => N_("for OpenStack and AzureRm only")
           param :domain, String, :desc => N_("for OpenStack (v3) only")
+          param :authentication_type, %w(password application_credentials), :desc => N_("Authentication type for OpenStack")
+          param :application_credential_id, String, :desc => N_("Application Credential ID for OpenStack")
+          param :application_credential_secret, String, :desc => N_("Application Credential secret for OpenStack")
           param :project_domain_name, String, :desc => N_("for OpenStack (v3) only")
           param :project_domain_id, String, :desc => N_("for OpenStack (v3) only")
           param :server, String, :desc => N_("for VMware")
