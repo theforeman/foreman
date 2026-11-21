@@ -234,7 +234,7 @@ const HostsIndex = () => {
   const refreshTableData = () =>
     setAPIOptions({
       ...apiOptions,
-      params: { ...params, search: urlSearchQuery, page: 1 },
+      params: { ...params, search: apiSearchQuery, page: 1 },
     });
   const deleteHostHandler = ({ hostName, computeId }) =>
     dispatch(
