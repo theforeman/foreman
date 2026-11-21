@@ -373,6 +373,15 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'clone rejects virtual machine hosts' do
+    host = FactoryBot.create(:host, :on_compute_resource)
+
+    get :clone, params: { :id => host.id }, session: set_session_user
+
+    assert_redirected_to @controller.helpers.current_host_details_path(host)
+    assert_equal 'Cloning virtual machine hosts is not supported', flash[:error]
+  end
+
   def setup_user(operation, type = 'hosts', filter = nil, user = :one)
     super
   end
