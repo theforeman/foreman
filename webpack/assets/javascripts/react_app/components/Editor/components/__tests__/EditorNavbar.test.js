@@ -44,6 +44,12 @@ describe('EditorNavbar', () => {
       'aria-disabled',
       'true'
     );
+
+    userEvent.hover(screen.getByText('Changes'));
+
+    expect(await screen.findByRole('tooltip')).toHaveTextContent(
+      'No changes to display'
+    );
   });
 
   it('switches tabs on click', async () => {
