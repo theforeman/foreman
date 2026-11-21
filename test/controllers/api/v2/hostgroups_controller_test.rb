@@ -28,6 +28,20 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_empty hostgroups['results'].select { |h| h.has_key?('parameters') }
   end
 
+  test "should get thin index without evaluating inherited attributes" do
+    expected = Hostgroup.unscoped.reorder(:title).distinct.pluck(:id, :name, :title).map do |id, name, title|
+      { 'id' => id, 'name' => name, 'title' => title }
+    end
+    Hostgroup.any_instance.expects(:nested).never
+
+    get :index, params: { :thin => true, :per_page => :all }
+
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal expected, response['results']
+    assert response['results'].all? { |hostgroup| hostgroup.keys.sort == %w[id name title] }
+  end
+
   test "should get index with parameters" do
     get :index, params: { :include => ['parameters'] }
     assert_response :success
