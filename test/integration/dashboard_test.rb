@@ -51,6 +51,16 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     assert_dashboard_link 'Out of sync hosts'
   end
 
+  test "dashboard hides out of sync hosts when every origin disables it" do
+    Dashboard::Data.any_instance.stubs(:out_of_sync_enabled?).returns(false)
+
+    visit_dashboard
+
+    within "li[data-name='Host Configuration Status for All']" do
+      refute page.has_link?('Out of sync hosts')
+    end
+  end
+
   test "dashboard link hosts with no reports" do
     assert_dashboard_link 'Hosts with no reports'
   end
