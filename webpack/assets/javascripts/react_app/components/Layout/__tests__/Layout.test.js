@@ -49,18 +49,67 @@ describe('Layout', () => {
     expect(toggle.querySelector('.pf-v6-c-icon')).toBeNull();
   });
 
-  it('expands the open sidebar below the PF6 xl breakpoint', () => {
-    // PF6 hides the sidebar below 75rem unless it has pf-m-expanded, which it
-    // only gets when Page tracks mobile view (jsdom's 1024px window is mobile)
-    const { container } = render(
-      <Provider store={store}>
-        <Router>
-          <Layout data={layoutData} />
-        </Router>
-      </Provider>
-    );
-    expect(container.querySelector('.pf-v6-c-page__sidebar')).toHaveClass(
-      'pf-m-expanded'
-    );
+  describe('sidebar managed by PF6 Page', () => {
+    // PF6 Page reads its own width; jsdom reports 0 for clientWidth
+    const DESKTOP_WIDTH = 1400;
+    const MOBILE_WIDTH = 1100;
+    const PAGE_RESIZE_DEBOUNCE = 250;
+    let pageWidth;
+    let clientWidthSpy;
+
+    const resizeTo = width => {
+      pageWidth = width;
+      act(() => {
+        window.dispatchEvent(new Event('resize'));
+        jest.advanceTimersByTime(PAGE_RESIZE_DEBOUNCE);
+      });
+    };
+    const renderLayout = () => {
+      const { container } = render(
+        <Provider store={store}>
+          <Router>
+            <Layout data={layoutData} />
+          </Router>
+        </Provider>
+      );
+      return {
+        sidebar: () => container.querySelector('.pf-v6-c-page__sidebar'),
+      };
+    };
+
+    beforeEach(() => {
+      pageWidth = DESKTOP_WIDTH;
+      clientWidthSpy = jest
+        .spyOn(HTMLElement.prototype, 'clientWidth', 'get')
+        .mockImplementation(() => pageWidth);
+    });
+    afterEach(() => {
+      clientWidthSpy.mockRestore();
+    });
+
+    it('closes the sidebar below 75rem and opens it again above', () => {
+      const { sidebar } = renderLayout();
+      expect(sidebar()).not.toHaveClass('pf-m-collapsed');
+
+      resizeTo(MOBILE_WIDTH);
+      expect(sidebar()).toHaveClass('pf-m-collapsed');
+
+      resizeTo(DESKTOP_WIDTH);
+      expect(sidebar()).not.toHaveClass('pf-m-collapsed');
+    });
+
+    it('opens the sidebar as an overlay from the toggle in mobile view', () => {
+      pageWidth = MOBILE_WIDTH;
+      const { sidebar } = renderLayout();
+      expect(sidebar()).toHaveClass('pf-m-collapsed');
+      fireEvent.click(screen.getByRole('button', { name: 'Side navigation toggle' }));
+      expect(sidebar()).toHaveClass('pf-m-expanded');
+    });
+
+    it('collapses the sidebar from the toggle on desktop', () => {
+      const { sidebar } = renderLayout();
+      fireEvent.click(screen.getByRole('button', { name: 'Side navigation toggle' }));
+      expect(sidebar()).toHaveClass('pf-m-collapsed');
+    });
   });
 });

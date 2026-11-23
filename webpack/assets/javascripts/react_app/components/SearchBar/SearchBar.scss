@@ -14,4 +14,6 @@
 .foreman-search-bar {
   width: 100%;
   display: flex;
+  // the bookmarks toggle sits next to the search like a control of it
+  gap: var(--pf-t--global--spacer--gap--control-to-control--default);
 }

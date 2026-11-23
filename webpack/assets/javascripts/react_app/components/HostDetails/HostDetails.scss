@@ -1,27 +1,5 @@
-@import '../../common/variables';
-
 .host-details-tabs-section {
   padding-left: 24px;
-
-  .tab-width-138 {
-    max-width: calc(
-      100vw - 138px
-    ); //These values may need to be increased for other browsers
-
-    @media screen and (max-width: calc(#{$pf-v6-global--breakpoint--md} - 1px)) {
-      max-width: calc(100vw - 64px);
-    }
-  }
-
-  .tab-width-263 {
-    max-width: calc(
-      100vw - 263px
-    ); //These values may need to be increased for other browsers
-
-    @media screen and (max-width: calc(#{$pf-v6-global--breakpoint--md} - 1px)) {
-      max-width: calc(100vw - 64px);
-    }
-  }
 }
 
 .host-details-header-section {

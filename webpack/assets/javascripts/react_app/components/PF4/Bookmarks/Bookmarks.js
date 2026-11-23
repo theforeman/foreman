@@ -82,7 +82,6 @@ const Bookmarks = ({
           <MenuToggle
             ref={toggleRef}
             id={controller}
-            variant="plain"
             isExpanded={isDropdownOpen}
             onClick={() => onToggle(!isDropdownOpen)}
             title={__('Bookmarks')}

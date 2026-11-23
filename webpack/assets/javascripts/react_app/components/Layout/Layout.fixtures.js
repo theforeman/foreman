@@ -213,7 +213,6 @@ export const fullLayoutStore = {
       },
     ],
     isLoading: false,
-    isCollapsed: false,
     currentOrganization: 'Default Organization',
     currentLocation: 'Default Location',
   },

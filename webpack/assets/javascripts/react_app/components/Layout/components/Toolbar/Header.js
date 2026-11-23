@@ -8,7 +8,7 @@ import {
   MastheadLogo,
   MastheadBrand,
   MastheadContent,
-  Button,
+  PageToggleButton,
 } from '@patternfly/react-core';
 import { BarsIcon } from '@patternfly/react-icons';
 
@@ -19,20 +19,11 @@ import {
 } from '../../LayoutHelper';
 import HeaderToolbar from './HeaderToolbar';
 
-const Header = ({
-  data: { logo, brand, root, ...props },
-  onNavToggle,
-  isLoading,
-}) => (
+const Header = ({ data: { logo, brand, root, ...props }, isLoading }) => (
   <Masthead display={{ default: 'inline' }}>
     <MastheadMain>
       <MastheadToggle>
-        <Button
-          icon={<BarsIcon />}
-          ouiaId="nav-toggle"
-          onClick={onNavToggle}
-          variant="plain"
-        />
+        <PageToggleButton icon={<BarsIcon />} ouiaId="nav-toggle" />
       </MastheadToggle>
       <MastheadBrand>
         <MastheadLogo component="a" href={root}>
@@ -54,7 +45,6 @@ const Header = ({
 Header.propTypes = {
   data: PropTypes.shape(dataPropType).isRequired,
   isLoading: layoutPropTypes.isLoading,
-  onNavToggle: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {

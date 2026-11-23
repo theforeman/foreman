@@ -11,16 +11,10 @@
   height: fit-content;
 }
 
-.collapsed-nav {
-  #react-app-root {
-    main.pf-v6-c-page__main {
-      padding-left: 0;
-    }
-  }
-
-  #rails-app-content {
-    margin-left: 0;
-  }
+// Rails pages render outside PF's Page grid, so follow the PF-managed
+// sidebar: drop the sidebar offset when PF collapses it
+body:has(#foreman-page .pf-v6-c-page__sidebar.pf-m-collapsed) #rails-app-content {
+  margin-left: 0;
 }
 
 #page-sidebar {

@@ -25,7 +25,6 @@ import {
   selectSlotMetadata,
 } from '../common/Slot/SlotSelectors';
 
-import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import { registerCoreTabs } from './Tabs';
 import {
@@ -73,7 +72,6 @@ const HostDetails = ({
   const errorMessage = useSelector(state =>
     selectAPIErrorMessage(state, HOST_DETAILS_KEY)
   );
-  const isNavCollapsed = useSelector(selectIsCollapsed);
   const hostsIndexUrl = useForemanHostsPageUrl();
   const tabs = useSelector(
     state => selectFillsIDs(state, TABS_SLOT_ID),
@@ -273,9 +271,7 @@ const HostDetails = ({
             <Tabs
               ouiaId="host-details-tabs"
               activeKey={activeTab}
-              className={`host-details-tabs tab-width-${
-                isNavCollapsed ? '138' : '263'
-              }`}
+              className="host-details-tabs"
             >
               {filteredTabs.map(tab => {
                 const tabID = `${tab.toLowerCase()}-tab`;

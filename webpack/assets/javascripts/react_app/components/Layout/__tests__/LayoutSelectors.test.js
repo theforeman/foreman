@@ -5,7 +5,6 @@ import {
   selectLayout,
   selectCurrentLocation,
   selectCurrentOrganization,
-  selectIsCollapsed,
 } from '../LayoutSelectors';
 import { layoutMock, hashItemNameless } from '../Layout.fixtures';
 
@@ -15,7 +14,6 @@ const state = {
     currentOrganization: 'org1',
     currentLocation: 'loc1',
     isLoading: true,
-    isCollapsed: false,
   },
 };
 
@@ -31,7 +29,6 @@ const namelessState = {
     currentOrganization: 'org1',
     currentLocation: 'loc1',
     isLoading: true,
-    isCollapsed: false,
   },
 };
 
@@ -45,7 +42,6 @@ const fixtures = {
     patternflyMenuItemsSelector(namelessState),
 
   'should return isLoading from selector': () => selectIsLoading(state),
-  'should return isCollapsed from selector': () => selectIsCollapsed(state),
 };
 
 describe('Layout selectors', () => testSelectorsSnapshotWithFixtures(fixtures));

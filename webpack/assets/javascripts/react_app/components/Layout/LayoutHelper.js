@@ -185,10 +185,7 @@ export const dataPropType = {
 export const layoutPropTypes = {
   children: PropTypes.node,
   isLoading: PropTypes.bool,
-  isCollapsed: PropTypes.bool,
   navigate: PropTypes.func,
-  expandLayoutMenus: PropTypes.func,
-  collapseLayoutMenus: PropTypes.func,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -213,8 +210,5 @@ export const layoutDefaultProps = {
   items: [],
   data: {},
   isLoading: false,
-  isCollapsed: false,
   navigate: noop,
-  expandLayoutMenus: noop,
-  collapseLayoutMenus: noop,
 };
