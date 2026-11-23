@@ -28,6 +28,11 @@
     --pf-v6-c-menu-toggle--hover--Color: #{$navbar-default-link-color};
     --pf-v6-c-menu-toggle--expanded--Color: #{$navbar-default-link-color};
     --pf-v6-c-menu-toggle--m-plain--Color: #{$navbar-default-link-color};
+    // the caret and leading icons have their own (dark) color variables
+    --pf-v6-c-menu-toggle__icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle__toggle-icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle--hover__toggle-icon--Color: #{$navbar-default-link-color};
+    --pf-v6-c-menu-toggle--expanded__toggle-icon--Color: #{$navbar-default-link-color};
   }
 
   .pf-v6-c-masthead__toggle .pf-v6-c-button {

@@ -229,12 +229,14 @@ const TableIndexPage = ({
       id="page-layout-toolbar"
     >
       <ToolbarContent>
+        {/* the bulk selector is its own toolbar item: inside the filter group
+            it would get the tight control-to-control gap */}
+        {searchable && selectionToolbar}
         {searchable && (
           <ToolbarGroup
             className="page-layout-toolbar-group-search"
             variant="filter-group"
           >
-            {selectionToolbar}
             <ToolbarItem id="page-layout-toolbar-search">
               <SearchBar
                 data={searchProps}

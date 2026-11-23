@@ -6,7 +6,9 @@
       justify-content: flex-end;
     }
 
-    &:first-child {
+    // the search group follows the bulk selector item when there is one
+    &:first-child,
+    &.page-layout-toolbar-group-search {
       margin-right: auto;
       width: min-content;
     }

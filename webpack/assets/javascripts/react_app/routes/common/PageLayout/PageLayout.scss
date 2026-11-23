@@ -16,8 +16,19 @@
       display: block;
     }
 
+    // plain buttons and toggles (bookmarks, kebabs, column selector) carry
+    // their own inline padding, which adds to the toolbar gap; offset it so
+    // the visible space between toolbar items is the md spacer from the PF6
+    // toolbar guidelines
+    .foreman-search-bar > .pf-v6-c-menu-toggle.pf-m-plain {
+      margin-inline-end: calc(-1 * var(--pf-t--global--spacer--action--horizontal--plain--default));
+    }
+
     .table-toolbar-actions {
-      padding-left: var(--pf-t--global--spacer--md);
+      .pf-v6-c-menu-toggle.pf-m-plain,
+      .pf-v6-c-button:is(.pf-m-plain, .pf-m-link):not(.pf-m-inline) {
+        margin-inline: calc(-1 * var(--pf-t--global--spacer--action--horizontal--plain--default));
+      }
     }
   }
 
