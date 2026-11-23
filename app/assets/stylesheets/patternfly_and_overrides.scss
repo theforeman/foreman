@@ -354,6 +354,14 @@ hr.pf-v6-c-divider {
   margin: 0;
 }
 
+// same for checkbox and radio margins: bootstrap's
+// `input[type="checkbox"], input[type="radio"] { margin: 4px 0 0 }` pushes
+// every PF6 check and radio input 4px down (e.g. table row checkboxes)
+input.pf-v6-c-check__input,
+input.pf-v6-c-radio__input {
+  margin: 0;
+}
+
 label[class^='pf-v6'],
 [class^='pf-v6'] label {
   /* override  

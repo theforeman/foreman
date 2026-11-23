@@ -30,7 +30,7 @@ const generalColumns = [
       global_status: globalStatus,
       global_status_fulltext: statuses,
     }) => (
-      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+      <span className="host-name-wrapper">
         <Popover
           id="host-index-global-status-tooltip"
           bodyContent={
