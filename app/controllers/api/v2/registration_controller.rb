@@ -5,6 +5,13 @@ module Api
       include Foreman::Controller::Registration
       include Foreman::Controller::Parameters::Registration
 
+      # Registration is routed at /register (not under /api). Override Apipie's
+      # default api_base_url so docs match the real endpoints.
+      resource_description do
+        api_version 'v2'
+        api_base_url ''
+      end
+
       rescue_from ActiveRecord::RecordNotFound do |error|
         logger.info "#{error.message} (#{error.class})"
         not_found(error.message)
