@@ -1,3 +1,19 @@
+2026-11-25	Zach Huntington-Meath <zhunting@redhat.com>
+	* Release 5.1.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2026-11-17	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #40030 - CVE-2026-107443
+	* Fixes #40030 - CVE-2026-107443
+
+2026-11-17	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #40033 - CVE-2026-86323
+	* Refs #40033 - CVE-2026-86323
+	* Fixes #40033 - CVE-2026-86323
+	* Fixes #40034 - CVE-2026-86324
+	* Refs #40032 - CVE-2026-86322
+	* Fixes #40032 - CVE-2026-86322
+
 2026-11-11	Zach Huntington-Meath <zhunting@redhat.com>
 	* Release 5.1.0-rc1
 	* i18n - extracting new, pulling from tx
