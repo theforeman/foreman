@@ -1,4 +1,5 @@
 import { actionTypeGenerator } from '../../../redux/API/APIActionTypeGenerator';
+import { getAPIErrorMessage } from '../../../redux/API/APIHelpers';
 import { translate as __ } from '../../../common/I18n';
 import { urlWithSearch } from '../../../common/urlHelpers';
 import { foremanUrl } from '../../../common/helpers';
@@ -54,22 +55,26 @@ export const failedHostsToastParams = ({
 };
 
 export const bulkErrorToastParams = (error, key) => {
-  const fallback = error?.message || __('Unexpected error occurred.');
+  const baseMessage =
+    getAPIErrorMessage(error) || __('Unexpected error occurred.');
   const apiError = error?.response?.data?.error;
   const isObject = apiError && typeof apiError === 'object';
-  let message = isObject ? apiError.message : apiError;
 
-  if (isObject && Array.isArray(apiError.failed_hosts)) {
-    const reasons = [
-      ...new Set(apiError.failed_hosts.map(host => host.error).filter(Boolean)),
-    ];
-    if (reasons.length > 0) {
-      message = [message, ...reasons].filter(Boolean).join(' ');
-    }
-  }
+  const hostReasons =
+    isObject && Array.isArray(apiError.failed_hosts)
+      ? [
+          ...new Set(
+            apiError.failed_hosts.map(host => host.error).filter(Boolean)
+          ),
+        ]
+      : [];
+  const message =
+    hostReasons.length > 0
+      ? [baseMessage, ...hostReasons].join(' ')
+      : baseMessage;
 
   return failedHostsToastParams({
-    message: message || fallback,
+    message,
     failed_host_ids: isObject ? apiError.failed_host_ids : undefined,
     key,
   });
