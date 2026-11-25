@@ -1,3 +1,27 @@
+2026-11-25	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.19.3
+
+2026-11-17	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #40034 - CVE-2026-86324
+	* Refs #40033 - CVE-2026-86323
+	* Refs #40033 - CVE-2026-86323
+	* Fixes #40033 - CVE-2026-86323
+	* Refs #40032 - CVE-2026-86322
+	* Fixes #40032 - CVE-2026-86322
+
+2026-11-17	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #40030 - CVE-2026-107443
+	* Fixes #40030 - CVE-2026-107443
+
+2026-11-17	dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	* Bump theforeman/actions/.github/workflows/foreman_plugin.yml from 0 to 1
+
+2026-11-17	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Fixes #39600 - Install libcap-dev/libcap-devel for cap2 gem
+
+2026-10-19	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #39885 - Pin json to < 3
+
 2026-10-02	Odilon Sousa <osousa@redhat.com>
 	* Release 3.19.2
 	* Fixes #39841 - Load config safely
