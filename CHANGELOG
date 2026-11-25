@@ -1,3 +1,43 @@
+2026-11-25	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 5.0.2
+	* Install openssl-devel for the openssl gem native extension
+
+2026-11-25	tlabaj <tlabaj@redhat.com>
+	* Fixes #39756 - Use string labels for table data-label and aria-label
+
+2026-11-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #39894 - Brute-force protection tests
+	* Fixes #39894 - Brute-force protection to unattended controllers
+	* Fixes #39893 - Improve login bruteforce protection
+	* Refs #39837 - Enforce per-OS provisioning token (revert)
+
+2026-11-17	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #40034 - CVE-2026-86324
+	* Refs #40033 - CVE-2026-86323
+	* Refs #40033 - CVE-2026-86323
+	* Fixes #40033 - CVE-2026-86323
+	* Refs #40032 - CVE-2026-86322
+	* Fixes #40032 - CVE-2026-86322
+
+2026-11-17	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #40030 - CVE-2026-107443
+	* Fixes #40030 - CVE-2026-107443
+
+2026-10-23	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #38932 - Allow users to purge all audit types
+
+2026-10-23	MariaAga <mariaaga@redhat.com>
+	* Refs #39586 - avoid double encoding for json reports
+
+2026-10-21	Ondřej Gajdušek <ogajduse@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2026-10-19	Michal Gritzbach <mgritzba@redhat.com>
+	* Fixes #39867 - check API session expiry before authorization
+
+2026-10-19	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #39885 - Pin json to < 3
+
 2026-10-02	Odilon Sousa <osousa@redhat.com>
 	* Release 5.0.1
 	* Fixes #39841 - Load config safely
