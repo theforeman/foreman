@@ -55,6 +55,21 @@ class RendererTest < ActiveSupport::TestCase
     tempfile&.close!
   end
 
+  test 'Windows script escapes percent signs in the tokenless built URL' do
+    Setting[:token_duration] = 0
+    host = Foreman::TemplateSnapshotService.new.windows10_dhcp
+    host.provision_interface.mac = '00:11:22:33:44:55'
+    template = Foreman::Renderer::Source::Snapshot.load_file(
+      Rails.root.join('app/views/unattended/provisioning_templates/script/windows_default_script.erb')
+    )
+    source = Foreman::Renderer::Source::Snapshot.new(template)
+    scope = Foreman::Renderer.get_scope(host: host, source: source)
+
+    rendered = Foreman::Renderer.render(source, scope)
+
+    assert_includes rendered, '%WGET% http://foreman.example.com/unattended/built?mac=00%%3A11%%3A22%%3A33%%3A44%%3A55'
+  end
+
   private
 
   def assert_template(template)
