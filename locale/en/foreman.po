@@ -11876,12 +11876,6 @@ msgstr ""
 msgid "You do not have permission to %s this organization parameter"
 msgstr ""
 
-msgid "You do not have permission to add a mail notification to another user"
-msgstr ""
-
-msgid "You do not have permission to delete a mail notification of another user"
-msgstr ""
-
 msgid "You do not have permission to edit the login"
 msgstr ""
 

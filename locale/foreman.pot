@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 14:28-0500\n"
-"PO-Revision-Date: 2026-11-11 14:28-0500\n"
+"POT-Creation-Date: 2026-11-25 12:41-0500\n"
+"PO-Revision-Date: 2026-11-25 12:41-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -2135,74 +2135,66 @@ msgstr ""
 msgid "a location"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:9
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:10
 msgid "List of email notifications"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:16
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:17
 msgid ""
 "Mail notification interval option, e.g. Daily, Weekly or Monthly. Required for"
 " summary notification"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:17
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:18
 msgid ""
 "Mail notification subscription option, e.g. Subscribe, Subscribe to my hosts o"
 "r Subscribe to all hosts. Required for host built and config error state"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:18
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:19
 msgid "Relevant only for audit summary notification"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:19
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:20
 msgid ""
 "Do not send the notification when there is nothing to report. Relevant only fo"
 "r summary notifications"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:29
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:30
 msgid "Show an email notification"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:30
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:31
 msgid "Numerical ID or email notification name"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:35
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:36
 msgid "Add an email notification for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:50
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:52
 msgid "User mail notification already exists. Use the update action"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:56
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:58
 msgid "Update an email notification for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:64
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:67
 msgid "No user mail notification to update. Use the create action"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:74
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:77
 msgid "Remove an email notification for a user"
-msgstr ""
-
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:84
-msgid "You do not have permission to delete a mail notification of another user"
 msgstr ""
 
 #: ../app/controllers/api/v2/mail_notifications_controller.rb:88
 msgid "List all email notifications for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:104
-msgid "Interval or subscription option is missing"
-msgstr ""
-
 #: ../app/controllers/api/v2/mail_notifications_controller.rb:105
-msgid "You do not have permission to add a mail notification to another user"
+msgid "Interval or subscription option is missing"
 msgstr ""
 
 #: ../app/controllers/api/v2/mail_notifications_controller.rb:106
@@ -2630,12 +2622,12 @@ msgstr ""
 #: ../app/controllers/api/v2/personal_access_tokens_controller.rb:10
 #: ../app/controllers/api/v2/personal_access_tokens_controller.rb:20
 #: ../app/controllers/api/v2/personal_access_tokens_controller.rb:26
-#: ../app/controllers/api/v2/personal_access_tokens_controller.rb:44
+#: ../app/controllers/api/v2/personal_access_tokens_controller.rb:46
 #: ../app/controllers/api/v2/registration_tokens_controller.rb:33
 #: ../app/controllers/api/v2/ssh_keys_controller.rb:10
 #: ../app/controllers/api/v2/ssh_keys_controller.rb:20
 #: ../app/controllers/api/v2/ssh_keys_controller.rb:26
-#: ../app/controllers/api/v2/ssh_keys_controller.rb:43
+#: ../app/controllers/api/v2/ssh_keys_controller.rb:45
 #: ../app/controllers/api/v2/table_preferences_controller.rb:10
 #: ../app/controllers/api/v2/table_preferences_controller.rb:17
 #: ../app/controllers/api/v2/table_preferences_controller.rb:26
@@ -2655,7 +2647,7 @@ msgstr ""
 msgid "Create a Personal Access Token for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/personal_access_tokens_controller.rb:42
+#: ../app/controllers/api/v2/personal_access_tokens_controller.rb:44
 msgid "Revoke a Personal Access Token for a user"
 msgstr ""
 
@@ -3358,7 +3350,7 @@ msgstr ""
 msgid "Add an SSH key for a user"
 msgstr ""
 
-#: ../app/controllers/api/v2/ssh_keys_controller.rb:41
+#: ../app/controllers/api/v2/ssh_keys_controller.rb:43
 msgid "Delete an SSH key for a user"
 msgstr ""
 
@@ -7066,7 +7058,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:778
+#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:781
 msgid "is not permitted"
 msgstr ""
 
@@ -7990,63 +7982,63 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:684
+#: ../app/models/user.rb:687
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:692
+#: ../app/models/user.rb:695
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:698
+#: ../app/models/user.rb:701
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:706 ../app/models/usergroup.rb:114
+#: ../app/models/user.rb:709 ../app/models/usergroup.rb:114
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:715
+#: ../app/models/user.rb:718
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:724
+#: ../app/models/user.rb:727
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:730
+#: ../app/models/user.rb:733
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:742 ../app/models/usergroup.rb:143
+#: ../app/models/user.rb:745 ../app/models/usergroup.rb:143
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:749
+#: ../app/models/user.rb:752
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:760
+#: ../app/models/user.rb:763
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:766
+#: ../app/models/user.rb:769
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:772
+#: ../app/models/user.rb:775
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:785
+#: ../app/models/user.rb:788
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:787
+#: ../app/models/user.rb:790
 msgid "You do not have permission to edit the login"
 msgstr ""
 
-#: ../app/models/user.rb:794
+#: ../app/models/user.rb:797
 msgid "It is not possible to disable yourself"
 msgstr ""
 
