@@ -3,7 +3,7 @@ import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem, PageSection } from '@patternfly/react-core';
 import URI from 'urijs';
 import SearchBar from '../../../SearchBar';
 import Pagination from '../../../Pagination';
@@ -106,43 +106,45 @@ const ReportsTab = ({ hostName, origin }) => {
     return <PermissionDenied missingPermissions={['view_config_reports']} />;
   }
   return (
-    <Grid id="new_host_details_insights_tab" hasGutter style={{ padding: 24 }}>
-      <GridItem span={6}>
-        <SearchBar
-          data={{
-            ...getControllerSearchProps('/config_reports'),
-            controller: 'config_reports',
-          }}
-          onSearch={search => fetchReports({ search, page: 1 })}
-          initialQuery={getUrlParams().search}
-        />
-      </GridItem>
-      <GridItem span={6}>
-        <Pagination
-          ouiaId="pagination-top"
-          variant="top"
-          itemCount={itemCount}
-          onChange={onPaginationChange}
-        />
-      </GridItem>
-      <GridItem>
-        <ReportsTable
-          reports={reports}
-          status={status}
-          error={error}
-          origin={origin}
-          fetchReports={fetchReports}
-        />
-      </GridItem>
-      <GridItem>
-        <Pagination
-          ouiaId="pagination-bottom"
-          variant="bottom"
-          itemCount={itemCount}
-          onChange={onPaginationChange}
-        />
-      </GridItem>
-    </Grid>
+    <PageSection hasBodyWrapper={false}>
+      <Grid id="new_host_details_insights_tab" hasGutter>
+        <GridItem span={6}>
+          <SearchBar
+            data={{
+              ...getControllerSearchProps('/config_reports'),
+              controller: 'config_reports',
+            }}
+            onSearch={search => fetchReports({ search, page: 1 })}
+            initialQuery={getUrlParams().search}
+          />
+        </GridItem>
+        <GridItem span={6}>
+          <Pagination
+            ouiaId="pagination-top"
+            variant="top"
+            itemCount={itemCount}
+            onChange={onPaginationChange}
+          />
+        </GridItem>
+        <GridItem>
+          <ReportsTable
+            reports={reports}
+            status={status}
+            error={error}
+            origin={origin}
+            fetchReports={fetchReports}
+          />
+        </GridItem>
+        <GridItem>
+          <Pagination
+            ouiaId="pagination-bottom"
+            variant="bottom"
+            itemCount={itemCount}
+            onChange={onPaginationChange}
+          />
+        </GridItem>
+      </Grid>
+    </PageSection>
   );
 };
 
