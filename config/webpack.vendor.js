@@ -12,6 +12,8 @@ module.exports = [
   'regenerator-runtime/runtime',
   'formik',
   'react',
+  'react/jsx-runtime',
+  'react/jsx-dev-runtime',
   'react-ace',
   'react-dom',
   'react-dnd',
