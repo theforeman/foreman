@@ -44,36 +44,9 @@ body:has(#foreman-page .pf-v6-c-page__sidebar.pf-m-collapsed) #rails-app-content
 }
 
 #foreman-nav {
-  .nav-title-icon {
-    word-break: break-word;
+  // long (translated) menu titles break instead of overflowing the sidebar
+  .pf-v6-c-nav__link-text {
     overflow-wrap: break-word;
-    white-space: normal;
-  }
-
-  .nav-icon {
-    pointer-events: none;
-    padding-right: 10px;
-  }
-
-  .nav-title {
-    pointer-events: none;
-  }
-
-  .pf-v6-c-nav__item .pf-v6-c-nav__item.pf-m-expandable .pf-v6-c-nav__list::before {
-    border: 0;
-  }
-
-  .pf-v6-c-nav__item.pf-m-expandable::before {
-    z-index: var(--pf-v6-c-page__sidebar--ZIndex);
-  }
-
-  .pf-v6-c-nav__item .pf-v6-c-nav__item.pf-m-expandable::before {
-    // in small screens, the expandable items have css to add a second border
-    border-bottom: none;
-  }
-  
-  .pf-m-expandable>.pf-v6-c-nav__link{
-    text-align: left;
   }
 
   .navigation-search-menu {

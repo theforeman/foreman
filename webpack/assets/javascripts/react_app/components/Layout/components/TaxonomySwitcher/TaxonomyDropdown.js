@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -15,7 +15,6 @@ import {
 import { GlobeIcon, BuildingIcon } from '@patternfly/react-icons';
 import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
-import './TaxonomyDropdown.scss';
 
 const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const id = `${taxonomyType}-dropdown`;
@@ -29,7 +28,6 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
 
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const searchInputRef = useRef(null);
 
   const filteredItems = useMemo(() => {
     const search = searchValue.toLowerCase();
@@ -46,13 +44,11 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
         isOpen={isOpen}
         onSelect={() => setIsOpen(false)}
         onOpenChange={newIsOpen => setIsOpen(newIsOpen)}
-        // like the PF5 ContextSelector: focus the filter on open, and let Tab
-        // move through filter, items and footer instead of closing the menu
+        // as in the PF context selector demo: Tab moves through filter, items
+        // and footer instead of closing the menu
         onOpenChangeKeys={['Escape']}
-        popperProps={{
-          appendTo: 'inline',
-          onShown: () => searchInputRef.current?.focus(),
-        }}
+        isScrollable
+        popperProps={{ appendTo: 'inline' }}
         toggle={toggleRef => (
           <MenuToggle
             ref={toggleRef}
@@ -69,7 +65,6 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
         <MenuSearch>
           <MenuSearchInput>
             <SearchInput
-              ref={searchInputRef}
               value={searchValue}
               aria-label={__('Filter')}
               onChange={(_event, value) => setSearchValue(value)}
@@ -85,10 +80,11 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
             icon={anyIcon}
             isSelected={!currentTaxonomy}
             isDisabled={!currentTaxonomy}
-            onClick={() => window.location.assign(anyTaxonomyURL)}
+            to={anyTaxonomyURL}
           >
             {anyTaxonomyText}
           </DropdownItem>
+          <Divider component="li" key="any-taxonomy-divider" />
           {filteredItems.map(({ title, href }) => (
             <DropdownItem
               key={href}
@@ -96,11 +92,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
               className={`${taxonomyType}_menuitem`}
               isSelected={title === currentTaxonomy}
               isDisabled={title === currentTaxonomy}
-              onClick={() => {
-                if (href) {
-                  window.location.assign(href);
-                }
-              }}
+              to={href}
             >
               {title}
             </DropdownItem>

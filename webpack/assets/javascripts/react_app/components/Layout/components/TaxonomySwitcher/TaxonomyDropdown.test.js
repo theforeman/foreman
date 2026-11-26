@@ -10,20 +10,6 @@ const locations = [
   { id: 4, title: 'nairobi', href: '/locations/4-nairobi/select' },
 ];
 
-const assign = jest.fn();
-const originalLocation = window.location;
-
-beforeAll(() => {
-  Object.defineProperty(window, 'location', {
-    value: { assign },
-    writable: true,
-  });
-});
-afterAll(() => {
-  window.location = originalLocation;
-});
-beforeEach(() => assign.mockClear());
-
 const openDropdown = async toggleText => {
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: toggleText }));
@@ -71,15 +57,20 @@ describe('TaxonomyDropdown', () => {
     await openDropdown(/london/);
     expect(
       screen.getByRole('menuitem', { name: /Any location/ })
-    ).toBeEnabled();
-    expect(screen.getByRole('menuitem', { name: /london/ })).toBeDisabled();
-    expect(screen.getByRole('menuitem', { name: /norway/ })).toBeEnabled();
+    ).not.toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('menuitem', { name: /london/ })).toHaveAttribute(
+      'aria-disabled',
+      'true'
+    );
+    expect(
+      screen.getByRole('menuitem', { name: /norway/ })
+    ).not.toHaveAttribute('aria-disabled', 'true');
     expect(screen.getByRole('menuitem', { name: /norway/ })).toHaveClass(
       'location_menuitem'
     );
   });
 
-  it('navigates to the taxonomy href on click', async () => {
+  it('links each taxonomy to its select URL', async () => {
     render(
       <TaxonomyDropdown
         taxonomyType="location"
@@ -88,14 +79,13 @@ describe('TaxonomyDropdown', () => {
       />
     );
     await openDropdown(/london/);
-    await act(async () => {
-      fireEvent.click(screen.getByRole('menuitem', { name: /norway/ }));
-    });
-    await flushPatternflyTimers();
-    expect(assign).toHaveBeenCalledWith('/locations/3-norway/select');
+    expect(screen.getByRole('menuitem', { name: /norway/ })).toHaveAttribute(
+      'href',
+      '/locations/3-norway/select'
+    );
   });
 
-  it('navigates to the clear URL for any location', async () => {
+  it('links any location to the clear URL, separated from the list', async () => {
     render(
       <TaxonomyDropdown
         taxonomyType="location"
@@ -104,11 +94,10 @@ describe('TaxonomyDropdown', () => {
       />
     );
     await openDropdown(/london/);
-    await act(async () => {
-      fireEvent.click(screen.getByRole('menuitem', { name: /Any location/ }));
-    });
-    await flushPatternflyTimers();
-    expect(assign).toHaveBeenCalledWith('/locations/clear');
+    expect(
+      screen.getByRole('menuitem', { name: /Any location/ })
+    ).toHaveAttribute('href', '/locations/clear');
+    expect(screen.getAllByRole('separator').length).toBeGreaterThan(1);
   });
 
   it('filters the list by the search text, case-insensitively', async () => {
@@ -142,7 +131,7 @@ describe('TaxonomyDropdown', () => {
     await openDropdown(/Any organization/);
     expect(
       screen.getByRole('menuitem', { name: /Any organization/ })
-    ).toBeDisabled();
+    ).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('links to the manage page in the footer', async () => {
@@ -157,18 +146,6 @@ describe('TaxonomyDropdown', () => {
     expect(
       screen.getByRole('link', { name: 'Manage Organizations' })
     ).toHaveAttribute('href', '/organizations');
-  });
-
-  it('focuses the filter field when the menu opens', async () => {
-    render(
-      <TaxonomyDropdown
-        taxonomyType="location"
-        currentTaxonomy="london"
-        taxonomies={locations}
-      />
-    );
-    await openDropdown(/london/);
-    expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('keeps the menu open on Tab so the filter and footer stay reachable', async () => {
