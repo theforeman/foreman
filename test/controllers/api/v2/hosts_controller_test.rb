@@ -789,6 +789,36 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal hostgroup.id, Host.find_by(:name => hostname).hostgroup_id
     end
 
+    test 'set hostgroup when custom hostgroup_fact present in facts' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:hostgroup_fact] = 'x_hostgroup'
+      hostgroup = FactoryBot.create(:hostgroup)
+      facts['x_hostgroup'] = hostgroup.title
+      post :facts, params: { :name => hostname, :facts => facts }
+      assert_response :success
+      assert_equal hostgroup.id, Host.find_by(:name => hostname).hostgroup_id
+    end
+
+    test 'when "Setting[:hostgroup_fact]" is empty, fallback to foreman_hostgroup in facts' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:hostgroup_fact] = ''
+      hostgroup = FactoryBot.create(:hostgroup)
+      facts['foreman_hostgroup'] = hostgroup.title
+      post :facts, params: { :name => hostname, :facts => facts }
+      assert_response :success
+      assert_equal hostgroup.id, Host.find_by(:name => hostname).hostgroup_id
+    end
+
+    test 'when "Setting[:hostgroup_fact]" is nil, fallback to foreman_hostgroup in facts' do
+      Setting[:create_new_host_when_facts_are_uploaded] = true
+      Setting[:hostgroup_fact] = nil
+      hostgroup = FactoryBot.create(:hostgroup)
+      facts['foreman_hostgroup'] = hostgroup.title
+      post :facts, params: { :name => hostname, :facts => facts }
+      assert_response :success
+      assert_equal hostgroup.id, Host.find_by(:name => hostname).hostgroup_id
+    end
+
     test 'assign hostgroup attributes when foreman_hostgroup present in facts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
       hostgroup = FactoryBot.create(:hostgroup, :with_rootpass)

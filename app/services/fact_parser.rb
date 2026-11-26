@@ -50,7 +50,8 @@ class FactParser
   end
 
   def hostgroup
-    hostgroup_title = facts[:foreman_hostgroup]
+    fact_name = Setting[:hostgroup_fact].presence || :foreman_hostgroup
+    hostgroup_title = facts[fact_name]
     Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create if hostgroup_title.present?
   end
 

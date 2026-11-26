@@ -46,6 +46,11 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Foreman will create the host when new facts are received"),
       default: true,
       full_name: N_('Create new host when facts are uploaded'))
+    setting('hostgroup_fact',
+      type: :string,
+      description: N_("Hosts created from facts will be placed in the hostgroup this fact dictates. The content of this fact should be the full label of the hostgroup."),
+      default: 'foreman_hostgroup',
+      full_name: N_('Hostgroup fact'))
     setting('location_fact',
       type: :string,
       description: N_("Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."),
