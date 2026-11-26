@@ -60,7 +60,7 @@ class Foreman::Provision::Ssh
   def defaults
     {
       :keys_only    => true,
-      :config       => false,
+      :config       => true,
       :auth_methods => %w(publickey),
       :compression  => true,
       :logger       => logger,
@@ -97,6 +97,10 @@ class Foreman::Provision::Ssh
       sleep(2)
       retry
     rescue Timeout::Error
+      retry
+    rescue Net::SSH::Proxy::ConnectError => e
+      logger.debug "SSH proxy connection to #{address} failed, retrying: #{e.message}"
+      sleep(2)
       retry
     rescue => e
       Foreman::Logging.exception("SSH error", e)
