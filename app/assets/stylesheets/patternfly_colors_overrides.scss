@@ -1,8 +1,12 @@
 @import './colors.scss';
 
 .foreman-theme {
-  .pf-v6-c-page__sidebar {
+  // set on the page: PF6's page grid sizes the sidebar column from it
+  .pf-v6-c-page {
     --pf-v6-c-page__sidebar--Width: 250px;
+  }
+
+  .pf-v6-c-page__sidebar {
     --pf-v6-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
     // PF6 adds page insets around the sidebar; foreman's layout (e.g. the Rails
     // content's 250px offset) expects the sidebar to fill exactly its width

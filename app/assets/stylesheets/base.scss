@@ -53,32 +53,16 @@ body {
   width: 100%;
 
   .pf-v6-c-page {
-    // pf grid rule stops at @media (min-width: 75rem), the PF6 xl breakpoint
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    // PF6 places the sidebar in the 'sidebar' area (PF5 used 'nav'); an unknown
-    // area name makes the browser add implicit tracks, leaving a gap
-    grid-template-areas:
-      'header header'
-      'sidebar main';
-    // PF6 draws the main container as an inset card (margins, border, radius);
-    // keep it flush with the sidebar and the window edge, as in PF5. The border
-    // widths need a unit: PF6 subtracts them from section padding in calc()
-    --pf-v6-c-page__main-container--MarginInlineStart: 0;
-    --pf-v6-c-page__main-container--MarginInlineEnd: 0;
-    --pf-v6-c-page__main-container--MarginBlockEnd: 0;
+    // PF6 draws the main container as an inset card (page inset, border,
+    // radius); keep it flush with the sidebar and the window edge, as in PF5.
+    // The border widths need a unit: PF6 subtracts them from section padding
+    // in calc()
+    --pf-v6-c-page--inset: 0;
     --pf-v6-c-page__main-container--BorderBlockStartWidth: 0px;
     --pf-v6-c-page__main-container--BorderBlockEndWidth: 0px;
     --pf-v6-c-page__main-container--BorderInlineStartWidth: 0px;
     --pf-v6-c-page__main-container--BorderInlineEndWidth: 0px;
     --pf-v6-c-page__main-container--BorderRadius: 0;
-  }
-
-  // At >= 75rem PF6 lays an inline masthead out as a subgrid of the page, so its
-  // brand area widens the max-content sidebar column above and pushes the page
-  // content right; keep the masthead's own (below 75rem) columns instead
-  .pf-v6-c-page > .pf-v6-c-masthead {
-    --pf-v6-c-masthead--m-display-inline--breakpoint--xl--GridTemplateColumns: min-content 1fr;
   }
 }
 

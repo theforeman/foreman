@@ -21,9 +21,16 @@
 }
 
 // Rails pages render outside PF's Page grid, so follow the PF-managed
-// sidebar: drop the sidebar offset when PF collapses it
+// sidebar: drop the sidebar offset when PF collapses it, and below the PF xl
+// breakpoint, where PF opens the sidebar over the page instead of beside it
 body:has(#foreman-page .pf-v6-c-page__sidebar.pf-m-collapsed) #rails-app-content {
   margin-left: 0;
+}
+
+@media (max-width: calc(#{$pf-v6-global--breakpoint--xl} - 1px)) {
+  #rails-app-content {
+    margin-left: 0;
+  }
 }
 
 #page-sidebar {

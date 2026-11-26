@@ -32,19 +32,18 @@ body .pf-v6-c-page {
   --pf-v6-c-page--BackgroundColor: var(--pf-t--global--background--color--primary--default);
 }
 
-// Plain links: no underline until hover (as in PF5). Hover only swaps these
-// variables, so components that set their own color and decoration (PF6
-// buttons rendered as <a>, nav and menu items) keep them on hover.
+// Plain links with PF's link tokens: PF6 styles `a` inside :where(), so
+// bootstrap's `a` and `a:hover` rules win without this. Hover swaps PF's own
+// link tokens instead of setting the properties, so components that set their
+// own color and decoration (PF6 buttons rendered as <a>, nav and menu items)
+// keep them on hover. Underline only on hover comes from the body token above.
 a {
-  --foreman-link--Color: var(--pf-t--global--text--color--link--default);
-  --foreman-link--TextDecorationLine: none;
-
-  color: var(--foreman-link--Color);
-  text-decoration-line: var(--foreman-link--TextDecorationLine);
+  color: var(--pf-t--global--text--color--link--default);
+  text-decoration-line: var(--pf-t--global--text-decoration--link--line--default);
 
   &:hover {
-    --foreman-link--Color: var(--pf-t--global--text--color--link--hover);
-    --foreman-link--TextDecorationLine: underline;
+    --pf-t--global--text--color--link--default: var(--pf-t--global--text--color--link--hover);
+    --pf-t--global--text-decoration--link--line--default: var(--pf-t--global--text-decoration--link--line--hover);
   }
 }
 
