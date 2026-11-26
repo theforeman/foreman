@@ -557,6 +557,7 @@ const HostsIndex = () => {
                     key={k}
                     dataLabel={keysToColumnNames[k]}
                     textCenter={columns[k]?.textCenter}
+                    modifier={columns[k]?.cellModifier}
                   >
                     {columns[k].wrapper
                       ? columns[k].wrapper(result)

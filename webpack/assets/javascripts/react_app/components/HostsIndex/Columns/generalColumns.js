@@ -17,6 +17,7 @@ const generalColumns = [
     title: __('Power'),
     wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
     isSorted: false,
+    cellModifier: 'nowrap',
     weight: 0,
     textCenter: true,
   },
@@ -60,6 +61,7 @@ const generalColumns = [
       </Flex>
     ),
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 50,
     isRequired: true,
   },
@@ -91,6 +93,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 100,
   },
   {
@@ -101,7 +104,7 @@ const generalColumns = [
       const osName = hostDetails?.operatingsystem_name;
       return (
         <Flex
-          alignItems={{ default: 'alignItemsCenter' }}
+          alignItems={{ default: 'alignItemsBaseline' }}
           gap={{ default: 'gapSm' }}
           flexWrap={{ default: 'nowrap' }}
         >
@@ -111,6 +114,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 200,
   },
   {
@@ -122,7 +126,7 @@ const generalColumns = [
         hostDetails?.owner_type !== 'User' ? UsersIcon : UserIcon;
       return (
         <Flex
-          alignItems={{ default: 'alignItemsCenter' }}
+          alignItems={{ default: 'alignItemsBaseline' }}
           gap={{ default: 'gapXs' }}
           flexWrap={{ default: 'nowrap' }}
         >
@@ -139,6 +143,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 300,
   },
   {
