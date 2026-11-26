@@ -21,7 +21,7 @@ const FormStatus = ({ status, errorMessage, fieldName }) => {
             variant="control"
             aria-label={`popover for ${fieldName}`}
             ouiaId={`error-popover-button-${fieldName}`}
-          ></Button>
+          />
         </Popover>
       );
     }

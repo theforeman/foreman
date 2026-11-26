@@ -24,6 +24,7 @@ export const LegacyUIKebab = () => {
           variant="plain"
           aria-label="legacy-ui-kebab-toggle"
           id="legacy-ui-kebab-toggle"
+          ouiaId="legacy-ui-kebab-toggle"
           isExpanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
           icon={<EllipsisVIcon />}

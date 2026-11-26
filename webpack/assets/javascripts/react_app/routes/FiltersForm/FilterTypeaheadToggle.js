@@ -27,6 +27,7 @@ export const FilterTypeaheadToggle = ({
   <MenuToggle
     ref={toggleRef}
     variant="typeahead"
+    ouiaId={`${listboxId}-toggle`}
     aria-label={toggleAriaLabel}
     onClick={onToggleClick}
     isExpanded={isOpen}
@@ -52,6 +53,7 @@ export const FilterTypeaheadToggle = ({
           <Button
             variant="plain"
             aria-label={__('Clear input value')}
+            ouiaId={`${listboxId}-clear`}
             onClick={onClear}
             icon={<TimesIcon />}
           />

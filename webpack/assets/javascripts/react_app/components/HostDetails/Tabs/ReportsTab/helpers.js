@@ -144,6 +144,7 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
             <MenuToggle
               ref={toggleRef}
               id="toggle-action"
+              ouiaId="action-dropdown-toggle"
               variant="plain"
               aria-label={__('Actions')}
               isExpanded={isOpen}

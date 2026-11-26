@@ -47,6 +47,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
               ref={toggleRef}
               variant="plain"
               aria-label="toggle action dropdown"
+              ouiaId="action-buttons-dropdown-toggle"
               isExpanded={isOpen}
               onClick={() => setIsOpen(!isOpen)}
               icon={<EllipsisVIcon />}

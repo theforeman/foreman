@@ -74,7 +74,7 @@ const Status = ({ name }) => {
               <GlobalStatusIcon status={globalStatus} size="heading_2xl" />
             </GridItem>
             <GridItem span={unknownStatusesPresent ? 3 : 5}>
-              <Title headingLevel="h2" size="xl">
+              <Title headingLevel="h2" size="xl" ouiaId="host-status-title">
                 {name}
               </Title>
             </GridItem>

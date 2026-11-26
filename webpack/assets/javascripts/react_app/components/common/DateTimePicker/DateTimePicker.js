@@ -187,7 +187,7 @@ const DateTimePicker = ({
               variant="control"
               aria-label="Toggle date picker"
               onClick={onToggleCalendar}
-            ></Button>
+            />
           </InputGroupItem>
           <InputGroupItem className="date-picker-input-item">
             <TimePicker

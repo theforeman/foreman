@@ -53,6 +53,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
           <MenuToggle
             ref={toggleRef}
             className="taxonomy-dropdown-toggle"
+            ouiaId={`taxonomy-dropdown-toggle-${taxonomyType}`}
             variant="plainText"
             icon={currentTaxonomy ? undefined : anyIcon}
             isExpanded={isOpen}
@@ -76,6 +77,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
         <DropdownList>
           <DropdownItem
             key="any-taxonomy"
+            ouiaId={`any-taxonomy-${taxonomyType}`}
             className={`${taxonomyType}s_clear`}
             icon={anyIcon}
             isSelected={!currentTaxonomy}
@@ -89,6 +91,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
             <DropdownItem
               key={href}
               id={`select_taxonomy_${title}`}
+              ouiaId={`select-taxonomy-${taxonomyType}-${title}`}
               className={`${taxonomyType}_menuitem`}
               isSelected={title === currentTaxonomy}
               isDisabled={title === currentTaxonomy}
