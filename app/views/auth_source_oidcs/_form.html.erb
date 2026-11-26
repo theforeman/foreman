@@ -1,0 +1,68 @@
+<%= form_for @auth_source_oidc do |f| %>
+  <%= base_errors_for @auth_source_oidc %>
+  <%= f.hidden_field :id if @auth_source_oidc.persisted? %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#provider" data-toggle="tab"><%= _('Provider') %></a></li>
+    <li><a href="#endpoints" data-toggle="tab"><%= _('Endpoints') %></a></li>
+    <li><a href="#claims" data-toggle="tab"><%= _('Claim mappings') %></a></li>
+    <li><a href="#provisioning" data-toggle="tab"><%= _('Provisioning') %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _('Organizations') %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="provider">
+      <%= text_f f, :name %>
+      <%= text_f f, :oidc_issuer, :label => _('Issuer'),
+        :help_inline => link_to_function(_('Test Connection'), "tfm.authSource.testConnection(this, '#{test_connection_auth_source_oidcs_url}')",
+          :title => _('Test OpenID Connect discovery'), :id => 'test_connection_button', :class => 'btn btn-success') + hidden_spinner('', :id => 'test_connection_indicator').html_safe %>
+      <%= text_f f, :oidc_client_id, :label => _('Client ID') %>
+      <%= password_f f, :oidc_client_secret, :label => _('Client secret'), :unset => %w[edit update].include?(action_name) %>
+      <%= select_f f, :oidc_client_auth_method, AuthSourceOidc::CLIENT_AUTH_METHODS, :first, :last, {}, :label => _('Token endpoint authentication') %>
+      <%= text_f f, :oidc_scopes, :label => _('Scopes'), :help_inline => _('Space-separated scopes; openid is required') %>
+      <%= text_f f, :oidc_allowed_algorithms, :label => _('Allowed signing algorithms'), :help_inline => _('Comma-separated allowlist, for example RS256') %>
+      <%= checkbox_f f, :oidc_enabled, :label => _('Enabled') %>
+      <%= checkbox_f f, :oidc_use_pkce, :label => _('Use PKCE'), :help_inline => _('Use the S256 proof key method for authorization code requests') %>
+      <%= textarea_f f, :cacert, :rows => 5, :label => _('CA certificate'),
+        :help_block => _('Optional PEM-encoded CA certificate(s). Leave blank to use the system trust store.') %>
+    </div>
+
+    <div class="tab-pane" id="endpoints">
+      <%= checkbox_f f, :oidc_use_discovery, :label => _('Use provider discovery'),
+        :help_inline => _('Load endpoints from the issuer .well-known/openid-configuration document') %>
+      <%= text_f f, :oidc_authorization_endpoint, :label => _('Authorization endpoint') %>
+      <%= text_f f, :oidc_token_endpoint, :label => _('Token endpoint') %>
+      <%= text_f f, :oidc_userinfo_endpoint, :label => _('UserInfo endpoint') %>
+      <%= text_f f, :oidc_jwks_uri, :label => _('JWKS URI') %>
+      <%= text_f f, :oidc_end_session_endpoint, :label => _('End session endpoint') %>
+    </div>
+
+    <div class="tab-pane" id="claims">
+      <%= text_f f, :oidc_login_claim, :label => _('Login claim') %>
+      <%= text_f f, :oidc_email_claim, :label => _('Email claim') %>
+      <%= text_f f, :oidc_firstname_claim, :label => _('First name claim') %>
+      <%= text_f f, :oidc_lastname_claim, :label => _('Last name claim') %>
+      <%= text_f f, :oidc_groups_claim, :label => _('Groups claim'), :help_inline => _('Dot notation can be used for nested claims') %>
+    </div>
+
+    <div class="tab-pane" id="provisioning">
+      <%= checkbox_f f, :onthefly_register, :label => _('Create users automatically') %>
+      <%= checkbox_f f, :oidc_link_verified_email, :label => _('Link users by verified email'),
+        :help_inline => _('Allow a new identity to link to one existing account only when the provider marks its email as verified') %>
+      <%= checkbox_f f, :oidc_update_user_attributes, :label => _('Update user attributes on login') %>
+      <%= checkbox_f f, :usergroup_sync, :label => _('Synchronize external user groups on login') %>
+      <%= checkbox_f f, :oidc_allow_api_bearer, :label => _('Accept bearer tokens for the API'),
+        :help_inline => _('Authenticate API requests by matching the signed token sub claim to a linked identity') %>
+      <%= text_f f, :oidc_api_audiences, :label => _('API audiences'),
+        :help_inline => _('Required when API bearer authentication is enabled. Use a dedicated API audience that differs from the browser client ID.') %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @auth_source_oidc %>
+  </div>
+
+  <%= submit_or_cancel f, false, :cancel_path => auth_sources_path %>
+<% end %>
