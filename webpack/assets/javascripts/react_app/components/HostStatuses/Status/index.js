@@ -9,6 +9,7 @@ import {
   CardExpandableContent,
   Grid,
   GridItem,
+  Title,
 } from '@patternfly/react-core';
 import GlobalStatusIcon from './GlobalStatusIcon';
 import { sprintf, translate as __ } from '../../../common/I18n';
@@ -68,14 +69,14 @@ const Status = ({ name }) => {
           }}
         >
           <Grid className="w-100" hasGutter>
-            <GridItem span={1} rowSpan={2} style={{ fontSize: '2.2em' }}>
-              <GlobalStatusIcon status={globalStatus} />
+            <GridItem span={1} rowSpan={2}>
+              {/* PF pairs icon sizes with title sizes: heading_2xl with Title xl */}
+              <GlobalStatusIcon status={globalStatus} size="heading_2xl" />
             </GridItem>
-            <GridItem
-              span={unknownStatusesPresent ? 3 : 5}
-              style={{ fontSize: '1.5em' }}
-            >
-              {name}
+            <GridItem span={unknownStatusesPresent ? 3 : 5}>
+              <Title headingLevel="h2" size="xl">
+                {name}
+              </Title>
             </GridItem>
             {unknownStatusesPresent && (
               <GridItem
@@ -83,8 +84,8 @@ const Status = ({ name }) => {
                 rowSpan={2}
                 className="status-count text-center"
               >
-                <div style={{ fontSize: '1.5em' }}>
-                  <GlobalStatusIcon />
+                <div>
+                  <GlobalStatusIcon size="lg" />
                 </div>
                 <LinkOrLabel
                   label={sprintf(__('Total: %s'), unknownTotalCount)}
@@ -95,8 +96,8 @@ const Status = ({ name }) => {
               </GridItem>
             )}
             <GridItem span={2} rowSpan={2} className="status-count text-center">
-              <div style={{ fontSize: '1.5em' }}>
-                <GlobalStatusIcon status={0} />
+              <div>
+                <GlobalStatusIcon status={0} size="lg" />
               </div>
               <LinkOrLabel
                 path={okTotalPath}
@@ -108,8 +109,8 @@ const Status = ({ name }) => {
               />
             </GridItem>
             <GridItem span={2} rowSpan={2} className="status-count text-center">
-              <div style={{ fontSize: '1.5em' }}>
-                <GlobalStatusIcon status={1} />
+              <div>
+                <GlobalStatusIcon status={1} size="lg" />
               </div>
               <LinkOrLabel
                 path={warnTotalPath}
@@ -121,8 +122,8 @@ const Status = ({ name }) => {
               />
             </GridItem>
             <GridItem span={2} rowSpan={2} className="status-count text-center">
-              <div style={{ fontSize: '1.5em' }}>
-                <GlobalStatusIcon status={2} />
+              <div>
+                <GlobalStatusIcon status={2} size="lg" />
               </div>
               <LinkOrLabel
                 path={errorTotalPath}

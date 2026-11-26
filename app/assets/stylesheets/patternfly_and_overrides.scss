@@ -362,6 +362,12 @@ input.pf-v6-c-radio__input {
   margin: 0;
 }
 
+// and for headings: bootstrap's `h1..h6 { margin-top/bottom }` gives every PF6
+// Title margins PF does not have (e.g. a 20px offset above an h2 Title)
+:is(h1, h2, h3, h4, h5, h6).pf-v6-c-title {
+  margin: 0;
+}
+
 label[class^='pf-v6'],
 [class^='pf-v6'] label {
   /* override  
