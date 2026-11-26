@@ -1,7 +1,16 @@
+const path = require('path');
+
 const packageJsonDirectories = ['./'];
 const vendorEntry = require('../../../../config/webpack.vendor');
 
 module.exports = {
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: [path.resolve(__dirname, '../../../../node_modules')],
+      },
+    },
+  },
   plugins: [
     'patternfly-react',
     'promise',
