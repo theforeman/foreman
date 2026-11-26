@@ -166,7 +166,10 @@ const ColumnSelector = props => {
           onClick={toggleModal}
           title={__('Manage columns')}
         >
-          <span className="columns-selector-text">{__('Manage columns')}</span>
+          {/* PF display utilities: the label shows from the 2xl breakpoint up */}
+          <span className="columns-selector-text pf-v6-u-display-none pf-v6-u-display-inline-on-2xl">
+            {__('Manage columns')}
+          </span>
         </Button>
         <Modal
           ouiaId="manage-columns-modal"

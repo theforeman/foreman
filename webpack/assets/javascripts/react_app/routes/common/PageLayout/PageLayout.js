@@ -84,10 +84,14 @@ const PageLayout = ({
                 <ToolbarGroup
                   className="page-layout-toolbar-group-search"
                   variant="filter-group"
+                  flexGrow={{ default: 'flexGrow' }}
                 >
                   {!searchable && toolbarButtons && titleSectionBody}
                   {searchable && (
-                    <ToolbarItem id="page-layout-toolbar-search">
+                    <ToolbarItem
+                      id="page-layout-toolbar-search"
+                      flexGrow={{ default: 'flexGrow' }}
+                    >
                       <SearchBar
                         data={{
                           ...searchProps,
@@ -106,7 +110,10 @@ const PageLayout = ({
                     </ToolbarItem>
                   )}
                 </ToolbarGroup>
-                <ToolbarGroup align={{ default: 'alignEnd' }}>
+                <ToolbarGroup
+                  align={{ default: 'alignEnd' }}
+                  flexGrow={{ default: 'flexGrow' }}
+                >
                   {toolbarButtons}
                 </ToolbarGroup>
               </ToolbarContent>

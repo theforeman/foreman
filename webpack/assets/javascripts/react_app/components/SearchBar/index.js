@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import { Flex, FlexItem } from '@patternfly/react-core';
 import { SearchAutocomplete } from './SearchAutocomplete';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import Bookmarks from '../PF4/Bookmarks';
@@ -55,18 +56,25 @@ const SearchBar = ({
       ? response?.[0]?.error || response.message
       : null;
   return (
-    <div className="foreman-search-bar">
-      <SearchAutocomplete
-        results={
-          Array.isArray(response) && !response?.[0]?.error ? response : []
-        }
-        onSearchChange={_onSearchChange}
-        value={search}
-        onSearch={onSearch && _onSearch}
-        disabled={disabled}
-        error={error}
-        name={name}
-      />
+    // the bookmarks toggle sits next to the search like a control of it
+    <Flex
+      className="foreman-search-bar"
+      gap={{ default: 'gapXs' }}
+      flexWrap={{ default: 'nowrap' }}
+    >
+      <FlexItem grow={{ default: 'grow' }}>
+        <SearchAutocomplete
+          results={
+            Array.isArray(response) && !response?.[0]?.error ? response : []
+          }
+          onSearchChange={_onSearchChange}
+          value={search}
+          onSearch={onSearch && _onSearch}
+          disabled={disabled}
+          error={error}
+          name={name}
+        />
+      </FlexItem>
       {!isEmpty(bookmarks) && (
         <Bookmarks
           onBookmarkClick={newSearch => {
@@ -79,7 +87,7 @@ const SearchBar = ({
           {...bookmarks}
         />
       )}
-    </div>
+    </Flex>
   );
 };
 

@@ -236,8 +236,12 @@ const TableIndexPage = ({
           <ToolbarGroup
             className="page-layout-toolbar-group-search"
             variant="filter-group"
+            flexGrow={{ default: 'flexGrow' }}
           >
-            <ToolbarItem id="page-layout-toolbar-search">
+            <ToolbarItem
+              id="page-layout-toolbar-search"
+              flexGrow={{ default: 'flexGrow' }}
+            >
               <SearchBar
                 data={searchProps}
                 initialQuery=""
@@ -258,6 +262,7 @@ const TableIndexPage = ({
             align={{ default: 'alignStart' }}
             className="table-toolbar-actions"
             variant="action-group"
+            flexGrow={{ default: 'flexGrow' }}
           >
             {actionButtons.length > 0 && (
               <ToolbarItem>

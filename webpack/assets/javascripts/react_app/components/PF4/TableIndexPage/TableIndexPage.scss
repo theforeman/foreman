@@ -1,17 +1,9 @@
 .table-index-page {
-  .pf-v6-c-toolbar__group {
-    flex-grow: 1;
-
-    &.pf-m-align-end {
-      justify-content: flex-end;
-    }
-
-    // the search group follows the bulk selector item when there is one
-    &:first-child,
-    &.page-layout-toolbar-group-search {
-      margin-right: auto;
-      width: min-content;
-    }
+  // the search group follows the bulk selector item when there is one
+  .pf-v6-c-toolbar__group:first-child,
+  .page-layout-toolbar-group-search {
+    margin-right: auto;
+    width: min-content;
   }
 
   .pf-v6-c-table tr.pf-m-clickable {

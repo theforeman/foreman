@@ -8,7 +8,6 @@ import {
   MenuToggle,
   MenuToggleAction,
 } from '@patternfly/react-core';
-import './ActionButtons.scss';
 
 /**
  * Generate a button or a dropdown of buttons

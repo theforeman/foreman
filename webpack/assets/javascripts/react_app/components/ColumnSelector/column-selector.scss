@@ -1,11 +1,3 @@
-#btn-select-columns {
-  @media (max-width: 1530px) {
-    .columns-selector-text {
-      display: none;
-    }
-  }
-}
-
 [data-ouia-component-id="manage-columns-modal"] {
   max-height: calc(100% - 128px);
 }

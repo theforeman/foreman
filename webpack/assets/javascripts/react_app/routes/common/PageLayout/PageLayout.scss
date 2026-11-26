@@ -1,10 +1,3 @@
-#page-layout-title-section,
-#page-layout-toolbar-section,
-#page-layout-content-section {
-  padding-left: var(--pf-t--global--spacer--lg);
-  padding-right: var(--pf-t--global--spacer--lg);
-}
-
 #page-layout-title-section {
   padding-bottom: var(--pf-t--global--spacer--md);
 }
@@ -12,8 +5,13 @@
 #page-layout-toolbar-section {
   #page-layout-toolbar {
     #page-layout-toolbar-search {
-      flex-grow: 1;
       display: block;
+    }
+
+    // PF's alignEnd only pushes the group itself; keep a growing end group's
+    // contents (buttons, pagination) at the right edge
+    .pf-v6-c-toolbar__group.pf-m-align-end {
+      justify-content: flex-end;
     }
 
     // plain buttons and toggles (kebabs, column selector) carry their own
@@ -27,18 +25,6 @@
       }
     }
   }
-
-  .pf-v6-c-toolbar__group {
-    flex-grow: 1;
-
-    &.pf-m-align-end {
-      justify-content: flex-end;
-    }
-  }
-
-  .pf-v6-c-toolbar__content {
-    padding: 0;
-  }
 }
 
 #page-layout-title-section ~ #page-layout-toolbar-section {
@@ -47,8 +33,6 @@
 }
 
 #page-layout-toolbar-section:not(#page-layout-title-section ~ #page-layout-toolbar-section) {
-  padding-left: var(--pf-t--global--spacer--lg);
-  padding-right: var(--pf-t--global--spacer--lg);
   padding-bottom: var(--pf-t--global--spacer--md);
 
   #page-layout-toolbar {

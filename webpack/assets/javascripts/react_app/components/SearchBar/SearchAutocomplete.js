@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Menu, MenuContent, Popper, SearchInput } from '@patternfly/react-core';
-import classNames from 'classnames';
 import { AutoCompleteMenu } from './AutoCompleteMenu';
 import { translate as __ } from '../../common/I18n';
-import './SearchBar.scss';
 
 export const SearchAutocomplete = ({
   results,
@@ -107,9 +105,7 @@ export const SearchAutocomplete = ({
       onClick={e => {
         if (e.target.type !== 'submit') setIsAutocompleteOpen(true);
       }}
-      className={classNames('autocomplete-search', {
-        'disabled-autocomplete-search': disabled,
-      })}
+      className="autocomplete-search"
     >
       <SearchInput
         ref={searchInputRef}
