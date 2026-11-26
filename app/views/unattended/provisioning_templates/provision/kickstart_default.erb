@@ -168,7 +168,7 @@ firewall --service=ssh
 <% end -%>
 <%# Authentication options -%>
 <% if (is_fedora && os_major >= 28) || (rhel_compatible && os_major > 7) -%>
-authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
+authselect
 <% else -%>
 authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% end -%>
