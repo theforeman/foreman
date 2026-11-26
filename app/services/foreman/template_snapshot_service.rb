@@ -148,6 +148,28 @@ module Foreman
       define_host_params(host)
     end
 
+    def kickstart_vlan_on_bond_dhcp
+      physical = FactoryBot.build(:nic_managed,
+        identifier: 'eth0',
+        mac: '00-f0-54-1a-7e-e1')
+      bond = FactoryBot.build(:nic_bond,
+        identifier: 'bond0',
+        attached_devices: ['eth0'])
+      vlan = FactoryBot.build(:nic_managed, :with_v4_dhcp,
+        identifier: 'bond0.100',
+        mac: nil,
+        primary: true,
+        provision: true,
+        virtual: true,
+        attached_to: 'bond0',
+        tag: '100')
+
+      host = FactoryBot.build(:host_for_snapshots, :with_rhel9,
+        name: 'snapshot-kickstart-vlan-on-bond',
+        interfaces: [vlan, bond, physical])
+      define_host_params(host)
+    end
+
     def rocky8_dhcp
       host = FactoryBot.build(:host_for_snapshots, :with_rocky8,
         name: 'snapshot-ipv4-dhcp-rocky8',

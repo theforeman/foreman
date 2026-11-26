@@ -77,6 +77,7 @@ module Foreman
         :match,
         :host_param_true?, :host_param_false?,
         :host_param, :host_param!,
+        :kickstart_network_interfaces,
         :host_puppet_server,
         :host_puppet_server_port,
         :host_puppet_ca_server,
