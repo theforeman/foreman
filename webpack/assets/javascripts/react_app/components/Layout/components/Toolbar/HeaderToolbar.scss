@@ -1,8 +1,6 @@
 @import '../../../../common/variables';
 
 #data-toolbar {
-  background-color: unset;
-
   @media (max-width: $header-max-width) {
     justify-content: flex-end;
 
@@ -24,10 +22,6 @@
   // PF6 MastheadBrand is a div; the link is the MastheadLogo inside it
   .pf-v6-c-masthead__logo:hover {
     text-decoration: none;
-  }
-
-  .pf-v6-c-brand {
-    height: 34px;
   }
 
   .navbar-brand-txt span {

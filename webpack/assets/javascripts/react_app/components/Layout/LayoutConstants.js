@@ -2,3 +2,4 @@ export const LAYOUT_INITIALIZE = 'LAYOUT_INITIALIZE';
 export const LAYOUT_SHOW_LOADING = 'LAYOUT_SHOW_LOADING';
 export const LAYOUT_HIDE_LOADING = 'LAYOUT_HIDE_LOADING';
 export const NAV_MENU_ALL_HOST = 'All Hosts';
+export const MASTHEAD_LOGO_HEIGHT = '34px';

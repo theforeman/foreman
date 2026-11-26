@@ -53,11 +53,12 @@ body {
   width: 100%;
 
   .pf-v6-c-page {
-    // PF6 draws the main container as an inset card (page inset, border,
-    // radius); keep it flush with the sidebar and the window edge, as in PF5.
-    // The border widths need a unit: PF6 subtracts them from section padding
-    // in calc()
+    // PF6 draws the main container as an inset card (page inset, bottom
+    // inset in its max height, border, radius); keep it flush with the sidebar
+    // and the window edges, as in PF5. The border widths need a unit: PF6
+    // subtracts them from section padding in calc()
     --pf-v6-c-page--inset: 0;
+    --pf-v6-c-page__main-container--MaxHeight: 100%;
     --pf-v6-c-page__main-container--BorderBlockStartWidth: 0px;
     --pf-v6-c-page__main-container--BorderBlockEndWidth: 0px;
     --pf-v6-c-page__main-container--BorderInlineStartWidth: 0px;

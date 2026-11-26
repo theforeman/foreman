@@ -18,6 +18,7 @@ import {
   dataPropType,
 } from '../../LayoutHelper';
 import HeaderToolbar from './HeaderToolbar';
+import { MASTHEAD_LOGO_HEIGHT } from '../../LayoutConstants';
 
 const Header = ({ data: { logo, brand, root, ...props }, isLoading }) => (
   <Masthead display={{ default: 'inline' }}>
@@ -28,7 +29,12 @@ const Header = ({ data: { logo, brand, root, ...props }, isLoading }) => (
       <MastheadBrand>
         <MastheadLogo component="a" href={root}>
           <React.Fragment>
-            <Brand src={logo} alt={brand} href={root} />
+            <Brand
+              src={logo}
+              alt={brand}
+              href={root}
+              heights={{ default: MASTHEAD_LOGO_HEIGHT }}
+            />
             <span className="navbar-brand-txt">
               <span>{brand}</span>
             </span>

@@ -28,6 +28,7 @@ const ImpersonateIcon = props => {
           }
           ouiaId="stop-impersonation-icon"
           variant="plain"
+          hasNoPadding
           className="nav-item-iconic stop-impersonation-icon"
           onClick={toggleModal}
           aria-label={__('Stop impersonation')}

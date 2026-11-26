@@ -7,13 +7,13 @@
   height: 100%;
 }
 
-// PF6 sizes the main container as an inset card (content height, capped short
-// of a bottom inset). Foreman removes the insets (base.scss), so let it fill
-// the page height on React pages; filled sections (PageSection isFilled, e.g.
-// the gray host details card views) then reach the bottom
+// Let the main container fill the page height on React pages, so filled
+// sections (PageSection isFilled, e.g. the gray host details card views) reach
+// the bottom. Not PF's Page isContentFilled: this layout also wraps Rails
+// pages, where the stretched (z-index 100) container would cover
+// #rails-app-content
 .react-page #foreman-page {
   --pf-v6-c-page__main-container--AlignSelf: stretch;
-  --pf-v6-c-page__main-container--MaxHeight: 100%;
 }
 
 #foreman-main-container {

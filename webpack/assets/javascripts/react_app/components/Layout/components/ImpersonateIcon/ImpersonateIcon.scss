@@ -23,10 +23,6 @@
 }
 
 #foreman-page .pf-v6-c-masthead {
-  .stop-impersonation-icon {
-    padding: 0;
-  }
-
   // PF6 Icon sets its content color itself; color it through its variable
   .nav-item-iconic .blink-image {
     --pf-v6-c-icon__content--Color: #{$color-pf-gold-200};

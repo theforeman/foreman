@@ -29,7 +29,13 @@ const HeaderToolbar = ({
   stop_impersonation_url: stopImpersonationUrl,
   isLoading,
 }) => (
-  <Toolbar ouiaId="data-toolbar" id="data-toolbar" isFullHeight isStatic>
+  <Toolbar
+    ouiaId="data-toolbar"
+    id="data-toolbar"
+    colorVariant="no-background"
+    isFullHeight
+    isStatic
+  >
     <ToolbarContent>
       <ToolbarGroup className="header-tool-item-hidden-lg">
         <TaxonomySwitcher
