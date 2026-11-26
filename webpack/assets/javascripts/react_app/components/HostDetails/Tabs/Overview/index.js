@@ -11,7 +11,12 @@ const OverviewTab = ({ response, status, hostName }) => {
   }, []);
 
   return (
-    <PageSection hasBodyWrapper={false} className="host-details-cards-section">
+    <PageSection
+      hasBodyWrapper={false}
+      variant="secondary"
+      isFilled
+      className="host-details-cards-section"
+    >
       <div className="host-details-tab-item details-tab host-details-cards-section">
         <Grid hasGutter>
           <Slot

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { EmptyState } from '@patternfly/react-core';
+import { EmptyState, EmptyStateVariant } from '@patternfly/react-core';
 import { CheckCircleIcon, BanIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
@@ -19,6 +19,7 @@ const GlobalState = ({
       : __('All statuses OK');
     return (
       <EmptyState
+        variant={EmptyStateVariant.xs}
         headingLevel="h4"
         icon={showBanIcon ? BanIcon : CheckCircleIcon}
         status={showBanIcon ? undefined : 'success'}
