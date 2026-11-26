@@ -101,7 +101,7 @@ module Api
             param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value")
             param :hidden_value, :bool
           end
-          param :build, :bool
+          param :build, :bool, :default_value => true, :desc => N_("Enable this host for provisioning")
           param :enabled, :bool, :desc => N_("Include this host within Foreman reporting")
           param :provision_method, Host::Managed.provision_methods.keys, :desc => N_("The method used to provision the host.")
           param :managed, :bool, :desc => N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
