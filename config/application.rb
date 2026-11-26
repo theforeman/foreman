@@ -82,6 +82,12 @@ end
 
 module Foreman
   class Application < Rails::Application
+    # Intentionally not bumped to '7.1' yet even though the rails gem itself is.
+    # Loading 7.1 defaults activates ~20 behavior changes at once (including
+    # ActiveRecord::Encryption switching to SHA-256, which affects already-
+    # encrypted data) across core and every plugin. Do this as its own
+    # deliberate, incremental effort (one setting at a time via
+    # config/initializers/new_framework_defaults_7_1.rb), not bundled in here.
     config.load_defaults '7.0'
 
     # Rails 5.0 changed this to true, but a lot of code depends on this
