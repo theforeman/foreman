@@ -45,6 +45,7 @@ gem 'jwt', '>= 2.2.2', '< 3.0'
 gem 'graphql', '~> 1.13.0'
 gem 'graphql-batch'
 gem 'json', '< 3' # Drop for Rails 8.1
+gem 'aws-sdk-s3', '~> 1.0', :require => false
 
 # A bundled gem since Ruby 3.0
 gem 'rss'
