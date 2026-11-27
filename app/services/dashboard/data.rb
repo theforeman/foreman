@@ -99,9 +99,19 @@ module Dashboard
     end
 
     def out_of_sync_enabled?
-      return true if !settings[:origin] || settings[:origin] == 'All'
-      setting = SettingRegistry.instance.find(:"#{settings[:origin].downcase}_out_of_sync_disabled")&.value
-      setting.nil? ? true : !setting
+      origins = if settings[:origin] && settings[:origin] != 'All'
+                  [settings[:origin]]
+                else
+                  Foreman::Plugin.report_origin_registry.origins_for('ConfigReport')
+                end
+
+      Array(origins).any? do |origin|
+        !origin_out_of_sync_disabled?(origin)
+      end
+    end
+
+    def origin_out_of_sync_disabled?(origin)
+      SettingRegistry.instance.find(:"#{origin.downcase}_out_of_sync_disabled")&.value
     end
   end
 end
