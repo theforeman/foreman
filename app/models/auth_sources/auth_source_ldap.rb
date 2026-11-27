@@ -15,6 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'base64'
 require 'net/ldap'
 require 'timeout'
 
@@ -77,9 +78,11 @@ class AuthSourceLdap < AuthSource
       return
     end
 
-    attrs.each { |k, v| attrs[k] = v.force_encoding('UTF-8') unless v == '' }
+    attrs.each do |key, value|
+      attrs[key] = value.force_encoding('UTF-8') if key != :avatar && value != ''
+    end
 
-    logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
+    logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs.keys}"
 
     attrs
   rescue Net::LDAP::Error => error
@@ -246,7 +249,7 @@ class AuthSourceLdap < AuthSource
     Hash[required_ldap_attributes.merge(optional_ldap_attributes).map do |name, value|
       next if value.blank? || (entry[value].blank? && optional_ldap_attributes.key?(name))
       if name.eql? :avatar
-        [:avatar_hash, store_avatar(entry[value].first)]
+        [:avatar, decode_avatar(entry[value].first)]
       else
         value = entry[value].is_a?(Array) ? entry[value].first : entry[value]
         [name, value.to_s]
@@ -254,29 +257,12 @@ class AuthSourceLdap < AuthSource
     end.compact]
   end
 
-  def avatar_path
-    "#{Rails.public_path}/images/avatars"
-  end
+  def decode_avatar(avatar)
+    # net/ldap converts base64 values to binary automatically. Other LDAP
+    # adapters return the original base64 representation.
+    return avatar.to_s.b if avatar.instance_of?(Net::BER::BerIdentifiedString)
 
-  def store_avatar(avatar)
-    unless avatar.instance_of?(Net::BER::BerIdentifiedString)
-      avatar = avatar.to_utf8
-    end
-    avatar_hash = Digest::SHA1.hexdigest(avatar)
-    avatar_file = "#{avatar_path}/#{avatar_hash}.jpg"
-    unless FileTest.exist? avatar_file
-      FileUtils.mkdir_p(avatar_path)
-      # net/ldap converts base64 data automatically to binary, in such case
-      # we do not need to decode Base64 and we can just save the binary avatar.
-      File.open(avatar_file, 'wb') do |f|
-        if avatar.instance_of?(Net::BER::BerIdentifiedString)
-          f.write(avatar)
-        else
-          f.write(Base64.decode64(avatar))
-        end
-      end
-    end
-    avatar_hash
+    Base64.decode64(avatar.to_utf8).b
   end
 
   def validate_ldap_filter
