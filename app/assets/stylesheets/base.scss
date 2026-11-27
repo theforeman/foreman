@@ -20,6 +20,10 @@ html {
     var(--header-height) + var(--banner-height)
   );
   height: calc(100% - var(--header-height) - var(--banner-height));
+  // PF6 gives the main container a z-index, which makes it a stacking context
+  // in the page grid. Bootstrap modals in Rails views would then sit under the
+  // .modal-backdrop that bootstrap appends to body
+  --pf-v6-c-page__main-container--ZIndex: auto;
 
   .rails-table-toolbar {
     padding-bottom: 0;
