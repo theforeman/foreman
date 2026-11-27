@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@patternfly/react-table';
-import { Spinner, Icon } from '@patternfly/react-core';
+import { Spinner } from '@patternfly/react-core';
 import { SearchIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import { STATUS } from '../../../../constants';
 import EmptyState from '../../../common/EmptyState';
@@ -48,11 +48,10 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
   } else if (status === STATUS.ERROR) {
     emptyState = (
       <EmptyState
-        icon={
-          <Icon status="danger">
-            <ExclamationCircleIcon />
-          </Icon>
-        }
+        // PF EmptyState status colors the icon and keeps the empty state
+        // icon size (a PF Icon wrapper would pin it to text size)
+        icon={<ExclamationCircleIcon />}
+        status="danger"
         header={__('Something went wrong')}
         description={error}
       />

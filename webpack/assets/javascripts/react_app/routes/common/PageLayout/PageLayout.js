@@ -110,10 +110,7 @@ const PageLayout = ({
                     </ToolbarItem>
                   )}
                 </ToolbarGroup>
-                <ToolbarGroup
-                  align={{ default: 'alignEnd' }}
-                  flexGrow={{ default: 'flexGrow' }}
-                >
+                <ToolbarGroup align={{ default: 'alignEnd' }}>
                   {toolbarButtons}
                 </ToolbarGroup>
               </ToolbarContent>

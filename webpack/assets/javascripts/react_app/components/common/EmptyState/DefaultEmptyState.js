@@ -15,6 +15,7 @@ const DefaultEmptyState = props => {
     action,
     secondaryActions,
     variant,
+    status,
   } = props;
 
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const DefaultEmptyState = props => {
       action={ActionButton}
       secondaryActions={SecondaryButton}
       variant={variant}
+      status={status}
     />
   );
 };
@@ -66,6 +68,7 @@ DefaultEmptyState.propTypes = defaultEmptyStatePropTypes;
 DefaultEmptyState.defaultProps = {
   icon: <PlusCircleIcon />,
   secondaryActions: [],
+  status: undefined,
 };
 
 export default DefaultEmptyState;

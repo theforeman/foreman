@@ -46,9 +46,13 @@ body {
   height: 100%;
   width: 100%;
   .pf-v6-c-page__main-container {
-    // Removes extra space on the right and bottom of main area.
+    // Removes extra space on the right and bottom of main area container.
     --pf-v6-c-page__main-container--MaxHeight: 100%;
     --pf-v6-c-page__main-container--MarginInlineEnd: 0;
+  }
+  #page-layout-content-section {
+    // adding the margin to the layout instead, helps long pages.
+    margin-bottom: 1.5rem;
   }
 }
 

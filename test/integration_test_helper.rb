@@ -318,7 +318,7 @@ class ActionDispatch::IntegrationTest
   def select_organization_dropdown(organization)
     within('#organization-dropdown') do
       find('.taxonomy-dropdown-toggle').click
-      find("button.organization_menuitem", text: organization).click
+      find("a.organization_menuitem", text: organization).click
     end
   end
 
@@ -332,7 +332,7 @@ class ActionDispatch::IntegrationTest
   def select_location_dropdown(location)
     within('#location-dropdown') do
       find('.taxonomy-dropdown-toggle').click
-      find("button.location_menuitem", text: location).click
+      find("a.location_menuitem", text: location).click
     end
   end
 

@@ -29,6 +29,7 @@ const EmptyStatePattern = props => {
     header,
     description,
     variant,
+    status,
   } = props;
 
   const DocumentationBlock = () => {
@@ -76,6 +77,7 @@ const EmptyStatePattern = props => {
       icon={EmptyStateIcon}
       titleText={<>{header}</>}
       variant={variant}
+      status={status}
       className="foreman-empty-state"
     >
       <EmptyStateBody>
@@ -98,6 +100,7 @@ EmptyStatePattern.defaultProps = {
   documentation: null,
   action: null,
   variant: EmptyStateVariant.xl,
+  status: undefined,
 };
 
 export default EmptyStatePattern;
