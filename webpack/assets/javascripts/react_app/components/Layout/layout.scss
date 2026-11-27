@@ -7,12 +7,14 @@
   height: 100%;
 }
 
-// Let the main container fill the page height on React pages, so filled
-// sections (PageSection isFilled, e.g. the gray host details card views) reach
-// the bottom. Not PF's Page isContentFilled: this layout also wraps Rails
-// pages, where the stretched (z-index 100) container would cover
-// #rails-app-content
-.react-page #foreman-page {
+// Let the main container fill the page height on React pages and on Rails
+// pages (base.html.erb renders the same PF markup in #rails-app-content), so
+// filled sections (PageSection isFilled, e.g. the gray host details card
+// views) reach the bottom. Not PF's Page isContentFilled: the React layout also
+// wraps Rails pages, where its stretched (z-index 100) but empty container
+// would cover #rails-app-content
+.react-page #foreman-page,
+#rails-app-content {
   --pf-v6-c-page__main-container--AlignSelf: stretch;
 }
 
@@ -30,6 +32,15 @@ body:has(#foreman-page .pf-v6-c-page__sidebar.pf-m-collapsed) #rails-app-content
 @media (max-width: calc(#{$pf-v6-global--breakpoint--xl} - 1px)) {
   #rails-app-content {
     margin-left: 0;
+  }
+}
+
+// PF drops the main container's start inset next to an open sidebar
+// (`.pf-v6-c-page__sidebar:not(.pf-m-collapsed) + .pf-v6-c-page__main-container`);
+// the Rails main container is not that sibling, so do the same for it
+@media (min-width: $pf-v6-global--breakpoint--xl) {
+  body:has(#foreman-page .pf-v6-c-page__sidebar:not(.pf-m-collapsed)) #rails-app-content {
+    --pf-v6-c-page__main-container--MarginInlineStart: 0;
   }
 }
 

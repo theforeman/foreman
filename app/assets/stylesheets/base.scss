@@ -33,12 +33,6 @@ html {
     // this toolbar is a flex container; PF5 had none between title and actions
     --pf-v6-c-page__main-section--RowGap: 0;
   }
-
-  &.pf-v6-c-page {
-    display: block;
-    grid-template-columns: unset;
-    grid-template-areas: unset;
-  }
 }
 
 body {
@@ -51,19 +45,10 @@ body {
 #react-app-root {
   height: 100%;
   width: 100%;
-
-  .pf-v6-c-page {
-    // PF6 draws the main container as an inset card (page inset, bottom
-    // inset in its max height, border, radius); keep it flush with the sidebar
-    // and the window edges, as in PF5. The border widths need a unit: PF6
-    // subtracts them from section padding in calc()
-    --pf-v6-c-page--inset: 0;
+  .pf-v6-c-page__main-container {
+    // Removes extra space on the right and bottom of main area.
     --pf-v6-c-page__main-container--MaxHeight: 100%;
-    --pf-v6-c-page__main-container--BorderBlockStartWidth: 0px;
-    --pf-v6-c-page__main-container--BorderBlockEndWidth: 0px;
-    --pf-v6-c-page__main-container--BorderInlineStartWidth: 0px;
-    --pf-v6-c-page__main-container--BorderInlineEndWidth: 0px;
-    --pf-v6-c-page__main-container--BorderRadius: 0;
+    --pf-v6-c-page__main-container--MarginInlineEnd: 0;
   }
 }
 
