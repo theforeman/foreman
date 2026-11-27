@@ -35,6 +35,13 @@ $(document).on('click', 'a[disabled="disabled"]', function(event) {
   return handleDisabledClick(event, this);
 });
 
+// Popovers use container: 'body' (see layout_helper#popover), so they stay
+// visible after the triggering tab is hidden unless closed explicitly.
+$(document).on('hide.bs.tab', 'a[data-toggle="tab"]', function() {
+  $('a[rel="popover"]').popover('destroy');
+  $('.popover').remove();
+});
+
 const removeSelect2TitlesTooltips = function() {
   // select2 tooltips dont update and dont close properly
   $('.select2-selection span').attr('title', '');
