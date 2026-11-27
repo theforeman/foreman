@@ -272,7 +272,7 @@ const RegistrationCommandsPage = () => {
                   styling (label alignment, spacing) to the tab content without adding
                   a nested <form> element, which would be invalid HTML. */}
               {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components */}
-              <div className="pf-v5-c-form">
+              <div className="pf-v6-c-form">
                 <General
                   organizationId={organizationId}
                   organizations={organizations}
@@ -324,7 +324,7 @@ const RegistrationCommandsPage = () => {
             >
               {/* Same as above: PF form styling without a nested <form> element */}
               {/* eslint-disable-next-line @theforeman/rules/prefer-pf-components */}
-              <div className="pf-v5-c-form">
+              <div className="pf-v6-c-form">
                 <Advanced
                   configParams={configParams}
                   setupRemoteExecution={setupRemoteExecution}

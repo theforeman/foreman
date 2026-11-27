@@ -2,13 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import {
-  Modal,
-  Button,
-  TextContent,
-  Text,
-  SelectOption,
-} from '@patternfly/react-core';
+import { Button, Content, SelectOption } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
@@ -215,8 +210,8 @@ const BulkReassignHostgroupModal = ({
       key="bulk-reassign-hg-modal"
       ouiaId="bulk-reassign-hg-modal"
     >
-      <TextContent>
-        <Text ouiaId="bulk-reassign-hg-options">
+      <Content>
+        <Content component="p" ouiaId="bulk-reassign-hg-options">
           <FormattedMessage
             defaultMessage={__(
               'Change the host group of {hosts}. Some hosts may already be in your chosen host group.'
@@ -238,8 +233,8 @@ const BulkReassignHostgroupModal = ({
             }}
             id="bulk-reassign-hg-description"
           />
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
       <SkeletonLoader status={hostgroupStatus} skeletonProps={{ count: 3 }}>
         <HostGroupSelect
           onClear={handleClear}

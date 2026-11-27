@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'util';
 import '@testing-library/jest-dom'
 import {render} from '@testing-library/react';
 import Permitted from "./Permitted";
@@ -86,7 +87,7 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(noPermissionPropWarning)
+      expect(format(...consoleSpy.mock.calls[0])).toContain(noPermissionPropWarning)
 
     });
 
@@ -96,7 +97,7 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(requiredPermissionsEmptyWarning)
+      expect(format(...consoleSpy.mock.calls[0])).toContain(requiredPermissionsEmptyWarning)
 
     });
 
@@ -106,7 +107,7 @@ describe('Permitted', () => {
 
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledTimes(1)
-      expect(consoleSpy).toHaveBeenCalledWith(requiredPermissionsTypeWarning)
+      expect(format(...consoleSpy.mock.calls[0])).toContain(requiredPermissionsTypeWarning)
 
     });
 

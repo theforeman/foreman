@@ -2,19 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import {
-  initializeLayout,
-  collapseLayoutMenus,
-  expandLayoutMenus,
-} from './LayoutActions';
+import { initializeLayout } from './LayoutActions';
 import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
   selectIsLoading,
-  selectIsCollapsed,
 } from './LayoutSelectors';
 import { combineMenuItems } from './LayoutHelper';
-import { getIsNavbarCollapsed } from './LayoutSessionStorage';
 import {
   useForemanOrganization,
   useForemanLocation,
@@ -33,28 +27,17 @@ const ConnectedLayout = ({ children, data }) => {
     dispatch(
       initializeLayout({
         items: combineMenuItems(data, displayNewHostsPage),
-        isCollapsed: getIsNavbarCollapsed(),
         organization: data.orgs.current_org,
         location: data.locations.current_location,
       })
     );
   }, [data, dispatch, displayNewHostsPage]);
 
-  const isNavCollapsed = useSelector(state => selectIsCollapsed(state));
-  useEffect(() => {
-    // toggles a class in the body tag, so that the main #rails-app-content container can have the appropriate width
-    if (isNavCollapsed) {
-      document.body.classList.remove('pf-m-expanded');
-    } else {
-      document.body.classList.add('pf-m-expanded');
-    }
-  }, [isNavCollapsed]);
   const { push: navigate } = useHistory();
   const items = useSelector(state =>
     patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
   );
   const isLoading = useSelector(state => selectIsLoading(state));
-  const isCollapsed = useSelector(state => selectIsCollapsed(state));
 
   const [navigationActiveItem, setNavigationActiveItem] = useState(null);
 
@@ -64,12 +47,6 @@ const ConnectedLayout = ({ children, data }) => {
       navigate={navigate}
       items={items}
       isLoading={isLoading}
-      isCollapsed={isCollapsed}
-      collapseLayoutMenus={() => {
-        setNavigationActiveItem(null);
-        dispatch(collapseLayoutMenus());
-      }}
-      expandLayoutMenus={() => dispatch(expandLayoutMenus())}
       navigationActiveItem={navigationActiveItem}
       setNavigationActiveItem={setNavigationActiveItem}
     >

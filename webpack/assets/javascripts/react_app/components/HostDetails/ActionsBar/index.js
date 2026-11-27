@@ -212,7 +212,8 @@ const ActionsBar = ({
           </Button>
           <ForemanActionsBarContext.Provider value={{ onKebabToggle }}>
             <Dropdown
-              ouiaId="kebab-dropdown"
+              ouiaId="kebab-dropdown-menu"
+              containerOuiaId="kebab-dropdown"
               isOpen={kebabIsOpen}
               onOpenChange={isOpen => onKebabToggle(isOpen)}
               popperProps={{ position: 'right' }}

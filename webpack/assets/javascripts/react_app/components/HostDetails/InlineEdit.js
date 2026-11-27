@@ -59,27 +59,29 @@ export const InlineEdit = ({
           </FlexItem>
           <FlexItem spacer={{ default: 'spacerNone' }}>
             <Button
+              icon={
+                <Icon>
+                  <CheckIcon />
+                </Icon>
+              }
               variant="plain"
               aria-label="Save edits"
               ouiaId={`save-${name}`}
               onClick={handleSave}
-            >
-              <Icon>
-                <CheckIcon />
-              </Icon>
-            </Button>
+            />
           </FlexItem>
           <FlexItem spacer={{ default: 'spacerNone' }}>
             <Button
+              icon={
+                <Icon>
+                  <TimesIcon />
+                </Icon>
+              }
               variant="plain"
               aria-label="Cancel edits"
               ouiaId={`cancel-edit-${name}`}
               onClick={handleCancel}
-            >
-              <Icon>
-                <TimesIcon />
-              </Icon>
-            </Button>
+            />
           </FlexItem>
         </>
       ) : (
@@ -93,15 +95,16 @@ export const InlineEdit = ({
           {editPermission && (
             <FlexItem spacer={{ default: 'spacerNone' }}>
               <Button
+                icon={
+                  <Icon>
+                    <PencilAltIcon />
+                  </Icon>
+                }
                 ouiaId={`edit-${name}`}
                 variant="plain"
                 aria-label="Edit"
                 onClick={() => setIsEditing(true)}
-              >
-                <Icon>
-                  <PencilAltIcon />
-                </Icon>
-              </Button>
+              />
             </FlexItem>
           )}
         </>

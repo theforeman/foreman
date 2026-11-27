@@ -229,13 +229,19 @@ const TableIndexPage = ({
       id="page-layout-toolbar"
     >
       <ToolbarContent>
+        {/* the bulk selector is its own toolbar item: inside the filter group
+            it would get the tight control-to-control gap */}
+        {searchable && selectionToolbar}
         {searchable && (
           <ToolbarGroup
             className="page-layout-toolbar-group-search"
             variant="filter-group"
+            flexGrow={{ default: 'flexGrow' }}
           >
-            {selectionToolbar}
-            <ToolbarItem id="page-layout-toolbar-search">
+            <ToolbarItem
+              id="page-layout-toolbar-search"
+              flexGrow={{ default: 'flexGrow' }}
+            >
               <SearchBar
                 data={searchProps}
                 initialQuery=""
@@ -253,9 +259,10 @@ const TableIndexPage = ({
         )}
         {(customToolbarItems || actionButtons.length > 0) && (
           <ToolbarGroup
-            align={{ default: 'alignLeft' }}
+            align={{ default: 'alignStart' }}
             className="table-toolbar-actions"
-            variant="button-group"
+            variant="action-group"
+            flexGrow={{ default: 'flexGrow' }}
           >
             {actionButtons.length > 0 && (
               <ToolbarItem>

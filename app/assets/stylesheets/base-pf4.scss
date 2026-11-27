@@ -16,25 +16,58 @@ html {
 }
 
 body {
-  font-family: var(--pf-v5-global--FontFamily--text);
-  font-size: var(--pf-v5-global--FontSize--sm);
-  font-weight: var(--pf-v5-global--FontWeight--normal);
-  line-height: var(--pf-v5-global--LineHeight--md);
+  font-family: var(--pf-t--global--font--family--body);
+  font-size: var(--pf-t--global--font--size--sm);
+  font-weight: var(--pf-t--global--font--weight--body--default);
+  line-height: var(--pf-t--global--font--line-height--body);
   text-align: left;
-  --pf-v5-c-page--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
+  // links are not underlined until hover (as in PF5); PF6 components such as
+  // breadcrumbs and inline link buttons read this token
+  --pf-t--global--text-decoration--link--line--default: none;
 }
 
+// keep pages white: Rails pages render directly on the page background, not in
+// cards. PF6 declares this variable on .pf-v6-c-page itself, so set it there.
+body .pf-v6-c-page {
+  --pf-v6-c-page--BackgroundColor: var(--pf-t--global--background--color--primary--default);
+}
+
+// Plain links with PF's link tokens: PF6 styles `a` inside :where(), so
+// bootstrap's `a` and `a:hover` rules win without this. Hover swaps PF's own
+// link tokens instead of setting the properties, so components that set their
+// own color and decoration (PF6 buttons rendered as <a>, nav and menu items)
+// keep them on hover. Underline only on hover comes from the body token above.
 a {
-  font-weight: var(--pf-v5-global--link--FontWeight);
-  color: var(--pf-v5-global--link--Color);
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
+  color: var(--pf-t--global--text--color--link--default);
+  text-decoration-line: var(--pf-t--global--text-decoration--link--line--default);
 
   &:hover {
-    --pf-v5-global--link--Color: var(--pf-v5-global--link--Color--hover);
-    --pf-v5-global--link--TextDecoration: var(
-      --pf-v5-global--link--TextDecoration--hover
-    );
+    --pf-t--global--text--color--link--default: var(--pf-t--global--text--color--link--hover);
+    --pf-t--global--text-decoration--link--line--default: var(--pf-t--global--text-decoration--link--line--hover);
   }
+}
+
+// PF3/bootstrap's `a:hover, a:focus { color }` outranks PF6 component classes,
+// so PF6 components rendered as <a> would take the PF3 link color on hover
+// (e.g. white primary button text turning dark blue); restore their own color
+a.pf-v6-c-button:is(:hover, :focus) {
+  color: var(--pf-v6-c-button--Color);
+}
+
+a.pf-v6-c-menu__item:is(:hover, :focus) {
+  color: var(--pf-v6-c-menu__item--Color);
+}
+
+a.pf-v6-c-breadcrumb__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-breadcrumb__link--Color);
+}
+
+a.pf-v6-c-tabs__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-tabs__link--Color);
+}
+
+a.pf-v6-c-nav__link:is(:hover, :focus) {
+  color: var(--pf-v6-c-nav__link--Color);
 }
 
 /*
@@ -58,11 +91,11 @@ a {
   }
 }
 
-.pf-v5-c-alert {
-  line-height: var(--pf-v5-global--LineHeight--md);
+.pf-v6-c-alert {
+  line-height: var(--pf-t--global--font--line-height--body);
 
   h4 {
     margin: 0;
-    line-height: var(--pf-v5-global--LineHeight--md);
+    line-height: var(--pf-t--global--font--line-height--body);
   }
 }

@@ -1,24 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
-Object {
-  "isCollapsed": true,
-  "isLoading": false,
-  "items": Array [],
-}
-`;
-
-exports[`Layout reducer should handle LAYOUT_EXPAND 1`] = `
-Object {
-  "isCollapsed": false,
-  "isLoading": false,
-  "items": Array [],
-}
-`;
-
 exports[`Layout reducer should handle LAYOUT_HIDE_LOADING 1`] = `
 Object {
-  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }
@@ -28,7 +11,6 @@ exports[`Layout reducer should handle LAYOUT_INITIALIZE 1`] = `
 Object {
   "currentLocation": "some location",
   "currentOrganization": "some organization",
-  "isCollapsed": true,
   "isLoading": false,
   "items": "some-items",
 }
@@ -36,7 +18,6 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
-  "isCollapsed": false,
   "isLoading": true,
   "items": Array [],
 }
@@ -44,7 +25,6 @@ Object {
 
 exports[`Layout reducer should return the initial state 1`] = `
 Object {
-  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }

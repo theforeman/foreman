@@ -49,3 +49,7 @@ export const getControllerSearchProps = (
     documentationUrl: getManualURL('4.1.5Searching'),
   },
 });
+
+// PF6 Icon sets its content color itself (PF5 inherited it); set this CSS
+// variable on <Icon> for a non-status color, use the `status` prop otherwise
+export const ICON_CONTENT_COLOR_VARIABLE = '--pf-v6-c-icon__content--Color';

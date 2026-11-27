@@ -17,7 +17,7 @@ ruleTester.run('prefer-pf-props', rule, {
       code: '<div className="my-custom-class" />',
     },
     {
-      code: '<div className="pf-v5-c-alert" />',
+      code: '<div className="pf-v6-c-alert" />',
     },
     {
       code: '<div className={someVariable} />',

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import {
-  DragDrop,
-  Droppable,
   DualListSelector,
   DualListSelectorPane,
   DualListSelectorList,
   DualListSelectorControlsWrapper,
   DualListSelectorControl,
-} from '@patternfly/react-core';
+  DragDrop,
+  Droppable,
+} from '@patternfly/react-core/deprecated';
 import {
   AngleDoubleLeftIcon,
   AngleLeftIcon,

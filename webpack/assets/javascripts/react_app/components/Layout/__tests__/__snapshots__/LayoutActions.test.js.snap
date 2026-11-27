@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout actions should collapseLayoutMenus 1`] = `
-Object {
-  "type": "LAYOUT_COLLAPSE",
-}
-`;
-
-exports[`Layout actions should expandLayoutMenus 1`] = `
-Object {
-  "type": "LAYOUT_EXPAND",
-}
-`;
-
 exports[`Layout actions should hideLoading 1`] = `
 Object {
   "type": "LAYOUT_HIDE_LOADING",
@@ -21,7 +9,6 @@ Object {
 exports[`Layout actions should initialize the layout 1`] = `
 Object {
   "payload": Object {
-    "isCollapsed": false,
     "items": "some items",
     "location": "loc2",
     "organization": "org1",

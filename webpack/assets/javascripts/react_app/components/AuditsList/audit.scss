@@ -1,10 +1,11 @@
 @import '../../common/colors';
+@import '../../common/variables';
 
 #audit-list {
   .additional-info-item {
     font-weight: 600;
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: $pf-v6-global--breakpoint--md) {
       &.item-name{
         text-align: right;
         margin-inline-end: 10px;
@@ -23,8 +24,8 @@
   }
 
   .pf-m-expanded {
-    border: 1px solid var(--pf-v5-global--BorderColor--100);
-    box-shadow: var(--pf-v5-global--BoxShadow--sm);
+    border: 1px solid var(--pf-t--global--border--color--default);
+    box-shadow: var(--pf-t--global--box-shadow--sm);
     margin-bottom: 5px;
 
     .audits-list-item-row {
@@ -33,7 +34,7 @@
   }
 
   .gray-text {
-    color: var(--pf-v5-global--disabled-color--100);
+    color: var(--pf-t--global--text--color--subtle);
   }
 
   .data-list-content {

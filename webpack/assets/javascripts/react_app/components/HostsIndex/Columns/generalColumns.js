@@ -2,21 +2,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
-import {
-  Button,
-  Icon,
-  Popover,
-  TextContent,
-  TextList,
-  TextListItem,
-} from '@patternfly/react-core';
+import { Button, Icon, Popover, Content, Flex } from '@patternfly/react-core';
 import { UserIcon, UsersIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
 import GlobalStatusIcon from '../../HostStatuses/Status/GlobalStatusIcon';
-import './core.scss';
+import { ICON_CONTENT_COLOR_VARIABLE } from '../../../constants';
 
 const generalColumns = [
   {
@@ -24,6 +17,7 @@ const generalColumns = [
     title: __('Power'),
     wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
     isSorted: false,
+    cellModifier: 'nowrap',
     weight: 0,
     textCenter: true,
   },
@@ -36,33 +30,38 @@ const generalColumns = [
       global_status: globalStatus,
       global_status_fulltext: statuses,
     }) => (
-      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+      // the status icon stays on the first line of a wrapped host name
+      <Flex
+        alignItems={{ default: 'alignItemsFlexStart' }}
+        gap={{ default: 'gapSm' }}
+        flexWrap={{ default: 'nowrap' }}
+      >
         <Popover
           id="host-index-global-status-tooltip"
           bodyContent={
-            <TextContent>
-              <TextList isPlain>
+            <Content>
+              <Content component="ul" isPlainList>
                 {statuses.map((status, index) => (
-                  <TextListItem key={`status-list-${index}`}>
+                  <Content component="li" key={`status-list-${index}`}>
                     {status}
-                  </TextListItem>
+                  </Content>
                 ))}
-              </TextList>
-            </TextContent>
+              </Content>
+            </Content>
           }
         >
           <Button
+            icon={<GlobalStatusIcon status={globalStatus} />}
             variant="plain"
             ouiaId="plain-button-popover"
-            style={{ padding: 0 }}
-          >
-            <GlobalStatusIcon status={globalStatus} />
-          </Button>
+            hasNoPadding
+          />
         </Popover>
         <Link to={`hosts/${name}`}>{displayName}</Link>
-      </span>
+      </Flex>
     ),
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 50,
     isRequired: true,
   },
@@ -94,6 +93,7 @@ const generalColumns = [
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 100,
   },
   {
@@ -103,13 +103,18 @@ const generalColumns = [
       const osIcon = hostDetails?.operatingsystem_icon;
       const osName = hostDetails?.operatingsystem_name;
       return (
-        <span className="os-title-wrapper">
+        <Flex
+          alignItems={{ default: 'alignItemsBaseline' }}
+          gap={{ default: 'gapSm' }}
+          flexWrap={{ default: 'nowrap' }}
+        >
           {osIcon && <img src={osIcon} alt={`${osName} icon`} />}
           <span>{osName}</span>
-        </span>
+        </Flex>
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 200,
   },
   {
@@ -120,15 +125,25 @@ const generalColumns = [
       const OwnerIcon =
         hostDetails?.owner_type !== 'User' ? UsersIcon : UserIcon;
       return (
-        <TableText>
-          <Icon style={{ color: '#2B9AF3', marginRight: '5px' }}>
+        <Flex
+          alignItems={{ default: 'alignItemsBaseline' }}
+          gap={{ default: 'gapXs' }}
+          flexWrap={{ default: 'nowrap' }}
+        >
+          <Icon
+            style={{
+              [ICON_CONTENT_COLOR_VARIABLE]:
+                'var(--pf-t--global--icon--color--brand--default)',
+            }}
+          >
             <OwnerIcon />
           </Icon>
-          {hostDetails?.owner_name}
-        </TableText>
+          <span>{hostDetails?.owner_name}</span>
+        </Flex>
       );
     },
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 300,
   },
   {

@@ -265,7 +265,7 @@ module LayoutHelper
 
   def body_css_classes
     # so plugins can replace foreman colors by removing foreman-theme
-    "pf-m-redhat-font foreman-theme"
+    "foreman-theme"
   end
 
   def all_body_css_classes

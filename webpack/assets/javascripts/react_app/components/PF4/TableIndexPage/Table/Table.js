@@ -144,7 +144,7 @@ export const Table = ({
             {columnNamesKeys.map(k => (
               <Th
                 key={k}
-                modifier="wrap"
+                modifier={columns[k]?.headerModifier || 'wrap'}
                 textCenter={columns[k]?.textCenter}
                 sort={
                   Object.values(columnsToSortParams).includes(k) &&
@@ -219,6 +219,7 @@ export const Table = ({
                         key={k}
                         dataLabel={keysToColumnNames[k]}
                         textCenter={columns[k]?.textCenter}
+                        modifier={columns[k]?.cellModifier}
                       >
                         {columns[k].wrapper
                           ? columns[k].wrapper(result)

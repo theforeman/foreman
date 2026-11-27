@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownToggle } from '@patternfly/react-core/deprecated';
-import { Icon } from '@patternfly/react-core';
+import { Dropdown, MenuToggle } from '@patternfly/react-core';
 import { OutlinedBookmarkIcon } from '@patternfly/react-icons';
 import BookmarkModal from '../../BookmarkForm/SearchModal';
 import { STATUS } from '../../../constants';
@@ -74,26 +73,27 @@ const Bookmarks = ({
         isOpened={isModalOpen}
       />
       <Dropdown
-        ouiaId="bookmarks-dropdown"
-        position={bookmarksPosition}
+        ouiaId="bookmarks-dropdown-menu"
+        containerOuiaId="bookmarks-dropdown"
+        popperProps={{ position: bookmarksPosition }}
         isOpen={isDropdownOpen}
         onSelect={() => setIsDropdownOpen(false)}
-        toggle={
-          <DropdownToggle
-            onToggle={(_event, isOpen) => onToggle(isOpen)}
+        onOpenChange={isOpen => setIsDropdownOpen(isOpen)}
+        toggle={toggleRef => (
+          <MenuToggle
+            ref={toggleRef}
+            id={controller}
+            isExpanded={isDropdownOpen}
+            onClick={() => onToggle(!isDropdownOpen)}
             title={__('Bookmarks')}
             aria-label="bookmarks dropdown toggle"
             ouiaId="bookmarks-dropdown-toggle"
-          >
-            <Icon>
-              <OutlinedBookmarkIcon />
-            </Icon>
-          </DropdownToggle>
-        }
-        id={controller}
-        dropdownItems={dropdownItems}
-        isGrouped
-      />
+            icon={<OutlinedBookmarkIcon />}
+          />
+        )}
+      >
+        {dropdownItems}
+      </Dropdown>
     </>
   );
 };

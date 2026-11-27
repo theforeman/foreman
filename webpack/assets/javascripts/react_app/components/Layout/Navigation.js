@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {
   Nav,
   NavList,
@@ -14,13 +13,6 @@ import {
   useForemanOrganization,
   useForemanLocation,
 } from '../../Root/Context/ForemanContext';
-
-const titleWithIcon = (title, iconClass) => (
-  <div className="nav-title-icon">
-    <span className={classNames(iconClass, 'nav-icon')} />
-    <span className="nav-title">{title}</span>
-  </div>
-);
 
 const Navigation = ({
   navigate,
@@ -146,7 +138,8 @@ const Navigation = ({
           <React.Fragment key={index}>
             <NavExpandable
               ouiaId={`nav-expandable-${index}`}
-              title={titleWithIcon(title, iconClass)}
+              title={title}
+              icon={<span className={iconClass} aria-hidden="true" />}
               groupId={`nav-expandable-group-${title}`}
               isActive={
                 subItemToItemMap[pathFragment(getCurrentPath())] === title

@@ -4,7 +4,6 @@ export const selectLayout = state => state.layout;
 
 export const selectMenuItems = state => selectLayout(state).items;
 export const selectIsLoading = state => selectLayout(state).isLoading;
-export const selectIsCollapsed = state => selectLayout(state).isCollapsed;
 
 export const patternflyMenuItemsSelector = (
   state,

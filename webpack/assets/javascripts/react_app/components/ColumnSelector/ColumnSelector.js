@@ -4,11 +4,10 @@ import {
   Button,
   InputGroup,
   InputGroupItem,
-  Modal,
-  ModalVariant,
   TreeView,
   Icon,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { ColumnsIcon } from '@patternfly/react-icons';
 import { cloneDeep } from 'lodash';
 import { translate as __ } from '../../common/I18n';
@@ -167,7 +166,10 @@ const ColumnSelector = props => {
           onClick={toggleModal}
           title={__('Manage columns')}
         >
-          <span className="columns-selector-text">{__('Manage columns')}</span>
+          {/* PF display utilities: the label shows from the 2xl breakpoint up */}
+          <span className="columns-selector-text pf-v6-u-display-none pf-v6-u-display-inline-on-2xl">
+            {__('Manage columns')}
+          </span>
         </Button>
         <Modal
           ouiaId="manage-columns-modal"

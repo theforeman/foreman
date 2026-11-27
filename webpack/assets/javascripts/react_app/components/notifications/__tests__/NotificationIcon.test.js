@@ -34,8 +34,7 @@ describe('Notification Icon', () => {
       fireEvent.click(icon);
     })
 
-    const iconExpanded = document.querySelector('#notification-badge span.pf-m-expanded');;
-    expect(iconExpanded).toBeInTheDocument();
+    expect(icon).toHaveAttribute('aria-expanded', 'true');
 
   });
 

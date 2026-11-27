@@ -12,14 +12,14 @@ span.bss-service-info dl {
   vertical-align: middle;
 }
 
-#backend-system-status span.pf-v5-c-icon {
+#backend-system-status span.pf-v6-c-icon {
   margin-right: 0.3em;
 }
 
-span.bss-status-value .pf-v5-c-icon {
+span.bss-status-value .pf-v6-c-icon {
   margin-right: 0.3em;
 }
 
 span.service-name-parent {
-  color: var(--pf-v5-global--disabled-color--100);
+  color: var(--pf-t--global--text--color--subtle);
 }

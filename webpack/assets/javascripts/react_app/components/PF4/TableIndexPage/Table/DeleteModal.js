@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Modal } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 
 import { sprintf, translate as __ } from '../../../../common/I18n';
 import { APIActions } from '../../../../redux/API';

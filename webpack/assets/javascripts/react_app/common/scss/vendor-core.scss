@@ -14,6 +14,8 @@
 @import '~patternfly-react/dist/sass/_patternfly-react.scss';
 @import '~patternfly/dist/sass/patternfly/_loading-state';
 
-// patternfly v5
-@import '~@patternfly/patternfly/patternfly';
-@import '~@patternfly/patternfly/patternfly-addons';
+// patternfly v6: the compiled patternfly.css and patternfly-addons.css are
+// added after this file in the vendorStyles webpack entry, so PF6 comes last in
+// the cascade. They are not @imported here: Sass hoists plain CSS imports above
+// the PF3 rules, and the PF6 SCSS entry points (`@use ... as *`) clash with the
+// global PF3 variables imported above.

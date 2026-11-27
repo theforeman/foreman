@@ -14,6 +14,7 @@ import {
   OK_STATUS_STATE,
   WARNING_STATUS_STATE,
 } from './Constants';
+import { ICON_CONTENT_COLOR_VARIABLE } from '../../../constants';
 
 const StatusIcon = ({ statusNumber, label }) => (
   <span className="host-status-icon-container">
@@ -22,7 +23,7 @@ const StatusIcon = ({ statusNumber, label }) => (
         case OK_STATUS_STATE:
           return (
             <span className="status-success">
-              <Icon isInline>
+              <Icon isInline status="success">
                 <CheckCircleIcon />
               </Icon>
               {label}
@@ -31,7 +32,7 @@ const StatusIcon = ({ statusNumber, label }) => (
         case WARNING_STATUS_STATE:
           return (
             <span className="status-warning">
-              <Icon isInline>
+              <Icon isInline status="warning">
                 <ExclamationTriangleIcon />
               </Icon>
               {label}
@@ -40,7 +41,7 @@ const StatusIcon = ({ statusNumber, label }) => (
         case ERROR_STATUS_STATE:
           return (
             <span className="status-error">
-              <Icon isInline>
+              <Icon isInline status="danger">
                 <ExclamationCircleIcon />
               </Icon>
               {label}
@@ -49,7 +50,13 @@ const StatusIcon = ({ statusNumber, label }) => (
         case NA_STATUS_STATE:
           return (
             <span className="disabled">
-              <Icon isInline>
+              <Icon
+                isInline
+                style={{
+                  [ICON_CONTENT_COLOR_VARIABLE]:
+                    'var(--pf-t--global--icon--color--disabled)',
+                }}
+              >
                 <BanIcon />
               </Icon>
               {label}

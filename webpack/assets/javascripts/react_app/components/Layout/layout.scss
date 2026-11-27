@@ -7,24 +7,45 @@
   height: 100%;
 }
 
+// Let the main container fill the page height on React pages and on Rails
+// pages (base.html.erb renders the same PF markup in #rails-app-content), so
+// filled sections (PageSection isFilled, e.g. the gray host details card
+// views) reach the bottom. Not PF's Page isContentFilled: the React layout also
+// wraps Rails pages, where its stretched (z-index 100) but empty container
+// would cover #rails-app-content
+.react-page #foreman-page,
+#rails-app-content {
+  --pf-v6-c-page__main-container--AlignSelf: stretch;
+}
+
 #foreman-main-container {
   height: fit-content;
 }
 
-.collapsed-nav {
-  #react-app-root {
-    main.pf-v5-c-page__main {
-      padding-left: 0;
-    }
-  }
+// Rails pages render outside PF's Page grid, so follow the PF-managed
+// sidebar: drop the sidebar offset when PF collapses it, and below the PF xl
+// breakpoint, where PF opens the sidebar over the page instead of beside it
+body:has(#foreman-page .pf-v6-c-page__sidebar.pf-m-collapsed) #rails-app-content {
+  margin-left: 0;
+}
 
+@media (max-width: calc(#{$pf-v6-global--breakpoint--xl} - 1px)) {
   #rails-app-content {
     margin-left: 0;
   }
 }
 
+// PF drops the main container's start inset next to an open sidebar
+// (`.pf-v6-c-page__sidebar:not(.pf-m-collapsed) + .pf-v6-c-page__main-container`);
+// the Rails main container is not that sibling, so do the same for it
+@media (min-width: $pf-v6-global--breakpoint--xl) {
+  body:has(#foreman-page .pf-v6-c-page__sidebar:not(.pf-m-collapsed)) #rails-app-content {
+    --pf-v6-c-page__main-container--MarginInlineStart: 0;
+  }
+}
+
 #page-sidebar {
-  .pf-v5-c-nav__item.hidden-nav-lg {
+  .pf-v6-c-nav__item.hidden-nav-lg {
     display: none;
 
     @media (max-width: $header-max-width) {
@@ -34,94 +55,35 @@
 }
 
 #foreman-nav {
-  .nav-title-icon {
-    word-break: break-word;
+  // long (translated) menu titles break instead of overflowing the sidebar
+  .pf-v6-c-nav__link-text {
     overflow-wrap: break-word;
-    white-space: normal;
-  }
-
-  .nav-icon {
-    pointer-events: none;
-    padding-right: 10px;
-  }
-
-  .nav-title {
-    pointer-events: none;
-  }
-
-  .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable .pf-v5-c-nav__list::before {
-    border: 0;
-  }
-
-  .pf-v5-c-nav__item.pf-m-expandable::before {
-    z-index: var(--pf-v5-c-page__sidebar--ZIndex);
-  }
-
-  .pf-v5-c-nav__item .pf-v5-c-nav__item.pf-m-expandable::before {
-    // in small screens, the expandable items have css to add a second border
-    border-bottom: none;
-  }
-  
-  .pf-m-expandable>.pf-v5-c-nav__link{
-    text-align: left;
   }
 
   .navigation-search-menu {
-    .pf-v5-c-menu__item {
+    .pf-v6-c-menu__item {
       padding: 5px;
 
-      .pf-v5-c-menu__item-description {
+      .pf-v6-c-menu__item-description {
         word-break: break-word;
       }
     }
 
     min-width: 0;
     margin: 0;
-
-    --pf-v5-c-menu--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
-    --pf-v5-c-menu__list-item--Color: var(--pf-v5-global--Color--100);
-    --pf-v5-c-menu__list-item--BackgroundColor: transparent;
-    --pf-v5-c-menu__list-item--hover--BackgroundColor: var(
-      --pf-v5-global--BackgroundColor--200
-    );
-    --pf-v5-c-menu__list-item--focus-within--Color: var(--pf-v5-global--palette--blue-400);
-    --pf-v5-c-menu__list-item--focus-within--BackgroundColor: var(
-      --pf-v5-global--BackgroundColor--200
-    );
-
-    --pf-v5-c-menu__item-description--Color: var(--pf-v5-global--Color--200);
-    --pf-v5-c-menu__list-item--hover--Color: unset;
   }
 
   #navigation-search {
-    width:calc(#{var(--pf-v5-c-page__sidebar--Width)} - 10px);
+    width: calc(100% - 10px);
     margin-left: 5px;
 
-    .pf-v5-c-button.pf-m-control {
+    .pf-v6-c-button.pf-m-control {
       display: none;
     }
   }
 }
 
-#foreman-page .pf-v5-c-masthead {
+#foreman-page .pf-v6-c-masthead {
   background-repeat: no-repeat;
   background-size: cover;
-
-  .pf-v5-c-toolbar__item {
-    .pf-v5-c-context-selector__menu {
-      top: auto;
-    }
-
-    .pf-v5-c-context-selector {
-      &.pf-m-expanded,
-      &:hover {
-        background: rgba(255, 255, 255, 0.24);
-      }
-    }
-
-    .pf-v5-c-context-selector__toggle::before {
-      border-width: 0;
-    }
-  }
-  
 }

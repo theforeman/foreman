@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   DatePicker,
-  Modal,
   Radio,
-  ModalVariant,
   Button,
   Form,
   FormGroup,
@@ -19,6 +17,7 @@ import {
   HelperTextItem,
   Icon,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../common/I18n';

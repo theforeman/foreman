@@ -57,8 +57,9 @@ describe('TaxonomySelect', () => {
   });
 
   it('should render with different taxonomy type', () => {
-    const { container } = renderComponent({ taxonomy: 'location' });
-    expect(container.querySelector('.scrollable-container')).toHaveAttribute('id', 'select-location');
+    renderComponent({ taxonomy: 'location' });
+    // the menu renders outside the component (in the open modal's backdrop or body)
+    expect(document.querySelector('.scrollable-container')).toHaveAttribute('id', 'select-location');
   });
 
   it('should render Select with scrollable class', () => {
@@ -66,11 +67,11 @@ describe('TaxonomySelect', () => {
       <option key={i} value={`option-${i}`}>Option {i}</option>
     ));
 
-    const { container } = renderComponent({
+    renderComponent({
       children: manyOptions
     });
 
-    expect(container.querySelector('.scrollable-container')).toBeInTheDocument();
+    expect(document.querySelector('.scrollable-container')).toBeInTheDocument();
   });
 
   it('should render children inside Select', () => {

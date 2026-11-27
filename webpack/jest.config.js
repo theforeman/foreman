@@ -52,6 +52,7 @@ module.exports = {
     '^.+\\.(png|gif|css|scss)$': `${nodeModules}/identity-obj-proxy/src/index.js`,
     ...moduleNameMapper,
     '^@patternfly/react-table/deprecated$': `${nodeModules}/@patternfly/react-table/deprecated`,
+    '^@patternfly/react-core/deprecated$': `${nodeModules}/@patternfly/react-core/deprecated`,
     '^dnd-core$': `${nodeModules}/dnd-core/dist/cjs`,
     '^react-dnd$': `${nodeModules}/react-dnd/dist/cjs`,
     '^react-dnd-html5-backend$': `${nodeModules}/react-dnd-html5-backend/dist/cjs`,
@@ -62,7 +63,6 @@ module.exports = {
     '^foremanJSTestSetup$': path.resolve(__dirname, 'core_test_setup.js'),
     '^@theforeman/test$': foremanTest,
     '^react-redux-test-utils$': foremanTest,
-    '^victory(.*)$': `${nodeModules}/victory$1`,
   },
   globals: {
     __testing__: true,

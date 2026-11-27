@@ -1,14 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Modal,
-  ModalVariant,
-  Button,
-  Alert,
-  Stack,
-  StackItem,
-} from '@patternfly/react-core';
+import { Button, Alert, Stack, StackItem } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { FormattedMessage } from 'react-intl';
 import { translate as __ } from '../../../common/I18n';
 import { useAPI } from '../../../common/hooks/API/APIHooks';

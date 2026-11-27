@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
-  Modal,
-  ModalVariant,
   Button,
-  TextContent,
-  Text,
+  Content,
   FormGroup,
   ToggleGroup,
   ToggleGroupItem,
 } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { FormattedMessage } from 'react-intl';
 import { translate as __ } from '../../../../common/I18n';
 import { bulkManageNotifications } from './actions';
@@ -96,10 +94,10 @@ const BulkManageNotificationsModal = ({
         </Button>,
       ]}
     >
-      <TextContent className="pf-v5-u-mb-md">
-        <Text
+      <Content className="pf-v6-u-mb-md">
+        <Content
           component="p"
-          className="pf-v5-u-font-size-md"
+          className="pf-v6-u-font-size-md"
           ouiaId="manage-notifications-hosts-count"
         >
           <FormattedMessage
@@ -110,24 +108,24 @@ const BulkManageNotificationsModal = ({
               boldCount: <strong>{selectedCount}</strong>,
             }}
           />
-        </Text>
-        <Text
+        </Content>
+        <Content
           component="small"
-          className="pf-v5-u-color-200 pf-v5-u-font-size-sm"
+          className="pf-v6-u-text-color-subtle pf-v6-u-font-size-sm"
           ouiaId="manage-notifications-explanation"
         >
           {__(
             'Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool.'
           )}
-        </Text>
-        <Text
+        </Content>
+        <Content
           component="small"
-          className="pf-v5-u-color-200 pf-v5-u-font-size-sm"
+          className="pf-v6-u-text-color-subtle pf-v6-u-font-size-sm"
           ouiaId="manage-notifications-enablement-state-notice"
         >
           {__('Enablement state of the selected hosts may vary.')}
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
       <FormGroup fieldId="manage-notifications-toggle">
         <ToggleGroup aria-label={__('Notification state')}>
           <ToggleGroupItem

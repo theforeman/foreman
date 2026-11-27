@@ -204,19 +204,20 @@ const FieldConstructor = ({
     fieldId={fieldId ?? `id-${name}`}
     label={label}
     isRequired={required}
-    labelIcon={
+    labelHelp={
       labelHelp ? (
         <Popover bodyContent={labelHelp}>
           <Button
+            icon={
+              <Icon>
+                <HelpIcon />
+              </Icon>
+            }
             ouiaId={`label-${label}`}
             type="button"
             variant="plain"
             onClick={e => e.preventDefault()}
-          >
-            <Icon>
-              <HelpIcon />
-            </Icon>
-          </Button>
+          />
         </Popover>
       ) : (
         ''

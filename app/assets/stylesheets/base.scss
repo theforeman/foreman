@@ -5,7 +5,7 @@ html {
   height: 100%;
   width: 100%;
   display: table;
-  --header-height: 70px;
+  --header-height: 69px;
   --banner-height: 0px;
 }
 
@@ -20,18 +20,22 @@ html {
     var(--header-height) + var(--banner-height)
   );
   height: calc(100% - var(--header-height) - var(--banner-height));
+  // PF6 gives the main container a z-index, which makes it a stacking context
+  // in the page grid. Bootstrap modals in Rails views would then sit under the
+  // .modal-backdrop that bootstrap appends to body
+  --pf-v6-c-page__main-container--ZIndex: auto;
 
   .rails-table-toolbar {
     padding-bottom: 0;
     display: flex;
+    // PF6 page sections are column flex containers; keep search and actions
+    // side by side as in PF5
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-  }
-
-  &.pf-v5-c-page {
-    display: block;
-    grid-template-columns: unset;
-    grid-template-areas: unset;
+    // PF6 page sections set a 24px gap, which only takes effect here because
+    // this toolbar is a flex container; PF5 had none between title and actions
+    --pf-v6-c-page__main-section--RowGap: 0;
   }
 }
 
@@ -46,13 +50,15 @@ body {
   height: 100%;
   width: 100%;
 
-  .pf-v5-c-page {
-    // pf grid rule stops at @media (min-width: 1200px)
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    grid-template-areas:
-      'header header'
-      'nav main';
+  .pf-v6-c-page__main-container {
+    // Removes extra space on the right and bottom of main area container.
+    --pf-v6-c-page__main-container--MaxHeight: 100%;
+    --pf-v6-c-page__main-container--MarginInlineEnd: 0;
+  }
+
+  #page-layout-content-section {
+    // adding the margin to the layout instead, helps long pages.
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -674,7 +680,7 @@ span.btn a.disabled {
 }
 
 .compact-ui {
-  td.pf-v5-c-table__td {
+  td.pf-v6-c-table__td {
     padding-top: 2px;
     padding-bottom: 2px;
 
@@ -687,6 +693,6 @@ span.btn a.disabled {
 .user-banner-present {
   // banner height is line height and a small padding
   --banner-height: calc(
-    2 * var(--pf-v5-global--spacer--xs) + (var(--pf-v5-global--LineHeight--md) * var(--pf-v5-global--FontSize--sm))
+    2 * var(--pf-t--global--spacer--xs) + (var(--pf-t--global--font--line-height--body) * var(--pf-t--global--font--size--sm))
   );
 }

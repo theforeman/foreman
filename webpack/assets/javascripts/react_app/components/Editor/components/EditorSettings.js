@@ -148,16 +148,17 @@ const EditorSettings = ({
     />
     <Tooltip content={__('Settings')} position={TooltipPosition.top}>
       <Button
+        icon={
+          <Icon size="md">
+            <CogIcon />
+          </Icon>
+        }
         variant="plain"
         className="editor-button"
         id="cog-btn"
         ouiaId="cog-btn"
         aria-label={__('Settings')}
-      >
-        <Icon size="md">
-          <CogIcon />
-        </Icon>
-      </Button>
+      />
     </Tooltip>
   </>
 );

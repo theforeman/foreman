@@ -32,7 +32,11 @@ const HostStatuses = () => {
       <Head>
         <title>{__('Host Statuses')}</title>
       </Head>
-      <PageSection padding className="host-statuses-page">
+      <PageSection
+        hasBodyWrapper={false}
+        padding
+        className="host-statuses-page"
+      >
         <Grid hasGutter>
           <GridItem span={12}>
             <Title

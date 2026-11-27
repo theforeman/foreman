@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Modal,
   Button,
-  TextContent,
-  Text,
+  Content,
   Select,
   SelectOption,
   SelectList,
   SelectGroup,
   MenuToggle,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import {
@@ -28,7 +27,11 @@ import {
   selectAPIStatus,
   selectAPIResponse,
 } from '../../../../redux/API/APISelectors';
-import { buildBulkRequestBody, bulkErrorToastParams } from '../helpers';
+import {
+  buildBulkRequestBody,
+  bulkErrorToastParams,
+  appendMenuToOpenModal,
+} from '../helpers';
 
 const BulkChangeOwnerModal = ({
   isOpen,
@@ -163,8 +166,8 @@ const BulkChangeOwnerModal = ({
       key="bulk-change-owner-modal"
       ouiaId="bulk-change-owner-modal"
     >
-      <TextContent>
-        <Text ouiaId="bulk-change-owner-options">
+      <Content>
+        <Content component="p" ouiaId="bulk-change-owner-options">
           {selectAllHostsMode ? (
             <FormattedMessage
               id="bulk-change-owner-warning-message-all"
@@ -183,10 +186,12 @@ const BulkChangeOwnerModal = ({
               }}
             />
           )}
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
       {userStatus === STATUS.RESOLVED && usergroupStatus === STATUS.RESOLVED && (
         <Select
+          // inside the open modal's backdrop: not hidden by the modal, not clipped by it
+          popperProps={{ appendTo: appendMenuToOpenModal }}
           id="single-grouped-select"
           isOpen={ownerSelectOpen}
           selected={ownerId}

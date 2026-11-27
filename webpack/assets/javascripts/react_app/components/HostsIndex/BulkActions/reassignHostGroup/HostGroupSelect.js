@@ -11,6 +11,7 @@ import {
 import { TimesIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../../common/I18n';
+import { appendMenuToOpenModal } from '../helpers';
 
 const HostGroupSelect = ({
   headerText,
@@ -67,13 +68,12 @@ const HostGroupSelect = ({
           {...(!inputValue ? { style: { display: 'none' } } : {})}
         >
           <Button
+            icon={<TimesIcon aria-hidden />}
             variant="plain"
             onClick={onClearButtonClick}
             aria-label="Clear input value"
             ouiaId="hostgroup-select-clear-button"
-          >
-            <TimesIcon aria-hidden />
-          </Button>
+          />
         </TextInputGroupUtilities>
       </TextInputGroup>
     </MenuToggle>
@@ -83,6 +83,8 @@ const HostGroupSelect = ({
     <div style={{ marginTop: '1em' }}>
       <h3>{headerText}</h3>
       <Select
+        // inside the open modal's backdrop: not hidden by the modal, not clipped by it
+        popperProps={{ appendTo: appendMenuToOpenModal }}
         id="typeahead-select"
         isOpen={isOpen}
         selected={selected}

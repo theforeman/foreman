@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { flushPatternflyTimers } from '../../../common/rtlTestHelpers';
 
 import { ActionButtons } from './ActionButtons';
 
@@ -47,6 +48,7 @@ describe('ActionButtons', () => {
     expect(screen.queryByText('second')).not.toBeInTheDocument();
     expect(screen.queryByText('third')).not.toBeInTheDocument();
     await act(async () => fireEvent.click(menuToggle));
+    await flushPatternflyTimers();
     expect(screen.getByText('second')).toBeInTheDocument();
     expect(screen.getByText('third')).toBeInTheDocument();
     const dropdownItems = screen.getAllByRole('menuitem');
@@ -73,7 +75,11 @@ describe('ActionButtons', () => {
       );
       await new Promise(resolve => setTimeout(resolve, 0));
     });
-    fireEvent.click(screen.getByRole('menuitem', { name: 'second' }));
+    await flushPatternflyTimers();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('menuitem', { name: 'second' }));
+    });
+    await flushPatternflyTimers();
     expect(secondAction).toHaveBeenCalledTimes(1);
   });
 
@@ -97,6 +103,7 @@ describe('ActionButtons', () => {
       );
       await new Promise(resolve => setTimeout(resolve, 0));
     });
+    await flushPatternflyTimers();
     const menu = screen.getByRole('menu');
     expect(within(menu).getByRole('menuitem', { name: 'second' })).toBeDisabled();
     expect(within(menu).getByRole('menuitem', { name: 'third' })).toBeDisabled();

@@ -74,7 +74,10 @@ const CardTemplate = ({
               actions: (
                 <>
                   <Dropdown
-                    ouiaId="template-card-dropdown"
+                    // the id QE looks up is on the always-rendered container; the menu
+                    // (which carries ouiaId) only exists while open
+                    ouiaId="template-card-dropdown-menu"
+                    containerOuiaId="template-card-dropdown"
                     isOpen={dropdownVisibility}
                     onOpenChange={isOpen => onDropdownToggle(isOpen)}
                     popperProps={{ position: 'right' }}

@@ -2,8 +2,6 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_COLLAPSE,
-  LAYOUT_EXPAND,
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
@@ -17,7 +15,6 @@ const fixtures = {
       type: LAYOUT_INITIALIZE,
       payload: {
         items: 'some-items',
-        isCollapsed: true,
         organization: 'some organization',
         location: 'some location',
       },
@@ -31,16 +28,6 @@ const fixtures = {
   'should handle LAYOUT_HIDE_LOADING': {
     action: {
       type: LAYOUT_HIDE_LOADING,
-    },
-  },
-  'should handle LAYOUT_COLLAPSE': {
-    action: {
-      type: LAYOUT_COLLAPSE,
-    },
-  },
-  'should handle LAYOUT_EXPAND': {
-    action: {
-      type: LAYOUT_EXPAND,
     },
   },
 };

@@ -7,9 +7,7 @@ import {
   ToolbarGroup,
   ToolbarItem,
   PageSection,
-  PageSectionVariants,
-  TextContent,
-  Text,
+  Content,
 } from '@patternfly/react-core';
 import { changeQuery } from '../../../common/urlHelpers';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
@@ -34,11 +32,11 @@ const PageLayout = ({
   children,
 }) => {
   const titleSectionBody = customHeader ?? (
-    <TextContent>
-      <Text ouiaId="breadcrumb_title" component="h1">
+    <Content>
+      <Content ouiaId="breadcrumb_title" component="h1">
         {header}
-      </Text>
-    </TextContent>
+      </Content>
+    </Content>
   );
 
   const showStandaloneTitleSection = searchable || !toolbarButtons;
@@ -56,7 +54,7 @@ const PageLayout = ({
       </Head>
 
       {(customBreadcrumbs || breadcrumbOptions) && (
-        <PageSection variant={PageSectionVariants.light} type="breadcrumb">
+        <PageSection hasBodyWrapper={false} type="breadcrumb">
           <div id="breadcrumb">
             {customBreadcrumbs ||
               (breadcrumbOptions && (
@@ -67,10 +65,7 @@ const PageLayout = ({
       )}
 
       {showStandaloneTitleSection && (
-        <PageSection
-          id="page-layout-title-section"
-          variant={PageSectionVariants.light}
-        >
+        <PageSection hasBodyWrapper={false} id="page-layout-title-section">
           <div id="page-title">{titleSectionBody}</div>
         </PageSection>
       )}
@@ -78,10 +73,7 @@ const PageLayout = ({
       {beforeToolbarComponent}
 
       {showToolbarSection && (
-        <PageSection
-          id="page-layout-toolbar-section"
-          variant={PageSectionVariants.light}
-        >
+        <PageSection hasBodyWrapper={false} id="page-layout-toolbar-section">
           {customToolbar || (
             <Toolbar
               ouiaId="page-toolbar"
@@ -92,10 +84,14 @@ const PageLayout = ({
                 <ToolbarGroup
                   className="page-layout-toolbar-group-search"
                   variant="filter-group"
+                  flexGrow={{ default: 'flexGrow' }}
                 >
                   {!searchable && toolbarButtons && titleSectionBody}
                   {searchable && (
-                    <ToolbarItem id="page-layout-toolbar-search">
+                    <ToolbarItem
+                      id="page-layout-toolbar-search"
+                      flexGrow={{ default: 'flexGrow' }}
+                    >
                       <SearchBar
                         data={{
                           ...searchProps,
@@ -114,7 +110,7 @@ const PageLayout = ({
                     </ToolbarItem>
                   )}
                 </ToolbarGroup>
-                <ToolbarGroup align={{ default: 'alignRight' }}>
+                <ToolbarGroup align={{ default: 'alignEnd' }}>
                   {toolbarButtons}
                 </ToolbarGroup>
               </ToolbarContent>
@@ -123,8 +119,8 @@ const PageLayout = ({
         </PageSection>
       )}
       <PageSection
+        hasBodyWrapper={false}
         id="page-layout-content-section"
-        variant={PageSectionVariants.light}
         type={pageSectionType}
       >
         {children}

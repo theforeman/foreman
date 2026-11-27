@@ -12,10 +12,9 @@ import {
   GridItem,
   Label,
   Title,
-  Text,
-  TextVariants,
+  Content,
+  ContentVariants,
   PageSection,
-  PageSectionVariants,
   Split,
   SplitItem,
 } from '@patternfly/react-core';
@@ -26,7 +25,6 @@ import {
   selectSlotMetadata,
 } from '../common/Slot/SlotSelectors';
 
-import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import { registerCoreTabs } from './Tabs';
 import {
@@ -74,7 +72,6 @@ const HostDetails = ({
   const errorMessage = useSelector(state =>
     selectAPIErrorMessage(state, HOST_DETAILS_KEY)
   );
-  const isNavCollapsed = useSelector(selectIsCollapsed);
   const hostsIndexUrl = useForemanHostsPageUrl();
   const tabs = useSelector(
     state => selectFillsIDs(state, TABS_SLOT_ID),
@@ -118,7 +115,7 @@ const HostDetails = ({
       <Head>
         <title>{id}</title>
       </Head>
-      <PageSection variant={PageSectionVariants.light} type="breadcrumb">
+      <PageSection hasBodyWrapper={false} type="breadcrumb">
         <SkeletonLoader
           skeletonProps={{ width: 300 }}
           status={status || STATUS.PENDING}
@@ -153,8 +150,8 @@ const HostDetails = ({
         </SkeletonLoader>
       </PageSection>
       <PageSection
+        hasBodyWrapper={false}
         className="host-details-header-section"
-        variant={PageSectionVariants.light}
       >
         <Grid className="hostname-skeleton-rapper">
           <GridItem span={8}>
@@ -248,7 +245,7 @@ const HostDetails = ({
           status={status || STATUS.PENDING}
         >
           {response && (
-            <Text ouiaId="date-text" component={TextVariants.span}>
+            <Content ouiaId="date-text" component={ContentVariants.span}>
               <RelativeDateTime date={response.created_at} defaultValue="N/A">
                 {date => sprintf(__('Created %s'), date)}
               </RelativeDateTime>{' '}
@@ -258,7 +255,7 @@ const HostDetails = ({
               <RelativeDateTime date={response.updated_at} defaultValue="N/A">
                 {date => sprintf(__('(updated %s)'), date)}
               </RelativeDateTime>
-            </Text>
+            </Content>
           )}
         </SkeletonLoader>
       </PageSection>
@@ -274,9 +271,7 @@ const HostDetails = ({
             <Tabs
               ouiaId="host-details-tabs"
               activeKey={activeTab}
-              className={`host-details-tabs tab-width-${
-                isNavCollapsed ? '138' : '263'
-              }`}
+              className="host-details-tabs"
             >
               {filteredTabs.map(tab => {
                 const tabID = `${tab.toLowerCase()}-tab`;

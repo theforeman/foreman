@@ -1,25 +1,5 @@
 .host-details-tabs-section {
   padding-left: 24px;
-
-  .tab-width-138 {
-    max-width: calc(
-      100vw - 138px
-    ); //These values may need to be increased for other browsers
-
-    @media screen and (max-width: 767px) {
-      max-width: calc(100vw - 64px);
-    }
-  }
-
-  .tab-width-263 {
-    max-width: calc(
-      100vw - 263px
-    ); //These values may need to be increased for other browsers
-
-    @media screen and (max-width: 767px) {
-      max-width: calc(100vw - 64px);
-    }
-  }
 }
 
 .host-details-header-section {
@@ -42,7 +22,7 @@
 
 .host-details-cards-section {
   .host-details-tab-item {
-    .pf-v5-c-card {
+    .pf-v6-c-card {
       height: 100%;
     }
   }
@@ -57,6 +37,6 @@
   }
 }
 
-.host-details-tabs-section + .pf-v5-c-tabs {
+.host-details-tabs-section + .pf-v6-c-tabs {
   overflow: visible;
 }

@@ -9,14 +9,16 @@ $icon-font-path: '~patternfly/dist/fonts/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
 @import '~patternfly/dist/sass/patternfly/variables';
 
-// patternfly v5
-@import '~@patternfly/patternfly/base/patternfly-variables';
+// patternfly v6
+// base/patternfly-variables loads its variables with @use, which does not expose
+// them to @import, so import the plain SCSS variables file directly.
+@import '~@patternfly/patternfly/sass-utilities/scss-variables';
 
-$pf-v5-global--font-path: '~@patternfly/patternfly/assets/fonts';
+$pf-v6-global--font-path: '~@patternfly/patternfly/assets/fonts';
 $fa-font-path: '~@patternfly/patternfly/assets/fonts/webfonts';
-$pf-v5-global--fonticon-path: '~@patternfly/patternfly/assets/pficon';
-$pf-v5-global--image-path: '~@patternfly/patternfly/assets/images';
-$pf-prefix: 'pf-v5-';
+$pf-v6-global--fonticon-path: '~@patternfly/patternfly/assets/pficon';
+$pf-v6-global--image-path: '~@patternfly/patternfly/assets/images';
+$pf-prefix: 'pf-v6-';
 $button: #{$pf-prefix + 'c-button'};
 
-$header-max-width: calc(#{$pf-v5-global--breakpoint--lg} + 70px);
+$header-max-width: calc(#{$pf-v6-global--breakpoint--lg} + 70px);

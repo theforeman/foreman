@@ -29,31 +29,36 @@
   margin: 15px;
   max-width: unset;
 
-  .pf-v5-c-modal-box__body{
+  .pf-v6-c-modal-box__body{
     padding: 0;
   }
 
-  .pf-v5-c-modal-box__header{
+  .pf-v6-c-modal-box__header{
     margin-right: 0;
     padding-top: 0;
     min-height: 44px;
   }
 
-  .pf-v5-c-button.pf-m-plain{
+  .pf-v6-c-button.pf-m-plain{
     top: -18px;
   }
 
   &.monokai:not(.diff) {
-    .pf-v5-c-modal-box__header {
-      background-color: var(--pf-v5-global--palette--black-800);
+    .pf-v6-c-modal-box__header {
+      background-color: var(--pf-t--global--background--color--inverse--default);
 
       #editor-modal-h4 {
-        color: var(--pf-v5-global--palette--white);
+        color: var(--pf-t--global--text--color--inverse);
       }
     }
 
-    .pf-v5-c-button {
-      color: var(--pf-v5-global--palette--white);
+    // PF6 buttons take their (icon) color from these variables, not `color`
+    .pf-v6-c-button {
+      --pf-v6-c-button--m-plain--Color: var(--pf-t--global--text--color--inverse);
+      --pf-v6-c-button--m-plain--hover--Color: var(--pf-t--global--text--color--inverse);
+      --pf-v6-c-button__icon--Color: var(--pf-t--global--text--color--inverse);
+      --pf-v6-c-button--hover__icon--Color: var(--pf-t--global--text--color--inverse);
+      --pf-v6-c-button--m-clicked__icon--Color: var(--pf-t--global--text--color--inverse);
     }
 
   }
@@ -82,7 +87,7 @@
 
     label.safemode-rendering-checkbox {
       font-size: 14px;
-      font-weight: var(--pf-v5-global--link--FontWeight);
+      font-weight: var(--pf-t--global--font--weight--body--default);
       margin: 5px;
       cursor: pointer;
     }

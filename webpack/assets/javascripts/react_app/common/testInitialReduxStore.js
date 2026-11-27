@@ -32,7 +32,6 @@ export const initMockStore = {
   layout: {
     items: [],
     isLoading: false,
-    isCollapsed: false,
   },
   diffModal: {
     isOpen: false,

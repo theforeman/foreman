@@ -59,12 +59,16 @@
       <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
         <%= mount_react_app %>
       <% end %>
+      <%# PF page markup, so Rails pages get the same main container as React pages %>
       <div
         id="rails-app-content"
-        class="pf-v5-c-page"
+        class="pf-v6-c-page pf-m-no-sidebar"
       >
-
-      <%= yield(:content) %>
+        <div class="pf-v6-c-page__main-container">
+          <div class="pf-v6-c-page__main">
+            <%= yield(:content) %>
+          </div>
+        </div>
       </div>
     <% else %>
       <%= yield(:content) %>

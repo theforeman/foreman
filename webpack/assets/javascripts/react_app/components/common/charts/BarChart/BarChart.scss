@@ -23,12 +23,12 @@
 }
 
 .bar-chart__tooltip {
-  background: var(--pf-v5-global--BackgroundColor--dark-100);
-  border-radius: var(--pf-v5-global--BorderRadius--sm);
-  color: var(--pf-v5-global--Color--light-100);
-  font-family: var(--pf-v5-global--FontFamily--sans-serif);
-  font-size: var(--pf-v5-global--FontSize--sm);
-  padding: var(--pf-v5-global--spacer--sm) var(--pf-v5-global--spacer--md);
+  background: var(--pf-t--global--background--color--inverse--default);
+  border-radius: var(--pf-t--global--border--radius--small);
+  color: var(--pf-t--global--text--color--inverse);
+  font-family: var(--pf-t--global--font--family--body);
+  font-size: var(--pf-t--global--font--size--sm);
+  padding: var(--pf-t--global--spacer--sm) var(--pf-t--global--spacer--md);
 }
 
 .bar-chart__tooltip-title {
@@ -36,8 +36,8 @@
 }
 
 .bar-chart__tooltip-divider {
-  background-color: var(--pf-v5-global--Color--200);
-  margin: var(--pf-v5-global--spacer--xs) 0;
+  background-color: var(--pf-t--global--border--color--default);
+  margin: var(--pf-t--global--spacer--xs) 0;
 }
 
 .bar-chart__tooltip-row {
@@ -46,13 +46,13 @@
 }
 
 .bar-chart__tooltip-swatch {
-  background: var(--bar-chart-legend-color, var(--pf-v5-global--Color--100));
+  background: var(--bar-chart-legend-color, var(--pf-t--global--text--color--regular));
   display: inline-block;
-  height: var(--pf-v5-global--spacer--sm);
-  margin-right: var(--pf-v5-global--spacer--xs);
-  width: var(--pf-v5-global--spacer--sm);
+  height: var(--pf-t--global--spacer--sm);
+  margin-right: var(--pf-t--global--spacer--xs);
+  width: var(--pf-t--global--spacer--sm);
 }
 
 .bar-chart__tooltip-value {
-  margin-left: var(--pf-v5-global--spacer--xs);
+  margin-left: var(--pf-t--global--spacer--xs);
 }

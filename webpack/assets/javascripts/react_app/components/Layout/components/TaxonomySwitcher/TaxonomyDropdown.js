@@ -1,143 +1,123 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, GridItem, Icon } from '@patternfly/react-core';
 import {
-  ContextSelector,
-  ContextSelectorItem,
-  ContextSelectorFooter,
-} from '@patternfly/react-core/deprecated';
-import { CheckIcon, GlobeIcon, BuildingIcon } from '@patternfly/react-icons';
+  Button,
+  Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownList,
+  MenuFooter,
+  MenuSearch,
+  MenuSearchInput,
+  MenuToggle,
+  SearchInput,
+} from '@patternfly/react-core';
+import { GlobeIcon, BuildingIcon } from '@patternfly/react-icons';
 import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
-import './TaxonomyDropdown.scss';
 
 const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const id = `${taxonomyType}-dropdown`;
   const anyTaxonomyURL = foremanUrl(`/${taxonomyType}s/clear`);
   const manageTaxonomyURL = foremanUrl(`/${taxonomyType}s`);
-  const anyTaxonomyText =
-    taxonomyType === 'organization'
-      ? __('Any organization')
-      : __('Any location');
+  const isOrganization = taxonomyType === 'organization';
+  const anyTaxonomyText = isOrganization
+    ? __('Any organization')
+    : __('Any location');
+  const anyIcon = isOrganization ? <BuildingIcon /> : <GlobeIcon />;
 
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredItems, setFilteredItems] = useState(taxonomies);
 
-  const onSearchButtonClick = useCallback(() => {
-    const filtered =
-      searchValue === ''
-        ? taxonomies
-        : taxonomies.filter(item =>
-            item.title.toLowerCase().includes(searchValue.toLowerCase())
-          );
-    setFilteredItems(filtered || []);
+  const filteredItems = useMemo(() => {
+    const search = searchValue.toLowerCase();
+    return search === ''
+      ? taxonomies
+      : taxonomies.filter(item => item.title.toLowerCase().includes(search));
   }, [searchValue, taxonomies]);
 
-  useEffect(() => {
-    onSearchButtonClick();
-  }, [searchValue, onSearchButtonClick]);
-
-  const onToggle = (event, newIsOpen) => {
-    setIsOpen(newIsOpen);
-  };
-  const onSelect = () => {
-    setIsOpen(!isOpen);
-  };
-  const onSearchInputChange = event => {
-    setSearchValue(event.target.value);
-  };
-
-  const selectedIcon = (
-    <Icon size="sm" className="current-taxonomy-v">
-      <CheckIcon />
-    </Icon>
-  );
-  const anyIcon = (
-    <Icon style={{ marginRight: '5px', marginTop: '3px' }}>
-      {taxonomyType === 'organization' ? <BuildingIcon /> : <GlobeIcon />}
-    </Icon>
-  );
-  const anyTaxonomyItem = (
-    <ContextSelectorItem
-      key={0}
-      className={`${taxonomyType}s_clear`}
-      onClick={() => {
-        window.location.assign(anyTaxonomyURL);
-      }}
-      isDisabled={!currentTaxonomy}
-    >
-      <Grid hasGutter>
-        <GridItem span={1}>{anyIcon}</GridItem>
-        <GridItem span={9} style={{ textAlign: 'left' }}>
-          {anyTaxonomyText}
-        </GridItem>
-        <GridItem span={2}>{!currentTaxonomy && selectedIcon}</GridItem>
-      </Grid>
-    </ContextSelectorItem>
-  );
-  const footer = (
-    <ContextSelectorFooter>
-      <Button
-        ouiaId={`manage-taxonomy-button-${taxonomyType}`}
-        size="sm"
-        component="a"
-        className={taxonomyType}
-        variant="secondary"
-        href={manageTaxonomyURL}
-      >
-        {taxonomyType === 'organization'
-          ? __('Manage Organizations')
-          : __('Manage Locations')}
-      </Button>
-    </ContextSelectorFooter>
-  );
   return (
-    <ContextSelector
-      ouiaId={`taxonomy-context-selector-${taxonomyType}`}
-      id={id}
-      toggleText={
-        currentTaxonomy || (
-          <>
-            {anyIcon}
+    <div id={id}>
+      <Dropdown
+        ouiaId={`taxonomy-context-selector-${taxonomyType}-menu`}
+        containerOuiaId={`taxonomy-context-selector-${taxonomyType}`}
+        className="context-selector"
+        isOpen={isOpen}
+        onSelect={() => setIsOpen(false)}
+        onOpenChange={newIsOpen => setIsOpen(newIsOpen)}
+        // as in the PF context selector demo: Tab moves through filter, items
+        // and footer instead of closing the menu
+        onOpenChangeKeys={['Escape']}
+        isScrollable
+        popperProps={{ appendTo: 'inline' }}
+        toggle={toggleRef => (
+          <MenuToggle
+            ref={toggleRef}
+            className="taxonomy-dropdown-toggle"
+            ouiaId={`taxonomy-dropdown-toggle-${taxonomyType}`}
+            variant="plainText"
+            icon={currentTaxonomy ? undefined : anyIcon}
+            isExpanded={isOpen}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {currentTaxonomy || anyTaxonomyText}
+          </MenuToggle>
+        )}
+      >
+        <MenuSearch>
+          <MenuSearchInput>
+            <SearchInput
+              value={searchValue}
+              aria-label={__('Filter')}
+              onChange={(_event, value) => setSearchValue(value)}
+              onClear={() => setSearchValue('')}
+            />
+          </MenuSearchInput>
+        </MenuSearch>
+        <Divider />
+        <DropdownList>
+          <DropdownItem
+            key="any-taxonomy"
+            ouiaId={`any-taxonomy-${taxonomyType}`}
+            className={`${taxonomyType}s_clear`}
+            icon={anyIcon}
+            isSelected={!currentTaxonomy}
+            isDisabled={!currentTaxonomy}
+            to={anyTaxonomyURL}
+          >
             {anyTaxonomyText}
-          </>
-        )
-      }
-      onSearchInputChange={onSearchInputChange}
-      isOpen={isOpen}
-      searchInputValue={searchValue}
-      onToggle={onToggle}
-      onSelect={onSelect}
-      onSearchButtonClick={onSearchButtonClick}
-      screenReaderLabel="Selected Taxonomy:"
-      className="context-selector"
-      footer={footer}
-    >
-      {anyTaxonomyItem}
-      {filteredItems.map(({ title, href }, i) => (
-        <ContextSelectorItem
-          key={i + 1}
-          id={`select_taxonomy_${title}`}
-          className={`${taxonomyType}_menuitem`}
-          onClick={() => {
-            if (href) {
-              window.location.assign(href);
-            }
-          }}
-          isDisabled={title === currentTaxonomy}
-        >
-          <Grid hasGutter>
-            <GridItem span={11} style={{ textAlign: 'left' }}>
+          </DropdownItem>
+          <Divider component="li" key="any-taxonomy-divider" />
+          {filteredItems.map(({ title, href }) => (
+            <DropdownItem
+              key={href}
+              id={`select_taxonomy_${title}`}
+              ouiaId={`select-taxonomy-${taxonomyType}-${title}`}
+              className={`${taxonomyType}_menuitem`}
+              isSelected={title === currentTaxonomy}
+              isDisabled={title === currentTaxonomy}
+              to={href}
+            >
               {title}
-            </GridItem>
-            <GridItem span={1}>
-              {title === currentTaxonomy && selectedIcon}
-            </GridItem>
-          </Grid>
-        </ContextSelectorItem>
-      ))}
-    </ContextSelector>
+            </DropdownItem>
+          ))}
+        </DropdownList>
+        <MenuFooter>
+          <Button
+            ouiaId={`manage-taxonomy-button-${taxonomyType}`}
+            size="sm"
+            component="a"
+            className={taxonomyType}
+            variant="secondary"
+            href={manageTaxonomyURL}
+          >
+            {isOrganization
+              ? __('Manage Organizations')
+              : __('Manage Locations')}
+          </Button>
+        </MenuFooter>
+      </Dropdown>
+    </div>
   );
 };
 

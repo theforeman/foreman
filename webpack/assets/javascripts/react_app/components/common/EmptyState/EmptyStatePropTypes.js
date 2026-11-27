@@ -21,6 +21,8 @@ export const emptyStatePatternPropTypes = {
   action: PropTypes.node,
   secondaryActions: PropTypes.node,
   variant: PropTypes.oneOf(['xs', 'sm', 'lg', 'xl', 'full']),
+  // PF EmptyState status: colors the icon (e.g. 'danger' for errors)
+  status: PropTypes.oneOf(['danger', 'warning', 'success', 'info', 'custom']),
 };
 
 export const defaultEmptyStatePropTypes = {

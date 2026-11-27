@@ -8,6 +8,7 @@ import {
   Button,
   Spinner,
   SearchInput,
+  PageSection,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
 import { ParametersTableRow } from './TableRow';
@@ -73,10 +74,10 @@ export const ParametersTable = ({
     );
   };
   return (
-    <>
-      <Toolbar ouiaId="parameters-table-toolbar">
+    <PageSection hasBodyWrapper={false}>
+      <Toolbar ouiaId="parameters-table-toolbar" hasNoPadding>
         <ToolbarContent>
-          <ToolbarItem variant="search-filter">
+          <ToolbarItem>
             <SearchInput
               placeholder={__('Find by name')}
               value={search}
@@ -173,7 +174,7 @@ export const ParametersTable = ({
         page={page}
         perPage={perPage}
       />
-    </>
+    </PageSection>
   );
 };
 

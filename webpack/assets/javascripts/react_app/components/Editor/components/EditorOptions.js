@@ -62,35 +62,50 @@ const EditorOptions = ({
           position={TooltipPosition.top}
         >
           <Button
+            icon={
+              <Icon size="md">
+                <UndoIcon />
+              </Icon>
+            }
             ouiaId="editor-undo-button"
             aria-label={__('Revert Local Changes')}
             className="editor-button"
             id="undo-btn"
             onClick={handleRevertClick}
             variant="plain"
-          >
-            <Icon size="md">
-              <UndoIcon />
-            </Icon>
-          </Button>
+          />
         </Tooltip>
       ) : (
         <Button
+          icon={
+            <Icon size="md">
+              <UndoIcon />
+            </Icon>
+          }
           ouiaId="editor-undo-button"
           aria-label={__('Revert Local Changes')}
           isDisabled
           className="editor-button"
           id="undo-btn"
           variant="plain"
-        >
-          <Icon size="md">
-            <UndoIcon />
-          </Icon>
-        </Button>
+        />
       )}
       {showImport && (
         <Tooltip content={__('Import File')} position={TooltipPosition.top}>
           <Button
+            icon={
+              <>
+                <Icon size="md">
+                  <UploadIcon />
+                </Icon>
+                <input
+                  ref={fileInputRef}
+                  className="hidden"
+                  type="file"
+                  onChange={importFile}
+                />
+              </>
+            }
             ouiaId="editor-import-button"
             aria-label={__('Import File')}
             isDisabled={selectedView !== 'input'}
@@ -98,17 +113,7 @@ const EditorOptions = ({
             id="import-btn"
             variant="plain"
             onClick={fileDialog}
-          >
-            <Icon size="md">
-              <UploadIcon />
-            </Icon>
-            <input
-              ref={fileInputRef}
-              className="hidden"
-              type="file"
-              onChange={importFile}
-            />
-          </Button>
+          />
         </Tooltip>
       )}
       <EditorSettings
@@ -125,17 +130,18 @@ const EditorOptions = ({
       />
       <Tooltip content={__('Maximize')} position={TooltipPosition.top}>
         <Button
+          icon={
+            <Icon size="md">
+              <ArrowsAltIcon />
+            </Icon>
+          }
           ouiaId="editor-fullscreen-button"
           aria-label={__('Maximize')}
           className="editor-button"
           id="fullscreen-btn"
           onClick={toggleModal}
           variant="plain"
-        >
-          <Icon size="md">
-            <ArrowsAltIcon />
-          </Icon>
-        </Button>
+        />
       </Tooltip>
     </div>
   );

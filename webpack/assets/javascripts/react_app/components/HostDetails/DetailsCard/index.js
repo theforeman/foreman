@@ -18,7 +18,7 @@ import {
   Icon,
 } from '@patternfly/react-core';
 import { PencilAltIcon, UserIcon } from '@patternfly/react-icons';
-import { translate as __ } from '../../../common/I18n';
+import { sprintf, translate as __ } from '../../../common/I18n';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import { STATUS } from '../../../constants';
 import DefaultLoaderEmptyState from './DefaultLoaderEmptyState';
@@ -159,7 +159,16 @@ const DetailsCard = ({
                     </FlexItem>
                     <FlexItem>
                       <Button
+                        icon={
+                          <Icon>
+                            <PencilAltIcon />
+                          </Icon>
+                        }
                         ouiaId="host-group-edit-link"
+                        aria-label={sprintf(
+                          __('Edit host group %s'),
+                          hostgroupName
+                        )}
                         component="a"
                         href={foremanUrl(
                           `/hostgroups/${hostgroupId}-${(
@@ -169,11 +178,7 @@ const DetailsCard = ({
                         variant="plain"
                         target="_blank"
                         isInline
-                      >
-                        <Icon>
-                          <PencilAltIcon />
-                        </Icon>
-                      </Button>
+                      />
                     </FlexItem>
                   </Flex>
                 )}

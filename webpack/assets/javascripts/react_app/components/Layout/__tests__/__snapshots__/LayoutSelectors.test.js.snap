@@ -15,7 +15,6 @@ exports[`Layout selectors should return Layout 1`] = `
 Object {
   "currentLocation": "loc1",
   "currentOrganization": "org1",
-  "isCollapsed": false,
   "isLoading": true,
   "items": Array [
     Object {
@@ -232,7 +231,5 @@ Array [
 `;
 
 exports[`Layout selectors should return empty array of items 1`] = `Array []`;
-
-exports[`Layout selectors should return isCollapsed from selector 1`] = `false`;
 
 exports[`Layout selectors should return isLoading from selector 1`] = `true`;

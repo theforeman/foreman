@@ -1,9 +1,12 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { IntlProvider } from 'react-intl';
-import { rtlHelpers } from '../../../../common/rtlTestHelpers';
+import {
+  flushPatternflyTimers,
+  rtlHelpers,
+} from '../../../../common/rtlTestHelpers';
 import { STATUS } from '../../../../constants';
 import BulkEditParametersModal from './BulkEditParametersModal';
 import { bulkUpdateParameters } from './actions';
@@ -24,31 +27,18 @@ jest.mock('./actions', () => ({
   })),
 }));
 
-jest.mock('@patternfly/react-templates', () => ({
-  TypeaheadSelect: ({
-    selectOptions,
-    onSelect,
-    selected,
-    placeholder,
-    toggleProps,
-  }) => (
-    <select
-      aria-label={toggleProps?.['aria-label'] || 'Parameter'}
-      value={selected || ''}
-      disabled={toggleProps?.isDisabled}
-      onChange={event => onSelect(event, event.target.value)}
-    >
-      <option value="">{placeholder}</option>
-      {selectOptions.map(opt => (
-        <option key={opt.value} value={opt.value}>
-          {opt.content}
-        </option>
-      ))}
-    </select>
-  ),
-}));
-
 const { renderWithStore } = rtlHelpers;
+
+const chooseParameter = async name => {
+  await act(async () => {
+    userEvent.click(screen.getByPlaceholderText('Select a global parameter'));
+  });
+  await flushPatternflyTimers();
+  await act(async () => {
+    userEvent.click(screen.getByRole('option', { name }));
+  });
+  await flushPatternflyTimers();
+};
 
 const resolvedApiState = {
   API: {
@@ -113,10 +103,13 @@ describe('BulkEditParametersModal', () => {
     const confirmBtn = screen.getByRole('button', { name: 'Confirm' });
     expect(confirmBtn).toBeDisabled();
 
-    await userEvent.selectOptions(screen.getByLabelText('Parameter'), 'p1');
+    await chooseParameter('p1');
+    expect(
+      screen.getByPlaceholderText('Select a global parameter')
+    ).toHaveValue('p1');
     expect(confirmBtn).toBeDisabled();
 
-    await userEvent.type(screen.getByLabelText('Value'), 'hello');
+    userEvent.type(screen.getByLabelText('Value'), 'hello');
     expect(confirmBtn).not.toBeDisabled();
   });
 
@@ -124,16 +117,16 @@ describe('BulkEditParametersModal', () => {
     const closeModal = jest.fn();
     renderModal({ closeModal });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(closeModal).toHaveBeenCalled();
   });
 
   it('dispatches the bulk update action on Confirm', async () => {
     renderModal();
 
-    await userEvent.selectOptions(screen.getByLabelText('Parameter'), 'p1');
-    await userEvent.type(screen.getByLabelText('Value'), 'hello');
-    await userEvent.click(screen.getByRole('button', { name: 'Confirm' }));
+    await chooseParameter('p1');
+    userEvent.type(screen.getByLabelText('Value'), 'hello');
+    userEvent.click(screen.getByRole('button', { name: 'Confirm' }));
 
     expect(bulkUpdateParameters).toHaveBeenCalledWith(
       expect.objectContaining({

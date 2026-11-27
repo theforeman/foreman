@@ -400,7 +400,7 @@ describe('Disk', () => {
       );
       await expandVolume();
 
-      const spinner = document.querySelector('.pf-v5-c-spinner');
+      const spinner = document.querySelector('.pf-v6-c-spinner');
       expect(spinner).toBeInTheDocument();
     });
 

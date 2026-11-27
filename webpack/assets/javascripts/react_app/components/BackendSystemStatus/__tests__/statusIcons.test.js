@@ -10,9 +10,9 @@ describe('StatusIcons', () => {
       const { container: warnContainer } = render(<WarnIcon data-testid="warn-icon" />);
       const { container: okContainer } = render(<OKIcon data-testid="ok-icon" />);
       
-      expect(failContainer.querySelector('.pf-v5-c-icon__content.pf-m-danger')).toBeInTheDocument();
-      expect(warnContainer.querySelector('.pf-v5-c-icon__content.pf-m-warning')).toBeInTheDocument();
-      expect(okContainer.querySelector('.pf-v5-c-icon__content.pf-m-success')).toBeInTheDocument();
+      expect(failContainer.querySelector('.pf-v6-c-icon__content.pf-m-danger')).toBeInTheDocument();
+      expect(warnContainer.querySelector('.pf-v6-c-icon__content.pf-m-warning')).toBeInTheDocument();
+      expect(okContainer.querySelector('.pf-v6-c-icon__content.pf-m-success')).toBeInTheDocument();
       
       // Test prop passing
       expect(screen.getByTestId('fail-icon')).toBeInTheDocument();
@@ -29,7 +29,7 @@ describe('StatusIcons', () => {
         const { container, unmount } = render(<StatusValue val={val} />);
         
         expect(screen.getByText(val)).toBeInTheDocument();
-        const icon = container.querySelector('.pf-v5-c-icon__content.pf-m-success');
+        const icon = container.querySelector('.pf-v6-c-icon__content.pf-m-success');
         expect(icon).toBeInTheDocument();
         
         unmount();
@@ -43,7 +43,7 @@ describe('StatusIcons', () => {
         const { container, unmount } = render(<StatusValue val={val} />);
         
         expect(screen.getByText(val)).toBeInTheDocument();
-        const icon = container.querySelector('.pf-v5-c-icon__content.pf-m-danger');
+        const icon = container.querySelector('.pf-v6-c-icon__content.pf-m-danger');
         expect(icon).toBeInTheDocument();
         
         unmount();
@@ -55,8 +55,8 @@ describe('StatusIcons', () => {
       
       // Text without icon
       expect(screen.getByText('some random text')).toBeInTheDocument();
-      const successIcon = container.querySelector('.pf-v5-c-icon__content.pf-m-success');
-      const dangerIcon = container.querySelector('.pf-v5-c-icon__content.pf-m-danger');
+      const successIcon = container.querySelector('.pf-v6-c-icon__content.pf-m-success');
+      const dangerIcon = container.querySelector('.pf-v6-c-icon__content.pf-m-danger');
       expect(successIcon).not.toBeInTheDocument();
       expect(dangerIcon).not.toBeInTheDocument();
       

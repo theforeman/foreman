@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import {
   EmptyState,
   EmptyStateVariant,
   EmptyStateBody,
   EmptyStateActions,
-  EmptyStateHeader,
   EmptyStateFooter,
-  Icon,
 } from '@patternfly/react-core';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 import { iconMapper } from '../Icon/IconMapper';
 import './EmptyState.scss';
+
+// Render the icon element as is: PF6 Icon pins its content to body-text size,
+// while an unwrapped SVG inherits the empty state's large icon size (as with
+// PF5, whose Icon used 1em). Callers can still pass a pre-sized <Icon>.
+const resolveIcon = icon =>
+  (typeof icon === 'string' ? iconMapper(icon) : icon) || <PlusCircleIcon />;
 
 const EmptyStatePattern = props => {
   const {
@@ -23,6 +29,7 @@ const EmptyStatePattern = props => {
     header,
     description,
     variant,
+    status,
   } = props;
 
   const DocumentationBlock = () => {
@@ -48,25 +55,31 @@ const EmptyStatePattern = props => {
     );
   };
 
-  const EmptyStateIcon = () => {
-    let iconElement = typeof icon === 'string' ? iconMapper(icon) : icon;
-    iconElement = iconElement || <PlusCircleIcon size="2x" />;
-    // Wrap icon in Icon component if it's not already wrapped
-    if (
-      React.isValidElement(iconElement) &&
-      iconElement.type?.displayName !== 'Icon'
-    ) {
-      return <Icon>{iconElement}</Icon>;
-    }
-    return iconElement;
-  };
+  // PF6 renders EmptyState's `icon` above the title; children go below it
+  const EmptyStateIcon = useMemo(() => {
+    const iconElement = resolveIcon(icon);
+    const ForemanEmptyStateIcon = ({ className, ...iconProps }) => (
+      <span
+        className={classNames('empty-state-icon', className)}
+        {...iconProps}
+      >
+        {iconElement}
+      </span>
+    );
+    ForemanEmptyStateIcon.propTypes = { className: PropTypes.string };
+    ForemanEmptyStateIcon.defaultProps = { className: undefined };
+    return ForemanEmptyStateIcon;
+  }, [icon]);
 
   return (
-    <EmptyState variant={variant} className="foreman-empty-state">
-      <span className="empty-state-icon">
-        <EmptyStateIcon />
-      </span>
-      <EmptyStateHeader titleText={<>{header}</>} headingLevel="h5" />
+    <EmptyState
+      headingLevel="h5"
+      icon={EmptyStateIcon}
+      titleText={<>{header}</>}
+      variant={variant}
+      status={status}
+      className="foreman-empty-state"
+    >
       <EmptyStateBody>
         <div className="empty-state-description">{description}</div>
         <DocumentationBlock />
@@ -87,6 +100,7 @@ EmptyStatePattern.defaultProps = {
   documentation: null,
   action: null,
   variant: EmptyStateVariant.xl,
+  status: undefined,
 };
 
 export default EmptyStatePattern;

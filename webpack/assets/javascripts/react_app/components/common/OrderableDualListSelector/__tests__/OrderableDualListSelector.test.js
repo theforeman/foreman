@@ -8,9 +8,9 @@ import OrderableDualListSelector from '../OrderableDualListSelector';
 // Capture PF DragDrop onDrop so reorder can be exercised without pointer simulation.
 const dragDropOnDropRef = { current: null };
 
-jest.mock('@patternfly/react-core', () => {
+jest.mock('@patternfly/react-core/deprecated', () => {
   const ReactActual = require('react');
-  const actual = jest.requireActual('@patternfly/react-core');
+  const actual = jest.requireActual('@patternfly/react-core/deprecated');
 
   return {
     ...actual,

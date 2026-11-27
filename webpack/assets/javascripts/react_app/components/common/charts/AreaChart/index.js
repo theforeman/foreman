@@ -17,7 +17,7 @@ import {
   ChartThemeColor,
   createContainer,
   getTheme,
-} from '@patternfly/react-charts';
+} from '@patternfly/react-charts/victory';
 import { Icon } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { processChartData, getYTickValues } from './AreaChartHelpers';

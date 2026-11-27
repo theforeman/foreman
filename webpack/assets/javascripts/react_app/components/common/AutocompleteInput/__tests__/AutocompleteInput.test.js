@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AutocompleteInput from '../AutocompleteInput';
+import { flushPatternflyTimers } from '../../../../common/rtlTestHelpers';
 
 const setSelected = jest.fn();
 const defaultProps = {
@@ -43,6 +44,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'Option 1' } });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByText('Option 1')).toBeInTheDocument();
@@ -56,6 +58,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'nonexistent' } });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(
@@ -69,6 +72,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'option 1' } });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByText('Option 1')).toBeInTheDocument();
@@ -84,11 +88,13 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         const option = screen.getByText('Option 1');
         fireEvent.click(option);
       });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(setSelected).toHaveBeenCalledWith('option1');
@@ -100,11 +106,13 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         const option = screen.getByText('Option 2');
         fireEvent.click(option);
       });
+      await flushPatternflyTimers();
 
       expect(input).toHaveValue('Option 2');
     });
@@ -114,11 +122,13 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         const option = screen.getByText('Option 1');
         fireEvent.click(option);
       });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
@@ -130,12 +140,14 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'Option 2' } });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByText('Option 2')).toBeInTheDocument();
       });
 
       fireEvent.click(screen.getByText('Option 2'));
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(setSelected).toHaveBeenCalledWith('option2');
@@ -150,6 +162,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -161,11 +174,13 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       fireEvent.keyDown(input, { key: 'ArrowDown' });
+      await flushPatternflyTimers();
       await waitFor(() => {
         expect(screen.getByText('Option 1')).toHaveClass(
-          'pf-v5-c-menu__item-text'
+          'pf-v6-c-menu__item-text'
         );
       });
     });
@@ -186,6 +201,7 @@ describe('AutocompleteInput RTL Tests', () => {
       expect(input).toHaveValue('Option 1');
 
       fireEvent.change(input, { target: { value: '' } });
+      await flushPatternflyTimers();
 
       expect(onSelect).toHaveBeenCalledWith('');
     });
@@ -205,6 +221,7 @@ describe('AutocompleteInput RTL Tests', () => {
       expect(input).toHaveValue('Option 1');
 
       fireEvent.change(input, { target: { value: '' } });
+      await flushPatternflyTimers();
 
       expect(onSelect).not.toHaveBeenCalled();
     });
@@ -228,11 +245,12 @@ describe('AutocompleteInput RTL Tests', () => {
       expect(input).toHaveValue('Zero');
 
       fireEvent.change(input, { target: { value: '' } });
+      await flushPatternflyTimers();
 
       expect(onSelect).toHaveBeenCalledWith('');
     });
 
-    test('does not call onSelect when selected is already empty', () => {
+    test('does not call onSelect when selected is already empty', async () => {
       const onSelect = jest.fn();
       render(
         <AutocompleteInput
@@ -244,6 +262,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: '' } });
+      await flushPatternflyTimers();
 
       expect(onSelect).not.toHaveBeenCalled();
     });
@@ -262,12 +281,14 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByRole('listbox')).toBeInTheDocument();
       });
 
       fireEvent.keyDown(input, { key: 'Escape' });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(onBlur).toHaveBeenCalledWith('Option 1');
@@ -287,9 +308,11 @@ describe('AutocompleteInput RTL Tests', () => {
       expect(input).toHaveValue('Option 1');
 
       fireEvent.change(input, { target: { value: 'typed text' } });
+      await flushPatternflyTimers();
       expect(input).toHaveValue('typed text');
 
       fireEvent.keyDown(input, { key: 'Escape' });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(input).toHaveValue('Option 1');
@@ -301,14 +324,17 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'Option 1' } });
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
       });
 
       fireEvent.keyDown(input, { key: 'Escape' });
+      await flushPatternflyTimers();
 
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByText('Option 1')).toBeInTheDocument();
@@ -324,6 +350,7 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       fireEvent.click(input);
+      await flushPatternflyTimers();
 
       await waitFor(() => {
         expect(screen.getByText('No matches found')).toBeInTheDocument();
@@ -349,6 +376,43 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       expect(input).toHaveValue('true');
+    });
+  });
+
+  describe('Validation helper text', () => {
+    const helperItems = container =>
+      container.querySelectorAll('.pf-v6-c-helper-text__item');
+
+    test('shows no helper icon for a valid (success) field', () => {
+      const { container } = render(
+        <AutocompleteInput
+          {...defaultProps}
+          validationStatus="success"
+          validationMsg="Name is required"
+        />
+      );
+      expect(helperItems(container)).toHaveLength(0);
+    });
+
+    test('shows the error message with the error style', () => {
+      const { container } = render(
+        <AutocompleteInput
+          {...defaultProps}
+          validationStatus="error"
+          validationMsg="Name is required"
+        />
+      );
+      const items = helperItems(container);
+      expect(items).toHaveLength(1);
+      expect(items[0]).toHaveClass('pf-m-error');
+      expect(items[0]).toHaveTextContent('Name is required');
+    });
+
+    test('shows nothing for an error without a message', () => {
+      const { container } = render(
+        <AutocompleteInput {...defaultProps} validationStatus="error" />
+      );
+      expect(helperItems(container)).toHaveLength(0);
     });
   });
 });

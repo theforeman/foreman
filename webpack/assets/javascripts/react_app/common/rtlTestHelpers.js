@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import Immutable from 'seamless-immutable';
@@ -20,6 +20,24 @@ export const createTestStore = (
     Immutable(merge(initMockStore, initialState)),
     storeConfig
   );
+
+// PF6 components schedule zero-delay timers: Popper (Dropdown, Select, Tooltip)
+// shows and hides via nested setTimeout(0) calls, and Tabs finishes its accent
+// animation in a setTimeout it never clears. Hiding needs two timer turns.
+const PATTERNFLY_TIMER_TURNS = 2;
+
+/**
+ * Run pending PF6 zero-delay timers inside act(), so their state updates
+ * neither escape act() nor land after the test unmounted the component.
+ * Await it after opening/closing a Dropdown or Select menu, and after
+ * rendering Tabs.
+ */
+export const flushPatternflyTimers = async () => {
+  for (let turn = 0; turn < PATTERNFLY_TIMER_TURNS; turn += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await act(() => new Promise(resolve => setTimeout(resolve, 0)));
+  }
+};
 
 export const rtlHelpers = {
   /**

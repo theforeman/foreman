@@ -59,6 +59,11 @@ export const ViewParametersTableRow = ({
           }
         >
           <Button
+            icon={
+              <Icon>
+                <PencilAltIcon />
+              </Icon>
+            }
             ouiaId={`view-parameters-table-row-edit-${rowIndex}`}
             aria-label={
               param.associated_type === HOST_PARAM
@@ -69,11 +74,7 @@ export const ViewParametersTableRow = ({
             onClick={() => {
               setEditingRow(rowIndex);
             }}
-          >
-            <Icon>
-              <PencilAltIcon />
-            </Icon>
-          </Button>
+          />
         </Tooltip>
       </Td>
     )}

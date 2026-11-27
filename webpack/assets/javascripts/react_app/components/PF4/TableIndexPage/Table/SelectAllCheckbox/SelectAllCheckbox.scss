@@ -1,0 +1,5 @@
+// PF6 keeps menu toggle text on one line, but not the label of a split-button
+// checkbox; keep "N selected" from wrapping when the toolbar is tight
+.select-all-checkbox .pf-v6-c-check__label {
+  white-space: nowrap;
+}

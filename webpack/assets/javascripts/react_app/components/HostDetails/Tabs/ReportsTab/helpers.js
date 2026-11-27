@@ -2,13 +2,18 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, FlexItem, Flex, Icon } from '@patternfly/react-core';
 import {
+  Button,
   Dropdown,
   DropdownItem,
-  KebabToggle,
-} from '@patternfly/react-core/deprecated';
+  DropdownList,
+  FlexItem,
+  Flex,
+  Icon,
+  MenuToggle,
+} from '@patternfly/react-core';
 import {
+  EllipsisVIcon,
   ExclamationCircleIcon,
   SyncAltIcon,
   CheckCircleIcon,
@@ -19,11 +24,12 @@ import { openConfirmModal } from '../../../ConfirmModal';
 import { APIActions } from '../../../../redux/API';
 import { sprintf, translate as __ } from '../../../../common/I18n';
 import RelativeDateTime from '../../../common/dates/RelativeDateTime';
+import { ICON_CONTENT_COLOR_VARIABLE } from '../../../../constants';
 
 const statusMapper = {
   failed: amount => (
     <>
-      <Icon style={{ color: 'var(--pf-v5-global--palette--red-100)' }}>
+      <Icon status="danger">
         <ExclamationCircleIcon />
       </Icon>
       {amount}
@@ -31,7 +37,7 @@ const statusMapper = {
   ),
   failed_restarts: amount => (
     <>
-      <Icon style={{ color: 'var(--pf-v5-global--palette--red-100)' }}>
+      <Icon status="danger">
         <SyncAltIcon />
       </Icon>{' '}
       {amount}
@@ -39,7 +45,12 @@ const statusMapper = {
   ),
   restarted: amount => (
     <>
-      <Icon style={{ color: 'var(--pf-v5-global--palette--orange-300)' }}>
+      <Icon
+        style={{
+          [ICON_CONTENT_COLOR_VARIABLE]:
+            'var(--pf-t--global--color--nonstatus--orange--default)',
+        }}
+      >
         <SyncAltIcon />
       </Icon>{' '}
       {amount}
@@ -47,7 +58,7 @@ const statusMapper = {
   ),
   applied: amount => (
     <>
-      <Icon style={{ color: 'var(--pf-v5-global--success-color--100)' }}>
+      <Icon status="success">
         <CheckCircleIcon />
       </Icon>{' '}
       {amount}
@@ -120,33 +131,40 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
       })
     );
   };
-  const dropdownItems = [
-    <DropdownItem
-      ouiaId="action-dropdown-item"
-      key="action"
-      component="button"
-      onClick={dispatchConfirm}
-      disabled={!can_delete}
-    >
-      {__('Delete')}
-    </DropdownItem>,
-  ];
   return (
     <Flex>
       <FlexItem align={{ default: 'alignRight' }}>
         <Dropdown
-          ouiaId="action-dropdown"
-          onSelect={v => setOpen(!v)}
-          toggle={
-            <KebabToggle
-              onToggle={(_event, val) => setOpen(val)}
-              id="toggle-action"
-            />
-          }
+          ouiaId="action-dropdown-menu"
+          containerOuiaId="action-dropdown"
           isOpen={isOpen}
-          isPlain
-          dropdownItems={dropdownItems}
-        />
+          onSelect={() => setOpen(false)}
+          onOpenChange={newIsOpen => setOpen(newIsOpen)}
+          popperProps={{ position: 'right' }}
+          toggle={toggleRef => (
+            <MenuToggle
+              ref={toggleRef}
+              id="toggle-action"
+              ouiaId="action-dropdown-toggle"
+              variant="plain"
+              aria-label={__('Actions')}
+              isExpanded={isOpen}
+              onClick={() => setOpen(!isOpen)}
+              icon={<EllipsisVIcon />}
+            />
+          )}
+        >
+          <DropdownList>
+            <DropdownItem
+              ouiaId="action-dropdown-item"
+              key="action"
+              onClick={dispatchConfirm}
+              isDisabled={!can_delete}
+            >
+              {__('Delete')}
+            </DropdownItem>
+          </DropdownList>
+        </Dropdown>
       </FlexItem>
     </Flex>
   );

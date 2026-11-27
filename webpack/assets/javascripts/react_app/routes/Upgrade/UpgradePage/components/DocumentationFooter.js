@@ -1,32 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  TextContent,
-  Text,
-  TextVariants,
-  Button,
-  Icon,
-} from '@patternfly/react-core';
+import { Content, ContentVariants, Button, Icon } from '@patternfly/react-core';
 import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
 
 import { translate as __ } from '../../../../common/I18n';
 import { getSupportURL } from '../../../../common/helpers';
 
 const DocumentationFooter = ({ helpDesc, helpLinkText }) => (
-  <TextContent>
-    <Text
+  <Content>
+    <Content
       ouiaId="upgrade-docs-footer-card-text-help"
-      component={TextVariants.h6}
+      component={ContentVariants.h6}
     >
       {__('Need help?')}
-    </Text>
-    <Text
+    </Content>
+    <Content
       ouiaId="upgrade-docs-footer-card-text-desc"
-      component={TextVariants.p}
+      component={ContentVariants.p}
     >
       {helpDesc}
-    </Text>
+    </Content>
     <Button
       ouiaId="upgrade-page-help-button"
       component="a"
@@ -43,7 +37,7 @@ const DocumentationFooter = ({ helpDesc, helpLinkText }) => (
     >
       {helpLinkText}
     </Button>
-  </TextContent>
+  </Content>
 );
 DocumentationFooter.propTypes = {
   helpLinkText: PropTypes.string,

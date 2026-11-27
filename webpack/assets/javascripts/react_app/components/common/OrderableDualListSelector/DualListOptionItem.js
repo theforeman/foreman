@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Tooltip } from '@patternfly/react-core';
 import {
-  Draggable,
   DualListSelectorListItem,
-  Tooltip,
-} from '@patternfly/react-core';
+  Draggable,
+} from '@patternfly/react-core/deprecated';
 
 const TOOLTIP_ENTRY_DELAY = 500;
 const TOOLTIP_EXIT_DELAY = 100;

@@ -143,7 +143,7 @@ a {
   }
 }
 
-.pf-v5-c-backdrop {
+.pf-v6-c-backdrop {
   z-index: 2000;
 }
 
@@ -339,7 +339,7 @@ span.btn-action.btn-primary a {
   color: #fff;
 }
 
-.pf-v5-c-menu ul {
+.pf-v6-c-menu ul {
   /* override bootstrap-sass
   ul, ol {
     margin-top: 0px;
@@ -348,8 +348,28 @@ span.btn-action.btn-primary a {
   margin-bottom: 0;
 }
 
-label[class^='pf-v5'],
-[class^='pf-v5'] label {
+// PF6 resets hr margins inside :where() (no specificity), so bootstrap's
+// `hr { margin: 20px 0 }` wins and adds big gaps around every PF6 Divider
+hr.pf-v6-c-divider {
+  margin: 0;
+}
+
+// same for checkbox and radio margins: bootstrap's
+// `input[type="checkbox"], input[type="radio"] { margin: 4px 0 0 }` pushes
+// every PF6 check and radio input 4px down (e.g. table row checkboxes)
+input.pf-v6-c-check__input,
+input.pf-v6-c-radio__input {
+  margin: 0;
+}
+
+// and for headings: bootstrap's `h1..h6 { margin-top/bottom }` gives every PF6
+// Title margins PF does not have (e.g. a 20px offset above an h2 Title)
+:is(h1, h2, h3, h4, h5, h6).pf-v6-c-title {
+  margin: 0;
+}
+
+label[class^='pf-v6'],
+[class^='pf-v6'] label {
   /* override  
     patternfly-sass
     label {

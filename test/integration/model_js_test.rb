@@ -3,7 +3,7 @@ require 'integration_test_helper'
 class ModelIntegrationTest < IntegrationTestWithJavascript
   test "create new page" do
     visit models_path
-    click_on "Create new", class: 'pf-v5-c-button'
+    click_on "Create new", class: 'pf-v6-c-button'
     assert_current_path new_models_path
     fill_in "model_name", :with => "IBM 123"
     fill_in "model_hardware_model", :with => "IBMabcde"
@@ -29,7 +29,7 @@ class ModelIntegrationTest < IntegrationTestWithJavascript
     within row do
       find('button[aria-label="Kebab toggle"]').click
     end
-    find('button.pf-v5-c-menu__item', :text => 'Delete').click
+    find('button.pf-v6-c-menu__item', :text => 'Delete').click
     within(:css, '[data-ouia-component-id="delete-modal"]') do
       find('[data-ouia-component-id="confirm-delete"]').click
     end

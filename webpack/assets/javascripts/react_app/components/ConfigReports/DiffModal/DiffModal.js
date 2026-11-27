@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';

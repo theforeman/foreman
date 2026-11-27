@@ -552,6 +552,8 @@ Each column extension object must contain the following properties:
 * `categoryName` - the name of the category to which the column belongs. Displayed on screen in the ColumnSelector. Should be translated.
 * `categoryKey` - the key of the category to which the column belongs. Used to group columns in the ColumnSelector. Should not be translated.
 * `isSorted` - whether the column is sortable. Sortable columns must have a `columnName` that matches a sortable column in the API response.
+* `cellModifier` - optional text behavior of the body cells, passed to the PatternFly `Td` `modifier` prop: `breakWord` for values without spaces (FQDN, IPv6, MAC), `truncate`, `nowrap`, `wrap`, or `fitContent`.
+* `headerModifier` - optional text behavior of the header cell, passed to the PatternFly `Th` `modifier` prop. Defaults to `wrap`.
 
 [[new-structure-for-assets]]
 ===== New structure for assets.

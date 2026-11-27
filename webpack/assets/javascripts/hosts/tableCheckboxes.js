@@ -264,7 +264,7 @@ export function buildRedirect(url) {
 
 function paginationMetaData() {
   const { total, perPage } = document.getElementsByClassName(
-    'pf-v5-c-pagination'
+    'pf-v6-c-pagination'
   )[0].dataset;
   return { total: Number(total), perPage: Number(perPage) };
 }

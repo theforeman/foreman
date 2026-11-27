@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { flushPatternflyTimers } from '../../../../common/rtlTestHelpers';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
@@ -52,6 +53,7 @@ describe.each([
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: '' }));
     });
+    await flushPatternflyTimers();
 
     taxonomies.forEach(({ title }) => {
       expect(screen.getByRole('option', { name: title })).toBeInTheDocument();
@@ -64,9 +66,11 @@ describe.each([
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: '' }));
     });
+    await flushPatternflyTimers();
     await act(async () => {
       fireEvent.click(screen.getByRole('option', { name: 'Production/Test' }));
     });
+    await flushPatternflyTimers();
 
     expect(screen.getByRole('button', { name: 'Test' })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: `Change ${taxonomy}` }));
@@ -90,6 +94,7 @@ describe.each([
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: '' }));
     });
+    await flushPatternflyTimers();
 
     const rootOption = screen.getByRole('option', { name: 'Lab' });
     expect(

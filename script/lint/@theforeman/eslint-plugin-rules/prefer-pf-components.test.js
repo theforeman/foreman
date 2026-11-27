@@ -28,91 +28,91 @@ ruleTester.run('prefer-pf-components', rule, {
   ],
   invalid: [
     {
-      code: '<div className="pf-v5-c-alert" />',
+      code: '<div className="pf-v6-c-alert" />',
       errors: [
         {
           message:
-            "Prefer using the <Alert> component instead of the 'pf-v5-c-alert' CSS class.",
+            "Prefer using the <Alert> component instead of the 'pf-v6-c-alert' CSS class.",
         },
       ],
     },
     {
-      code: '<div className="pf-v5-c-button" />',
+      code: '<div className="pf-v6-c-button" />',
       errors: [
         {
           message:
-            "Prefer using the <Button> component instead of the 'pf-v5-c-button' CSS class.",
+            "Prefer using the <Button> component instead of the 'pf-v6-c-button' CSS class.",
         },
       ],
     },
     {
-      code: '<div className="pf-v5-c-alert__title pf-v5-c-badge" />',
+      code: '<div className="pf-v6-c-alert__title pf-v6-c-badge" />',
       errors: [
         {
           message:
-            "Prefer using the <Alert> component instead of the 'pf-v5-c-alert' CSS class.",
+            "Prefer using the <Alert> component instead of the 'pf-v6-c-alert' CSS class.",
         },
         {
           message:
-            "Prefer using the <Badge> component instead of the 'pf-v5-c-badge' CSS class.",
+            "Prefer using the <Badge> component instead of the 'pf-v6-c-badge' CSS class.",
         },
       ],
     },
     {
-      code: '<div className={`pf-v5-c-form`} />',
+      code: '<div className={`pf-v6-c-form`} />',
       errors: [
         {
           message:
-            "Prefer using the <Form> component instead of the 'pf-v5-c-form' CSS class.",
+            "Prefer using the <Form> component instead of the 'pf-v6-c-form' CSS class.",
         },
       ],
     },
     {
-      code: '<div className="pf-v5-l-flex" />',
+      code: '<div className="pf-v6-l-flex" />',
       errors: [
         {
           message:
-            "Prefer using the <Flex> component instead of the 'pf-v5-l-flex' CSS class.",
+            "Prefer using the <Flex> component instead of the 'pf-v6-l-flex' CSS class.",
         },
       ],
     },
     {
-      code: '<div className="pf-v5-c-form-control" />',
+      code: '<div className="pf-v6-c-form-control" />',
       errors: [
         {
           message:
-            "Prefer using the <TextInput / TextArea / FormSelect> component instead of the 'pf-v5-c-form-control' CSS class.",
+            "Prefer using the <TextInput / TextArea / FormSelect> component instead of the 'pf-v6-c-form-control' CSS class.",
         },
       ],
     },
     {
-      code: '<div className="pf-v5-c-helper-text" />',
+      code: '<div className="pf-v6-c-helper-text" />',
       errors: [
         {
           message:
-            "Avoid using the 'pf-v5-c-helper-text' CSS class directly; use the equivalent PatternFly React component instead.",
+            "Avoid using the 'pf-v6-c-helper-text' CSS class directly; use the equivalent PatternFly React component instead.",
         },
       ],
     },
     {
-      code: '<div className={classNames("pf-v5-c-button", "my-class")} />',
+      code: '<div className={classNames("pf-v6-c-button", "my-class")} />',
       errors: [
         {
           message:
-            "Prefer using the <Button> component instead of the 'pf-v5-c-button' CSS class.",
+            "Prefer using the <Button> component instead of the 'pf-v6-c-button' CSS class.",
         },
       ],
     },
     {
-      code: '<div className={classNames(`pf-v5-l-flex`, "pf-v5-c-badge")} />',
+      code: '<div className={classNames(`pf-v6-l-flex`, "pf-v6-c-badge")} />',
       errors: [
         {
           message:
-            "Prefer using the <Flex> component instead of the 'pf-v5-l-flex' CSS class.",
+            "Prefer using the <Flex> component instead of the 'pf-v6-l-flex' CSS class.",
         },
         {
           message:
-            "Prefer using the <Badge> component instead of the 'pf-v5-c-badge' CSS class.",
+            "Prefer using the <Badge> component instead of the 'pf-v6-c-badge' CSS class.",
         },
       ],
     },

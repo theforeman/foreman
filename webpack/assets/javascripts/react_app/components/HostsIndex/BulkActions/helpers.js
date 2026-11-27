@@ -74,3 +74,12 @@ export const bulkErrorToastParams = (error, key) => {
     key,
   });
 };
+
+/**
+ * Popper appendTo target for menus inside a bulk action modal. The modal hides
+ * its siblings from assistive tech (so a menu appended to document.body becomes
+ * aria-hidden), and rendering inline clips the menu at the modal box edge.
+ * The open modal's backdrop is never hidden and does not clip.
+ */
+export const appendMenuToOpenModal = () =>
+  [...document.querySelectorAll('.pf-v6-c-backdrop')].pop() || document.body;

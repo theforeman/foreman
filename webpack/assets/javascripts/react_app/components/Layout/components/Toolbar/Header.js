@@ -5,10 +5,10 @@ import {
   Masthead,
   MastheadToggle,
   MastheadMain,
+  MastheadLogo,
   MastheadBrand,
   MastheadContent,
-  Button,
-  Icon,
+  PageToggleButton,
 } from '@patternfly/react-core';
 import { BarsIcon } from '@patternfly/react-icons';
 
@@ -18,28 +18,33 @@ import {
   dataPropType,
 } from '../../LayoutHelper';
 import HeaderToolbar from './HeaderToolbar';
+import { translate as __ } from '../../../../common/I18n';
+import { MASTHEAD_LOGO_HEIGHT } from '../../LayoutConstants';
 
-const Header = ({
-  data: { logo, brand, root, ...props },
-  onNavToggle,
-  isLoading,
-}) => (
+const Header = ({ data: { logo, brand, root, ...props }, isLoading }) => (
   <Masthead display={{ default: 'inline' }}>
-    <MastheadToggle>
-      <Button ouiaId="nav-toggle" onClick={onNavToggle} variant="plain">
-        <Icon>
-          <BarsIcon />
-        </Icon>
-      </Button>
-    </MastheadToggle>
     <MastheadMain>
-      <MastheadBrand component="a" href={root}>
-        <React.Fragment>
-          <Brand src={logo} alt={brand} href={root} />
-          <span className="navbar-brand-txt">
-            <span>{brand}</span>
-          </span>
-        </React.Fragment>
+      <MastheadToggle>
+        <PageToggleButton
+          icon={<BarsIcon />}
+          ouiaId="nav-toggle"
+          aria-label={__('Side navigation toggle')}
+        />
+      </MastheadToggle>
+      <MastheadBrand>
+        <MastheadLogo component="a" href={root}>
+          <React.Fragment>
+            <Brand
+              src={logo}
+              alt={brand}
+              href={root}
+              heights={{ default: MASTHEAD_LOGO_HEIGHT }}
+            />
+            <span className="navbar-brand-txt">
+              <span>{brand}</span>
+            </span>
+          </React.Fragment>
+        </MastheadLogo>
       </MastheadBrand>
     </MastheadMain>
     <MastheadContent>
@@ -51,7 +56,6 @@ const Header = ({
 Header.propTypes = {
   data: PropTypes.shape(dataPropType).isRequired,
   isLoading: layoutPropTypes.isLoading,
-  onNavToggle: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {
