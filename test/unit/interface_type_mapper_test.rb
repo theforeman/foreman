@@ -21,6 +21,10 @@ class InterfaceTypeMapperTest < ActiveSupport::TestCase
     assert_equal Nic::Managed.name, @mapper.map(nil)
   end
 
+  test "it exposes unique interface type names" do
+    assert_equal @mapper::ALLOWED_TYPE_NAMES.uniq, @mapper::ALLOWED_TYPE_NAMES
+  end
+
   test "it raises exception on unknown name" do
     assert_raises InterfaceTypeMapper::UnknownTypeException do
       @mapper.map("unknown")
