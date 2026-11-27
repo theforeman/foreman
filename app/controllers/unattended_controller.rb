@@ -92,7 +92,8 @@ class UnattendedController < ApplicationController
 
   def render_error(message, options)
     if ipxe_request?
-      render_ipxe_message(message: message, status: options[:status] || :not_found)
+      status = options.delete(:status) || :not_found
+      render_ipxe_message(message: message % options, status: status)
     else
       super
     end
