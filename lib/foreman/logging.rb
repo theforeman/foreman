@@ -1,3 +1,4 @@
+require 'syslog'
 require 'logging'
 require 'fileutils'
 
