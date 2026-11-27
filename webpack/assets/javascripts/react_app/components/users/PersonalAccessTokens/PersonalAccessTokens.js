@@ -5,6 +5,7 @@ import { KeyIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import {
   clearNewPersonalAccessToken,
+  deletePersonalAccessToken as deletePersonalAccessTokenAction,
   getPersonalAccessTokens,
   revokePersonalAccessToken as revokePersonalAccessTokenAction,
 } from './PersonalAccessTokensActions';
@@ -45,6 +46,18 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
     );
   };
 
+  const boundDeletePersonalAccessToken = id => {
+    dispatch(
+      openConfirmModal({
+        title: __('Delete personal access token'),
+        message: __('Do you really want to permanently delete this token?'),
+        confirmButtonText: __('Delete'),
+        isWarning: true,
+        onConfirm: () => dispatch(deletePersonalAccessTokenAction({ url, id })),
+      })
+    );
+  };
+
   return (
     <Fragment>
       <NewPersonalAccessToken
@@ -63,6 +76,8 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
           <PersonalAccessTokensList
             title={__('Inactive Personal Access Tokens')}
             tokens={tokens.filter(token => !token['active?'])}
+            deletePersonalAccessToken={boundDeletePersonalAccessToken}
+            deletable
           />
         </Fragment>
       ) : (
