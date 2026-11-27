@@ -103,6 +103,7 @@
     "unleash-proxy-client": "^3.7.6",
     "urijs": "^1.19.4",
     "uuid": "^3.3.2",
+    "victory": "^38.1.1",
     "yup": "^0.29.3"
   },
   "devDependencies": {
