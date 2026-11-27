@@ -17,10 +17,7 @@ export const RowActions = ({ hostId, param, editHostsPermission }) => {
         key: `${param.id}-DELETE`,
         successToast: () => sprintf(__('Parameter %s deleted'), param.name),
 
-        errorToast: ({ response }) =>
-          // eslint-disable-next-line camelcase
-          response?.data?.error?.full_messages ||
-          response?.data?.error?.message,
+        errorToast: true,
         handleSuccess: () => {
           dispatch(updateHost(hostId));
         },

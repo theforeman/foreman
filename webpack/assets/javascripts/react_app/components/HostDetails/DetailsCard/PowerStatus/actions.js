@@ -7,7 +7,8 @@ export const changeHostPower = (state, hostID) =>
     key: POWER_REQUEST_KEY,
     params: { power_action: state },
     url: `/api/hosts/${hostID}/power`,
-    errorToast: err => sprintf(__('an error occurred: %s'), err),
+    errorToast: (err, parsedMessage) =>
+      sprintf(__('an error occurred: %s'), parsedMessage),
     successToast: () =>
       sprintf(
         __('Power has been set to "%s" successfully'),

@@ -142,10 +142,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
           },
           successToast: () =>
             __('Personal Access Token was successfully created.'),
-          errorToast: ({ response }) =>
-            response?.data?.error?.message ||
-            response?.message ||
-            response?.statusText,
+          errorToast: true,
         })
       );
     }
