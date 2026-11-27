@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import store from '../redux';
 import componentRegistry from '../components/componentRegistry';
 
@@ -7,10 +7,7 @@ import componentRegistry from '../components/componentRegistry';
 export const AwaitedMount = ({ component, data, flattenData }) => {
   const [mounted, setMounted] = useState(false);
   const [mountedComponent, setMountedComponent] = useState(null);
-  const [allPluginsImported, setAllPluginsImported] = useState(
-    window.allJsLoaded
-  );
-  async function mountComponent() {
+  const mountComponent = useCallback(async () => {
     if (componentRegistry.registry[component]) {
       setMounted(true);
       setMountedComponent(
@@ -20,32 +17,22 @@ export const AwaitedMount = ({ component, data, flattenData }) => {
           flattenData,
         })
       );
-    } else if (allPluginsImported) {
-      const awaitedComponent = componentRegistry.markup(component, {
-        data,
-        store,
-        flattenData,
-      });
-      setMounted(true);
-      setMountedComponent(awaitedComponent);
+    } else {
+      // eslint-disable-next-line no-console
+      console.debug(
+        `Component not found: ${component}. The script for the component might not have been loaded yet.`
+      );
     }
-  }
-  const updateAllPluginsImported = e => {
-    setAllPluginsImported(true);
-  };
+  }, [component, data, flattenData]);
   useEffect(() => {
-    document.addEventListener('loadJS', updateAllPluginsImported);
-    return () => window.removeEventListener('loadJS', updateAllPluginsImported);
-  }, []);
+    document.addEventListener('loadPlugin', mountComponent);
+    return () => {
+      window.removeEventListener('loadPlugin', mountComponent);
+    };
+  }, [mountComponent]);
   useEffect(() => {
-    if (!mounted) mountComponent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allPluginsImported]);
-  useEffect(() => {
-    // Update the component if the data (props) change
-    if (allPluginsImported) mountComponent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+    mountComponent();
+  }, [mountComponent]);
   return mounted ? mountedComponent : null;
 };
 
