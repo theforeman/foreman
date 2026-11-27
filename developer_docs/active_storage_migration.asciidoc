@@ -1,0 +1,60 @@
+= Moving existing Active Storage blobs
+
+Changing the default Active Storage service only affects newly created blobs.
+This task copies existing blobs to another configured service, verifies their
+contents, and only then changes the database's `service_name` for each blob.
+It supports either direction, including moving back from object storage to disk.
+It does not import legacy plugin files; each consumer needs its own migration.
+
+== Preparation
+
+Back up the database and source storage together. Configure both services on
+the migration machine and all web and worker instances. Their names are the
+keys from `config/storage.yml`, not bucket names or arbitrary paths.
+
+Stop application writers and workers during the copy and final verification.
+The task locks each blob row, but this does not replace a maintenance window:
+uploads and deletes involve external storage as well as database operations.
+Run disk migrations on the machine that can access the original disk files.
+The command needs read access to the source and read/write access to the target.
+Active Storage downloads one source blob to a temporary file at a time. Ensure
+the migration machine has enough temporary disk space for the largest blob.
+
+Preview a move from the existing disk service to a configured `s3` service:
+
+[source,console]
+----
+FROM_SERVICE=local TO_SERVICE=s3 foreman-rake foreman:storage:migrate
+----
+
+The preview checks that source objects exist; it does not copy or download them
+and cannot detect corrupted contents. Perform the actual copy with:
+
+[source,console]
+----
+FROM_SERVICE=local TO_SERVICE=s3 APPLY=true foreman-rake foreman:storage:migrate
+----
+
+Each source download is checked by Active Storage. The target is then read back
+in chunks and compared with the blob's checksum and byte size before its service
+is updated. Database records, attachment associations, filenames and blob keys
+are preserved. The copy does not load an entire large blob into memory.
+
+== Interrupted copies, verification and rollback
+
+The task reports counts and returns a failure status if any object fails.
+Rerun the same command after correcting the cause. Already migrated rows are
+not selected again. Existing destination objects are verified and reused, never
+overwritten. A mismatched destination object requires investigation; the task
+leaves both objects and the original service reference intact.
+
+Original source objects are never deleted. Keep the source service configured,
+confirm that no source blobs remain, verify downloads through their application
+controllers, and update backup/recovery procedures before retiring old storage.
+Set the application's default service separately before restarting writers;
+otherwise new uploads will continue using the previous default.
+
+Rollback uses the same task with source and destination reversed while writers
+are stopped. Keep the original storage and a coordinated backup until the
+retention period has elapsed. This task does not purge unattached blobs: some
+consumers legitimately use them for in-flight upload handoffs.
