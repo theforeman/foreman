@@ -9,6 +9,10 @@ FactoryBot.define do
 
   factory :config_report, :parent => :report, :class => 'ConfigReport'
 
+  trait :with_origin do
+    sequence(:origin) { |n| "testorigin#{n}" }
+  end
+
   trait :old_report do
     after(:build) do |report|
       report.created_at  = 2.weeks.ago
