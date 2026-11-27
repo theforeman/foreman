@@ -37,9 +37,12 @@ description: |
 
 <%- @host.managed_interfaces.each do |interface| %>
 <%-   next if !interface.managed? -%>
-<%-   next if bonded_interfaces.include?(interface.identifier) -%>
 
-<%-   interface_identifier = @host.bond_interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
+<%-   if bonded_interfaces.include?(interface.identifier) -%>
+<%-     interface_identifier = @host.bond_interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
+<%-   else -%>
+<%-     interface_identifier = @host.interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
+<%-   end -%>
 <%=   "# #{interface.identifier} interface" %>
 <%=   snippet('kickstart_ifcfg_get_identifier_names', :variables => { :interface => interface, :identifier => interface_identifier }) -%>
 <%-   ifcfg = snippet('kickstart_ifcfg_generic_interface', :variables => {
