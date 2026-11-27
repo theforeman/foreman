@@ -22,15 +22,20 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 const dependencies = packageJson.dependencies || {};
 const devDependencies = packageJson.devDependencies || {};
 const allDependencies = { ...dependencies, ...devDependencies };
+// Nested copies of these (uuid 8, yup 0.32, reselect 4) get registered beside
+// the top-level packages. Singleton then picks the higher version and warns.
+const unsharedDependencies = new Set(['uuid', 'yup', 'reselect']);
 const shared = isPlugin => {
-  const sharedArr = Object.keys(allDependencies).map(dep => ({
-    [dep]: {
-      eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
-      singleton: true,
-      requiredVersion: allDependencies[dep],
-      import: isPlugin ? false : dep,
-    },
-  }));
+  const sharedArr = Object.keys(allDependencies)
+    .filter(dep => !unsharedDependencies.has(dep))
+    .map(dep => ({
+      [dep]: {
+        eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
+        singleton: true,
+        requiredVersion: allDependencies[dep],
+        import: isPlugin ? false : dep,
+      },
+    }));
   return [
     ...sharedArr,
     {
@@ -104,7 +109,9 @@ const commonConfig = function(buildName = 'core', tsConfig = 'tsconfig.json') {
   const config = {};
 
   if (production) {
-    config.devtool = 'source-map';
+    // Emit maps without a sourceMappingURL comment. Snaps do not serve
+    // *_remoteEntry.js.map, and the comment shows up as a devtools 404.
+    config.devtool = 'hidden-source-map';
     config.optimization = {
       moduleIds: 'named',
       splitChunks: false,

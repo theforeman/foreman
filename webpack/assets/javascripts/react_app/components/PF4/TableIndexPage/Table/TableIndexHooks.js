@@ -3,7 +3,8 @@ import { isEqual } from 'lodash';
 import URI from 'urijs';
 import { useHistory } from 'react-router-dom';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
-import { HTTP_STATUS_CODES } from '../../../../constants';
+import { STATUS } from '../../../../constants';
+import { tablePreferenceState } from './helpers';
 
 /**
 
@@ -111,22 +112,26 @@ export const useCurrentUserTablePreferences = ({ tableName }) => {
   const currentUserResponse = useAPI('get', '/api/v2/current_user');
   const currentUserId = currentUserResponse.response?.id;
 
-  const userTablePreferenceResponse = useAPI(
+  // Index returns 200 with an empty list when nothing is saved. Show 404s
+  // for that case and logs an error in the browser console.
+  const userTablePreferencesResponse = useAPI(
     currentUserId ? 'get' : null, // only make the request if we have the id
-    `/api/v2/users/${currentUserId}/table_preferences/${tableName}`
+    currentUserId ? `/api/v2/users/${currentUserId}/table_preferences` : null,
+    { params: { per_page: 'all' } }
   );
 
-  const userTablePreferenceColumns =
-    userTablePreferenceResponse.response?.columns;
-
-  const hasPreference = !(
-    userTablePreferenceResponse.response?.response?.status ===
-    HTTP_STATUS_CODES.NOT_FOUND
+  const { hasPreference, columns } = tablePreferenceState(
+    userTablePreferencesResponse.response,
+    tableName
   );
+  const preferencesLoaded =
+    userTablePreferencesResponse.status === STATUS.RESOLVED;
 
   return {
     currentUserId,
-    hasPreference,
-    columns: userTablePreferenceColumns,
+    // Until the collection loads, keep the previous "preference exists" default
+    // so the column selector does not POST a duplicate while the request is in flight.
+    hasPreference: preferencesLoaded ? hasPreference : true,
+    columns,
   };
 };
