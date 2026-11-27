@@ -21,6 +21,9 @@ test_on:
   sys_sla = " --sla '#{host_param('syspurpose_sla')}'" if host_param('syspurpose_sla')
 -%>
 <% if subman_registration -%>
+%pre
+hostnamectl set-hostname --static <%= @host.name %>
+%end
 rhsm --organization="<%= subman_org %>" --activation-key="<%= subman_keys %>"<%= subman_hostname -%><%= subman_rhsm_baseurl -%><%= subman_insights -%>
 <% end -%>
 <%- if host_param('syspurpose_role') %>
