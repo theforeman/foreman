@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import { v7 as uuidV7 } from 'uuid';
 import { getDonutChartConfigPF5 } from './ChartService';
 
 export const getDonutChartConfig = ({
@@ -8,7 +8,7 @@ export const getDonutChartConfig = ({
   searchUrl,
   searchFilters,
   title,
-  id = uuidV1(),
+  id = uuidV7(),
 }) =>
   getDonutChartConfigPF5({
     data,
