@@ -15,11 +15,23 @@ module Api
       api :GET, "/organizations/:organization_id/hostgroups", N_("List all host groups per organization")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      param :thin, :bool, :desc => N_("Only list ID, name, and title of host groups")
       param :include, Array, :in => ['parameters'], :desc => N_("Array of extra information types to include")
       add_scoped_search_description_for(Hostgroup)
 
       def index
         @hostgroups = resource_scope_for_index
+
+        if params[:thin]
+          @subtotal = if @hostgroups.respond_to?(:total_entries)
+                        @hostgroups.total_entries
+                      else
+                        @hostgroups.size
+                      end
+          @hostgroups = @hostgroups.reorder(:title).distinct.pluck(:id, :name, :title)
+          render 'thin'
+          return
+        end
 
         if params[:include].present?
           @parameters = params[:include].include?('parameters')
