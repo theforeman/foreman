@@ -89,7 +89,8 @@ export const ReviewModal = ({
           <Switch
             ouiaId="safe-mode-switch"
             id="safe-mode-switch"
-            label={__('Safe mode on')}
+            // PF6 Switch dropped labelOff; one label for both states
+            label={__('Safe mode')}
             isChecked={showSafe}
             onChange={(_event, val) => setShowSafe(val)}
           />

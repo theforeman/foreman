@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Icon } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
 import { Table, Tr, Tbody, Td } from '@patternfly/react-table';
-import { translate as __ } from '../../../../../../common/I18n';
+import { sprintf, translate as __ } from '../../../../../../common/I18n';
 import { foremanUrl } from '../../../../../../common/helpers';
 import { useAPI } from '../../../../../../common/hooks/API/APIHooks';
 import SkeletonLoader from '../../../../../common/SkeletonLoader';
@@ -80,6 +80,7 @@ const TemplatesCard = ({ hostName }) => {
                         </Icon>
                       }
                       ouiaId={`provisioning-templates-table-row-${template.name}-edit`}
+                      aria-label={sprintf(__('Edit %s'), template.name)}
                       component="a"
                       key="edit"
                       href={editTemplateUrl(template.id)}

@@ -27,7 +27,7 @@ export const FilterTypeaheadSelect = ({
 
   return (
     <Select
-      ouiaId={ouiaId}
+      ouiaId={`${ouiaId}-menu`}
       className="without_select2"
       variant="typeahead"
       isOpen={isOpen}
@@ -37,6 +37,7 @@ export const FilterTypeaheadSelect = ({
       }
       toggle={toggleRef => (
         <FilterTypeaheadToggle
+          ouiaId={ouiaId}
           toggleRef={toggleRef}
           toggleAriaLabel={toggleAriaLabel}
           inputAriaLabel={inputAriaLabel}

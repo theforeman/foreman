@@ -139,7 +139,7 @@ const Navigation = ({
             <NavExpandable
               ouiaId={`nav-expandable-${index}`}
               title={title}
-              icon={<span className={iconClass} />}
+              icon={<span className={iconClass} aria-hidden="true" />}
               groupId={`nav-expandable-group-${title}`}
               isActive={
                 subItemToItemMap[pathFragment(getCurrentPath())] === title

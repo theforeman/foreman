@@ -44,7 +44,8 @@ const UserDropdowns = ({ user, notificationUrl, instanceTitle, ...props }) => {
   return (
     userInfo && (
       <Dropdown
-        ouiaId="user-info-dropdown"
+        ouiaId="user-info-dropdown-menu"
+        containerOuiaId="user-info-dropdown"
         popperProps={{ position: 'right' }}
         onSelect={() => setUserDropdownOpen(false)}
         onOpenChange={isOpen => setUserDropdownOpen(isOpen)}

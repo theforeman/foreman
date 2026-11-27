@@ -62,7 +62,8 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
   return (
     <Tooltip content={statusText || title}>
       <Dropdown
-        ouiaId="power-status-dropdown"
+        ouiaId="power-status-dropdown-menu"
+        containerOuiaId="power-status-dropdown"
         isOpen={isOpen}
         onSelect={() => setOpen(false)}
         onOpenChange={newIsOpen => setOpen(newIsOpen)}

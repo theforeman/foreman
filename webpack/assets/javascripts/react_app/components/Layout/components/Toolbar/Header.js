@@ -18,13 +18,18 @@ import {
   dataPropType,
 } from '../../LayoutHelper';
 import HeaderToolbar from './HeaderToolbar';
+import { translate as __ } from '../../../../common/I18n';
 import { MASTHEAD_LOGO_HEIGHT } from '../../LayoutConstants';
 
 const Header = ({ data: { logo, brand, root, ...props }, isLoading }) => (
   <Masthead display={{ default: 'inline' }}>
     <MastheadMain>
       <MastheadToggle>
-        <PageToggleButton icon={<BarsIcon />} ouiaId="nav-toggle" />
+        <PageToggleButton
+          icon={<BarsIcon />}
+          ouiaId="nav-toggle"
+          aria-label={__('Side navigation toggle')}
+        />
       </MastheadToggle>
       <MastheadBrand>
         <MastheadLogo component="a" href={root}>

@@ -38,7 +38,8 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
       </Button>
       {buttons.length > 0 && (
         <Dropdown
-          ouiaId="action-buttons-dropdown"
+          ouiaId="action-buttons-dropdown-menu"
+          containerOuiaId="action-buttons-dropdown"
           isOpen={isOpen}
           onSelect={() => setIsOpen(false)}
           onOpenChange={newIsOpen => setIsOpen(newIsOpen)}

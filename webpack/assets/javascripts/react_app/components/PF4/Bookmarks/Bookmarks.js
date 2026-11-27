@@ -73,7 +73,8 @@ const Bookmarks = ({
         isOpened={isModalOpen}
       />
       <Dropdown
-        ouiaId="bookmarks-dropdown"
+        ouiaId="bookmarks-dropdown-menu"
+        containerOuiaId="bookmarks-dropdown"
         popperProps={{ position: bookmarksPosition }}
         isOpen={isDropdownOpen}
         onSelect={() => setIsDropdownOpen(false)}

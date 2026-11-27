@@ -39,7 +39,8 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   return (
     <div id={id}>
       <Dropdown
-        ouiaId={`taxonomy-context-selector-${taxonomyType}`}
+        ouiaId={`taxonomy-context-selector-${taxonomyType}-menu`}
+        containerOuiaId={`taxonomy-context-selector-${taxonomyType}`}
         className="context-selector"
         isOpen={isOpen}
         onSelect={() => setIsOpen(false)}

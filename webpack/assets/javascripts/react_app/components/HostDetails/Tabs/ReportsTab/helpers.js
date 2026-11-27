@@ -135,7 +135,8 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
     <Flex>
       <FlexItem align={{ default: 'alignRight' }}>
         <Dropdown
-          ouiaId="action-dropdown"
+          ouiaId="action-dropdown-menu"
+          containerOuiaId="action-dropdown"
           isOpen={isOpen}
           onSelect={() => setOpen(false)}
           onOpenChange={newIsOpen => setOpen(newIsOpen)}

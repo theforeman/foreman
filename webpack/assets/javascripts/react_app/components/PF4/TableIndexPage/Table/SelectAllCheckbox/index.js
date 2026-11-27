@@ -135,7 +135,8 @@ const SelectAllCheckbox = ({
       isOpen={isSelectAllDropdownOpen}
       onOpenChange={isOpen => setSelectAllDropdownOpen(isOpen)}
       id="selection-checkbox"
-      ouiaId="selection-checkbox"
+      ouiaId="selection-checkbox-menu"
+      containerOuiaId="selection-checkbox"
       toggle={toggleRef => (
         <MenuToggle
           ref={toggleRef}

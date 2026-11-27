@@ -11,6 +11,7 @@ import { TimesIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../common/I18n';
 
 export const FilterTypeaheadToggle = ({
+  ouiaId,
   toggleRef,
   toggleAriaLabel,
   inputAriaLabel,
@@ -27,7 +28,7 @@ export const FilterTypeaheadToggle = ({
   <MenuToggle
     ref={toggleRef}
     variant="typeahead"
-    ouiaId={`${listboxId}-toggle`}
+    ouiaId={ouiaId}
     aria-label={toggleAriaLabel}
     onClick={onToggleClick}
     isExpanded={isOpen}
@@ -64,6 +65,7 @@ export const FilterTypeaheadToggle = ({
 );
 
 FilterTypeaheadToggle.propTypes = {
+  ouiaId: PropTypes.string.isRequired,
   toggleRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   toggleAriaLabel: PropTypes.string.isRequired,
   inputAriaLabel: PropTypes.string.isRequired,

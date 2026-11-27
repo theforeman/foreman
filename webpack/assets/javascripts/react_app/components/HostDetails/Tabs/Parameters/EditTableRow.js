@@ -139,9 +139,12 @@ export const EditParametersTableRow = ({
       </Td>
       <Td dataLabel={columnNames.type}>
         <SimpleSelect
-          ouiaId={`edit-parameters-table-row-type-${rowIndex}`}
           toggleWidth="100%"
-          toggleProps={{ 'aria-label': `Select ${param.name} type` }}
+          // on the toggle: the Select menu (and its ouiaId) only exists while open
+          toggleProps={{
+            'aria-label': `Select ${param.name} type`,
+            ouiaId: `edit-parameters-table-row-type-${rowIndex}`,
+          }}
           initialOptions={typeSelectOptions}
           onSelect={(_event, selection) => setType(selection)}
         />
@@ -150,9 +153,11 @@ export const EditParametersTableRow = ({
         <>
           {type === 'boolean' ? (
             <SimpleSelect
-              ouiaId={`edit-parameters-table-row-boolean-${rowIndex}`}
               toggleWidth="100%"
-              toggleProps={{ 'aria-label': `Select ${param.name} value` }}
+              toggleProps={{
+                'aria-label': `Select ${param.name} value`,
+                ouiaId: `edit-parameters-table-row-boolean-${rowIndex}`,
+              }}
               placeholder={BOOLEAN_PLACEHOLDER}
               initialOptions={booleanSelectOptions}
               onSelect={onBooleanSelect}

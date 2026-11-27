@@ -12,7 +12,10 @@ export const LegacyUIKebab = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Dropdown
-      ouiaId="legacy-ui-kebab"
+      // the id QE looks up is on the always-rendered container; the menu
+      // (which carries ouiaId) only exists while open
+      ouiaId="legacy-ui-kebab-menu"
+      containerOuiaId="legacy-ui-kebab"
       id="legacy-ui-kebab"
       popperProps={{ position: 'right' }}
       isOpen={isOpen}
