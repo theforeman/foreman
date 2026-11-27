@@ -10,6 +10,7 @@ const reportedDataColumns = [
     wrapper: hostDetails =>
       hostDetails?.compute_resource_name || hostDetails?.model_name,
     isSorted: true,
+    cellModifier: 'breakWord',
     weight: 1000,
   },
   {
@@ -71,6 +72,7 @@ const reportedDataColumns = [
     title: __('Kernel version'),
     wrapper: hostDetails => hostDetails?.reported_data?.kernel_version,
     isSorted: false,
+    cellModifier: 'breakWord',
     weight: 1600,
   },
   {
@@ -92,6 +94,7 @@ const reportedDataColumns = [
     title: __('BIOS version'),
     wrapper: hostDetails => hostDetails?.reported_data?.bios_version,
     isSorted: false,
+    cellModifier: 'breakWord',
     weight: 1900,
   },
 ];
