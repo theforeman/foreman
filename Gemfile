@@ -4,6 +4,7 @@ FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 source 'https://rubygems.org'
 
 gem 'rails', '~> 7.0.3'
+gem 'bootsnap', require: false
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '~> 5.0', '!= 5.1.0'
 gem 'will_paginate', '~> 3.3'
