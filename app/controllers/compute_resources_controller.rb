@@ -127,7 +127,8 @@ class ComputeResourcesController < ApplicationController
     # cr_id is posted from AJAX function. cr_id is nil if new
     if params[:cr_id].present?
       @compute_resource = ComputeResource.authorized(:edit_compute_resources).find(params[:cr_id])
-      @compute_resource.attributes = compute_resource_params.reject { |k, v| k == :password && v.blank? }
+      secret_fields = [:password, :application_credential_secret]
+      @compute_resource.attributes = compute_resource_params.reject { |k, v| secret_fields.include?(k.to_sym) && v.blank? }
     else
       @compute_resource = ComputeResource.new_provider(compute_resource_params)
     end
