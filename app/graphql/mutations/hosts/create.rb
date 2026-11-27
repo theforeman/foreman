@@ -30,6 +30,7 @@ module Mutations
       argument :puppet_ca_proxy_id, ID, loads: Types::SmartProxy
       argument :compute_attributes, Types::RawJson, required: false
       argument :interfaces_attributes, [Types::InterfaceAttributesInput], required: false
+      argument :host_parameters_attributes, [Types::HostParameterAttributesInput], required: false
 
       field :host, Types::Host, 'The new host.', null: true
 
@@ -53,6 +54,7 @@ module Mutations
         return {} if params.nil?
 
         params[:interfaces_attributes] = params[:interfaces_attributes].map(&:to_h) if params[:interfaces_attributes]
+        params[:host_parameters_attributes] = params[:host_parameters_attributes].map(&:to_h) if params[:host_parameters_attributes]
         params = params.deep_clone
         parse_volumes_attributes(params)
 
