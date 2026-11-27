@@ -151,4 +151,58 @@ class ParameterTest < ActiveSupport::TestCase
     results = Hostgroup.search_for("params.dev = f")
     assert_same_elements results, [hg2]
   end
+
+  test "hidden host parameter encrypts value in database" do
+    key = '25d224dd383e92a7e0c82b8bf7c985e8'
+    HostParameter.any_instance.stubs(:encryption_key).returns(key)
+
+    host = FactoryBot.create(:host)
+    param = HostParameter.new(
+      :name => 'remote_execution_ssh_password',
+      :value => 's3cret',
+      :hidden_value => true,
+      :reference_id => host.id
+    )
+    assert param.save!
+
+    raw_in_db = param.read_attribute_before_type_cast('value').to_s
+    assert_includes raw_in_db, EncryptValue::ENCRYPTION_PREFIX,
+      "expected encrypted- prefix in DB, got: #{raw_in_db}"
+    refute_includes raw_in_db, 's3cret'
+
+    assert_equal 's3cret', param.value
+    assert_equal '*****', param.safe_value
+    assert_equal '*****', param.searchable_value
+  end
+
+  test "hidden parameter does not overwrite value when mask is submitted" do
+    key = '25d224dd383e92a7e0c82b8bf7c985e8'
+    HostParameter.any_instance.stubs(:encryption_key).returns(key)
+
+    host = FactoryBot.create(:host)
+    param = HostParameter.create!(
+      :name => 'remote_execution_ssh_password',
+      :value => 's3cret',
+      :hidden_value => true,
+      :reference_id => host.id
+    )
+
+    param.value = '*****'
+    assert param.save!
+    assert_equal 's3cret', param.reload.value
+  end
+
+  test "non-hidden parameter remains plaintext in database" do
+    host = FactoryBot.create(:host)
+    param = HostParameter.create!(
+      :name => 'plain_param',
+      :value => 'visible',
+      :hidden_value => false,
+      :reference_id => host.id
+    )
+
+    raw_in_db = param.read_attribute_before_type_cast('value').to_s
+    refute_includes raw_in_db, EncryptValue::ENCRYPTION_PREFIX
+    assert_equal 'visible', param.value
+  end
 end
