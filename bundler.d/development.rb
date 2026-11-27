@@ -17,7 +17,6 @@ group :development do
 
   gem 'rainbow', '>= 2.2.1'
 
-  gem 'bullet', '>= 6.1.0'
   gem "parallel_tests"
   # TODO: https://projects.theforeman.org/issues/38419
   gem 'spring', '4.2.1'
