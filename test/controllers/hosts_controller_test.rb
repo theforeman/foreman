@@ -38,6 +38,23 @@ class HostsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "non-admin can auto-complete fact values" do
+    fact_name = FactoryBot.create(:fact_name, :name => 'apt_has_updates')
+    FactoryBot.create(:fact_value, :fact_name => fact_name, :host => @host, :value => 'true')
+    setup_user('view', 'hosts') do |user|
+      user.organizations = [@host.organization]
+      user.locations = [@host.location]
+    end
+    setup_user('view', 'facts')
+
+    get :auto_complete_search,
+      params: { :search => "facts.#{fact_name.name} =" },
+      session: set_session_user(@one)
+
+    assert_response :success
+    assert_includes response.body, 'true'
+  end
+
   test "should get csv index with data" do
     User.current.table_preferences.create(name: 'hosts', columns: ['name', 'os_title', 'model', 'owner', 'hostgroup', 'last_report'])
     host = FactoryBot.create(:host, :with_model, :with_hostgroup, :with_reports)
