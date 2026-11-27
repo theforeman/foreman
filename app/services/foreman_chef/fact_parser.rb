@@ -93,10 +93,6 @@ module ForemanChef
       true
     end
 
-    def parse_interfaces?
-      support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
-    end
-
     def boot_timestamp
       Time.zone.now.to_i - facts['system_uptime::seconds'].to_i
     end
