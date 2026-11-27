@@ -74,7 +74,7 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts, :operators => ['= ', '!= ', '> ', '< ', '<= ', '>= ', '~ ', '!~ ']
-      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
+      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :ext_method => :search_by_param_name, :only_explicit => true
       scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
 
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time', :only_explicit => true
@@ -225,8 +225,8 @@ module Hostext
         condition = sanitize_sql_for_conditions(["name = ? and NOT(searchable_value #{operator} ?) and priority > ?", key_name, value_to_sql(operator, value), max])
         n = Parameter.where(condition).reorder(:priority)
 
-        conditions = param_conditions(p)
-        negate = param_conditions(n)
+        conditions = param_conditions(parameter_references(p))
+        negate = param_conditions(parameter_references(n))
 
         # If we have parameters but no valid conditions (e.g., all GroupParameters have nil hostgroup),
         # return no results instead of matching all hosts
@@ -241,6 +241,38 @@ module Hostext
         end
 
         {:joins => :primary_interface, :conditions => conditions}
+      end
+
+      def search_by_param_name(_key, operator, value)
+        sql_operator = operator.strip
+        presence_search = ['IS NULL', 'IS NOT NULL'].include?(sql_operator)
+        condition = if presence_search
+                      'name IS NOT NULL'
+                    elsif ['IN', 'NOT IN'].include?(sql_operator)
+                      sanitize_sql_for_conditions(["name #{sql_operator} (?)", value.split(',').map(&:strip)])
+                    else
+                      sanitize_sql_for_conditions(["name #{sql_operator} ?", value_to_sql(sql_operator, value)])
+                    end
+        parameters = parameter_references(Parameter.where(condition))
+        conditions = param_conditions(parameters)
+
+        return {:conditions => sql_operator == 'IS NULL' ? '1 = 1' : '1 = 0'} if conditions.blank?
+
+        interface_parameter = parameters.key?('DomainParameter') || parameters.key?('SubnetParameter')
+        interface_parameter &&= !parameters.key?('CommonParameter')
+
+        if presence_search
+          # Negate matching host IDs, not nullable association IDs. A host with
+          # no hostgroup/domain must still match null? when it has no parameters.
+          matching_hosts = Host.where(conditions)
+          matching_hosts = matching_hosts.left_outer_joins(:primary_interface) if interface_parameter
+          membership = sql_operator == 'IS NULL' ? 'NOT IN' : 'IN'
+          return {:conditions => "hosts.id #{membership} (#{matching_hosts.select(:id).to_sql})"}
+        end
+
+        result = {:conditions => conditions}
+        result[:joins] = :primary_interface if interface_parameter
+        result
       end
 
       def search_by_proxy(key, operator, value)
@@ -305,31 +337,45 @@ module Hostext
 
       private
 
-      def param_conditions(p)
-        conditions = []
-        p.each do |param|
-          case param.class.to_s
-            when 'CommonParameter'
-              conditions << "1 = 1" # include all Global parameters
-            when 'DomainParameter'
-              conditions << "nics.domain_id = #{param.reference_id}"
-            when 'OsParameter'
-              conditions << "hosts.operatingsystem_id = #{param.reference_id}"
-            when 'GroupParameter'
-              if param.hostgroup.present?
-                conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
-              end
-            when 'HostParameter'
-              conditions << "hosts.id = #{param.reference_id}"
-            when 'OrganizationParameter'
-              conditions << "hosts.organization_id = #{param.reference_id}"
-            when 'LocationParameter'
-              conditions << "hosts.location_id = #{param.reference_id}"
-            when 'SubnetParameter'
-              conditions << "nics.subnet_id = #{param.reference_id} OR nics.subnet6_id = #{param.reference_id}"
-          end
+      def parameter_references(parameters)
+        parameters.reorder(nil).distinct.pluck(:type, :reference_id).
+          group_by(&:first).transform_values { |references| references.map(&:last).compact }
+      end
+
+      def param_conditions(parameters)
+        return '1 = 1' if parameters.key?('CommonParameter')
+
+        conditions = parameters.filter_map do |type, reference_ids|
+          next if reference_ids.empty?
+
+          column, ids = case type
+                        when 'DomainParameter'
+                          ['nics.domain_id', reference_ids]
+                        when 'OsParameter'
+                          ['hosts.operatingsystem_id', reference_ids]
+                        when 'GroupParameter'
+                          ['hosts.hostgroup_id', parameter_subtree_ids(Hostgroup, reference_ids)]
+                        when 'HostParameter'
+                          ['hosts.id', reference_ids]
+                        when 'OrganizationParameter'
+                          ['hosts.organization_id', Taxonomy.batch_subtree_ids(Organization.where(id: reference_ids).to_a)]
+                        when 'LocationParameter'
+                          ['hosts.location_id', Taxonomy.batch_subtree_ids(Location.where(id: reference_ids).to_a)]
+                        when 'SubnetParameter'
+                          ids = reference_ids.join(', ')
+                          next "nics.subnet_id IN (#{ids}) OR nics.subnet6_id IN (#{ids})"
+                        end
+
+          "#{column} IN (#{ids.join(', ')})" if ids.present?
         end
         conditions.empty? ? "" : "( #{conditions.join(' OR ')} )"
+      end
+
+      def parameter_subtree_ids(model, reference_ids)
+        subtrees = model.where(id: reference_ids).map(&:subtree)
+        return [] if subtrees.empty?
+
+        subtrees.reduce(:or).reorder(nil).pluck(:id)
       end
     end
   end
