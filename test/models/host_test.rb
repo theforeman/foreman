@@ -3263,6 +3263,17 @@ class HostTest < ActiveSupport::TestCase
     assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
   end
 
+  test 'global inherited parameters require view_params permission' do
+    global_parameter = FactoryBot.create(:common_parameter, :name => 'global_parameter', :value => 'global-value')
+    host = FactoryBot.create(:host)
+
+    setup_user 'view', 'hosts'
+    refute_includes host.host_inherited_params_objects, global_parameter
+
+    setup_user 'view', 'params'
+    assert_includes host.host_inherited_params_objects, global_parameter
+  end
+
   test '#host_params_objects should display all parameters with overrides' do
     host = FactoryBot.create(:host,
       :location => taxonomies(:location1),

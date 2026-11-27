@@ -70,7 +70,7 @@ module HostParams
     end
 
     def host_inherited_params_objects
-      params = CommonParameter.all
+      params = CommonParameter.authorized(:view_params)
       params += extract_params_from_object_ancestors(organization) if organization
       params += extract_params_from_object_ancestors(location) if location
       params += domain.domain_parameters.authorized(:view_params) if domain
